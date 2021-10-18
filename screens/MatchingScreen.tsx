@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
-export default function HomeScreen() {
+export default function MatchingScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LoLing</Text>
@@ -31,4 +31,3 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
-
