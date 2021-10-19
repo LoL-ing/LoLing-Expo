@@ -20,6 +20,7 @@ import CommunityScreen from '../screens/CommunityScreen';
 import SocialScreen from '../screens/SocialScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -74,7 +75,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Matching"
-        component={SocialScreen}
+        component={MatchingScreen}
         options={{
           title: 'Matching',
           tabBarIcon: ({ color }) => <TabBarIcon name="slideshare" color={color} />,
@@ -112,7 +113,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Profile"
-        component={SocialScreen}
+        component={ProfileScreen}
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <TabBarIcon name="user-circle-o" color={color} />,
