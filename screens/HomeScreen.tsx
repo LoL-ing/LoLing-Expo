@@ -1,11 +1,29 @@
 import * as React from 'react';
-import { Pressable, ScrollView, StyleSheet, Image } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Image, FlatList } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import color from '../constants/Colors'
 import navigation from '../navigation';
 import ProfileScreen from '../screens/ProfileScreen';
+
+const DATA = [
+  {
+    id : 1,
+    profileImg: require('../assets/images/Nunu.png'),
+    username: '하아아푸움'
+  },
+  {
+    id : 2,
+    profileImg: require('../assets/images/Irelia.png'),
+    username: '모닝글라스'
+  },
+  {
+    id : 3,
+    profileImg: require('../assets/images/Teemo.png'),
+    username: '개란말이개미'
+  }
+]
 
 export default function HomeScreen() {
   return (
@@ -19,35 +37,36 @@ export default function HomeScreen() {
         <Text style={styles.title}>
           LoL-ing 친구들
         </Text>
-        <ScrollView horizontal={true}
-          showsHorizontalScrollIndicator={false}>
-          <Image source = {require('../assets/images/Nunu.png')} 
-          style={styles.imagestyle}>
-          </Image>
-          <Image source = {require('../assets/images/Irelia.png')} 
-          style={styles.imagestyle}>
-          </Image>
-          <Image source = {require('../assets/images/Teemo.png')} 
-          style={styles.imagestyle}>
-          </Image>
-        </ScrollView>
+        <FlatList
+          data={DATA}
+          renderItem={({ item }) =>
+          <View style={{backgroundColor: color.dark.background2, alignItems: 'center', marginHorizontal : '10'}} >
+            <View>
+            <Image style={styles.imagestyle} source={item.profileImg}></Image>
+            </View>
+            <View>
+            <Text style = {{color:color.light.text}}>{item.username}</Text>
+            </View>
+          </View>}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          />
+        
       </View>
       <View style={styles.container2}>
         <Text style={styles.title}>
               매칭 가능한 LoL-ing 유저들
         </Text>
-        <ScrollView horizontal={true}
-          showsHorizontalScrollIndicator={false}>
-          <Image source = {require('../assets/images/Nunu.png')} 
-          style={styles.imagestyle}>
-          </Image>
-          <Image source = {require('../assets/images/gold.png')} 
-          style={styles.imagestyle}>
-          </Image>
-          <Image source = {require('../assets/images/diamond.png')} 
-          style={styles.imagestyle}>
-          </Image>
-        </ScrollView>
+        <FlatList
+          data={DATA}
+          renderItem={({ item }) => 
+          <View style={{backgroundColor: color.dark.background2}}>
+            <Image style={styles.imagestyle} source={item.profileImg}></Image>
+            <Text style = {{color:color.light.text}}>{item.username}</Text>
+          </View>}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          />
       </View>
    </ScrollView>
   );
@@ -100,8 +119,6 @@ const styles = StyleSheet.create({
   imagestyle: {
     height: 100,
     width: 100,
-    marginLeft: 20,
-    marginRight: 20,
   },
 });
 
