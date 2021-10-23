@@ -20,6 +20,7 @@ import CommunityScreen from '../screens/CommunityScreen';
 import SocialScreen from '../screens/SocialScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import MoreScreen from '../screens/MoreScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -43,6 +44,7 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -112,11 +114,11 @@ function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="More"
+        component={MoreScreen}
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <TabBarIcon name="user-circle-o" color={color} />,
+          title: 'More',
+          tabBarIcon: ({ color }) => <TabBarIcon name="ellipsis-h" color={color} />,
         }}
       />
     </BottomTab.Navigator>

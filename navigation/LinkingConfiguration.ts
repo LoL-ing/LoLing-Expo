@@ -35,14 +35,15 @@ const linking: LinkingOptions<RootStackParamList> = {
               SocialScreen: 'social',
             },
           },
-          Profile: {
+          More: {
             screens: {
-              ProfileScreen: 'profile',
+              MoreScreen: 'more',
             },
           },
         },
       },
       Modal: 'modal',
+      Profile: 'profile',
       NotFound: '*',
     },
   },

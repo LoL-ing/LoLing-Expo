@@ -5,7 +5,6 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import color from '../constants/Colors'
 import navigation from '../navigation';
-import ProfileScreen from '../screens/ProfileScreen';
 
 const DATA = [
   {
@@ -27,13 +26,13 @@ const DATA = [
 
 export default function HomeScreen() {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.SafeAreaView}>
       <Pressable style={styles.profile}>
         <Text style={styles.profiletext}>
           하아아아품
         </Text>
       </Pressable >
-      <View style={styles.container2}>
+      <View style={styles.container}>
         <Text style={styles.title}>
           LoL-ing 친구들
         </Text>
@@ -53,7 +52,7 @@ export default function HomeScreen() {
           />
         
       </View>
-      <View style={styles.container2}>
+      <View style={styles.container}>
         <Text style={styles.title}>
               매칭 가능한 LoL-ing 유저들
         </Text>
@@ -74,7 +73,7 @@ export default function HomeScreen() {
 
 
 const styles = StyleSheet.create({
-  container: {
+  SafeAreaView: {
     flex: 1,
     width: '100%',
     height: '100%',
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     margin: 10,
     tintColor: color.dark.tint,
   },
-  container2: {
+  container: {
     height : 200,
     width: '95%',
     borderRadius : 10,
