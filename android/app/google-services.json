@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "364306051272",
+    "project_id": "loling-4c77a",
+    "storage_bucket": "loling-4c77a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364306051272:android:25b7ff7fbe889e8351f5fd",
+        "android_client_info": {
+          "package_name": "com.itis.loling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364306051272-m6j8g67lmpa1s9qprm62adjas8i0hut4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itis.loling",
+            "certificate_hash": "ac6aacc8fe1efb3acbf50304791c532359f34ed9"
+          }
+        },
+        {
+          "client_id": "364306051272-e8tpg51verlq42dro63bcddf5t298lfr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRg5BSjTqGfAZhpkSQcBaYs-V7A0--jas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364306051272-e8tpg51verlq42dro63bcddf5t298lfr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

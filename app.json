@@ -25,10 +25,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.itis.loling"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     }
   }
-} 
+}
