@@ -1,41 +1,10 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
 import { Pressable, ScrollView, StyleSheet, Image, FlatList } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import color from '../constants/Colors'
 import navigation from '../navigation';
-
-type types = {
-  imageSrc: string; name: string;
-}
-
-//const [championList, setChampionList] = useState({ imageSrc: "", name: ""})
-const [championList, setChampionList] = useState<types[]>([]);
-const getChampions = async () => {
-  const champList: types[] = []
-  await firestore()
-  .collection('champions')
-  .get()
-  .then(querySnapshot =>{
-    
-    querySnapshot.forEach((docSnapshot)=>{
-      const {
-        imageSrc,
-        name,
-      } = docSnapshot.data()
-      champList.push({
-        imageSrc,
-        name
-      })
-    })
-  })
-  setChampionList(champList)
-  
-}
-
-useEffect(()=>{getChampions();}, [])
 
 const DATA = [
   {
@@ -68,14 +37,14 @@ export default function HomeScreen() {
           LoL-ing 친구들
         </Text>
         <FlatList
-          data={championList}
+          data={DATA}
           renderItem={({ item }) =>
           <View style={{backgroundColor: color.dark.background2, alignItems: 'center', marginHorizontal : '10'}} >
             <View>
-            <Image style={styles.imagestyle} source={{uri:item.imageSrc}}></Image>
+            <Image style={styles.imagestyle} source={item.profileImg}></Image>
             </View>
             <View>
-            <Text style = {{color:color.light.text}}>{item.name}</Text>
+            <Text style = {{color:color.light.text}}>{item.username}</Text>
             </View>
           </View>}
           horizontal={true}
