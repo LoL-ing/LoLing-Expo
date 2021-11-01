@@ -39,11 +39,11 @@ export default function HomeScreen() {
         <FlatList
           data={DATA}
           renderItem={({ item }) =>
-          <View style={{backgroundColor: color.dark.background2, alignItems: 'center', marginHorizontal : '10'}} >
-            <View>
+          <View style={{backgroundColor: color.dark.background2, alignItems: 'center', marginHorizontal : 10}} >
+            <View style={{backgroundColor: color.dark.background2}}>
             <Image style={styles.imagestyle} source={item.profileImg}></Image>
             </View>
-            <View>
+            <View style={{backgroundColor: color.dark.background2}}>
             <Text style = {{color:color.light.text}}>{item.username}</Text>
             </View>
           </View>}
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
   imagestyle: {
     height: 100,
     width: 100,
+    borderRadius: 100,
   },
 });
 
