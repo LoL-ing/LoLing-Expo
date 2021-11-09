@@ -9,6 +9,89 @@ import Colors from '../constants/Colors';
 // import ModalScreen from '../screens/ModalScreen';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {RootTabScreenProps} from '../types';
+import Friend from '../components/Friend';
+import { FlatList } from 'react-native-gesture-handler';
+
+const FriendData =[
+  {
+    nickname: '하아아아푸움',
+    bookmark: true,
+    profileImg: require('../assets/images/Nunu.png'),
+  },
+
+  {
+    nickname: '개란말이개미',
+    bookmark: false,
+    profileImg: require('../assets/images/Irelia.png'),
+  },
+
+  {
+    nickname: '모닝글라스글라스',
+    bookmark: false,
+    profileImg: require('../assets/images/Irelia.png'),
+  },
+
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: true,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: true,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+  {
+    nickname: '고려대 김자헌',
+    bookmark: false,
+    profileImg: require('../assets/images/Teemo.png'),
+  },
+
+]
+
+let MarkedFriends = FriendData.filter(
+  (item) => item.bookmark === true
+)
+
+let UnMarkedFriends = FriendData.filter(
+  (item) => item.bookmark === false
+)
 
 export default function SocialScreen({ navigation }: RootTabScreenProps<'Social'>) {
   return (
@@ -27,6 +110,36 @@ export default function SocialScreen({ navigation }: RootTabScreenProps<'Social'
           style={{ marginRight: 15 }}
         />
       </Pressable>
+
+      <FlatList
+        data={MarkedFriends}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent = {
+          <Text>
+            즐겨찾기
+          </Text>
+        }
+        renderItem={({ item }) =>
+          <Friend
+            nickname={item.nickname}
+            bookmark={item.bookmark}
+            profileImg={item.profileImg}
+          />}/>
+
+      <FlatList
+        data={UnMarkedFriends}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent = {
+          <Text>
+            친구
+          </Text>
+        }
+        renderItem={({ item }) =>
+          <Friend
+            nickname={item.nickname}
+            bookmark={item.bookmark}
+            profileImg={item.profileImg}
+          />}/>
     </View>
   );
 }
