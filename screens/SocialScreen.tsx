@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, ScrollView } from 'react-native';
 
 // import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -26,7 +26,7 @@ const FriendData =[
   },
 
   {
-    nickname: '모닝글라스글라스',
+    nickname: '모닝글라스',
     bookmark: false,
     profileImg: require('../assets/images/Irelia.png'),
   },
@@ -89,57 +89,48 @@ let MarkedFriends = FriendData.filter(
   (item) => item.bookmark === true
 )
 
-let UnMarkedFriends = FriendData.filter(
-  (item) => item.bookmark === false
-)
+// nickname 가나다순 정렬하기
+
+// let UnMarkedFriends = FriendData.filter(
+//   (item) => item.bookmark === false
+// )
 
 export default function SocialScreen({ navigation }: RootTabScreenProps<'Social'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LoLing</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Pressable
-        onPress={() => navigation.navigate('Modal')}
-        style={({ pressed }) => ({
-        opacity: pressed ? 0.5 : 1,
-      })}>
-        <FontAwesome
-          name="user"
-          size={25}
-          color={Colors.light.text}
-          style={{ marginRight: 15 }}
-        />
-      </Pressable>
+      <ScrollView>
+        <FlatList
+          data={MarkedFriends}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent = {
+            <Text>
+              즐겨찾기
+            </Text>
+          }
+          renderItem={({ item }) =>
+            <Friend
+              nickname={item.nickname}
+              bookmark={item.bookmark}
+              profileImg={item.profileImg}
+            />}/>
 
-      <FlatList
-        data={MarkedFriends}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent = {
-          <Text>
-            즐겨찾기
-          </Text>
-        }
-        renderItem={({ item }) =>
-          <Friend
-            nickname={item.nickname}
-            bookmark={item.bookmark}
-            profileImg={item.profileImg}
-          />}/>
-
-      <FlatList
-        data={UnMarkedFriends}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent = {
-          <Text>
-            친구
-          </Text>
-        }
-        renderItem={({ item }) =>
-          <Friend
-            nickname={item.nickname}
-            bookmark={item.bookmark}
-            profileImg={item.profileImg}
-          />}/>
+        <FlatList
+          data={FriendData}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent = {
+            <Text>
+              친구
+            </Text>
+          }
+          renderItem={({ item }) =>
+            <Friend
+              nickname={item.nickname}
+              bookmark={item.bookmark}
+              profileImg={item.profileImg}
+            />}/>
+      </ScrollView>
     </View>
   );
 }
