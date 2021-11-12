@@ -18,9 +18,9 @@ export default function MoreScreen({navigation} : RootTabScreenProps<'More'>) {
         </Text>
       </Pressable>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Menu title="공지사항"></Menu>
+      <Menu title="공지사항" destination="SignUp1" navigate={navigation.navigate}></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Menu title="이벤트"></Menu>
+      {/* <Menu title="이벤트"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Menu title="고객센터"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
@@ -33,7 +33,7 @@ export default function MoreScreen({navigation} : RootTabScreenProps<'More'>) {
       <Menu title="환경설정"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Menu title="약관 및 정책"></Menu>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
     </View>
   );
 }

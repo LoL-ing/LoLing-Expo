@@ -44,6 +44,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       },
       Profile: 'profile',
       NotFound: '*',
+      SignUp1: 'signup1',
     },
   },
 };
