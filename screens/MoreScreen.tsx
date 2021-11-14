@@ -20,16 +20,22 @@ export default function MoreScreen({navigation} : RootTabScreenProps<'More'>) {
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Menu title="공지사항" destination="SignUp1" navigate={navigation.navigate}></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      
       {/* <Menu title="이벤트"></Menu>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
+      
+      <Menu title="고객센터" destination="Authentication" navigate={navigation.navigate}></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Menu title="고객센터"></Menu>
+      
+      {/* <Menu title="FAQ"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Menu title="FAQ"></Menu>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      
       <Menu title="1:1 문의"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      
       <Menu title="앱 가이드"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      
       <Menu title="환경설정"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Menu title="약관 및 정책"></Menu>

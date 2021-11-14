@@ -22,6 +22,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import MoreScreen from '../screens/MoreScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignUpScreen1 from '../screens/SignUpScreen1';
+import AuthScreen from '../screens/AuthScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -46,6 +47,7 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SignUp1" component={SignUpScreen1} options={{headerShown: false}} />
+      <Stack.Screen name="Authentication" component={AuthScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }
