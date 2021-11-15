@@ -27,10 +27,10 @@ export default function MoreScreen({navigation} : RootTabScreenProps<'More'>) {
       <Menu title="고객센터" destination="Authentication" navigate={navigation.navigate}></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       
-      {/* <Menu title="FAQ"></Menu>
+      <Menu title="FAQ" destination="SignUp" navigate={navigation.navigate}></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       
-      <Menu title="1:1 문의"></Menu>
+      {/* <Menu title="1:1 문의"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       
       <Menu title="앱 가이드"></Menu>
@@ -39,7 +39,7 @@ export default function MoreScreen({navigation} : RootTabScreenProps<'More'>) {
       <Menu title="환경설정"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Menu title="약관 및 정책"></Menu>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />  */}
     </View>
   );
 }

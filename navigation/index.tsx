@@ -23,6 +23,7 @@ import MoreScreen from '../screens/MoreScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignUpScreen1 from '../screens/SignUpScreen1';
 import AuthScreen from '../screens/AuthScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -48,6 +49,7 @@ function RootNavigator() {
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SignUp1" component={SignUpScreen1} options={{headerShown: false}} />
       <Stack.Screen name="Authentication" component={AuthScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }

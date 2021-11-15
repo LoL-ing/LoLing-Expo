@@ -6,6 +6,8 @@ import { TextInput } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { whileStatement } from '@babel/types';
+import DropDownPicker from'react-native-dropdown-picker';
+
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -14,7 +16,11 @@ export default function AuthScreen() {
     const [name, setName] = useState('')
     const [RRN, setRRN] = useState(0)
     const [phoneNum, setPhoneNum] = useState(0)
-
+    const [carriers, setCarriers]= useState([
+      {label: 'SKT', value: 'skt'},
+      {label: 'KT', value: 'kt'},
+      {label: 'LG', value: 'lg'},
+    ])
 
     return (
         <SafeAreaView style={styles.fullscreen}>
@@ -31,6 +37,7 @@ export default function AuthScreen() {
                 maxLength = {8}
                 onChangeText={text => setName(text)} value={name}
                 returnKeyType="next"
+                autoCompleteType="username"
                 />
             <View style={styles.separator} />
 
@@ -44,7 +51,7 @@ export default function AuthScreen() {
                         placeholderTextColor='#73737D'
                         maxLength = {6}
                         // onChangeText={number => setRRN(text)} value={RRN}
-                        keyboardType= 'number-pad'
+                        keyboardType= 'numeric'   //number-pad, decimal-pad, numeric 중에 뭐해야되지? 그리고 왜 밑에랑 다르게 나오지
                         returnKeyType="next"
                         />
                   <View style={styles.separator} />
@@ -58,13 +65,29 @@ export default function AuthScreen() {
                         placeholderTextColor='#73737D'
                         maxLength = {7}
                         // onChangeText={number => setRRN(text)} value={RRN}
-                        keyboardType= 'number-pad'
+                        keyboardType= 'numeric'
                         returnKeyType="next"
                         secureTextEntry={true}
                         />
                 <View style={styles.separator} />
                 </View>
               </View>
+              {/* <Picker 
+                selectedValue={carrier}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => setCarrier(itemValue)}>
+                  <Picker.Item label="SKT" value="skt"/>
+                  <Picker.Item label="KT" value="kt"/>
+                  <Picker.Item label="LG" value="lg"/>
+              </Picker> */}
+              {/* <DropDownPicker
+              items={carriers}
+              setItems={setCarriers}
+              value={}
+              setValue={}
+              open={true}
+              >
+            </DropDownPicker> */}
         </SafeAreaView>
     );
 }
@@ -111,7 +134,10 @@ const styles = StyleSheet.create({
       width: '100%',
       backgroundColor: Colors.dark.text,
     },
-
+    picker:{
+      height: 30,
+      width: 50
+    },
   });
   
   
