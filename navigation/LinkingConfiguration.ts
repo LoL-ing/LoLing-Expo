@@ -45,6 +45,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Profile: 'profile',
       NotFound: '*',
       SignUp1: 'signup1',
+      ToS: 'tos',
       Authentication: 'authentication',
       SignUp: 'signup',
     },

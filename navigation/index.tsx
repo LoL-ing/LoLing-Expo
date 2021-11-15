@@ -22,6 +22,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import MoreScreen from '../screens/MoreScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignUpScreen1 from '../screens/SignUpScreen1';
+import ToSScreen from '../screens/ToSScreen';
 import AuthScreen from '../screens/AuthScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 
@@ -48,6 +49,7 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SignUp1" component={SignUpScreen1} options={{headerShown: false}} />
+      <Stack.Screen name="ToS" component={ToSScreen} options={{headerShown: false}} />
       <Stack.Screen name="Authentication" component={AuthScreen} options={{headerShown: false}}/>
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
