@@ -18,7 +18,7 @@ export default function MoreScreen({navigation} : RootTabScreenProps<'More'>) {
         </Text>
       </Pressable>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Menu title="공지사항" destination="SignUp1" navigate={navigation.navigate}></Menu>
+      <Menu title="공지사항" destination="SignIn" navigate={navigation.navigate}></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       
       <Menu title="이벤트" destination="ToS" navigate={navigation.navigate}></Menu>

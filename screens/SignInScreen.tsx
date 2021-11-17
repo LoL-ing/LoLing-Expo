@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions, Platform } from 'react-native';
 import {Text, View} from '../components/Themed';
 import Colors from '../constants/Colors';
 import { TextInput } from 'react-native';
@@ -15,7 +15,7 @@ import { whileStatement } from '@babel/types';
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 
-export default function SignUpScreen1() {
+export default function SignInScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const login = (email: string, password: string) => {
@@ -165,11 +165,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%', 
         height:'100%',
+        backgroundColor: Colors.dark.background,
     },
     emptybox: {
-        flex:0.8,
-        //backgroundColor: Colors.dark.background,
-        backgroundColor: 'black',
+        flex:0.6,
+        backgroundColor: Colors.dark.background,
+        //backgroundColor: 'black',
     },
     login: {
         flex:1,
@@ -216,10 +217,17 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: 'center',
         margin: 15,
-        shadowColor: Colors.dark.background3,
-        shadowOffset: { width: 0, height: 6, },
-        shadowOpacity: 0.8,
-        shadowRadius: 13,
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.dark.background3,
+                shadowOffset: { width: 0, height: 6, },
+                shadowOpacity: 0.8,
+                shadowRadius: 13,
+           },
+            android: {
+              elevation: 5
+           }
+        })
     },
     LOGINtext: {
         fontSize: 17,
