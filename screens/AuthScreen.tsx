@@ -89,9 +89,12 @@ export default function AuthScreen() {
               <View style={{backgroundColor: Colors.dark.background, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <DropDownPicker
                   placeholder="통신사"
-                  placeholderStyle={styles.pickerholder}
-                  style={styles.pickerBox}
+                  placeholderStyle={styles.pickerholderText}
+                  style={styles.pickerholderBox}
+                  dropDownContainerStyle={styles.pickerBox}
+                  listItemLabelStyle={styles.pickerText}
                   labelStyle={styles.pickerText}
+                  itemSeparator={true}
                   items={carrier}
                   setItems={setCarriers}
                   value={value}
@@ -100,8 +103,21 @@ export default function AuthScreen() {
                   setOpen={setOpen}
                   >
                 </DropDownPicker>
+                <TextInput style={styles.halfTextInput}
+                        placeholder= "전화번호를 입력하세요."
+                        placeholderTextColor='#73737D'
+                        maxLength = {7}
+                        keyboardType= 'number-pad'
+                        returnKeyType="done"
+                        />
+                 <Pressable style={({ pressed }) => ({
+                                opacity: pressed ? 0.5 : 1})}>
+                 <Text style={styles.socialText}>
+                            인증요청</Text>
+                </Pressable>
                
                 </View>
+                
         </SafeAreaView>
     );
 }
@@ -161,7 +177,7 @@ const styles = StyleSheet.create({
       width: '100%',
       backgroundColor: Colors.dark.text,
     },
-    pickerBox:{
+    pickerholderBox:{
       width: 100,
       height: 50,
       borderColor: Colors.dark.background,
@@ -171,10 +187,18 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       marginVertical: 10,
     },
-    pickerholder:{
+    pickerholderText:{
       color: 'white',
       fontSize: 15,
       fontWeight: 'normal'
+    },
+     pickerBox:{
+      width: 100,
+      borderColor: Colors.dark.background,
+      backgroundColor: Colors.dark.background,
+      borderRadius: 0,
+      borderWidth: 1,
+      marginVertical: 10,
     },
     pickerText:{
       fontSize: 15,
