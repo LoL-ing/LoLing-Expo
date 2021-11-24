@@ -62,7 +62,7 @@ export default function AuthScreen() {
             placeholderTextColor='#73737D'
             maxLength={6}
             // onChangeText={number => setRRN(text)} value={RRN}
-            keyboardType='number-pad'   //number-pad, decimal-pad, numeric 중에 뭐해야되지? 그리고 왜 밑에랑 다르게 나오지
+            keyboardType='decimal-pad'   //number-pad, decimal-pad, numeric 중에 뭐해야되지? 그리고 왜 밑에랑 다르게 나오지
             returnKeyType="next"
             selectTextOnFocus={true}
             onSubmitEditing={() => {

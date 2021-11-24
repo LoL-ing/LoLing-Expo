@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { whileStatement } from '@babel/types';
 import { ScrollView } from 'react-native-gesture-handler';
 import Styles from '../constants/Styles';
+import { Shadow } from 'react-native-shadow-2';
 
 /* 3등분해서 넣는게 좋을듯
    1. textinput 창 선택하면 선+글씨 스타일 바뀌게
@@ -31,10 +32,8 @@ export default function SignInScreen() {
     }
     return (
         <SafeAreaView style={Styles.fullscreen}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}>
-                <View style={styles.emptybox}>
-                </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+
                 <View style={styles.login}>
                     <View style={{
                         padding: 20, backgroundColor: Colors.dark.background,
@@ -84,19 +83,33 @@ export default function SignInScreen() {
                             </Text>
                         </Pressable>
                     </View>
-                    <Pressable
-                        style={({ pressed }) => ({
-                            opacity: pressed ? 0.5 : 1,
-                            paddingVertical: 5,
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        })}
-                    //onPress={() => setModalVisible(true)}
-                    >
-                        <View style={styles.LOGINBox}>
-                            <Text style={styles.LOGINtext}>LOG IN</Text>
-                        </View>
-                    </Pressable>
+                    <View style={{
+                        backgroundColor: Colors.dark.background,
+                        alignItems: 'center',
+                        padding: 15,
+                        paddingTop: 30,
+                        paddingBottom: 30,
+                    }}>
+                        <Shadow startColor={'#C5A3FF77'}
+                                distance={9}
+                                >
+                            <View style={styles.LOGINBox}>
+                                <Pressable
+                                    style={({ pressed }) => ({
+                                        opacity: pressed ? 0.5 : 1,
+                                        paddingVertical: 5,
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                    })}
+                                //onPress={() => setModalVisible(true)}
+                                >
+                                    <View style={styles.LOGINBox}>
+                                        <Text style={styles.LOGINtext}>LOG IN</Text>
+                                    </View>
+                                </Pressable>
+                            </View>
+                        </Shadow>
+                    </View>
                 </View>
 
                 <View style={styles.login_social}>
@@ -122,6 +135,7 @@ export default function SignInScreen() {
                             </FontAwesome>
                         </View>
                     </Pressable>
+
 
                     <Pressable style={({ pressed }) => ({
                         opacity: pressed ? 0.5 : 1
@@ -168,7 +182,6 @@ export default function SignInScreen() {
                             </FontAwesome>
                         </View>
                     </Pressable>
-
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -192,15 +205,16 @@ const styles = StyleSheet.create({
         height: '20%',
     },
     login: {
-        flex: 1,
-        backgroundColor: Colors.dark.background,
+        marginTop: 130,
+
+        //backgroundColor: Colors.dark.background,
+        backgroundColor: 'white',
     },
     login_social: {
         width: '100%',
-        flex: 1,
+        //flex: 1,
         //justifyContent: 'flex-end',
-        //backgroundColor: Colors.dark.background,
-        backgroundColor: 'white',
+        backgroundColor: Colors.dark.background,
         alignItems: 'center',
     },
     textInput: {
@@ -232,23 +246,38 @@ const styles = StyleSheet.create({
     smallText: {
         fontSize: 15,
     },
-    LOGINBox: {
-        width: '90%',
+    LOGINView: {
+        width: Width * 0.9,
         backgroundColor: Colors.dark.background3,
         borderRadius: 30,
         alignItems: 'center',
-        margin: 15,
-        ...Platform.select({
-            ios: {
-                shadowColor: Colors.dark.background3,
-                shadowOffset: { width: 0, height: 6, },
-                shadowOpacity: 0.8,
-                shadowRadius: 13,
-            },
-            android: {
-                elevation: 5
-            }
-        })
+        //margin: 15,
+        //marginBottom: 25,
+    },
+    LOGINBox: {
+        width: Width * 0.9,
+        backgroundColor: Colors.dark.background3,
+        borderRadius: 30,
+        alignItems: 'center',
+
+
+
+        // ...Platform.select({
+        //     ios: {
+        //         shadowColor: Colors.dark.background3,
+        //         shadowOffset: { width: 0, height: 6, },
+        //         shadowOpacity: 0.8,
+        //         shadowRadius: 13,
+        //     },
+        //     android: {
+        //         elevation: 10,
+        //     }
+        // })
+        // shadowColor: Colors.dark.background3,
+        // shadowOffset: { width: 0, height: 6, },
+        // shadowOpacity: 0.8,
+        // shadowRadius: 13,
+        // elevation: 10,
     },
     LOGINtext: {
         fontSize: 17,
@@ -271,5 +300,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         //marginHorizontal: 50,
     },
+
 });
 
