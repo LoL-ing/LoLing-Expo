@@ -41,42 +41,50 @@ const FriendData =[
     nickname: '고려대 김자헌',
     bookmark: false,
     profileImg: require('../assets/images/Teemo.png'),
-  },
+  }, 
+
   {
     nickname: '고려대 김자헌',
     bookmark: false,
     profileImg: require('../assets/images/Teemo.png'),
   },
+
   {
     nickname: '고려대 김자헌',
     bookmark: false,
     profileImg: require('../assets/images/Teemo.png'),
   },
+
   {
     nickname: '고려대 김자헌',
     bookmark: true,
     profileImg: require('../assets/images/Teemo.png'),
   },
+
   {
     nickname: '고려대 김자헌',
     bookmark: false,
     profileImg: require('../assets/images/Teemo.png'),
   },
+
   {
     nickname: '고려대 김자헌',
     bookmark: false,
     profileImg: require('../assets/images/Teemo.png'),
   },
+
   {
     nickname: '고려대 김자헌',
     bookmark: true,
     profileImg: require('../assets/images/Teemo.png'),
   },
+
   {
     nickname: '고려대 김자헌',
     bookmark: false,
     profileImg: require('../assets/images/Teemo.png'),
   },
+  
   {
     nickname: '고려대 김자헌',
     bookmark: false,

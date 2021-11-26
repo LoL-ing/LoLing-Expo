@@ -113,7 +113,7 @@ export default function AuthScreen() {
           <Pressable style={({ pressed }) => ({
             opacity: pressed ? 0.5 : 1
           })}>
-            <Text style={styles.socialText}>
+            <Text>
               인증요청</Text>
           </Pressable>
 
