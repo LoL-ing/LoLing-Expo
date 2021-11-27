@@ -2,13 +2,14 @@ import * as React from 'react';
 import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions, Platform } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
-import { TextInput } from 'react-native';
+import { TextInput, Image } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { whileStatement } from '@babel/types';
 import { ScrollView } from 'react-native-gesture-handler';
 import Styles from '../constants/Styles';
 import { Shadow } from 'react-native-shadow-2';
+
 
 /* 3등분해서 넣는게 좋을듯
    1. textinput 창 선택하면 선+글씨 스타일 바뀌게
@@ -36,7 +37,11 @@ export default function SignInScreen() {
 
                 <View style={styles.login}>
                     <View style={{
-                        padding: 20, backgroundColor: Colors.dark.background,
+                        paddingTop:20,
+                        paddingLeft:20,
+                        paddingRight:20,
+                        paddingBottom:10,
+                        backgroundColor: Colors.dark.background,
                     }}>
                         <TextInput style={styles.textInput}
                             placeholder="아이디 / 이메일을 입력하세요"
@@ -52,9 +57,55 @@ export default function SignInScreen() {
                         />
                         <View style={styles.separator} lightColor="#eee" />
                     </View>
+                    {/* <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        backgroundColor: Colors.dark.background,
+                        paddingLeft: Width * 0.05,
+                         
+                        }}>
+                        <FontAwesome
+                                name="exclamation-circle"
+                                size={30}
+                                color='#FA585C'
+                        ></FontAwesome>
+                        <Text style={{
+                            color: '#FA585C',
+                            fontSize: 15,
+                            marginLeft: 5,
+
+                        }}>잘못된 비밀번호입니다. 다시 입력하세요.</Text>
+                            
+
+                    </View> */}
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        backgroundColor: Colors.dark.background,
+                        paddingLeft: Width * 0.05,
+                         
+                        }}>
+                        <Image source={require('../assets/images/exclamation-circle.png')}
+                            style={{width:45, height:45,}}
+                            />
+                        {/* <FontAwesome
+                                    name="exclamation-circle"
+                                    size={30}
+                                    color='#FA585C'
+                                ></FontAwesome> */}
+                        <Text style={{
+                            color: '#FA585C',
+                            fontSize: 15,
+                            marginLeft: 5,
+
+                        }}>잘못된 비밀번호입니다. 다시 입력하세요.</Text>
+
+                    </View>
+
                     <View style={{
                         flexDirection: 'row', backgroundColor: Colors.dark.background,
                         justifyContent: 'space-around', alignItems: 'center',
+                        
                     }}>
                         <Pressable
                             style={({ pressed }) => ({
@@ -89,10 +140,12 @@ export default function SignInScreen() {
                         padding: 15,
                         paddingTop: 30,
                         paddingBottom: 30,
+                        //borderColor: Colors.dark.background,
+                        //borderWidth : 3,
                     }}>
                         <Shadow startColor={'#C5A3FF77'}
-                                distance={9}
-                                >
+                            distance={9}
+                        >
                             <View style={styles.LOGINBox}>
                                 <Pressable
                                     style={({ pressed }) => ({
