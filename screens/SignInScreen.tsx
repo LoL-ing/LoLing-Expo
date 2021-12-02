@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions, Platform, TouchableWithoutFeedback } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
-import { TextInput, Image } from 'react-native';
+import { TextInput, Image, Keyboard } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { whileStatement } from '@babel/types';
@@ -25,37 +25,88 @@ import { Shadow } from 'react-native-shadow-2';
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 
+const loginData = [
+    {
+        name: 'yejin',
+        email: 'kyj0032@korea.ac.kr',
+        password: '1234'
+    },
+]
+
+
+
 export default function SignInScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const [log, setLogin] = useState(true)
     const login = (email: string, password: string) => {
         alert(`email: ${email} password: ${password}`);
+        if (loginData[0].password != password)
+            setLogin(false);
+
     }
+
+    const [isFocused, setState] = useState(false);
+    const [isFocused2, setState2] = useState(false);
+    const onFocusChange = () => {
+        setState(true);
+    }
+    const onBlurChange = () => {
+        setState(false);
+    }
+    const onFocusChange2 = () => {
+        setState2(true);
+    }
+    const onBlurChange2 = () => {
+        setState2(false);
+    }
+
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={Styles.fullscreen}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{ backgroundColor: Colors.dark.background }}>
 
                 <View style={styles.login}>
                     <View style={{
-                        paddingTop:20,
-                        paddingLeft:20,
-                        paddingRight:20,
-                        paddingBottom:10,
+                        paddingTop: 20,
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                        paddingBottom: 10,
                         backgroundColor: Colors.dark.background,
                     }}>
-                        <TextInput style={styles.textInput}
+                        <TextInput style={[styles.textInput, isFocused ? {
+                            borderBottomWidth: 1,
+                            borderBottomColor: Colors.dark.text
+                        }
+                            : { borderBottomColor: 'gray', borderBottomWidth: 1 }]}
+
                             placeholder="아이디 / 이메일을 입력하세요"
-                            placeholderTextColor='white'
-                            onChangeText={text => setEmail(text)} value={email}
+                            placeholderTextColor={isFocused ? 'white' : 'gray'}
                             returnKeyType="next"
+                            onFocus={() => { onFocusChange() }}
+                            onBlur={() => { onBlurChange() }}
+
+                            onChangeText={text => setEmail(text)} value={email}
+
                         />
-                        <View style={styles.separator} lightColor="#eee" />
-                        <TextInput style={styles.textInput}
+                        <TextInput style={[styles.textInput, log ? (isFocused2 ? {
+                            borderBottomWidth: 1,
+                            borderBottomColor: Colors.dark.text
+                        } : {
+                            borderBottomWidth: 1,
+                            borderBottomColor: 'gray'
+                        })
+                            : { borderBottomColor: 'red', borderBottomWidth: 1 }]}
                             placeholder="비밀번호를 입력하세요"
-                            placeholderTextColor='white'
+                            placeholderTextColor={isFocused2 ? 'white' : 'gray'}
                             secureTextEntry={true}
+                            onFocus={() => { onFocusChange2() }}
+                            onBlur={() => { onBlurChange2() }}
+
+                            onChangeText={text => setPassword(text)} value={password}
                         />
-                        <View style={styles.separator} lightColor="#eee" />
+
                     </View>
                     {/* <View style={{
                         flexDirection: 'row',
@@ -78,16 +129,16 @@ export default function SignInScreen() {
                             
 
                     </View> */}
-                    <View style={{
+                    <View style={[{
                         flexDirection: 'row',
                         alignItems: 'center',
                         backgroundColor: Colors.dark.background,
                         paddingLeft: Width * 0.05,
-                         
-                        }}>
+
+                    }, log ? { opacity: 0 } : { opacity: 1 }]}>
                         <Image source={require('../assets/images/exclamation-circle.png')}
-                            style={{width:45, height:45,}}
-                            />
+                            style={{ width: 45, height: 45, }}
+                        />
                         {/* <FontAwesome
                                     name="exclamation-circle"
                                     size={30}
@@ -105,7 +156,7 @@ export default function SignInScreen() {
                     <View style={{
                         flexDirection: 'row', backgroundColor: Colors.dark.background,
                         justifyContent: 'space-around', alignItems: 'center',
-                        
+
                     }}>
                         <Pressable
                             style={({ pressed }) => ({
@@ -154,7 +205,7 @@ export default function SignInScreen() {
                                         justifyContent: 'space-between',
                                         alignItems: 'center',
                                     })}
-                                //onPress={() => setModalVisible(true)}
+                                    onPress={() => login(email, password)}
                                 >
                                     <View style={styles.LOGINBox}>
                                         <Text style={styles.LOGINtext}>LOG IN</Text>
@@ -236,8 +287,9 @@ export default function SignInScreen() {
                         </View>
                     </Pressable>
                 </View>
-            </ScrollView>
+            </View>
         </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -260,8 +312,7 @@ const styles = StyleSheet.create({
     login: {
         marginTop: 130,
 
-        //backgroundColor: Colors.dark.background,
-        backgroundColor: 'white',
+        backgroundColor: Colors.dark.background,
     },
     login_social: {
         width: '100%',
@@ -276,7 +327,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         //textDecorationLine: 'underline',
         //borderWidth: 1,
-        padding: 5,
+        padding: 15,
     },
     container: {
         flex: 1,
@@ -355,4 +406,8 @@ const styles = StyleSheet.create({
     },
 
 });
+
+function abc(abc: any) {
+    throw new Error('Function not implemented.');
+}
 
