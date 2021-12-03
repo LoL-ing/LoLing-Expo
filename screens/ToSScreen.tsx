@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 import { RootStackScreenProps } from '../types';
-
+import Collapsible from 'react-native-collapsible';
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -17,30 +17,52 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
     const [essential, setEssential] = useState(false);
     const [optional1, setOptional1] = useState(false);
     const [optional2, setOptional2] = useState(false);
-    const [show1, setShow1] = useState(false);
-    const [show2, setShow2] = useState(false);
-    const [show3, setShow3] = useState(false);
+    const [collapsed1, setCollapsed1] = useState(true);
+    const [collapsed2, setCollapsed2] = useState(true);
+    const [collapsed3, setCollapsed3] = useState(true);
 
     const changeFullConsent = () => {
-        setFullConsent(!(fullconsent));
-        setEssential(!(fullconsent));
-        setOptional1(!(fullconsent));
-        setOptional2(!(fullconsent));
+        setFullConsent(!fullconsent);
+        setEssential(!fullconsent);
+        setOptional1(!fullconsent);
+        setOptional2(!fullconsent);
     }
 
     const changeEssential = () => {
-        setEssential(!(essential));
-        setFullConsent(!(essential) && optional1 && optional2);
+        setEssential(!essential);
+        setFullConsent(!essential && optional1 && optional2);
     }
 
     const changeOptional1 = () => {
-        setOptional1(!(optional1));
-        setFullConsent(essential && !(optional1) && optional2);
+        setOptional1(!optional1);
+        setFullConsent(essential && !optional1 && optional2);
     }
 
     const changeOptional2 = () => {
-        setOptional2(!(optional2));
-        setFullConsent(essential && optional1 && !(optional2));
+        setOptional2(!optional2);
+        setFullConsent(essential && optional1 && !optional2);
+    }
+
+    const changeCollapsed1 = () =>{
+        setCollapsed1(!collapsed1);
+        if(collapsed1) {
+            setCollapsed2(true);
+            setCollapsed3(true);
+        } 
+    }
+        const changeCollapsed2 = () =>{
+        setCollapsed2(!collapsed2);
+        if(collapsed2) {
+            setCollapsed1(true);
+            setCollapsed3(true);
+        } 
+    }
+        const changeCollapsed3 = () =>{
+        setCollapsed3(!collapsed3);
+        if(collapsed3) {
+            setCollapsed1(true);
+            setCollapsed2(true);
+        } 
     }
 
     return (
@@ -123,48 +145,43 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                             opacity: pressed ? 0.5 : 1,
                         })}
                             onPress={() => {
-                                setShow1(!(show1))
+                                changeCollapsed1()
                             }}>
-                            {show1 === true ?
-                            <FontAwesome
-                            name="chevron-up"
-                            size={20}
-                            color={Colors.dark.text}
-                            >
-                            </FontAwesome>
-                            :
-                            <FontAwesome
-                                name="chevron-down"
-                                size={20}
-                                color={Colors.dark.text}
-                            >
-                            </FontAwesome>}
+                            {collapsed1 === false ?
+                                <FontAwesome
+                                    name="chevron-up"
+                                    size={20}
+                                    color={Colors.dark.text}
+                                >
+                                </FontAwesome>
+                                :
+                                <FontAwesome
+                                    name="chevron-down"
+                                    size={20}
+                                    color={Colors.dark.text}
+                                >
+                                </FontAwesome>}
                         </Pressable>
 
                     </View>
+                    <Collapsible
+                        collapsed={collapsed1}>
+                        <ScrollView style={{
+                            width: Width * 0.9,
+                            backgroundColor: Colors.dark.background2,
+                            borderRadius: 30,
+                            paddingLeft: 20,
+                            paddingRight: 20,
+                            paddingBottom: 20
+                        }}>
+                            <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
+                                {`제1장 총칙
 
-                    <ScrollView style={{
-                        width: Width * 0.9,
-                        height: show1 === true ? Height * 0.13 : 0,
-                        backgroundColor: Colors.dark.background2,
-                        borderRadius: 30,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        paddingBottom: 20
-                    }}>
-                        <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
-                            제1장 총칙
-
-                            제 1조 (목적)
-                            본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가
-                            제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및
-                            관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금
-                            예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서
-                            비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권
-                            리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는
-                            것을 그 목적으로 합니다.
-                        </Text>
-                    </ScrollView>
+제 1조 (목적)
+본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
+                            </Text>
+                        </ScrollView>
+                    </Collapsible >
                 </View>
 
                 <View style={styles.fullbox}>
@@ -200,41 +217,42 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                             opacity: pressed ? 0.5 : 1,
                         })}
                             onPress={() => {
-                                setShow2(!(show2))
+                                changeCollapsed2()
                             }}>
-                            {show2 === true ?
-                            <FontAwesome
-                            name="chevron-up"
-                            size={20}
-                            color={Colors.dark.text}
-                            >
-                            </FontAwesome>
-                            :
-                            <FontAwesome
-                                name="chevron-down"
-                                size={20}
-                                color={Colors.dark.text}
-                            >
-                            </FontAwesome>}
+                            {collapsed2 === false ?
+                                <FontAwesome
+                                    name="chevron-up"
+                                    size={20}
+                                    color={Colors.dark.text}
+                                >
+                                </FontAwesome>
+                                :
+                                <FontAwesome
+                                    name="chevron-down"
+                                    size={20}
+                                    color={Colors.dark.text}
+                                >
+                                </FontAwesome>}
                         </Pressable>
                     </View>
-
-                    <ScrollView style={{
-                        width: Width * 0.9,
-                        height: show2 === true ? Height * 0.13 : Height * 0,
-                        backgroundColor: Colors.dark.background2,
-                        borderRadius: 30,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        paddingBottom: 20
-                    }}>
-                        <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
-{`제1장 총칙
+                    <Collapsible
+                        collapsed={collapsed2}>
+                        <ScrollView style={{
+                            width: Width * 0.9,
+                            backgroundColor: Colors.dark.background2,
+                            borderRadius: 30,
+                            paddingLeft: 20,
+                            paddingRight: 20,
+                            paddingBottom: 20
+                        }}>
+                            <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
+                                {`제1장 총칙
 
 제 1조 (목적)
 본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
-                        </Text>
-                    </ScrollView>
+                            </Text>
+                        </ScrollView>
+                    </Collapsible>
                 </View>
 
                 <View style={styles.fullbox}>
@@ -271,47 +289,43 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                                 opacity: pressed ? 0.5 : 1,
                             })}
                             onPress={() => {
-                                setShow3(!(show3))
+                                changeCollapsed3()
                             }}>
-                            {show3 === true ?
-                            <FontAwesome
-                            name="chevron-up"
-                            size={20}
-                            color={Colors.dark.text}
-                            >
-                            </FontAwesome>
-                            :
-                            <FontAwesome
-                                name="chevron-down"
-                                size={20}
-                                color={Colors.dark.text}
-                            >
-                            </FontAwesome>}
+                            {collapsed3 === false ?
+                                <FontAwesome
+                                    name="chevron-up"
+                                    size={20}
+                                    color={Colors.dark.text}
+                                >
+                                </FontAwesome>
+                                :
+                                <FontAwesome
+                                    name="chevron-down"
+                                    size={20}
+                                    color={Colors.dark.text}
+                                >
+                                </FontAwesome>}
                         </Pressable>
                     </View>
 
-                    <ScrollView style={{
-                        width: Width * 0.9,
-                        height: show3 === true ? Height * 0.13 : Height * 0,
-                        backgroundColor: Colors.dark.background2,
-                        borderRadius: 30,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        paddingBottom: 20
-                    }}>
-                        <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
-                            제1장 총칙
+                    <Collapsible
+                        collapsed={collapsed3}>
+                        <ScrollView style={{
+                            width: Width * 0.9,
+                            backgroundColor: Colors.dark.background2,
+                            borderRadius: 30,
+                            paddingLeft: 20,
+                            paddingRight: 20,
+                            paddingBottom: 20
+                        }}>
+                            <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
+                                {`제1장 총칙
 
-                            제 1조 (목적)
-                            본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가
-                            제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및
-                            관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금
-                            예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서
-                            비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권
-                            리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는
-                            것을 그 목적으로 합니다.
-                        </Text>
-                    </ScrollView>
+제 1조 (목적)
+본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
+                            </Text>
+                        </ScrollView>
+                    </Collapsible>
                 </View>
 
             </View>
@@ -319,10 +333,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
             <Pressable
                 style={({ pressed }) => ({
                     opacity: pressed ? 0.5 : 1,
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
-                    marginBottom: 20,
-                    marginRight: 20,
+                    position: 'absolute',
+                    top: Height * 0.85,
+                    right: Width * 0.07,
                 })}
                 onPress={() => essential ? navigation.navigate('Authentication') : alert('필수 약관에 동의하셔야합니다잉')}>
                 <View style={styles.nexticon}>
@@ -352,7 +365,7 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold',
         color: 'white',
-        marginVertical: 50,
+        marginVertical: 70,
         marginLeft: 20,
     },
     box: {
@@ -368,7 +381,6 @@ const styles = StyleSheet.create({
     },
     fullbox: {
         width: Width * 0.9,
-        // height: Height * 0.2,
         backgroundColor: Colors.dark.background2,
         borderRadius: 30,
         justifyContent: 'center',
