@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef } from 'react';
 import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions, Platform, TouchableWithoutFeedback } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -34,7 +35,6 @@ const loginData = [
 ]
 
 
-
 export default function SignInScreen() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -49,18 +49,16 @@ export default function SignInScreen() {
 
     const [isFocused, setState] = useState(false);
     const [isFocused2, setState2] = useState(false);
-    const onFocusChange = () => {
-        setState(true);
+    const onFocusChange = (focus : boolean) => {
+        setState(focus);
     }
-    const onBlurChange = () => {
-        setState(false);
+    const onFocusChange2 = (focus : boolean) => {
+        setState2(focus);
     }
-    const onFocusChange2 = () => {
-        setState2(true);
-    }
-    const onBlurChange2 = () => {
-        setState2(false);
-    }
+    
+
+    //ref
+    const refFirst = useRef();
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -84,10 +82,12 @@ export default function SignInScreen() {
                             placeholder="아이디 / 이메일을 입력하세요"
                             placeholderTextColor={isFocused ? 'white' : 'gray'}
                             returnKeyType="next"
-                            onFocus={() => { onFocusChange() }}
-                            onBlur={() => { onBlurChange() }}
+                            onFocus={() => { onFocusChange(true) }}
+                            onBlur={() => { onFocusChange(false) }}
 
                             onChangeText={text => setEmail(text)} value={email}
+                            onSubmitEditing={() => refFirst.current.focus()}
+                            blurOnSubmit={false}
 
                         />
                         <TextInput style={[styles.textInput, log ? (isFocused2 ? {
@@ -101,10 +101,13 @@ export default function SignInScreen() {
                             placeholder="비밀번호를 입력하세요"
                             placeholderTextColor={isFocused2 ? 'white' : 'gray'}
                             secureTextEntry={true}
-                            onFocus={() => { onFocusChange2() }}
-                            onBlur={() => { onBlurChange2() }}
-
+                            onFocus={() => { onFocusChange2(true) }}
+                            onBlur={() => { onFocusChange2(false) }}
+                            
                             onChangeText={text => setPassword(text)} value={password}
+                            
+                            ref={refFirst}
+                            onSubmitEditing={() => {login(email, password)}}
                         />
 
                     </View>
@@ -222,12 +225,10 @@ export default function SignInScreen() {
                     })}>
                         <View style={styles.socialBox}>
                             <View style={{ backgroundColor: Colors.dark.background2 }}>
-                                <FontAwesome
-                                    name="arrow-circle-o-up"
-                                    size={30}
-                                    color='white'
-                                >
-                                </FontAwesome></View>
+                            <Image source={require('../assets/images/kakao.png')}
+                            style={{ width: 30, height: 30, }}
+                            />
+                            </View>
                             <Text style={styles.socialText}>
                                 <Text style={styles.innerText}>카카오</Text>
                                 로 로그인하기</Text>
@@ -246,12 +247,9 @@ export default function SignInScreen() {
                     })}>
                         <View style={styles.socialBox}>
                             <View style={{ backgroundColor: Colors.dark.background2 }}>
-                                <FontAwesome
-                                    name="arrow-circle-o-up"
-                                    size={30}
-                                    color='white'
-                                >
-                                </FontAwesome></View>
+                                <Image source={require('../assets/images/naver.png')}
+                                style={{ width: 30, height: 30, }}
+                                /></View>
                             <Text style={styles.socialText}>
                                 <Text style={styles.innerText}>네이버</Text>
                                 로 로그인하기</Text>
@@ -269,12 +267,10 @@ export default function SignInScreen() {
                     })}>
                         <View style={styles.socialBox}>
                             <View style={{ backgroundColor: Colors.dark.background2 }}>
-                                <FontAwesome
-                                    name="arrow-circle-o-up"
-                                    size={30}
-                                    color='white'
-                                >
-                                </FontAwesome></View>
+                                <Image source={require('../assets/images/google.png')}
+                                style={{ width: 30, height: 30, }}
+                                />
+                                </View>
                             <Text style={styles.socialText}>
                                 <Text style={styles.innerText}>구글</Text>
                                 로 로그인하기</Text>
