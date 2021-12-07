@@ -49,12 +49,6 @@ export default function SignInScreen() {
 
     const [isFocused, setState] = useState(false);
     const [isFocused2, setState2] = useState(false);
-    const onFocusChange = (focus : boolean) => {
-        setState(focus);
-    }
-    const onFocusChange2 = (focus : boolean) => {
-        setState2(focus);
-    }
     
 
     //ref
@@ -82,8 +76,8 @@ export default function SignInScreen() {
                             placeholder="아이디 / 이메일을 입력하세요"
                             placeholderTextColor={isFocused ? 'white' : 'gray'}
                             returnKeyType="next"
-                            onFocus={() => { onFocusChange(true) }}
-                            onBlur={() => { onFocusChange(false) }}
+                            onFocus={() => { setState(true)}}
+                            onBlur={() => { setState(false) }}
 
                             onChangeText={text => setEmail(text)} value={email}
                             onSubmitEditing={() => refFirst.current.focus()}
@@ -101,8 +95,8 @@ export default function SignInScreen() {
                             placeholder="비밀번호를 입력하세요"
                             placeholderTextColor={isFocused2 ? 'white' : 'gray'}
                             secureTextEntry={true}
-                            onFocus={() => { onFocusChange2(true) }}
-                            onBlur={() => { onFocusChange2(false) }}
+                            onFocus={() => { setState2(true) }}
+                            onBlur={() => { setState2(false) }}
                             
                             onChangeText={text => setPassword(text)} value={password}
                             
@@ -355,11 +349,12 @@ const styles = StyleSheet.create({
         //marginBottom: 25,
     },
     LOGINBox: {
-        width: Width * 0.9,
+        width: Width * 0.87,
         backgroundColor: Colors.dark.background3,
-        borderRadius: 30,
+        borderRadius: 40,
         alignItems: 'center',
-
+        height: Height * 0.062,
+        justifyContent: 'center',
 
 
         // ...Platform.select({
@@ -380,30 +375,27 @@ const styles = StyleSheet.create({
         // elevation: 10,
     },
     LOGINtext: {
-        fontSize: 17,
+        fontSize: Height* 0.02,
         fontWeight: 'bold',
-        padding: 20,
+        //padding: 20,
         color: 'white',
     },
     socialBox: {
         //width: 350,
-        width: Width * 0.85,
+        width: Width * 0.87,
         flexDirection: 'row',
         backgroundColor: Colors.dark.background2,
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'space-around',
         margin: 10,
+        height: Height*0.06,
     },
     socialText: {
-        padding: 17,
-        fontSize: 15,
+        //padding: 17,
+        fontSize: Height*0.017,
         //marginHorizontal: 50,
     },
 
 });
-
-function abc(abc: any) {
-    throw new Error('Function not implemented.');
-}
 

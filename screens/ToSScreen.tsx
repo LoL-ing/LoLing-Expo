@@ -47,7 +47,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<"ToS">) {
 
   const changeCollapsed1 = () => {
     setCollapsed1(!collapsed1);
-    if (collapsed1) {
+    if (collapsed1) { 
       setCollapsed2(true);
       setCollapsed3(true);
     }
