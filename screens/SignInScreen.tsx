@@ -1,401 +1,355 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import { StyleSheet, Pressable, TouchableOpacity, SafeAreaView, Dimensions, Platform, TouchableWithoutFeedback } from 'react-native';
-import { Text, View } from '../components/Themed';
-import Colors from '../constants/Colors';
+import {
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { TextInput, Image, Keyboard } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
-import { whileStatement } from '@babel/types';
-import { ScrollView } from 'react-native-gesture-handler';
-import Styles from '../constants/Styles';
 import { Shadow } from 'react-native-shadow-2';
 
+import { Text, View } from '../components/Themed';
+import Colors from '../constants/Colors';
+import Styles from '../constants/Styles';
 
-/* 3등분해서 넣는게 좋을듯
-   1. textinput 창 선택하면 선+글씨 스타일 바뀌게
-   2. 선색갑자기 사라짐.. 
-   3. 소셜로그인 가운데정렬 - width를 고정해놓으면 괜찮은데 퍼센트로 주면 정렬이 안된다*/
-
-
-/*            returnKeyType="next"
-            selectTextOnFocus={true}
-            onSubmitEditing={() => {
-              secondRRN.current.focus();
-            }} */
-const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 
 const loginData = [
-    {
-        name: 'yejin',
-        email: 'kyj0032@korea.ac.kr',
-        password: '1234'
-    },
-]
-
+  {
+    name: 'yejin',
+    email: 'kyj0032@korea.ac.kr',
+    password: '1234',
+  },
+];
 
 export default function SignInScreen() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isIDFocused, setisIDFocused] = useState(false);
+  const [isPWFocused, setisPWFocused] = useState(false);
+  const [log, setLogin] = useState(true);
 
-    const [log, setLogin] = useState(true)
-    const login = (email: string, password: string) => {
-        alert(`email: ${email} password: ${password}`);
-        if (loginData[0].password != password)
-            setLogin(false);
+  const refFirst = useRef<TextInput>(null);
 
-    }
+  const isLoginTrue = (email: string, password: string) => {
+    alert(`email: ${email} password: ${password}`);
+    if (loginData[0].password != password) setLogin(false);
+  };
 
-    const [isFocused, setState] = useState(false);
-    const [isFocused2, setState2] = useState(false);
-    
-
-    //ref
-    const refFirst = useRef();
-
-    return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={Styles.fullscreen}>
-            <View style={{ backgroundColor: Colors.dark.background }}>
-
-                <View style={styles.login}>
-                    <View style={{
-                        paddingTop: 20,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        paddingBottom: 10,
-                        backgroundColor: Colors.dark.background,
-                    }}>
-                        <TextInput style={[styles.textInput, isFocused ? {
-                            borderBottomWidth: 1,
-                            borderBottomColor: Colors.dark.text
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={Styles.fullscreen}>
+        <View style={{ backgroundColor: Colors.backgroundBlack }}>
+          <View style={styles.loginContainer}>
+            <View
+              style={{
+                padding: 20,
+                paddingBottom: 10,
+                backgroundColor: Colors.backgroundBlack,
+              }}
+            >
+              <TextInput
+                style={[
+                  styles.textInput,
+                  isIDFocused
+                    ? {
+                        borderBottomWidth: 1,
+                        borderBottomColor: Colors.textFocusedPurple,
+                      }
+                    : {
+                        borderBottomColor: Colors.textUnfocusedPurple,
+                        borderBottomWidth: 1,
+                      },
+                ]}
+                placeholder="아이디 / 이메일을 입력하세요"
+                placeholderTextColor={
+                  isIDFocused ? Colors.textWhite : Colors.textGray
+                }
+                returnKeyType="next"
+                onFocus={() => {
+                  setisIDFocused(true);
+                }}
+                onBlur={() => {
+                  setisIDFocused(false);
+                }}
+                onChangeText={text => setEmail(text)}
+                value={email}
+                onSubmitEditing={() => refFirst.current?.focus}
+                blurOnSubmit={false}
+                clearButtonMode="while-editing"
+              />
+              <TextInput
+                style={[
+                  styles.textInput,
+                  log
+                    ? isPWFocused
+                      ? {
+                          borderBottomWidth: 1,
+                          borderBottomColor: Colors.textFocusedPurple,
                         }
-                            : { borderBottomColor: 'gray', borderBottomWidth: 1 }]}
-
-                            placeholder="아이디 / 이메일을 입력하세요"
-                            placeholderTextColor={isFocused ? 'white' : 'gray'}
-                            returnKeyType="next"
-                            onFocus={() => { setState(true)}}
-                            onBlur={() => { setState(false) }}
-
-                            onChangeText={text => setEmail(text)} value={email}
-                            onSubmitEditing={() => refFirst.current.focus()}
-                            blurOnSubmit={false}
-
-                        />
-                        <TextInput style={[styles.textInput, log ? (isFocused2 ? {
-                            borderBottomWidth: 1,
-                            borderBottomColor: Colors.dark.text
-                        } : {
-                            borderBottomWidth: 1,
-                            borderBottomColor: 'gray'
-                        })
-                            : { borderBottomColor: 'red', borderBottomWidth: 1 }]}
-                            placeholder="비밀번호를 입력하세요"
-                            placeholderTextColor={isFocused2 ? 'white' : 'gray'}
-                            secureTextEntry={true}
-                            onFocus={() => { setState2(true) }}
-                            onBlur={() => { setState2(false) }}
-                            
-                            onChangeText={text => setPassword(text)} value={password}
-                            
-                            ref={refFirst}
-                            onSubmitEditing={() => {login(email, password)}}
-                        />
-
-                    </View>
-                    {/* <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        backgroundColor: Colors.dark.background,
-                        paddingLeft: Width * 0.05,
-                         
-                        }}>
-                        <FontAwesome
-                                name="exclamation-circle"
-                                size={30}
-                                color='#FA585C'
-                        ></FontAwesome>
-                        <Text style={{
-                            color: '#FA585C',
-                            fontSize: 15,
-                            marginLeft: 5,
-
-                        }}>잘못된 비밀번호입니다. 다시 입력하세요.</Text>
-                            
-
-                    </View> */}
-                    <View style={[{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        backgroundColor: Colors.dark.background,
-                        paddingLeft: Width * 0.05,
-
-                    }, log ? { opacity: 0 } : { opacity: 1 }]}>
-                        <Image source={require('../assets/images/exclamation-circle.png')}
-                            style={{ width: 45, height: 45, }}
-                        />
-                        {/* <FontAwesome
-                                    name="exclamation-circle"
-                                    size={30}
-                                    color='#FA585C'
-                                ></FontAwesome> */}
-                        <Text style={{
-                            color: '#FA585C',
-                            fontSize: 15,
-                            marginLeft: 5,
-
-                        }}>잘못된 비밀번호입니다. 다시 입력하세요.</Text>
-
-                    </View>
-
-                    <View style={{
-                        flexDirection: 'row', backgroundColor: Colors.dark.background,
-                        justifyContent: 'space-around', alignItems: 'center',
-
-                    }}>
-                        <Pressable
-                            style={({ pressed }) => ({
-                                opacity: pressed ? 0.5 : 1,
-                                paddingVertical: 5,
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            })}
-                        //onPress={() => setModalVisible(true)}
-                        >
-                            <Text style={styles.smallText}>아이디 / 비밀번호 찾기</Text>
-                        </Pressable>
-                        <Pressable
-                            style={({ pressed }) => ({
-                                opacity: pressed ? 0.5 : 1,
-                                paddingVertical: 5,
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            })}
-                        //onPress={() => setModalVisible(true)}
-                        >
-                            <Text style={{ fontSize: 15, color: Colors.dark.text }}>
-                                <Text style={{ fontWeight: 'bold', color: Colors.dark.text }}>회원가입</Text>
-                                하러 가기
-                                <Text style={{ fontWeight: 'bold', color: Colors.dark.text }}>{'  >'}</Text>
-                            </Text>
-                        </Pressable>
-                    </View>
-                    <View style={{
-                        backgroundColor: Colors.dark.background,
-                        alignItems: 'center',
-                        padding: 15,
-                        paddingTop: 30,
-                        paddingBottom: 30,
-                        //borderColor: Colors.dark.background,
-                        //borderWidth : 3,
-                    }}>
-                        <Shadow startColor={'#C5A3FF77'}
-                            distance={9}
-                        >
-                            <View style={styles.LOGINBox}>
-                                <Pressable
-                                    style={({ pressed }) => ({
-                                        opacity: pressed ? 0.5 : 1,
-                                        paddingVertical: 5,
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                    })}
-                                    onPress={() => login(email, password)}
-                                >
-                                    <View style={styles.LOGINBox}>
-                                        <Text style={styles.LOGINtext}>LOG IN</Text>
-                                    </View>
-                                </Pressable>
-                            </View>
-                        </Shadow>
-                    </View>
-                </View>
-
-                <View style={styles.login_social}>
-                    <Pressable style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1
-                    })}>
-                        <View style={styles.socialBox}>
-                            <View style={{ backgroundColor: Colors.dark.background2 }}>
-                            <Image source={require('../assets/images/kakao.png')}
-                            style={{ width: 30, height: 30, }}
-                            />
-                            </View>
-                            <Text style={styles.socialText}>
-                                <Text style={styles.innerText}>카카오</Text>
-                                로 로그인하기</Text>
-                            <FontAwesome
-                                name="arrow-circle-o-up"
-                                size={30}
-                                color={Colors.dark.background2}
-                            >
-                            </FontAwesome>
-                        </View>
-                    </Pressable>
-
-
-                    <Pressable style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1
-                    })}>
-                        <View style={styles.socialBox}>
-                            <View style={{ backgroundColor: Colors.dark.background2 }}>
-                                <Image source={require('../assets/images/naver.png')}
-                                style={{ width: 30, height: 30, }}
-                                /></View>
-                            <Text style={styles.socialText}>
-                                <Text style={styles.innerText}>네이버</Text>
-                                로 로그인하기</Text>
-                            <FontAwesome
-                                name="arrow-circle-o-up"
-                                size={30}
-                                color={Colors.dark.background2}
-                            >
-                            </FontAwesome>
-                        </View>
-                    </Pressable>
-
-                    <Pressable style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1
-                    })}>
-                        <View style={styles.socialBox}>
-                            <View style={{ backgroundColor: Colors.dark.background2 }}>
-                                <Image source={require('../assets/images/google.png')}
-                                style={{ width: 30, height: 30, }}
-                                />
-                                </View>
-                            <Text style={styles.socialText}>
-                                <Text style={styles.innerText}>구글</Text>
-                                로 로그인하기</Text>
-                            <FontAwesome
-                                name="arrow-circle-o-up"
-                                size={30}
-                                color={Colors.dark.background2}
-                            >
-                            </FontAwesome>
-                        </View>
-                    </Pressable>
-                </View>
+                      : {
+                          borderBottomWidth: 1,
+                          borderBottomColor: Colors.textUnfocusedPurple,
+                        }
+                    : { borderBottomColor: 'red', borderBottomWidth: 1 },
+                ]}
+                placeholder="비밀번호를 입력하세요"
+                placeholderTextColor={
+                  isPWFocused ? Colors.textWhite : Colors.textGray
+                }
+                secureTextEntry={true}
+                onFocus={() => {
+                  setisPWFocused(true);
+                }}
+                onBlur={() => {
+                  setisPWFocused(false);
+                }}
+                onChangeText={text => setPassword(text)}
+                value={password}
+                ref={refFirst}
+                onSubmitEditing={() => {
+                  isLoginTrue(email, password);
+                }}
+                clearButtonMode="while-editing"
+              />
             </View>
-        </SafeAreaView>
-        </TouchableWithoutFeedback>
-    );
+            <View
+              style={[
+                {
+                  paddingLeft: Width * 0.05,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: Colors.backgroundBlack,
+                },
+                log ? { opacity: 0 } : { opacity: 1 },
+              ]}
+            >
+              <Image
+                source={require('../assets/images/exclamation-circle.png')}
+                style={{ width: 45, height: 45 }}
+              />
+              <Text
+                style={{
+                  color: '#FA585C',
+                  fontSize: 15,
+                  marginLeft: 5,
+                }}
+              >
+                잘못된 비밀번호입니다. 다시 입력하세요.
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                backgroundColor: Colors.backgroundBlack,
+              }}
+            >
+              <Pressable
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                  paddingVertical: 5,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                })}
+              >
+                <Text style={styles.findIDText}>아이디 / 비밀번호 찾기</Text>
+              </Pressable>
+              <Pressable
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                  paddingVertical: 5,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                })}
+              >
+                <Text style={{ fontSize: 15, color: Colors.textFocusedPurple }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: Colors.textFocusedPurple,
+                    }}
+                  >
+                    회원가입
+                  </Text>
+                  하러 가기
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: Colors.textFocusedPurple,
+                    }}
+                  >
+                    {'  >'}
+                  </Text>
+                </Text>
+              </Pressable>
+            </View>
+            <View
+              style={{
+                padding: 15,
+                paddingTop: 30,
+                paddingBottom: 30,
+                alignItems: 'center',
+                backgroundColor: Colors.backgroundBlack,
+              }}
+            >
+              <Shadow startColor={'#C5A3FF77'} distance={9}>
+                <View style={styles.LOGINButton}>
+                  <Pressable
+                    style={({ pressed }) => ({
+                      opacity: pressed ? 0.5 : 1,
+                      paddingVertical: 5,
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    })}
+                    onPress={() => isLoginTrue(email, password)}
+                  >
+                    <View style={styles.LOGINButton}>
+                      <Text style={styles.LOGINtext}>LOG IN</Text>
+                    </View>
+                  </Pressable>
+                </View>
+              </Shadow>
+            </View>
+          </View>
+
+          <View style={styles.socialLoginContainers}>
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <View style={styles.socialLoginButton}>
+                <View style={{ backgroundColor: Colors.backgroundNavy }}>
+                  <Image
+                    source={require('../assets/images/kakao.png')}
+                    style={{ width: 30, height: 30 }}
+                  />
+                </View>
+                <Text style={styles.socialText}>
+                  <Text style={styles.innerText}>카카오</Text>로 로그인하기
+                </Text>
+                <FontAwesome
+                  name="arrow-circle-o-up"
+                  size={30}
+                  color={Colors.backgroundNavy}
+                ></FontAwesome>
+              </View>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <View style={styles.socialLoginButton}>
+                <View style={{ backgroundColor: Colors.backgroundNavy }}>
+                  <Image
+                    source={require('../assets/images/naver.png')}
+                    style={{ width: 30, height: 30 }}
+                  />
+                </View>
+                <Text style={styles.socialText}>
+                  <Text style={styles.innerText}>네이버</Text>로 로그인하기
+                </Text>
+                <FontAwesome
+                  name="arrow-circle-o-up"
+                  size={30}
+                  color={Colors.backgroundNavy}
+                ></FontAwesome>
+              </View>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <View style={styles.socialLoginButton}>
+                <View style={{ backgroundColor: Colors.backgroundNavy }}>
+                  <Image
+                    source={require('../assets/images/google.png')}
+                    style={{ width: 30, height: 30 }}
+                  />
+                </View>
+                <Text style={styles.socialText}>
+                  <Text style={styles.innerText}>구글</Text>로 로그인하기
+                </Text>
+                <FontAwesome
+                  name="arrow-circle-o-up"
+                  size={30}
+                  color={Colors.backgroundNavy}
+                ></FontAwesome>
+              </View>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
 }
 
-
-
 const styles = StyleSheet.create({
-    // fullscreen: {
-    //     flexDirection: 'column',
-    //     width: '100%', 
-    //     height:'100%',
-    //     backgroundColor: Colors.dark.background,
-    // },
-    emptybox: {
-        //flex:0.6,
-        //backgroundColor: Colors.dark.background,
-        backgroundColor: 'black',
-        width: '100%',
-        height: '20%',
-    },
-    login: {
-        marginTop: 130,
+  loginContainer: {
+    marginTop: 130,
 
-        backgroundColor: Colors.dark.background,
-    },
-    login_social: {
-        width: '100%',
-        //flex: 1,
-        //justifyContent: 'flex-end',
-        backgroundColor: Colors.dark.background,
-        alignItems: 'center',
-    },
-    textInput: {
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
-        //textDecorationLine: 'underline',
-        //borderWidth: 1,
-        padding: 15,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#161627',
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    separator: {
-        marginVertical: 10,
-        height: 1,
-        width: '100%',
-    },
-    innerText: {
-        fontWeight: 'bold',
-    },
-    smallText: {
-        fontSize: 15,
-    },
-    LOGINView: {
-        width: Width * 0.9,
-        backgroundColor: Colors.dark.background3,
-        borderRadius: 30,
-        alignItems: 'center',
-        //margin: 15,
-        //marginBottom: 25,
-    },
-    LOGINBox: {
-        width: Width * 0.87,
-        backgroundColor: Colors.dark.background3,
-        borderRadius: 40,
-        alignItems: 'center',
-        height: Height * 0.062,
-        justifyContent: 'center',
+    backgroundColor: Colors.backgroundBlack,
+  },
+  socialLoginContainers: {
+    width: '100%',
 
+    backgroundColor: Colors.backgroundBlack,
+    alignItems: 'center',
+  },
+  textInput: {
+    color: Colors.textWhite,
+    fontSize: 18,
+    fontWeight: 'bold',
 
-        // ...Platform.select({
-        //     ios: {
-        //         shadowColor: Colors.dark.background3,
-        //         shadowOffset: { width: 0, height: 6, },
-        //         shadowOpacity: 0.8,
-        //         shadowRadius: 13,
-        //     },
-        //     android: {
-        //         elevation: 10,
-        //     }
-        // })
-        // shadowColor: Colors.dark.background3,
-        // shadowOffset: { width: 0, height: 6, },
-        // shadowOpacity: 0.8,
-        // shadowRadius: 13,
-        // elevation: 10,
-    },
-    LOGINtext: {
-        fontSize: Height* 0.02,
-        fontWeight: 'bold',
-        //padding: 20,
-        color: 'white',
-    },
-    socialBox: {
-        //width: 350,
-        width: Width * 0.87,
-        flexDirection: 'row',
-        backgroundColor: Colors.dark.background2,
-        borderRadius: 30,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        margin: 10,
-        height: Height*0.06,
-    },
-    socialText: {
-        //padding: 17,
-        fontSize: Height*0.017,
-        //marginHorizontal: 50,
-    },
+    padding: 15,
+  },
+  innerText: {
+    fontWeight: 'bold',
+  },
+  findIDText: {
+    color: Colors.textWhite,
+    fontSize: 15,
+  },
+  LOGINButton: {
+    width: Width * 0.87,
+    height: Height * 0.062,
 
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor: Colors.backgroundPurple,
+    borderRadius: 40,
+  },
+  LOGINtext: {
+    color: Colors.textWhite,
+    fontSize: Height * 0.02,
+    fontWeight: 'bold',
+  },
+  socialLoginButton: {
+    width: Width * 0.87,
+    height: Height * 0.06,
+    margin: 10,
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    borderRadius: 30,
+    backgroundColor: Colors.backgroundNavy,
+  },
+  socialText: {
+    color: Colors.textWhite,
+    fontSize: Height * 0.017,
+  },
 });
-

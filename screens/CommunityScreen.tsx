@@ -1,15 +1,21 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+import Colors from '../constants/Colors';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function CommnunityScreen({ navigation }: RootTabScreenProps<'Community'>) {
+export default function CommnunityScreen({
+  navigation,
+}: RootTabScreenProps<'Community'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>LoLing</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Text style={styles.titleText}>LoLing</Text>
+      <View
+        style={styles.separator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
     </View>
   );
 }
@@ -19,16 +25,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#161627'
+
+    backgroundColor: '#161627',
   },
-  title: {
+  titleText: {
+    color: Colors.textWhite,
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF'
   },
   separator: {
-    marginVertical: 30,
-    height: 1,
     width: '80%',
+    marginVertical: 30,
+
+    height: 1,
   },
 });

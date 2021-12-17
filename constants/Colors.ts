@@ -1,24 +1,18 @@
-import { DarkTheme } from "@react-navigation/native";
-
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
+// 이름 짓는 방법 : text or background / focused or unfocused(혹은 다른 특징 사용 가능) / color name
 
 export default {
-  light: {
-    text: '#fff',
-    background: '#000',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text:  '#C5A3FF', /*보라색*/
-    background: '#161627', /*배경색-검정에 가까움*/
-    background2: '#23233F', /*배경색-남색*/
-    background3: '#C5A3FF', /*보라색*/
-    tint: tintColorDark,
-    tabIconDefault: '#ccc', 
-    tabIconSelected: tintColorDark,
-  },
-  gray: '#DFDFDF',
+  light: {},
+  dark: {},
+  textGray: '#B9B9BE',
+  textFocusedPurple: '#C5A3FF',
+  textUnfocusedPurple: '#484868',
+  textWhite: '#FFFFFF',
+  textRed: '#FA585C',
+  textBlack: '#000000',
+  backgroundBlack: '#161627',
+  backgroundNavy: '#23233F',
+  backgroundPurple: '#C5A3FF',
+
+  iconWhite: '#ffffff',
+  iconGray: '#B9B9BE',
 };

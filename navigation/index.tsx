@@ -3,12 +3,16 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import * as React from 'react';
+import { ColorSchemeName } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -17,7 +21,11 @@ import MatchingScreen from '../screens/MatchingScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import CommunityScreen from '../screens/CommunityScreen';
 import SocialScreen from '../screens/SocialScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import {
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
+} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import MoreScreen from '../screens/MoreScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -26,11 +34,16 @@ import ToSScreen from '../screens/ToSScreen';
 import AuthScreen from '../screens/AuthScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+    >
       <RootNavigator />
     </NavigationContainer>
   );
@@ -45,13 +58,41 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}} />
-      <Stack.Screen name="ToS" component={ToSScreen} options={{headerShown: false}} />
-      <Stack.Screen name="Authentication" component={AuthScreen} options={{headerShown: false}}/>
-      <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: 'Oops!' }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ToS"
+        component={ToSScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Authentication"
+        component={AuthScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
@@ -69,8 +110,9 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
+        tabBarActiveTintColor: '#2f95dc', //Colors[colorScheme].tint, // 네비게이션 바가 선택되었을 때 색깔
+      }}
+    >
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
@@ -84,7 +126,9 @@ function BottomTabNavigator() {
         component={MatchingScreen}
         options={{
           title: 'Matching',
-          tabBarIcon: ({ color }) => <TabBarIcon name="slideshare" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="slideshare" color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
@@ -92,7 +136,9 @@ function BottomTabNavigator() {
         component={CommunityScreen}
         options={({ navigation }: RootTabScreenProps<'Community'>) => ({
           title: 'Community',
-          tabBarIcon: ({ color }) => <TabBarIcon name="list-alt" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="list-alt" color={color} />
+          ),
         })}
       />
       <BottomTab.Screen
@@ -100,7 +146,9 @@ function BottomTabNavigator() {
         component={SocialScreen}
         options={{
           title: 'Social',
-          tabBarIcon: ({ color }) => <TabBarIcon name="comments" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="comments" color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
@@ -108,7 +156,9 @@ function BottomTabNavigator() {
         component={MoreScreen}
         options={{
           title: 'More',
-          tabBarIcon: ({ color }) => <TabBarIcon name="ellipsis-h" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ellipsis-h" color={color} />
+          ),
         }}
       />
     </BottomTab.Navigator>

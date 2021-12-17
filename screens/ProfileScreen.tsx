@@ -1,35 +1,39 @@
 import * as React from 'react';
-import { StyleSheet, Pressable, Image} from 'react-native';
+import { StyleSheet, Pressable, Image } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 export default function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <Pressable style = {styles.profileBox}>
-         <View style = {{backgroundColor: Colors.dark.background3}}>
-         <Image //프로필 이미지
-         source = {require('../assets/images/Irelia.png')}
-         style = {styles.profileImg}/>
-         </View>
-         <View style = {{backgroundColor: Colors.dark.background3, height: '50%', marginHorizontal: 10, justifyContent: 'space-around'}}>
-          <Text style = {styles.username}>
-            하아아푸움
-          </Text>
-          <View style = {{backgroundColor: Colors.dark.background3, flexDirection: 'row'}}>
-            <Text style = {styles.tier}>
-             Gold 1
-            </Text>
-            <Text style = {styles.LP}>
-             25LP
-            </Text>
+      <Pressable style={styles.profileContainer}>
+        <View style={{ backgroundColor: Colors.backgroundPurple }}>
+          <Image
+            source={require('../assets/images/Irelia.png')}
+            style={styles.profileImg}
+          />
+        </View>
+        <View
+          style={{
+            height: '50%',
+            marginHorizontal: 10,
+            justifyContent: 'space-around',
+            backgroundColor: Colors.backgroundPurple,
+          }}
+        >
+          <Text style={styles.usernameText}>하아아푸움</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: Colors.backgroundPurple,
+            }}
+          >
+            <Text style={styles.tierText}>Gold 1</Text>
+            <Text style={styles.LPText}>25LP</Text>
           </View>
-          <Text style = {styles.level}>
-            lv.100
-          </Text>
-         </View>
+          <Text style={styles.levelText}>lv.100</Text>
+        </View>
       </Pressable>
     </View>
   );
@@ -40,53 +44,45 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#161627',
+
+    backgroundColor: Colors.backgroundBlack,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFFFFF'
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  profileBox: {
+  profileContainer: {
     width: '80%',
     height: '30%',
-    backgroundColor: Colors.dark.background3,
-    borderRadius: 15,
-    padding: 10,
     marginVertical: 5,
+    padding: 10,
+
     flexDirection: 'row',
+
+    backgroundColor: Colors.backgroundPurple,
+    borderRadius: 15,
   },
   profileImg: {
     width: 50,
     height: 50,
-    borderRadius: 50,
     margin: 10,
+
+    borderRadius: 50,
   },
-  username: {
-    fontWeight: 'bold',
+  usernameText: {
+    color: Colors.textBlack,
     fontSize: 20,
-    color: '#000',
+    fontWeight: 'bold',
   },
-  tier: {
-    fontWeight: 'normal',
+  tierText: {
+    color: Colors.textBlack,
     fontSize: 15,
-    color: '#000',
-  },
-  LP: {
     fontWeight: 'normal',
-    fontSize: 10,
-    color: '#000',
   },
-  level: {
+  LPText: {
+    color: Colors.textBlack,
+    fontSize: 10,
     fontWeight: 'normal',
-    fontSize: 10,
-    color: '#000',
   },
-
+  levelText: {
+    color: Colors.textBlack,
+    fontSize: 10,
+    fontWeight: 'normal',
+  },
 });
-

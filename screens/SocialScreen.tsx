@@ -1,143 +1,56 @@
 import * as React from 'react';
-import { Pressable, StyleSheet, ScrollView } from 'react-native';
-
-// import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-// import { NavigationContainer } from '@react-navigation/native';
-import { FontAwesome } from '@expo/vector-icons';
-import Colors from '../constants/Colors';
-// import ModalScreen from '../screens/ModalScreen';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {RootTabScreenProps} from '../types';
-import Friend from '../components/Friend';
+import { StyleSheet, ScrollView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-const FriendData =[
-  {
-    nickname: '하아아아푸움',
-    bookmark: true,
-    profileImg: require('../assets/images/Nunu.png'),
-  },
+import { Text, View } from '../components/Themed';
+import { RootTabScreenProps } from '../types';
+import Colors from '../constants/Colors';
+import Friend from '../components/Friend';
+import getFriends from '../data/Friends';
 
-  {
-    nickname: '개란말이개미',
-    bookmark: false,
-    profileImg: require('../assets/images/Irelia.png'),
-  },
+const MarkedFriends = getFriends().filter(item => item.bookmark === true);
 
-  {
-    nickname: '모닝글라스',
-    bookmark: false,
-    profileImg: require('../assets/images/Irelia.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  }, 
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: true,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: true,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-  
-  {
-    nickname: '고려대 김자헌',
-    bookmark: false,
-    profileImg: require('../assets/images/Teemo.png'),
-  },
-
-]
-
-let MarkedFriends = FriendData.filter(
-  (item) => item.bookmark === true
-)
-
-// nickname 가나다순 정렬하기
-
-// let UnMarkedFriends = FriendData.filter(
-//   (item) => item.bookmark === false
-// )
-
-export default function SocialScreen({ navigation }: RootTabScreenProps<'Social'>) {
+export default function SocialScreen({
+  navigation,
+}: RootTabScreenProps<'Social'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>LoLing</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Text style={styles.titleText}>LoLing</Text>
+      <View
+        style={styles.separator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
       <ScrollView>
         <FlatList
           data={MarkedFriends}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent = {
-            <Text>
-              즐겨찾기
-            </Text>
+          ListHeaderComponent={
+            <Text style={{ color: Colors.textFocusedPurple }}>즐겨찾기</Text>
           }
-          renderItem={({ item }) =>
+          renderItem={({ item }) => (
             <Friend
               nickname={item.nickname}
               bookmark={item.bookmark}
               profileImg={item.profileImg}
-            />}/>
+            />
+          )}
+        />
 
         <FlatList
-          data={FriendData}
+          data={getFriends()}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent = {
-            <Text>
-              친구
-            </Text>
+          ListHeaderComponent={
+            <Text style={{ color: Colors.textFocusedPurple }}>친구</Text>
           }
-          renderItem={({ item }) =>
+          renderItem={({ item }) => (
             <Friend
               nickname={item.nickname}
               bookmark={item.bookmark}
               profileImg={item.profileImg}
-            />}/>
+            />
+          )}
+        />
       </ScrollView>
     </View>
   );
@@ -148,12 +61,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#161627'
+    backgroundColor: '#161627',
   },
-  title: {
+  titleText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   separator: {
     marginVertical: 30,
