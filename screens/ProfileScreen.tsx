@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Pressable, Image } from 'react-native';
-
-import { Text, View } from '../components/Themed';
+import { StyleSheet, Pressable, Image, Text, View } from 'react-native';
 import Colors from '../constants/Colors';
 
 export default function ProfileScreen() {

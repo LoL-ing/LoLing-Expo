@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
-
-import { Text, View } from '../components/Themed';
+import { StyleSheet, Pressable, Text, View } from 'react-native';
 import { RootTabScreenProps } from '../types';
 import Menu from '../components/Menu';
 import Colors from '../constants/Colors';
@@ -17,8 +15,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       </Pressable>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
       <Menu
         title="공지사항"
@@ -27,8 +23,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       ></Menu>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
 
       <Menu
@@ -38,8 +32,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       ></Menu>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
 
       <Menu
@@ -49,8 +41,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       ></Menu>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
 
       <Menu
@@ -60,8 +50,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       ></Menu>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
 
       {/* <Menu title="1:1 문의"></Menu>
@@ -89,5 +77,6 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 1,
     marginVertical: 10,
+    backgroundColor: 'white'
   },
 });

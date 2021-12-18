@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Pressable, Dimensions } from 'react-native';
+import { StyleSheet, Pressable, Dimensions, Text, View } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Shadow } from 'react-native-shadow-2';
 import { ScrollView } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 
 import { RootStackScreenProps } from '../types';
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 const Width = Dimensions.get('window').width;

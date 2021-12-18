@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useState, createRef } from 'react';
-import { StyleSheet, Pressable, Dimensions, TextInput } from 'react-native';
+import { StyleSheet, Pressable, Dimensions, TextInput, Text, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
-const Width = Dimensions.get('window').width; //스크린 너비 초기화
+const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 
 const nameRef = createRef<TextInput>();
@@ -32,7 +31,6 @@ export default function AuthScreen() {
       <View
         style={{
           marginHorizontal: 20,
-
           backgroundColor: Colors.backgroundBlack,
         }}
       >
@@ -57,7 +55,6 @@ export default function AuthScreen() {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-
             backgroundColor: Colors.backgroundBlack,
           }}
         >
@@ -94,7 +91,6 @@ export default function AuthScreen() {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-
             backgroundColor: Colors.backgroundBlack,
           }}
         >
@@ -138,16 +134,13 @@ const styles = StyleSheet.create({
   fullscreen: {
     width: '100%',
     height: '100%',
-
     flexDirection: 'column',
-
     backgroundColor: Colors.backgroundBlack,
   },
   titleText: {
     color: Colors.textWhite,
     fontSize: 25,
     fontWeight: 'bold',
-
     marginVertical: 70,
     marginHorizontal: 20,
   },
@@ -155,37 +148,30 @@ const styles = StyleSheet.create({
     color: Colors.textWhite,
     fontSize: 18,
     fontWeight: 'normal',
-
     marginVertical: 20,
   },
   fullTextInput: {
     width: '100%',
     padding: 5,
-
     color: Colors.textWhite,
     fontSize: 15,
     fontWeight: 'normal',
-
     borderBottomWidth: 1,
     borderBottomColor: Colors.textFocusedPurple,
   },
   halfTextInput: {
     width: '45%',
     padding: 5,
-
     color: Colors.textWhite,
     fontSize: 15,
     fontWeight: 'normal',
-
     borderBottomWidth: 1,
     borderBottomColor: Colors.textFocusedPurple,
   },
   pickerholderContainer: {
     width: 100,
     height: 50,
-
     marginVertical: 10,
-
     borderColor: Colors.backgroundBlack,
     backgroundColor: Colors.backgroundBlack,
     borderBottomColor: '#484868',
@@ -200,7 +186,6 @@ const styles = StyleSheet.create({
   pickerContainer: {
     width: 100,
     marginVertical: 10,
-
     borderColor: Colors.backgroundBlack,
     backgroundColor: Colors.backgroundBlack,
     borderRadius: 0,

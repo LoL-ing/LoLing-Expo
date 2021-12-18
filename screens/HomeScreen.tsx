@@ -5,9 +5,9 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  Text,
+  View
 } from 'react-native';
-
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import getHomeScreenFriends from '../data/HomeScreenFriends';
 

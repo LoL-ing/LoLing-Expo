@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TextInput } from 'react-native';
+import { TextInput, Text, View } from 'react-native';
 import { useState } from 'react';
-
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화

@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
-import { Text } from '../components/Themed';
 
 export default function Menu(props: {
   navigate: (arg0: any) => void;

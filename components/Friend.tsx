@@ -6,9 +6,9 @@ import {
   Image,
   ImageSourcePropType,
   Modal,
+  Text,
+  View
 } from 'react-native';
-
-import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
 const starOn = require('../assets/images/starOn.png');

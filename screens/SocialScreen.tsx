@@ -1,25 +1,18 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-
-import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 import Colors from '../constants/Colors';
 import Friend from '../components/Friend';
 import getFriends from '../data/Friends';
 
 const MarkedFriends = getFriends().filter(item => item.bookmark === true);
 
-export default function SocialScreen({
-  navigation,
-}: RootTabScreenProps<'Social'>) {
+export default function SocialScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>LoLing</Text>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
       <ScrollView>
         <FlatList
@@ -72,5 +65,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+
+    backgroundColor: 'white',
   },
 });
