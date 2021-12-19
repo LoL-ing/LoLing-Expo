@@ -97,7 +97,7 @@ export default function SignInScreen() {
             </View>
             <View
               style={[styles.signinFailedContainer,
-              signin ? { opacity: 0 } : { opacity: 1 },
+              { opacity: signin ? 0.5 : 1 },
               ]}
             >
               <Image

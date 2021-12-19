@@ -11,15 +11,16 @@ import Colors from '../constants/Colors';
 
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
+const FontScale = Dimensions.get('window').fontScale;
 
 export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
   const [fullconsent, setFullConsent] = useState(false);
   const [essential, setEssential] = useState(false);
   const [optional1, setOptional1] = useState(false);
   const [optional2, setOptional2] = useState(false);
-  const [collapsed1, setCollapsed1] = useState(true);
-  const [collapsed2, setCollapsed2] = useState(true);
-  const [collapsed3, setCollapsed3] = useState(true);
+  const [collapsedEssential, setCollapsedEssential] = useState(true);
+  const [collapsedOptional1, setCollapsedOptional1] = useState(true);
+  const [collapsedOptional2, setCollapsedOptional2] = useState(true);
 
   const changeFullConsent = () => {
     setFullConsent(!fullconsent);
@@ -43,85 +44,74 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
     setFullConsent(essential && optional1 && !optional2);
   };
 
-  const changeCollapsed1 = () => {
-    setCollapsed1(!collapsed1);
-    if (collapsed1) {
-      setCollapsed2(true);
-      setCollapsed3(true);
+  const changeCollapsedEssential = () => {
+    setCollapsedEssential(!collapsedEssential);
+    if (collapsedEssential) {
+      setCollapsedOptional1(true);
+      setCollapsedOptional2(true);
     }
   };
-  const changeCollapsed2 = () => {
-    setCollapsed2(!collapsed2);
-    if (collapsed2) {
-      setCollapsed1(true);
-      setCollapsed3(true);
+  const changeCollapsedOptional1 = () => {
+    setCollapsedOptional1(!collapsedOptional1);
+    if (collapsedOptional1) {
+      setCollapsedEssential(true);
+      setCollapsedOptional2(true);
     }
   };
-  const changeCollapsed3 = () => {
-    setCollapsed3(!collapsed3);
-    if (collapsed3) {
-      setCollapsed1(true);
-      setCollapsed2(true);
+  const changeCollapsedOptional2 = () => {
+    setCollapsedOptional2(!collapsedOptional2);
+    if (collapsedOptional2) {
+      setCollapsedEssential(true);
+      setCollapsedOptional1(true);
     }
   };
 
   return (
     <View style={styles.fullscreen}>
       <Text style={styles.titleText}>안녕하세요!</Text>
-
-      <View
-        style={{
-          width: '100%',
-          alignItems: 'center',
-          backgroundColor: Colors.backgroundBlack,
-        }}
-      >
+      <View style={styles.fourButtonContainer}>
         <Pressable
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.5 : 1,
-            width: Width * 0.9,
-            height: Height * 0.07,
-            paddingLeft: 20,
-            marginVertical: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor:
-              fullconsent === true
-                ? Colors.backgroundPurple
-                : Colors.backgroundNavy,
-            borderRadius: 30,
-          })}
+          style={({ pressed }) => [
+            styles.fullconsentButton,
+            {
+              opacity: pressed ? 0.5 : 1,
+              backgroundColor:
+                fullconsent ?
+                  Colors.backgroundPurple
+                  :
+                  Colors.backgroundNavy
+            },
+          ]}
           onPress={() => {
             changeFullConsent();
           }}
         >
-          {fullconsent === true ? (
+          {fullconsent ? (
             <FontAwesome
               name="check-circle"
               size={30}
-              color="white"
-            ></FontAwesome>
+              color={Colors.iconWhite}
+            />
           ) : (
             <FontAwesome
               name="check-circle-o"
               size={30}
-              color={Colors.textGray}
-            ></FontAwesome>
+              color={Colors.iconGray}
+            />
           )}
           <Text
             style={{
               color: Colors.textWhite,
-              fontSize: 14,
+              fontSize: FontScale * 14,
               fontWeight: 'bold',
-              marginLeft: 20,
+              marginLeft: Width * 0.05,
             }}
           >
             약관 전체 동의하기
           </Text>
         </Pressable>
-
         <View style={styles.fullToSContainer}>
-          <View style={styles.ToSContainer}>
+          <View style={styles.uncollapsibleContainer}>
             <Pressable
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
@@ -130,25 +120,25 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeEssential();
               }}
             >
-              {essential === true ? (
+              {essential ? (
                 <FontAwesome
                   name="check-circle"
                   size={30}
                   color={Colors.textFocusedPurple}
-                ></FontAwesome>
+                />
               ) : (
                 <FontAwesome
                   name="check-circle-o"
                   size={30}
-                  color={Colors.textGray}
-                ></FontAwesome>
+                  color={Colors.iconGray}
+                />
               )}
             </Pressable>
             <Text
               style={{
-                fontSize: 14,
+                fontSize: FontScale * 14,
                 color: Colors.textFocusedPurple,
-                marginLeft: 20,
+                marginLeft: Width * 0.05,
               }}
             >
               [필수]
@@ -159,47 +149,40 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 opacity: pressed ? 0.5 : 1,
               })}
               onPress={() => {
-                changeCollapsed1();
+                changeCollapsedEssential();
               }}
             >
-              {collapsed1 === false ? (
-                <FontAwesome
-                  name="chevron-up"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                ></FontAwesome>
-              ) : (
+              {collapsedEssential ? (
                 <FontAwesome
                   name="chevron-down"
                   size={20}
                   color={Colors.textFocusedPurple}
-                ></FontAwesome>
+                />
+              ) : (
+                <FontAwesome
+                  name="chevron-up"
+                  size={20}
+                  color={Colors.textFocusedPurple}
+                />
               )}
             </Pressable>
           </View>
-          <Collapsible collapsed={collapsed1}>
-            <ScrollView
-              style={{
-                width: Width * 0.9,
-                backgroundColor: Colors.backgroundNavy,
-                borderRadius: 30,
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingBottom: 20,
-              }}
-            >
-              <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
+          <Collapsible collapsed={collapsedEssential}>
+            <ScrollView style={styles.collapsibleContainer}>
+              <Text style={{ color: Colors.textGray, fontSize: FontScale * 10 }}>
                 {`제1장 총칙
 
 제 1조 (목적)
+본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.
+
+제 2조 (목적)
 본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
               </Text>
             </ScrollView>
           </Collapsible>
         </View>
-
         <View style={styles.fullToSContainer}>
-          <View style={styles.ToSContainer}>
+          <View style={styles.uncollapsibleContainer}>
             <Pressable
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
@@ -208,25 +191,25 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeOptional1();
               }}
             >
-              {optional1 === true ? (
+              {optional1 ? (
                 <FontAwesome
                   name="check-circle"
                   size={30}
                   color={Colors.textFocusedPurple}
-                ></FontAwesome>
+                />
               ) : (
                 <FontAwesome
                   name="check-circle-o"
                   size={30}
-                  color={Colors.textGray}
-                ></FontAwesome>
+                  color={Colors.iconGray}
+                />
               )}
             </Pressable>
             <Text
               style={{
-                fontSize: 14,
+                fontSize: FontScale * 14,
                 color: Colors.textFocusedPurple,
-                marginLeft: 20,
+                marginLeft: Width * 0.05,
               }}
             >
               [선택]
@@ -237,39 +220,33 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 opacity: pressed ? 0.5 : 1,
               })}
               onPress={() => {
-                changeCollapsed2();
+                changeCollapsedOptional1();
               }}
             >
-              {collapsed2 === false ? (
+              {collapsedOptional1 ? (
                 <FontAwesome
-                  name="chevron-up"
+                  name="chevron-down"
                   size={20}
                   color={Colors.textFocusedPurple}
                 ></FontAwesome>
               ) : (
                 <FontAwesome
-                  name="chevron-down"
+                  name="chevron-up"
                   size={20}
                   color={Colors.textFocusedPurple}
                 ></FontAwesome>
               )}
             </Pressable>
           </View>
-          <Collapsible collapsed={collapsed2}>
-            <ScrollView
-              style={{
-                width: Width * 0.9,
-                backgroundColor: Colors.backgroundNavy,
-                borderRadius: 30,
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingBottom: 20,
-              }}
-            >
-              <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
+          <Collapsible collapsed={collapsedOptional1}>
+            <ScrollView style={styles.collapsibleContainer}>
+              <Text style={{ color: Colors.textGray, fontSize: FontScale * 10 }}>
                 {`제1장 총칙
 
 제 1조 (목적)
+본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.
+
+제 2조 (목적)
 본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
               </Text>
             </ScrollView>
@@ -277,7 +254,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
         </View>
 
         <View style={styles.fullToSContainer}>
-          <View style={styles.ToSContainer}>
+          <View style={styles.uncollapsibleContainer}>
             <Pressable
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
@@ -286,25 +263,25 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeOptional2();
               }}
             >
-              {optional2 === true ? (
+              {optional2 ? (
                 <FontAwesome
                   name="check-circle"
                   size={30}
                   color={Colors.textFocusedPurple}
-                ></FontAwesome>
+                />
               ) : (
                 <FontAwesome
                   name="check-circle-o"
                   size={30}
-                  color={Colors.textGray}
-                ></FontAwesome>
+                  color={Colors.iconGray}
+                />
               )}
             </Pressable>
             <Text
               style={{
-                fontSize: 14,
+                fontSize: FontScale * 14,
                 color: Colors.textFocusedPurple,
-                marginLeft: 20,
+                marginLeft: Width * 0.05,
               }}
             >
               [선택]
@@ -315,41 +292,34 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 opacity: pressed ? 0.5 : 1,
               })}
               onPress={() => {
-                changeCollapsed3();
+                changeCollapsedOptional2();
               }}
             >
-              {collapsed3 === false ? (
-                <FontAwesome
-                  name="chevron-up"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                ></FontAwesome>
-              ) : (
+              {collapsedOptional2 ? (
                 <FontAwesome
                   name="chevron-down"
                   size={20}
                   color={Colors.textFocusedPurple}
-                ></FontAwesome>
+                />
+              ) : (
+                <FontAwesome
+                  name="chevron-up"
+                  size={20}
+                  color={Colors.textFocusedPurple}
+                />
               )}
             </Pressable>
           </View>
-
-          <Collapsible collapsed={collapsed3}>
-            <ScrollView
-              style={{
-                width: Width * 0.9,
-                backgroundColor: Colors.backgroundNavy,
-                borderRadius: 30,
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingBottom: 20,
-              }}
-            >
-              <Text style={{ color: '#BDBDC5', fontSize: 10 }}>
+          <Collapsible collapsed={collapsedOptional2}>
+            <ScrollView style={styles.collapsibleContainer}>
+              <Text style={{ color: Colors.textGray, fontSize: FontScale * 10 }}>
                 {`제1장 총칙
 
 제 1조 (목적)
-본 약관은 엔에이치엔페이코 주식회사(이하 '회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
+본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.
+
+제 2조 (목적)
+본 약관은 엔에이치엔페이코 주식회사(이하 "회사"라 합니다)가 제공하는 전자지급결제대행서비스, 선불전자지급수단의 발행 및 관리서비스, 직불전자지급수단의 발행 및 관리서비스, 결제대금예치서비스, 전자고지결제서비스(이하 통칭하여 "전자금융거래서비스"라 합니다)를 "회원"이 이용함에 있어, "회사"와 "회원" 간 권리, 의무 및 "회원"의 서비스 이용절차 등에 관한 사항을 규정하는 것을 그 목적으로 합니다.`}
               </Text>
             </ScrollView>
           </Collapsible>
@@ -366,16 +336,16 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
         onPress={() =>
           essential
             ? navigation.navigate('Authentication')
-            : alert('필수 약관에 동의하셔야합니다잉')
+            : alert('필수 약관에 동의하셔야합니다')
         }
       >
-        <Shadow startColor={'#C5A3FF77'} distance={essential ? 8 : 0}>
+        <Shadow startColor={Colors.shadowStartColor} distance={essential ? 8 : 0}>
           <View
             style={{
-              width: 65,
-              height: 65,
-              backgroundColor: essential ? Colors.backgroundPurple : '#484868',
-              borderRadius: 65,
+              width: Width * 0.17,
+              height: Width * 0.17,
+              backgroundColor: essential ? Colors.backgroundPurple : Colors.textUnfocusedPurple,
+              borderRadius: Width * 0.17,
               alignItems: 'center',
               justifyContent: 'center',
             }}
@@ -384,7 +354,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
               name="arrow-right"
               size={30}
               color={Colors.iconWhite}
-            ></FontAwesome>
+            />
           </View>
         </Shadow>
       </Pressable>
@@ -394,39 +364,61 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: '100%',
-    height: '100%',
+    width: Width,
+    height: Height,
+    paddingVertical: Height * 0.05,
+    paddingHorizontal: Width * 0.05,
     flexDirection: 'column',
     backgroundColor: Colors.backgroundBlack,
   },
   titleText: {
     color: Colors.textWhite,
-    fontSize: 28,
+    fontSize: FontScale * 28,
     fontWeight: 'bold',
-    marginVertical: 70,
-    marginLeft: 20,
+    marginVertical: Height * 0.05,
   },
-  ToSContainer: {
+  fourButtonContainer: {
+    width: Width * 0.9,
+    marginVertical: Height * 0.05,
+    backgroundColor: Colors.backgroundBlack,
+  },
+  fullconsentButton: {
     width: Width * 0.9,
     height: Height * 0.07,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: Width * 0.05,
+    marginVertical: Height * 0.015,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 30,
+  },
+  uncollapsibleContainer: {
+    width: Width * 0.9,
+    height: Height * 0.07,
+    paddingHorizontal: Width * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: Colors.backgroundNavy,
     borderRadius: 30,
   },
+  collapsibleContainer: {
+    width: Width * 0.9,
+    height: Height * 0.15,
+    backgroundColor: Colors.backgroundNavy,
+    borderRadius: 30,
+    paddingHorizontal: Width * 0.05,
+    marginBottom: Height * 0.02,
+  },
   fullToSContainer: {
     width: Width * 0.9,
-    marginVertical: 10,
+    marginVertical: Height * 0.015,
     justifyContent: 'center',
     backgroundColor: Colors.backgroundNavy,
     borderRadius: 30,
   },
   ToSTitleText: {
     color: Colors.textWhite,
-    fontSize: 14,
+    fontSize: FontScale * 14,
     marginRight: 50,
   },
 });
