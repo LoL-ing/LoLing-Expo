@@ -327,12 +327,10 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
       </View>
 
       <Pressable
-        style={({ pressed }) => ({
-          opacity: pressed ? 0.5 : 1,
-          position: 'absolute',
-          top: Height * 0.85,
-          right: Width * 0.07,
-        })}
+        style={({ pressed }) => ([
+          styles.nextButtonPosition,
+          { opacity: pressed ? 0.5 : 1, }
+        ])}
         onPress={() =>
           essential
             ? navigation.navigate('Authentication')
@@ -341,14 +339,10 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
       >
         <Shadow startColor={Colors.shadowStartColor} distance={essential ? 8 : 0}>
           <View
-            style={{
-              width: Width * 0.17,
-              height: Width * 0.17,
-              backgroundColor: essential ? Colors.backgroundPurple : Colors.textUnfocusedPurple,
-              borderRadius: Width * 0.17,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            style={[
+              styles.nextButton,
+              { backgroundColor: essential ? Colors.backgroundPurple : Colors.textUnfocusedPurple }
+            ]}
           >
             <FontAwesome
               name="arrow-right"
@@ -358,7 +352,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           </View>
         </Shadow>
       </Pressable>
-    </View>
+    </View >
   );
 }
 
@@ -421,4 +415,16 @@ const styles = StyleSheet.create({
     fontSize: FontScale * 14,
     marginRight: 50,
   },
+  nextButtonPosition: {
+    position: 'absolute',
+    top: Height * 0.85,
+    right: Width * 0.07,
+  },
+  nextButton: {
+    width: Width * 0.17,
+    height: Width * 0.17,
+    borderRadius: Width * 0.17,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });

@@ -13,6 +13,8 @@ export default {
   backgroundNavy: '#23233F',
   backgroundPurple: '#C5A3FF',
 
+  shadowStartColor: '#C5A3FF77',
+
   iconWhite: '#ffffff',
   iconGray: '#B9B9BE',
 };
