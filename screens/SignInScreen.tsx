@@ -12,6 +12,8 @@ const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
 
+//여기는 로그인 스크린이다.
+
 const loginData = [
   {
     name: 'yejin',
@@ -97,7 +99,7 @@ export default function SignInScreen() {
             </View>
             <View
               style={[styles.signinFailedContainer,
-              signin ? { opacity: 0 } : { opacity: 1 },
+              { opacity: signin ? 0.5 : 1 },
               ]}
             >
               <Image
