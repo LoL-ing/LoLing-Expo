@@ -13,6 +13,8 @@ const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
 
+//This is ToSScreen
+
 export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
   const [fullconsent, setFullConsent] = useState(false);
   const [essential, setEssential] = useState(false);
