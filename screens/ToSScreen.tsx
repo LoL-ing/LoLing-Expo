@@ -12,6 +12,8 @@ import Colors from '../constants/Colors';
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 
+//This is ToSScreen
+
 export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
   const [fullconsent, setFullConsent] = useState(false);
   const [essential, setEssential] = useState(false);
