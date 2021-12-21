@@ -12,6 +12,8 @@ const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
 
+//여기는 로그인 스크린이다.
+
 const loginData = [
   {
     name: 'yejin',
