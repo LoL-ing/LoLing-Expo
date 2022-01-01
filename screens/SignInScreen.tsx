@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import { StyleSheet, Pressable, Dimensions, TouchableWithoutFeedback, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Text,
+  View,
+} from 'react-native';
 import { TextInput, Image, Keyboard } from 'react-native';
 import { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
@@ -41,9 +48,7 @@ export default function SignInScreen() {
       <View style={Styles.fullscreen}>
         <View style={{ backgroundColor: Colors.backgroundBlack }}>
           <View style={styles.signinContainer}>
-            <View
-              style={styles.signinTextInputContainer}
-            >
+            <View style={styles.signinTextInputContainer}>
               <TextInput
                 style={[
                   styles.textInput,
@@ -98,24 +103,21 @@ export default function SignInScreen() {
               />
             </View>
             <View
-              style={[styles.signinFailedContainer,
-              { opacity: signin ? 0.5 : 1 },
+              style={[
+                styles.signinFailedContainer,
+                { opacity: signin ? 0.5 : 1 },
               ]}
             >
               <Image
                 source={require('../assets/images/exclamation-circle.png')}
                 style={{ width: Width * 0.1, height: Width * 0.1 }}
               />
-              <Text
-                style={styles.signinFailedText}
-              >
+              <Text style={styles.signinFailedText}>
                 잘못된 비밀번호입니다. 다시 입력하세요.
               </Text>
             </View>
 
-            <View
-              style={styles.twoButtonContainer}
-            >
+            <View style={styles.twoButtonContainer}>
               <Pressable
                 style={({ pressed }) => ({
                   opacity: pressed ? 0.5 : 1,
@@ -130,7 +132,12 @@ export default function SignInScreen() {
                   alignItems: 'center',
                 })}
               >
-                <Text style={{ fontSize: FontScale * 15, color: Colors.textFocusedPurple }}>
+                <Text
+                  style={{
+                    fontSize: FontScale * 15,
+                    color: Colors.textFocusedPurple,
+                  }}
+                >
                   <Text
                     style={{
                       color: Colors.textFocusedPurple,
@@ -152,29 +159,33 @@ export default function SignInScreen() {
               </Pressable>
             </View>
 
-              <Shadow startColor={'#C5A3FF77'} distance={9} containerViewStyle={{marginHorizontal : 15, marginVertical: 30,}}>
-                <View style={styles.LOGINButton}>
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                      paddingVertical: 5,
-                      alignItems: 'center',
-                      alignSelf: 'center',
-                    })}
-                    onPress={() => isSigninTrue(email, password)}
-                  >
-                     <View style={styles.LOGINButton}>
-                      <Text style={styles.LOGINtext}>LOG IN</Text>
-                      </View>
-                  </Pressable>
-                </View>
-              </Shadow>
+            <Shadow
+              startColor={'#C5A3FF77'}
+              distance={9}
+              containerViewStyle={{ marginHorizontal: 15, marginVertical: 30 }}
+            >
+              <View style={styles.LOGINButton}>
+                <Pressable
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                    paddingVertical: 5,
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                  })}
+                  onPress={() => isSigninTrue(email, password)}
+                >
+                  <View style={styles.LOGINButton}>
+                    <Text style={styles.LOGINtext}>LOG IN</Text>
+                  </View>
+                </Pressable>
+              </View>
+            </Shadow>
           </View>
 
           <Pressable
             style={({ pressed }) => ({
               opacity: pressed ? 0.5 : 1,
-              alignSelf: 'center'
+              alignSelf: 'center',
             })}
           >
             <View style={styles.socialSigninButton}>
@@ -196,7 +207,7 @@ export default function SignInScreen() {
           <Pressable
             style={({ pressed }) => ({
               opacity: pressed ? 0.5 : 1,
-              alignSelf: 'center'
+              alignSelf: 'center',
             })}
           >
             <View style={styles.socialSigninButton}>
@@ -218,7 +229,7 @@ export default function SignInScreen() {
           <Pressable
             style={({ pressed }) => ({
               opacity: pressed ? 0.5 : 1,
-              alignSelf: 'center'
+              alignSelf: 'center',
             })}
           >
             <View style={styles.socialSigninButton}>
@@ -328,5 +339,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: Colors.backgroundBlack,
-  }
+  },
 });
