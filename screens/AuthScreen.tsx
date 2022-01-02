@@ -1,3 +1,4 @@
+import { FontAwesome } from '@expo/vector-icons';
 import * as React from 'react';
 import { useState, createRef } from 'react';
 import {
@@ -8,6 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { Shadow } from 'react-native-shadow-2';
 
 import Colors from '../constants/Colors';
 const Width = Dimensions.get('window').width;
@@ -23,6 +25,8 @@ export default function AuthScreen() {
   const [RRN, setRRN] = useState(0);
   const [phoneNum, setPhoneNum] = useState('');
   const [authNum, setAuthNum] = useState('');
+  const [authRequested, setAuthRequested] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   return (
     <View style={styles.fullscreen}>
@@ -125,16 +129,89 @@ export default function AuthScreen() {
                 {
                   opacity: pressed ? 0.5 : 1,
                 },
-                phoneNum.length === 11
+                phoneNum.length === 11 && !authRequested
                   ? styles.abledAuthRequestButton
                   : styles.disabledAuthRequestButton,
               ]}
+              onPress={() => setAuthRequested(true)}
             >
               <Text style={styles.autoRequestText}>인증요청</Text>
             </Pressable>
           </View>
         </View>
+        <View
+          style={{
+            left: Width * 0.23,
+            width: Width * 0.7,
+            height: Height * 0.05,
+            marginVertical: 30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            opacity: authRequested ? 1 : 0,
+          }}
+        >
+          <TextInput
+            style={styles.halfTextInput}
+            placeholder="인증번호 4자리"
+            placeholderTextColor="#73737D"
+            maxLength={11}
+            keyboardType="number-pad"
+            returnKeyType="done"
+            onChangeText={(text: string) => setAuthNum(text)}
+          />
+          <Pressable
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+              authNum.length === 4 && !authChecked
+                ? styles.abledAuthRequestButton
+                : styles.disabledAuthRequestButton,
+            ]}
+            onPress={() => setAuthChecked(true)}
+          >
+            <Text style={styles.autoRequestText}>인증확인</Text>
+          </Pressable>
+        </View>
+        <Text
+          style={{
+            color: Colors.textFocusedPurple,
+            fontSize: FontScale * 10,
+            opacity: authChecked ? 1 : 0,
+          }}
+        >
+          인증이 완료되었습니다!
+        </Text>
       </View>
+      <Pressable
+        style={({ pressed }) => [
+          styles.nextButtonPosition,
+          { opacity: pressed ? 0.5 : 1 },
+        ]}
+      >
+        <Shadow
+          startColor={Colors.shadowStartColor}
+          distance={authChecked ? 8 : 0}
+        >
+          <View
+            style={[
+              styles.nextButton,
+              {
+                backgroundColor: authChecked
+                  ? Colors.backgroundPurple
+                  : Colors.textUnfocusedPurple,
+              },
+            ]}
+          >
+            <FontAwesome
+              name="arrow-right"
+              size={30}
+              color={Colors.iconWhite}
+            />
+          </View>
+        </Shadow>
+      </Pressable>
     </View>
   );
 }
@@ -210,5 +287,17 @@ const styles = StyleSheet.create({
   autoRequestText: {
     color: 'white',
     fontSize: FontScale * 13,
+  },
+  nextButtonPosition: {
+    position: 'absolute',
+    top: Height * 0.85,
+    right: Width * 0.07,
+  },
+  nextButton: {
+    width: Width * 0.17,
+    height: Width * 0.17,
+    borderRadius: Width * 0.17,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
