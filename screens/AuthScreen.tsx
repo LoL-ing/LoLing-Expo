@@ -1,12 +1,18 @@
 import * as React from 'react';
 import { useState, createRef } from 'react';
-import { StyleSheet, Pressable, Dimensions, TextInput, Text, View } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import {
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  TextInput,
+  Text,
+  View,
+} from 'react-native';
 
 import Colors from '../constants/Colors';
-
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
+const FontScale = Dimensions.get('window').fontScale;
 
 const nameRef = createRef<TextInput>();
 const firstRRN = createRef<TextInput>();
@@ -15,15 +21,8 @@ const secondRRN = createRef<TextInput>();
 export default function AuthScreen() {
   const [name, setName] = useState('');
   const [RRN, setRRN] = useState(0);
-  const [phoneNum, setPhoneNum] = useState(0);
-  const [carrier, setCarriers] = useState([
-    { label: 'SKT', value: 'skt' },
-    { label: 'KT', value: 'kt' },
-    { label: 'LG', value: 'lg' },
-  ]);
-
-  const [value, setValue] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [phoneNum, setPhoneNum] = useState('');
+  const [authNum, setAuthNum] = useState('');
 
   return (
     <View style={styles.fullscreen}>
@@ -72,7 +71,12 @@ export default function AuthScreen() {
             }}
           />
 
-          <Text style={{ color: Colors.textFocusedPurple, fontSize: 20 }}>
+          <Text
+            style={{
+              color: Colors.textFocusedPurple,
+              fontSize: FontScale * 20,
+            }}
+          >
             -
           </Text>
 
@@ -94,36 +98,41 @@ export default function AuthScreen() {
             backgroundColor: Colors.backgroundBlack,
           }}
         >
-          <DropDownPicker
-            placeholder="통신사"
-            placeholderStyle={styles.pickerholderText}
-            style={styles.pickerholderContainer}
-            dropDownContainerStyle={styles.pickerContainer}
-            listItemLabelStyle={styles.pickerText}
-            labelStyle={styles.pickerText}
-            itemSeparator={true}
-            items={carrier}
-            setItems={setCarriers}
-            value={value}
-            setValue={setValue}
-            open={open}
-            setOpen={setOpen}
-          ></DropDownPicker>
-          <TextInput
-            style={styles.halfTextInput}
-            placeholder="전화번호를 입력하세요."
-            placeholderTextColor="#73737D"
-            maxLength={7}
-            keyboardType="number-pad"
-            returnKeyType="done"
-          />
-          <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-            })}
+          <View
+            style={{
+              width: Width * 0.9,
+              height: Height * 0.05,
+              marginVertical: 30,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}
           >
-            <Text>인증요청</Text>
-          </Pressable>
+            <View style={styles.pickerholderContainer}>
+              <Text style={styles.pickerholderText}>통신사</Text>
+            </View>
+            <TextInput
+              style={styles.halfTextInput}
+              placeholder="전화번호를 입력하세요."
+              placeholderTextColor="#73737D"
+              maxLength={11}
+              keyboardType="number-pad"
+              returnKeyType="done"
+              onChangeText={(text: string) => setPhoneNum(text)}
+            />
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+                phoneNum.length === 11
+                  ? styles.abledAuthRequestButton
+                  : styles.disabledAuthRequestButton,
+              ]}
+            >
+              <Text style={styles.autoRequestText}>인증요청</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -132,68 +141,74 @@ export default function AuthScreen() {
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'column',
+    width: Width,
+    height: Height,
     backgroundColor: Colors.backgroundBlack,
   },
   titleText: {
     color: Colors.textWhite,
-    fontSize: 25,
+    fontSize: FontScale * 25,
     fontWeight: 'bold',
     marginVertical: 70,
     marginHorizontal: 20,
   },
   subtitleText: {
     color: Colors.textWhite,
-    fontSize: 18,
+    fontSize: FontScale * 18,
     fontWeight: 'normal',
     marginVertical: 20,
   },
   fullTextInput: {
-    width: '100%',
+    width: Width * 0.9,
     padding: 5,
     color: Colors.textWhite,
-    fontSize: 15,
+    fontSize: FontScale * 15,
     fontWeight: 'normal',
     borderBottomWidth: 1,
     borderBottomColor: Colors.textFocusedPurple,
   },
   halfTextInput: {
-    width: '45%',
+    width: Width * 0.4,
+    height: Height * 0.05,
     padding: 5,
     color: Colors.textWhite,
-    fontSize: 15,
+    fontSize: FontScale * 15,
     fontWeight: 'normal',
     borderBottomWidth: 1,
     borderBottomColor: Colors.textFocusedPurple,
   },
   pickerholderContainer: {
-    width: 100,
-    height: 50,
-    marginVertical: 10,
-    borderColor: Colors.backgroundBlack,
+    width: Width * 0.2,
+    height: Height * 0.05,
+    justifyContent: 'center',
     backgroundColor: Colors.backgroundBlack,
-    borderBottomColor: '#484868',
-    borderRadius: 0,
-    borderWidth: 1,
+    borderBottomColor: Colors.textUnfocusedPurple,
+    borderBottomWidth: 1,
   },
   pickerholderText: {
     color: Colors.textWhite,
-    fontSize: 15,
+    fontSize: FontScale * 15,
     fontWeight: 'normal',
   },
-  pickerContainer: {
-    width: 100,
-    marginVertical: 10,
-    borderColor: Colors.backgroundBlack,
-    backgroundColor: Colors.backgroundBlack,
-    borderRadius: 0,
-    borderWidth: 1,
+  abledAuthRequestButton: {
+    backgroundColor: Colors.backgroundPurple,
+    width: Width * 0.2,
+    height: Height * 0.05,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
   },
-  pickerText: {
-    color: Colors.textWhite,
-    fontSize: 15,
-    fontWeight: 'normal',
+  disabledAuthRequestButton: {
+    backgroundColor: Colors.textUnfocusedPurple,
+    width: Width * 0.2,
+    height: Height * 0.05,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 30,
+    borderRadius: 20,
+  },
+  autoRequestText: {
+    color: 'white',
+    fontSize: FontScale * 13,
   },
 });
