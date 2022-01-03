@@ -1,6 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
 import * as React from 'react';
-import { useState, createRef } from 'react';
+import { useState, useRef } from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -16,43 +16,54 @@ const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
 
-const nameRef = createRef<TextInput>();
-const firstRRN = createRef<TextInput>();
-const secondRRN = createRef<TextInput>();
-
 export default function AuthScreen() {
   const [name, setName] = useState('');
-  const [RRN, setRRN] = useState(0);
+  const [firstRRN, setFirstRRN] = useState('');
+  const [secondRRN, setSecondRRN] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
   const [authNum, setAuthNum] = useState('');
   const [authRequested, setAuthRequested] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-
+  const [isNameFocused, setIsNameFocused] = useState(false);
+  const [isFirstRRNFocused, setIsFirstRRNFocused] = useState(false);
+  const [isSecondRRNFocused, setIsSecondRRNFocused] = useState(false);
+  const [isPhoneNumFocused, setIsPhoneNumFocused] = useState(false);
+  const [isAuthNumFocused, setIsAuthNumFocused] = useState(false);
+  const nameField = useRef<TextInput>(null);
+  const firstRRNField = useRef<TextInput>(null);
+  const secondRRNField = useRef<TextInput>(null);
+  
   return (
     <View style={styles.fullscreen}>
       <Text style={styles.titleText}>본인 인증</Text>
       <View
-        style={{
-          marginHorizontal: 20,
-          backgroundColor: Colors.backgroundBlack,
-        }}
+        style={styles.subContainer}
       >
         <Text style={styles.subtitleText}>이름</Text>
         <TextInput
-          style={styles.fullTextInput}
+          style={[styles.fullTextInput, isNameFocused? styles.focusedTextInput : styles.unfocusedTextInput]}
           placeholder="이름을 입력하세요."
-          ref={nameRef}
+          ref={nameField}
           placeholderTextColor="#73737D"
           maxLength={8}
           onChangeText={text => setName(text)}
+          onFocus={() => {
+            setIsNameFocused(true);
+          }}
+          onBlur={() => {
+            setIsNameFocused(false);
+          }}
           value={name}
           returnKeyType="next"
           autoCompleteType="username"
           onSubmitEditing={() => {
-            firstRRN.current?.focus;
+            firstRRNField.current?.focus();
           }}
         />
-
+        </View>
+        <View style={[
+          styles.subContainer,
+          {marginVertical: Height * 0.05}]}>
         <Text style={styles.subtitleText}>주민등록번호</Text>
         <View
           style={{
@@ -62,38 +73,45 @@ export default function AuthScreen() {
           }}
         >
           <TextInput
-            style={styles.halfTextInput}
+            style={[styles.halfTextInput, isFirstRRNFocused? styles.focusedTextInput : styles.unfocusedTextInput]}
             placeholder="앞 번호 6자리"
-            ref={firstRRN}
+            ref={firstRRNField}
             placeholderTextColor="#73737D"
             maxLength={6}
-            keyboardType="decimal-pad" //number-pad, decimal-pad, numeric 중에 뭐해야되지? 그리고 왜 밑에랑 다르게 나오지
+            keyboardType="decimal-pad"
             returnKeyType="next"
             selectTextOnFocus={true}
             onSubmitEditing={() => {
-              secondRRN.current?.focus();
+              secondRRNField.current?.focus();
             }}
+            onFocus={() => {
+              setIsFirstRRNFocused(true);
+            }}
+            onBlur={() => {
+              setIsFirstRRNFocused(false);
+            }}
+            value={firstRRN}
+            onChangeText={(text)=> setFirstRRN(text)}
           />
-
-          <Text
-            style={{
-              color: Colors.textFocusedPurple,
-              fontSize: FontScale * 20,
-            }}
-          >
-            -
-          </Text>
-
           <TextInput
-            style={styles.halfTextInput}
+            style={[styles.halfTextInput, isSecondRRNFocused? styles.focusedTextInput : styles.unfocusedTextInput]}
             placeholder="뒷 번호 7자리"
-            ref={secondRRN}
+            ref={secondRRNField}
             placeholderTextColor="#73737D"
             maxLength={7}
             keyboardType="numeric"
             returnKeyType="next"
             secureTextEntry={true}
+            value={secondRRN}
+            onFocus={() => {
+              setIsSecondRRNFocused(true);
+            }}
+            onBlur={() => {
+              setIsSecondRRNFocused(false);
+            }}
+            onChangeText={(text)=> setSecondRRN(text)}
           />
+        </View>
         </View>
         <View
           style={{
@@ -106,7 +124,6 @@ export default function AuthScreen() {
             style={{
               width: Width * 0.9,
               height: Height * 0.05,
-              marginVertical: 30,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-around',
@@ -116,26 +133,32 @@ export default function AuthScreen() {
               <Text style={styles.pickerholderText}>통신사</Text>
             </View>
             <TextInput
-              style={styles.halfTextInput}
-              placeholder="전화번호를 입력하세요."
+              style={[styles.halfTextInput, isPhoneNumFocused? styles.focusedTextInput : styles.unfocusedTextInput]}
+              placeholder="휴대폰 번호"
               placeholderTextColor="#73737D"
               maxLength={11}
               keyboardType="number-pad"
               returnKeyType="done"
+              value={phoneNum}
               onChangeText={(text: string) => setPhoneNum(text)}
+              onFocus={() => {
+                setIsPhoneNumFocused(true);
+              }}
+              onBlur={() => {
+                setIsPhoneNumFocused(false);
+              }}
             />
             <Pressable
               style={({ pressed }) => [
                 {
                   opacity: pressed ? 0.5 : 1,
+                  backgroundColor:  phoneNum.length === 11 && !authRequested? Colors.backgroundPurple : Colors.textUnfocusedPurple
                 },
-                phoneNum.length === 11 && !authRequested
-                  ? styles.abledAuthRequestButton
-                  : styles.disabledAuthRequestButton,
+                styles.authRequestButton,
               ]}
               onPress={() => setAuthRequested(true)}
             >
-              <Text style={styles.autoRequestText}>인증요청</Text>
+              <Text style={styles.authRequestText}>인증요청</Text>
             </Pressable>
           </View>
         </View>
@@ -152,26 +175,27 @@ export default function AuthScreen() {
           }}
         >
           <TextInput
-            style={styles.halfTextInput}
+            style={[styles.halfTextInput, isAuthNumFocused? styles.focusedTextInput : styles.unfocusedTextInput]}
             placeholder="인증번호 4자리"
             placeholderTextColor="#73737D"
             maxLength={11}
             keyboardType="number-pad"
             returnKeyType="done"
+            onFocus={()=> setIsAuthNumFocused(true)}
+            onBlur={()=> setIsAuthNumFocused(false)}
             onChangeText={(text: string) => setAuthNum(text)}
           />
           <Pressable
             style={({ pressed }) => [
               {
                 opacity: pressed ? 0.5 : 1,
+                backgroundColor: authNum.length === 4 && !authChecked? Colors.backgroundPurple : Colors.textUnfocusedPurple
               },
-              authNum.length === 4 && !authChecked
-                ? styles.abledAuthRequestButton
-                : styles.disabledAuthRequestButton,
+              styles.authRequestButton,
             ]}
             onPress={() => setAuthChecked(true)}
           >
-            <Text style={styles.autoRequestText}>인증확인</Text>
+            <Text style={styles.authRequestText}>인증확인</Text>
           </Pressable>
         </View>
         <Text
@@ -183,7 +207,6 @@ export default function AuthScreen() {
         >
           인증이 완료되었습니다!
         </Text>
-      </View>
       <Pressable
         style={({ pressed }) => [
           styles.nextButtonPosition,
@@ -220,39 +243,48 @@ const styles = StyleSheet.create({
   fullscreen: {
     width: Width,
     height: Height,
+    paddingVertical: Height * 0.05,
+    paddingHorizontal: Width * 0.05,
+    flexDirection: 'column',
     backgroundColor: Colors.backgroundBlack,
   },
   titleText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 25,
+    fontSize: FontScale * 28,
     fontWeight: 'bold',
-    marginVertical: 70,
-    marginHorizontal: 20,
+    marginVertical: Height * 0.1,
+  },
+  subContainer:{
+    backgroundColor: Colors.backgroundBlack,
+    height: Height * 0.1,
+    width: Width * 0.9,
   },
   subtitleText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 18,
+    fontSize: FontScale * 15,
     fontWeight: 'normal',
-    marginVertical: 20,
   },
   fullTextInput: {
     width: Width * 0.9,
-    padding: 5,
+    height: Height * 0.06,
     color: Colors.textWhite,
     fontSize: FontScale * 15,
     fontWeight: 'normal',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.textFocusedPurple,
   },
   halfTextInput: {
     width: Width * 0.4,
-    height: Height * 0.05,
-    padding: 5,
+    height: Height * 0.06,
     color: Colors.textWhite,
     fontSize: FontScale * 15,
     fontWeight: 'normal',
-    borderBottomWidth: 1,
+  },
+  focusedTextInput: {
     borderBottomColor: Colors.textFocusedPurple,
+    borderBottomWidth: 1,
+  },
+  unfocusedTextInput: {
+    borderBottomColor: Colors.textUnfocusedPurple,
+    borderBottomWidth: 1,
   },
   pickerholderContainer: {
     width: Width * 0.2,
@@ -267,26 +299,16 @@ const styles = StyleSheet.create({
     fontSize: FontScale * 15,
     fontWeight: 'normal',
   },
-  abledAuthRequestButton: {
-    backgroundColor: Colors.backgroundPurple,
+  authRequestButton: {
     width: Width * 0.2,
     height: Height * 0.05,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 100,
   },
-  disabledAuthRequestButton: {
-    backgroundColor: Colors.textUnfocusedPurple,
-    width: Width * 0.2,
-    height: Height * 0.05,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 30,
-    borderRadius: 20,
-  },
-  autoRequestText: {
+  authRequestText: {
     color: 'white',
-    fontSize: FontScale * 13,
+    fontSize: FontScale * 12,
   },
   nextButtonPosition: {
     position: 'absolute',
