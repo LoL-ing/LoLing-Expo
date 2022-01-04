@@ -7755,6 +7755,11 @@
   "resolved" "https://registry.npmjs.org/pascalcase/-/pascalcase-0.1.1.tgz"
   "version" "0.1.1"
 
+"password-validator@^5.2.1":
+  "integrity" "sha512-EfNW0akQ+YrMawF5KNXoDBTdUvXwx2vxvIuq1XXUiDmti7aaBDnqTl/IAruxztWTCN0Bt+og3LL3I9E4blCRqQ=="
+  "resolved" "https://registry.npmjs.org/password-validator/-/password-validator-5.2.1.tgz"
+  "version" "5.2.1"
+
 "path-browserify@^1.0.0":
   "integrity" "sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g=="
   "resolved" "https://registry.npmjs.org/path-browserify/-/path-browserify-1.0.1.tgz"
@@ -8269,7 +8274,11 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
+<<<<<<< HEAD
 "react-native@*", "react-native@>=0.42.0", "react-native@>=0.48.0", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.62.0-rc.0 <0.64.0", "react-native@>=0.65.0", "react-native@~0.63.4":
+=======
+"react-native@*", "react-native@>=0.48.0", "react-native@>=0.50.0", "react-native@>=0.62.0-rc.0 <0.64.0", "react-native@>=0.65.0", "react-native@~0.63.4":
+>>>>>>> ec2fb6562a115606b24a130b22b8f1ca67cfff10
   "integrity" "sha512-I4kM8kYO2mWEYUFITMcpRulcy4/jd+j9T6PbIzR0FuMcz/xwd+JwHoLPa1HmCesvR1RDOw9o4D+OFLwuXXfmGw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.63.4.tgz"
   "version" "0.63.4"
