@@ -68,10 +68,12 @@ export default function SignUpScreen() {
             <Pressable
               style={({ pressed }) => [
                 styles.verifyingIDContainer,
-                isVerifyingID
-                  ? { backgroundColor: Colors.textFocusedPurple }
-                  : { backgroundColor: Colors.textUnfocusedPurple },
-                { opacity: pressed ? 0.5 : 1 },
+                {
+                  opacity: pressed ? 0.5 : 1,
+                  backgroundColor: isVerifyingID
+                    ? Colors.textFocusedPurple
+                    : Colors.textUnfocusedPurple,
+                },
               ]}
               onPress={() => {
                 isIDTrue(email);
@@ -122,13 +124,15 @@ export default function SignUpScreen() {
           <Text
             style={[
               styles.descriptionText,
-              isPWInit
-                ? isPWFocused
-                  ? { color: Colors.textFocusedPurple }
-                  : { color: Colors.textUnfocusedPurple }
-                : isPWValid
-                ? { color: Colors.textFocusedPurple }
-                : { color: Colors.textRed },
+              {
+                color: isPWInit
+                  ? isPWFocused
+                    ? Colors.textFocusedPurple
+                    : Colors.textUnfocusedPurple
+                  : isPWValid
+                  ? Colors.textFocusedPurple
+                  : Colors.textRed,
+              },
             ]}
           >
             {isPWInit === false && isPWValid === true

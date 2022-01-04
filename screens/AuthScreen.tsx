@@ -10,10 +10,9 @@ import {
   View,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
 import Colors from '../constants/Colors';
 import { RootStackScreenProps } from '../types';
+import { ScrollView } from 'react-native-gesture-handler';
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
@@ -37,7 +36,7 @@ export default function AuthScreen({
   const secondRRNField = useRef<TextInput>(null);
 
   return (
-    <KeyboardAwareScrollView>
+    <ScrollView>
       <View style={styles.fullscreen}>
         <Text style={styles.titleText}>본인 인증</Text>
         {/* 이름 입력하는 칸 */}
@@ -232,7 +231,11 @@ export default function AuthScreen({
           authChecked ? (
             <Text style={styles.alertText}>인증이 완료되었습니다!</Text>
           ) : (
-            <Pressable>
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
               <Text style={styles.alertText}>인증 번호가 오지 않았나요?</Text>
             </Pressable>
           )
@@ -268,7 +271,7 @@ export default function AuthScreen({
           </Shadow>
         </Pressable>
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
 
