@@ -21,6 +21,7 @@ export default function SignUpScreen() {
   const [isPWValid, setisPWValid] = useState(false);
   const [isPWInit, setisPWInit] = useState(true);
   const [isPWcorrect, setisPWCorrect] = useState(false);
+  const [isPWInit2, setisPWInit2] = useState(true);
 
   const isIDTrue = (input: string) => {
     if (input === '') {
@@ -92,7 +93,9 @@ export default function SignUpScreen() {
                   ? styles.focusedTextInput
                   : styles.unfocusedTextInput
                 : isPWValid
-                ? styles.focusedTextInput
+                ? isPWFocused
+                  ? styles.focusedTextInput
+                  : styles.unfocusedTextInput
                 : styles.errorTextInput,
             ]}
             placeholder="비밀번호"
@@ -144,9 +147,15 @@ export default function SignUpScreen() {
           <TextInput
             style={[
               styles.textInput,
-              isVerifyingPWFocused
-                ? styles.focusedTextInput
-                : styles.unfocusedTextInput,
+              isPWInit2
+                ? isVerifyingPWFocused
+                  ? styles.focusedTextInput
+                  : styles.unfocusedTextInput
+                : isPWcorrect
+                ? isVerifyingPWFocused
+                  ? styles.focusedTextInput
+                  : styles.unfocusedTextInput
+                : styles.errorTextInput,
             ]}
             placeholder="비밀번호를 한번 더 입력해주세요."
             placeholderTextColor={
@@ -156,6 +165,7 @@ export default function SignUpScreen() {
               setisVerifyingPWFocused(true);
             }}
             onBlur={() => {
+              setisPWInit2(false);
               setisVerifyingPWFocused(false);
               if (password2 === password && password2 != '') {
                 setisPWCorrect(true);
@@ -170,8 +180,22 @@ export default function SignUpScreen() {
           />
         </View>
 
-        <Text style={styles.descriptionText}>
-          {isPWcorrect ? `비밀번호가 일치합니다.` : ``}
+        <Text
+          style={[
+            styles.descriptionText,
+            {
+              color:
+                isPWcorrect === false
+                  ? Colors.textRed
+                  : Colors.textFocusedPurple,
+            },
+          ]}
+        >
+          {isPWInit2
+            ? ''
+            : isPWcorrect
+            ? `비밀번호가 일치합니다.`
+            : `비밀번호가 일치하지 않습니다.`}
         </Text>
 
         <Pressable
@@ -187,9 +211,12 @@ export default function SignUpScreen() {
           <View
             style={[
               styles.socialContainer,
-              isVerifyingID === true && isPWcorrect === true
-                ? { backgroundColor: Colors.textFocusedPurple }
-                : { backgroundColor: Colors.textUnfocusedPurple },
+              {
+                backgroundColor:
+                  isVerifyingID === true && isPWcorrect === true
+                    ? Colors.textFocusedPurple
+                    : Colors.textUnfocusedPurple,
+              },
             ]}
           >
             <Text style={styles.socialText}>가입 완료</Text>
@@ -202,8 +229,8 @@ export default function SignUpScreen() {
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: '100%',
-    height: '100%',
+    width: Width,
+    height: Height,
     flexDirection: 'column',
     paddingHorizontal: Width * 0.05,
     backgroundColor: Colors.backgroundBlack,
@@ -212,19 +239,19 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   titleText: {
-    color: 'white',
+    color: Colors.textWhite,
     fontSize: FontScale * 24,
     fontWeight: 'bold',
     marginVertical: Height * 0.1,
   },
   signUpContainer: {
-    width: '100%',
+    width: Width,
     flex: 1,
     alignItems: 'center',
     backgroundColor: Colors.backgroundBlack,
   },
   subtitleText: {
-    color: 'white',
+    color: Colors.textWhite,
     fontSize: FontScale * 14,
     fontWeight: 'normal',
   },
@@ -241,7 +268,7 @@ const styles = StyleSheet.create({
     paddingVertical: FontScale * 12,
   },
   separator: {
-    width: '100%',
+    width: Width,
     height: 1,
     marginVertical: 10,
     backgroundColor: Colors.textFocusedPurple,
