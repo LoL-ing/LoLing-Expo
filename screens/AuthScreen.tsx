@@ -53,15 +53,15 @@ export default function AuthScreen({
             placeholder="이름을 입력하세요."
             placeholderTextColor="#73737D"
             maxLength={8}
-            onChangeText={text => setName(text)}
+            returnKeyType="next"
             onFocus={() => {
               setIsNameFocused(true);
             }}
             onBlur={() => {
               setIsNameFocused(false);
             }}
+            onChangeText={text => setName(text)}
             value={name}
-            returnKeyType="next"
             autoCompleteType="username"
             onSubmitEditing={() => {
               firstRRNField.current?.focus();
@@ -85,23 +85,23 @@ export default function AuthScreen({
                   : styles.unfocusedTextInput,
               ]}
               placeholder="앞 번호 6자리"
-              ref={firstRRNField}
               placeholderTextColor="#73737D"
               maxLength={6}
               keyboardType="decimal-pad"
               returnKeyType="next"
               selectTextOnFocus={true}
-              onSubmitEditing={() => {
-                secondRRNField.current?.focus();
-              }}
               onFocus={() => {
                 setIsFirstRRNFocused(true);
               }}
               onBlur={() => {
                 setIsFirstRRNFocused(false);
               }}
-              value={firstRRN}
               onChangeText={text => setFirstRRN(text)}
+              value={firstRRN}
+              ref={firstRRNField}
+              onSubmitEditing={() => {
+                secondRRNField.current?.focus();
+              }}
             />
             <TextInput
               style={[
@@ -111,13 +111,11 @@ export default function AuthScreen({
                   : styles.unfocusedTextInput,
               ]}
               placeholder="뒷 번호 7자리"
-              ref={secondRRNField}
               placeholderTextColor="#73737D"
               maxLength={7}
               keyboardType="numeric"
               returnKeyType="next"
               secureTextEntry={true}
-              value={secondRRN}
               onFocus={() => {
                 setIsSecondRRNFocused(true);
               }}
@@ -125,6 +123,8 @@ export default function AuthScreen({
                 setIsSecondRRNFocused(false);
               }}
               onChangeText={text => setSecondRRN(text)}
+              value={secondRRN}
+              ref={secondRRNField}
             />
           </View>
         </View>
@@ -139,6 +139,11 @@ export default function AuthScreen({
         >
           <View style={styles.pickerholderContainer}>
             <Text style={styles.pickerholderText}>통신사</Text>
+            <FontAwesome
+              name="chevron-down"
+              size={15}
+              color={'#73737D'}
+            ></FontAwesome>
           </View>
           <View style={styles.textInputAndButtonContainer}>
             <TextInput
@@ -153,14 +158,14 @@ export default function AuthScreen({
               maxLength={11}
               keyboardType="number-pad"
               returnKeyType="done"
-              value={phoneNum}
-              onChangeText={(text: string) => setPhoneNum(text)}
               onFocus={() => {
                 setIsPhoneNumFocused(true);
               }}
               onBlur={() => {
                 setIsPhoneNumFocused(false);
               }}
+              onChangeText={(text: string) => setPhoneNum(text)}
+              value={phoneNum}
             />
             <Pressable
               style={({ pressed }) => [
@@ -175,7 +180,7 @@ export default function AuthScreen({
               ]}
               onPress={() => setAuthRequested(true)}
             >
-              <Text style={styles.authRequestText}>인증요청</Text>
+              <Text style={styles.authRequestText}>인증 요청</Text>
             </Pressable>
           </View>
         </View>
@@ -219,7 +224,7 @@ export default function AuthScreen({
             ]}
             onPress={() => setAuthChecked(true)}
           >
-            <Text style={styles.authRequestText}>인증확인</Text>
+            <Text style={styles.authRequestText}>인증 확인</Text>
           </Pressable>
         </View>
         {/* 인증 완료 문구는 Text, 인증 번호 발송 실패시 Pressable을 눌러 재전송 */}
@@ -283,8 +288,8 @@ const styles = StyleSheet.create({
     marginVertical: Height * 0.1,
   },
   subContainer: {
-    height: Height * 0.1,
     width: Width * 0.9,
+    height: Height * 0.1,
   },
   subtitleText: {
     color: Colors.textWhite,
@@ -306,22 +311,24 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
   },
   focusedTextInput: {
-    borderBottomColor: Colors.textFocusedPurple,
     borderBottomWidth: 1,
+    borderBottomColor: Colors.textFocusedPurple,
   },
   unfocusedTextInput: {
-    borderBottomColor: Colors.textUnfocusedPurple,
     borderBottomWidth: 1,
+    borderBottomColor: Colors.textUnfocusedPurple,
   },
   pickerholderContainer: {
     width: Width * 0.2,
-    height: Height * 0.05,
-    justifyContent: 'center',
-    borderBottomColor: Colors.textUnfocusedPurple,
+    height: Height * 0.06,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
     borderBottomWidth: 1,
+    borderBottomColor: Colors.textUnfocusedPurple,
   },
   pickerholderText: {
-    color: Colors.textWhite,
+    color: '#73737D',
     fontSize: FontScale * 15,
     fontWeight: 'normal',
   },
@@ -329,14 +336,14 @@ const styles = StyleSheet.create({
     width: Width * 0.7,
     height: Height * 0.05,
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
+    justifyContent: 'space-around',
   },
   authRequestButton: {
     width: Width * 0.2,
     height: Height * 0.05,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 100,
   },
   authRequestText: {
@@ -356,8 +363,8 @@ const styles = StyleSheet.create({
   nextButton: {
     width: Width * 0.17,
     height: Width * 0.17,
-    borderRadius: Width * 0.17,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: Width * 0.17,
   },
 });
