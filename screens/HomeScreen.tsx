@@ -1,3 +1,4 @@
+import { FontAwesome } from '@expo/vector-icons';
 import * as React from 'react';
 import {
   Pressable,
@@ -11,49 +12,42 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import getHomeScreenFriends from '../data/HomeScreenFriends';
-
+import getFriends from '../data/Friends';
+import HomeScreenFriendList from '../components/HomeScreenFriendList';
+import { RootTabScreenProps } from '../types';
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
-const DATA = getHomeScreenFriends();
+const MyFriends = getFriends();
+const MatchableUsers = getHomeScreenFriends();
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   return (
     <ScrollView contentContainerStyle={styles.fullScreenView}>
       <Pressable style={styles.profileContainer}>
         <Text style={styles.profileText}>하아아아품</Text>
       </Pressable>
-      <View style={styles.listContainer}>
-        <Text style={styles.titleText}>LoL-ing 친구들</Text>
+
+      <View style={[styles.listContainer]}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginVertical: Height * 0.02,
+          }}
+        >
+          <Text style={styles.titleText}>매칭 가능한 유저들</Text>
+          <Pressable>
+            <FontAwesome
+              name="chevron-right"
+              size={20}
+              color={Colors.textWhite}
+            />
+          </Pressable>
+        </View>
         <FlatList
-          data={DATA}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                backgroundColor: Colors.backgroundNavy,
-                alignItems: 'center',
-                marginHorizontal: 10,
-              }}
-            >
-              <View style={{ backgroundColor: Colors.backgroundNavy }}>
-                <Image
-                  style={styles.profileImgStyle}
-                  source={item.mostChampImg}
-                ></Image>
-              </View>
-              <View style={{ backgroundColor: Colors.backgroundNavy }}>
-                <Text style={{ color: Colors.textWhite }}>{item.username}</Text>
-              </View>
-            </View>
-          )}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-      <View style={[styles.listContainer, { height: 500 }]}>
-        <Text style={styles.titleText}>매칭 가능한 LoL-ing 유저들</Text>
-        <FlatList
-          data={DATA}
+          data={MatchableUsers}
           renderItem={({ item }) => (
             <View style={styles.matchingContainer}>
               <View style={styles.titleContainer}>
@@ -100,6 +94,37 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
         />
       </View>
+
+      <View style={styles.listContainer}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginVertical: Height * 0.02,
+          }}
+        >
+          <Text style={styles.titleText}>친구 목록</Text>
+          <Pressable onPress={() => navigation.navigate('Social')}>
+            <FontAwesome
+              name="chevron-right"
+              size={20}
+              color={Colors.textWhite}
+            />
+          </Pressable>
+        </View>
+        <FlatList
+          data={MyFriends}
+          renderItem={({ item }) => (
+            <HomeScreenFriendList
+              nickname={item.nickname}
+              profileImg={item.profileImg}
+            />
+          )}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
     </ScrollView>
   );
 }
@@ -141,8 +166,6 @@ const styles = StyleSheet.create({
     width: Width * 0.95,
     height: 150,
     padding: 10,
-    margin: 10,
-
     backgroundColor: Colors.backgroundPurple,
     borderRadius: 10,
   },
@@ -150,7 +173,6 @@ const styles = StyleSheet.create({
     width: Width * 0.95,
     //height: 200,
     padding: 10,
-    margin: 10,
 
     backgroundColor: Colors.backgroundBlack,
     borderRadius: 10,
@@ -158,9 +180,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.textFocusedPurple,
-
-    marginBottom: 35,
+    color: Colors.textWhite,
   },
   profileText: {
     fontSize: 20,
