@@ -1,5 +1,6 @@
+import { FontAwesome } from '@expo/vector-icons';
 import * as React from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { StyleSheet, Pressable, Dimensions } from 'react-native';
 import { TextInput, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,6 +12,7 @@ const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 export default function SignUpScreen() {
+  const [id, setId] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
@@ -22,22 +24,33 @@ export default function SignUpScreen() {
   const [isPWInit, setisPWInit] = useState(true);
   const [isPWcorrect, setisPWCorrect] = useState(false);
   const [isPWInit2, setisPWInit2] = useState(true);
+  const [name, setName] = useState('');
+  const [phoneNum, setPhoneNum] = useState('');
+  const [authNum, setAuthNum] = useState('');
+  const [authRequested, setAuthRequested] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isNameFocused, setIsNameFocused] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPhoneNumFocused, setIsPhoneNumFocused] = useState(false);
+  const [isAuthNumFocused, setIsAuthNumFocused] = useState(false);
+
+  const emailField = useRef<TextInput>(null);
 
   const isIDTrue = (input: string) => {
     if (input === '') {
-      alert(`아이디를 입력해주세요 \n${email}`);
+      alert(`아이디를 입력해주세요.`);
     } else if (isVerifyingID) {
-      alert(`이미 중복 확인하셨습니다\n${email}`);
+      alert(`이미 중복 확인하셨습니다.`);
     } else {
-      alert(`사용 가능한 아이디입니다!\n${email}`);
+      alert(`사용 가능한 아이디입니다!`);
       setisVerifyingID(true);
     }
   };
 
   return (
     <View style={styles.fullscreen}>
+      <Text style={styles.titleText}>회원 가입</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.titleText}>회원 가입</Text>
         <View>
           <Text style={styles.subtitleText}>아이디</Text>
           <View style={styles.IDtextInputGroup}>
@@ -49,7 +62,7 @@ export default function SignUpScreen() {
                   : styles.unfocusedTextInput,
                 { width: Width * 0.7 },
               ]}
-              placeholder="아이디 / 이메일"
+              placeholder="아이디"
               placeholderTextColor={
                 isIDFocused ? Colors.textWhite : Colors.textGray
               }
@@ -61,10 +74,10 @@ export default function SignUpScreen() {
                 setisIDFocused(false);
               }}
               onChangeText={text => {
-                setEmail(text);
+                setId(text);
                 setisVerifyingID(false);
               }}
-              value={email}
+              value={id}
             />
             <Pressable
               style={({ pressed }) => [
@@ -77,7 +90,7 @@ export default function SignUpScreen() {
                 },
               ]}
               onPress={() => {
-                isIDTrue(email);
+                isIDTrue(id);
               }}
             >
               <Text style={styles.verifyingIDText}>중복 확인</Text>
@@ -197,7 +210,168 @@ export default function SignUpScreen() {
             ? `비밀번호가 일치합니다.`
             : `비밀번호가 일치하지 않습니다.`}
         </Text>
-
+        <View style={[styles.subContainer, { marginVertical: Height * 0.025 }]}>
+          <Text style={styles.subtitleText}>이름</Text>
+          <TextInput
+            style={[
+              styles.fullTextInput,
+              isNameFocused
+                ? styles.focusedTextInput
+                : styles.unfocusedTextInput,
+            ]}
+            placeholder="이름을 입력하세요."
+            placeholderTextColor="#73737D"
+            maxLength={8}
+            returnKeyType="next"
+            onFocus={() => {
+              setIsNameFocused(true);
+            }}
+            onBlur={() => {
+              setIsNameFocused(false);
+            }}
+            onChangeText={text => setName(text)}
+            value={name}
+            autoCompleteType="username"
+            onSubmitEditing={() => {
+              emailField.current?.focus();
+            }}
+          />
+        </View>
+        <View style={[styles.subContainer, { marginVertical: Height * 0.025 }]}>
+          <Text style={styles.subtitleText}>이메일</Text>
+          <TextInput
+            style={[
+              styles.fullTextInput,
+              isEmailFocused
+                ? styles.focusedTextInput
+                : styles.unfocusedTextInput,
+            ]}
+            placeholder="예) loling123@loling.com"
+            placeholderTextColor="#73737D"
+            onFocus={() => {
+              setIsEmailFocused(true);
+            }}
+            onBlur={() => {
+              setIsEmailFocused(false);
+            }}
+            onChangeText={text => setEmail(text)}
+            value={email}
+          />
+        </View>
+        {/* 통신사 & 전화번호 입력 칸  */}
+        <View
+          style={{
+            width: Width * 0.9,
+            height: Height * 0.05,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: Height * 0.025,
+          }}
+        >
+          <View style={styles.pickerholderContainer}>
+            <Text style={styles.pickerholderText}>통신사</Text>
+            <FontAwesome
+              name="chevron-down"
+              size={15}
+              color={'#73737D'}
+            ></FontAwesome>
+          </View>
+          <View style={styles.textInputAndButtonContainer}>
+            <TextInput
+              style={[
+                styles.halfTextInput,
+                isPhoneNumFocused
+                  ? styles.focusedTextInput
+                  : styles.unfocusedTextInput,
+              ]}
+              placeholder="휴대폰 번호"
+              placeholderTextColor="#73737D"
+              maxLength={11}
+              keyboardType="number-pad"
+              returnKeyType="done"
+              onFocus={() => {
+                setIsPhoneNumFocused(true);
+              }}
+              onBlur={() => {
+                setIsPhoneNumFocused(false);
+              }}
+              onChangeText={(text: string) => setPhoneNum(text)}
+              value={phoneNum}
+            />
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                  backgroundColor:
+                    phoneNum.length === 11 && !authRequested
+                      ? Colors.backgroundPurple
+                      : Colors.textUnfocusedPurple,
+                },
+                styles.authRequestButton,
+              ]}
+              onPress={() => setAuthRequested(true)}
+            >
+              <Text style={styles.authRequestText}>인증 요청</Text>
+            </Pressable>
+          </View>
+        </View>
+        {/* 인증번호 입력칸  */}
+        <View
+          style={[
+            {
+              left: Width * 0.2,
+              marginVertical: Height * 0.03,
+              opacity: authRequested ? 1 : 0,
+            },
+            styles.textInputAndButtonContainer,
+          ]}
+        >
+          <TextInput
+            style={[
+              styles.halfTextInput,
+              isAuthNumFocused
+                ? styles.focusedTextInput
+                : styles.unfocusedTextInput,
+            ]}
+            placeholder="인증번호 4자리"
+            placeholderTextColor="#73737D"
+            maxLength={11}
+            keyboardType="number-pad"
+            returnKeyType="done"
+            onFocus={() => setIsAuthNumFocused(true)}
+            onBlur={() => setIsAuthNumFocused(false)}
+            onChangeText={(text: string) => setAuthNum(text)}
+          />
+          <Pressable
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.5 : 1,
+                backgroundColor:
+                  authNum.length === 4 && !authChecked
+                    ? Colors.backgroundPurple
+                    : Colors.textUnfocusedPurple,
+              },
+              styles.authRequestButton,
+            ]}
+            onPress={() => setAuthChecked(true)}
+          >
+            <Text style={styles.authRequestText}>인증 확인</Text>
+          </Pressable>
+        </View>
+        {/* 인증 완료 문구는 Text, 인증 번호 발송 실패시 Pressable을 눌러 재전송 */}
+        {authRequested ? (
+          authChecked ? (
+            <Text style={styles.alertText}>인증이 완료되었습니다!</Text>
+          ) : (
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <Text style={styles.alertText}>인증 번호가 오지 않았나요?</Text>
+            </Pressable>
+          )
+        ) : undefined}
         <Pressable
           style={({ pressed }) => ({
             opacity: pressed ? 0.5 : 1,
@@ -213,7 +387,9 @@ export default function SignUpScreen() {
               styles.socialContainer,
               {
                 backgroundColor:
-                  isVerifyingID === true && isPWcorrect === true
+                  isVerifyingID === true &&
+                  isPWcorrect === true &&
+                  authChecked === true
                     ? Colors.textFocusedPurple
                     : Colors.textUnfocusedPurple,
               },
@@ -296,14 +472,12 @@ const styles = StyleSheet.create({
   socialContainer: {
     width: Width * 0.9,
     height: Height * 0.062,
-    marginTop: Height * 0.06,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: Colors.textUnfocusedPurple,
     borderRadius: 30,
   },
-
   socialText: {
     color: Colors.textWhite,
     fontSize: FontScale * 14,
@@ -327,5 +501,60 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.textRed,
     borderBottomWidth: 1,
     marginBottom: Height * 0.02,
+  },
+  subContainer: {
+    width: Width * 0.9,
+    height: Height * 0.1,
+  },
+  fullTextInput: {
+    width: Width * 0.9,
+    height: Height * 0.06,
+    color: Colors.textWhite,
+    fontSize: FontScale * 15,
+    fontWeight: 'normal',
+  },
+  halfTextInput: {
+    width: Width * 0.4,
+    height: Height * 0.06,
+    color: Colors.textWhite,
+    fontSize: FontScale * 15,
+    fontWeight: 'normal',
+  },
+  pickerholderContainer: {
+    width: Width * 0.2,
+    height: Height * 0.06,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.textUnfocusedPurple,
+  },
+  pickerholderText: {
+    color: '#73737D',
+    fontSize: FontScale * 15,
+    fontWeight: 'normal',
+  },
+  textInputAndButtonContainer: {
+    width: Width * 0.7,
+    height: Height * 0.05,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  authRequestButton: {
+    width: Width * 0.2,
+    height: Height * 0.05,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+  },
+  authRequestText: {
+    color: 'white',
+    fontSize: FontScale * 12,
+  },
+  alertText: {
+    left: Width * 0.23,
+    color: Colors.textFocusedPurple,
+    fontSize: FontScale * 10,
   },
 });
