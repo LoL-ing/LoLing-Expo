@@ -105,7 +105,7 @@ export default function SignInScreen() {
             <View
               style={[
                 styles.signinFailedContainer,
-                { opacity: signin ? 0.5 : 1 },
+                { opacity: signin ? 0 : 1 },
               ]}
             >
               <Image
@@ -162,7 +162,11 @@ export default function SignInScreen() {
             <Shadow
               startColor={'#C5A3FF77'}
               distance={9}
-              containerViewStyle={{ marginHorizontal: 15, marginVertical: 30 }}
+              containerViewStyle={{
+                marginHorizontal: 15,
+                marginVertical: 30,
+                alignSelf: 'center',
+              }}
             >
               <View style={styles.LOGINButton}>
                 <Pressable
@@ -170,7 +174,6 @@ export default function SignInScreen() {
                     opacity: pressed ? 0.5 : 1,
                     paddingVertical: 5,
                     alignItems: 'center',
-                    alignSelf: 'center',
                   })}
                   onPress={() => isSigninTrue(email, password)}
                 >

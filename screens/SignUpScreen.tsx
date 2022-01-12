@@ -15,202 +15,224 @@ export default function SignUpScreen() {
   const [id, setId] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
-  const [isIDFocused, setisIDFocused] = useState(false);
-  const [isPWFocused, setisPWFocused] = useState(false);
-  const [isVerifyingPWFocused, setisVerifyingPWFocused] = useState(false);
-  const [isVerifyingID, setisVerifyingID] = useState(false);
-  const [isPWValid, setisPWValid] = useState(false);
-  const [isPWInit, setisPWInit] = useState(true);
-  const [isPWcorrect, setisPWCorrect] = useState(false);
-  const [isPWInit2, setisPWInit2] = useState(true);
+  const [checkpassword, setCheckPassword] = useState('');
   const [name, setName] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
   const [authNum, setAuthNum] = useState('');
-  const [authRequested, setAuthRequested] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false);
+
+  const [isIdFocused, setIsIdFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isCheckPasswordFocused, setIsCheckPasswordFocused] = useState(false);
   const [isNameFocused, setIsNameFocused] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPhoneNumFocused, setIsPhoneNumFocused] = useState(false);
   const [isAuthNumFocused, setIsAuthNumFocused] = useState(false);
 
+  const [isCheckedDuplicateId, setIsCheckedDuplicateId] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isPasswordInit, setIsPasswordInit] = useState(true);
+  const [isPasswordcorrect, setIsPasswordCorrect] = useState(false);
+  const [isCheckPasswordInit, setIsPasswordInit2] = useState(true);
+
+  const [authRequested, setAuthRequested] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  const passwordField = useRef<TextInput>(null);
+  const nameField = useRef<TextInput>(null);
   const emailField = useRef<TextInput>(null);
 
-  const isIDTrue = (input: string) => {
+  const checkDuplicateId = (input: string) => {
     if (input === '') {
       alert(`아이디를 입력해주세요.`);
-    } else if (isVerifyingID) {
+    } else if (isCheckedDuplicateId) {
       alert(`이미 중복 확인하셨습니다.`);
     } else {
       alert(`사용 가능한 아이디입니다!`);
-      setisVerifyingID(true);
+      setIsCheckedDuplicateId(true);
     }
   };
 
   return (
     <View style={styles.fullscreen}>
-      <Text style={styles.titleText}>회원 가입</Text>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 25,
+        }}
+      >
+        <Text style={styles.titleText}>회원 가입</Text>
         <View>
-          <Text style={styles.subtitleText}>아이디</Text>
-          <View style={styles.IDtextInputGroup}>
+          <View style={[styles.subContainer, { marginTop: 0 }]}>
+            <Text style={styles.subtitleText}>아이디</Text>
+            <View style={styles.IdtextInputGroup}>
+              <TextInput
+                style={[
+                  styles.fullTextInput,
+                  isIdFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput,
+                  { width: Width * 0.7 },
+                ]}
+                placeholder="아이디"
+                placeholderTextColor={
+                  isIdFocused ? Colors.textWhite : Colors.textUnfocusedPurple
+                }
+                onFocus={() => {
+                  setIsIdFocused(true);
+                }}
+                onBlur={() => {
+                  setIsIdFocused(false);
+                }}
+                onChangeText={text => {
+                  setId(text);
+                  setIsCheckedDuplicateId(false);
+                }}
+                value={id}
+              />
+              <Pressable
+                style={({ pressed }) => [
+                  styles.verifyingIdContainer,
+                  {
+                    opacity: pressed ? 0.5 : 1,
+                    backgroundColor: isCheckedDuplicateId
+                      ? Colors.textFocusedPurple
+                      : Colors.textUnfocusedPurple,
+                  },
+                ]}
+                onPress={() => {
+                  checkDuplicateId(id);
+                }}
+              >
+                <Text style={styles.verifyingIdText}>중복 확인</Text>
+              </Pressable>
+            </View>
+          </View>
+          <View style={styles.descriptionSubContainer}>
+            <Text style={styles.subtitleText}>비밀번호</Text>
             <TextInput
               style={[
-                styles.textInput,
-                isIDFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput,
-                { width: Width * 0.7 },
+                styles.fullTextInput,
+                isPasswordInit
+                  ? isPasswordFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput
+                  : isPasswordValid
+                  ? isPasswordFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput
+                  : styles.errorTextInput,
               ]}
-              placeholder="아이디"
+              placeholder="비밀번호"
               placeholderTextColor={
-                isIDFocused ? Colors.textWhite : Colors.textGray
+                isPasswordFocused
+                  ? Colors.textWhite
+                  : Colors.textUnfocusedPurple
               }
               returnKeyType="next"
+              secureTextEntry={true}
               onFocus={() => {
-                setisIDFocused(true);
+                setIsPasswordFocused(true);
               }}
               onBlur={() => {
-                setisIDFocused(false);
+                setIsPasswordInit(false);
+                setIsPasswordFocused(false);
+                if (passwordValidator(password)) {
+                  setIsPasswordValid(true);
+                } else setIsPasswordValid(false);
+
+                if (checkpassword === password && checkpassword != '') {
+                  setIsPasswordCorrect(true);
+                } else setIsPasswordCorrect(false);
               }}
               onChangeText={text => {
-                setId(text);
-                setisVerifyingID(false);
+                setPassword(text);
               }}
-              value={id}
+              value={password}
+              onSubmitEditing={() => {
+                passwordField.current?.focus();
+              }}
             />
-            <Pressable
-              style={({ pressed }) => [
-                styles.verifyingIDContainer,
+            <Text
+              style={[
+                styles.descriptionText,
                 {
-                  opacity: pressed ? 0.5 : 1,
-                  backgroundColor: isVerifyingID
+                  color: isPasswordInit
+                    ? isPasswordFocused
+                      ? Colors.textFocusedPurple
+                      : Colors.textUnfocusedPurple
+                    : isPasswordValid
                     ? Colors.textFocusedPurple
-                    : Colors.textUnfocusedPurple,
+                    : Colors.textRed,
                 },
               ]}
-              onPress={() => {
-                isIDTrue(id);
-              }}
             >
-              <Text style={styles.verifyingIDText}>중복 확인</Text>
-            </Pressable>
+              {isPasswordInit === false && isPasswordValid === true
+                ? '사용 가능한 비밀번호입니다!'
+                : `영어 대문자, 소문자, 특수문자 중 2가지 이상의 조합으로 8자 이상`}
+            </Text>
           </View>
-
-          <Text style={styles.subtitleText}>비밀번호</Text>
-          <TextInput
-            style={[
-              styles.textInput,
-              isPWInit
-                ? isPWFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput
-                : isPWValid
-                ? isPWFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput
-                : styles.errorTextInput,
-            ]}
-            placeholder="비밀번호"
-            placeholderTextColor={
-              isPWFocused ? Colors.textWhite : Colors.textGray
-            }
-            returnKeyType="next"
-            secureTextEntry={true}
-            onFocus={() => {
-              setisPWFocused(true);
-            }}
-            onBlur={() => {
-              setisPWInit(false);
-              setisPWFocused(false);
-              if (passwordValidator(password)) {
-                setisPWValid(true);
-              } else setisPWValid(false);
-
-              if (password2 === password && password2 != '') {
-                setisPWCorrect(true);
-              } else setisPWCorrect(false);
-            }}
-            onChangeText={text => {
-              setPassword(text);
-            }}
-            value={password}
-          />
-
-          <Text
-            style={[
-              styles.descriptionText,
-              {
-                color: isPWInit
-                  ? isPWFocused
-                    ? Colors.textFocusedPurple
-                    : Colors.textUnfocusedPurple
-                  : isPWValid
-                  ? Colors.textFocusedPurple
-                  : Colors.textRed,
-              },
-            ]}
-          >
-            {isPWInit === false && isPWValid === true
-              ? '사용 가능한 비밀번호입니다!'
-              : `영어 대문자, 소문자, 특수문자 중 2가지 이상의 조합으로 8자 이상`}
-          </Text>
-
-          <Text style={styles.subtitleText}>비밀번호 확인</Text>
-          <TextInput
-            style={[
-              styles.textInput,
-              isPWInit2
-                ? isVerifyingPWFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput
-                : isPWcorrect
-                ? isVerifyingPWFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput
-                : styles.errorTextInput,
-            ]}
-            placeholder="비밀번호를 한번 더 입력해주세요."
-            placeholderTextColor={
-              isVerifyingPWFocused ? Colors.textWhite : Colors.textGray
-            }
-            onFocus={() => {
-              setisVerifyingPWFocused(true);
-            }}
-            onBlur={() => {
-              setisPWInit2(false);
-              setisVerifyingPWFocused(false);
-              if (password2 === password && password2 != '') {
-                setisPWCorrect(true);
-              } else setisPWCorrect(false);
-            }}
-            returnKeyType="next"
-            secureTextEntry={true}
-            onChangeText={text => {
-              setPassword2(text);
-            }}
-            value={password2}
-          />
+          <View style={styles.descriptionSubContainer}>
+            <Text style={styles.subtitleText}>비밀번호 확인</Text>
+            <TextInput
+              style={[
+                styles.fullTextInput,
+                isCheckPasswordInit
+                  ? isCheckPasswordFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput
+                  : isPasswordcorrect
+                  ? isCheckPasswordFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput
+                  : styles.errorTextInput,
+              ]}
+              placeholder="비밀번호를 한번 더 입력해주세요."
+              placeholderTextColor={
+                isCheckPasswordFocused
+                  ? Colors.textWhite
+                  : Colors.textUnfocusedPurple
+              }
+              onFocus={() => {
+                setIsCheckPasswordFocused(true);
+              }}
+              onBlur={() => {
+                setIsPasswordInit2(false);
+                setIsCheckPasswordFocused(false);
+                if (checkpassword === password && checkpassword != '') {
+                  setIsPasswordCorrect(true);
+                } else setIsPasswordCorrect(false);
+              }}
+              returnKeyType="next"
+              secureTextEntry={true}
+              onChangeText={text => {
+                setCheckPassword(text);
+              }}
+              value={checkpassword}
+              onSubmitEditing={() => {
+                nameField.current?.focus();
+              }}
+              ref={passwordField}
+            />
+            <Text
+              style={[
+                styles.descriptionText,
+                {
+                  color:
+                    isPasswordcorrect === false
+                      ? Colors.textRed
+                      : Colors.textFocusedPurple,
+                },
+              ]}
+            >
+              {isCheckPasswordInit
+                ? ''
+                : isPasswordcorrect
+                ? `비밀번호가 일치합니다.`
+                : `비밀번호가 일치하지 않습니다.`}
+            </Text>
+          </View>
         </View>
-
-        <Text
-          style={[
-            styles.descriptionText,
-            {
-              color:
-                isPWcorrect === false
-                  ? Colors.textRed
-                  : Colors.textFocusedPurple,
-            },
-          ]}
-        >
-          {isPWInit2
-            ? ''
-            : isPWcorrect
-            ? `비밀번호가 일치합니다.`
-            : `비밀번호가 일치하지 않습니다.`}
-        </Text>
-        <View style={[styles.subContainer, { marginVertical: Height * 0.025 }]}>
+        <View style={styles.subContainer}>
           <Text style={styles.subtitleText}>이름</Text>
           <TextInput
             style={[
@@ -220,7 +242,9 @@ export default function SignUpScreen() {
                 : styles.unfocusedTextInput,
             ]}
             placeholder="이름을 입력하세요."
-            placeholderTextColor="#73737D"
+            placeholderTextColor={
+              isNameFocused ? Colors.textWhite : Colors.textUnfocusedPurple
+            }
             maxLength={8}
             returnKeyType="next"
             onFocus={() => {
@@ -235,9 +259,10 @@ export default function SignUpScreen() {
             onSubmitEditing={() => {
               emailField.current?.focus();
             }}
+            ref={nameField}
           />
         </View>
-        <View style={[styles.subContainer, { marginVertical: Height * 0.025 }]}>
+        <View style={styles.subContainer}>
           <Text style={styles.subtitleText}>이메일</Text>
           <TextInput
             style={[
@@ -247,7 +272,9 @@ export default function SignUpScreen() {
                 : styles.unfocusedTextInput,
             ]}
             placeholder="예) loling123@loling.com"
-            placeholderTextColor="#73737D"
+            placeholderTextColor={
+              isEmailFocused ? Colors.textWhite : Colors.textUnfocusedPurple
+            }
             onFocus={() => {
               setIsEmailFocused(true);
             }}
@@ -256,6 +283,7 @@ export default function SignUpScreen() {
             }}
             onChangeText={text => setEmail(text)}
             value={email}
+            ref={emailField}
           />
         </View>
         {/* 통신사 & 전화번호 입력 칸  */}
@@ -285,7 +313,7 @@ export default function SignUpScreen() {
                   : styles.unfocusedTextInput,
               ]}
               placeholder="휴대폰 번호"
-              placeholderTextColor="#73737D"
+              placeholderTextColor="#484868"
               maxLength={11}
               keyboardType="number-pad"
               returnKeyType="done"
@@ -377,9 +405,12 @@ export default function SignUpScreen() {
             opacity: pressed ? 0.5 : 1,
           })}
           onPress={() => {
-            if (!(isVerifyingID === true && isPWcorrect === true)) {
+            if (
+              !(isCheckedDuplicateId === true && isPasswordcorrect === true)
+            ) {
               alert(`아이디 중복확인 및 비밀번호 확인을 해주세요.`);
             }
+            console.log(FontScale);
           }}
         >
           <View
@@ -387,8 +418,8 @@ export default function SignUpScreen() {
               styles.socialContainer,
               {
                 backgroundColor:
-                  isVerifyingID === true &&
-                  isPWcorrect === true &&
+                  isCheckedDuplicateId === true &&
+                  isPasswordcorrect === true &&
                   authChecked === true
                     ? Colors.textFocusedPurple
                     : Colors.textUnfocusedPurple,
@@ -435,13 +466,6 @@ const styles = StyleSheet.create({
     color: Colors.textFocusedPurple,
     fontSize: FontScale * 10,
     fontWeight: 'normal',
-    marginBottom: Height * 0.03,
-  },
-  textInput: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 12,
-    fontWeight: 'normal',
-    paddingVertical: FontScale * 12,
   },
   separator: {
     width: Width,
@@ -449,7 +473,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: Colors.textFocusedPurple,
   },
-  verifyingIDContainer: {
+  verifyingIdContainer: {
     width: Width * 0.2,
     height: Height * 0.04,
     marginBottom: Height * 0.02,
@@ -458,12 +482,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 30,
   },
-  IDtextInputGroup: {
+  IdtextInputGroup: {
     flexDirection: 'row',
     //justifyContent: 'space-between',
     alignItems: 'center',
   },
-  verifyingIDText: {
+  verifyingIdText: {
     color: Colors.textWhite,
     fontSize: FontScale * 10,
     fontWeight: 'bold',
@@ -477,6 +501,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: Colors.textUnfocusedPurple,
     borderRadius: 30,
+    marginBottom: Height * 0.05,
   },
   socialText: {
     color: Colors.textWhite,
@@ -502,22 +527,28 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: Height * 0.02,
   },
+  descriptionSubContainer: {
+    width: Width * 0.9,
+    height: Height * 0.125,
+    marginBottom: Height * 0.027,
+  },
   subContainer: {
     width: Width * 0.9,
     height: Height * 0.1,
+    marginBottom: Height * 0.027,
   },
   fullTextInput: {
     width: Width * 0.9,
     height: Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 15,
+    fontSize: FontScale * 14,
     fontWeight: 'normal',
   },
   halfTextInput: {
     width: Width * 0.4,
     height: Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 15,
+    fontSize: FontScale * 14,
     fontWeight: 'normal',
   },
   pickerholderContainer: {
@@ -530,8 +561,8 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.textUnfocusedPurple,
   },
   pickerholderText: {
-    color: '#73737D',
-    fontSize: FontScale * 15,
+    color: Colors.textUnfocusedPurple,
+    fontSize: FontScale * 14,
     fontWeight: 'normal',
   },
   textInputAndButtonContainer: {
@@ -550,7 +581,8 @@ const styles = StyleSheet.create({
   },
   authRequestText: {
     color: 'white',
-    fontSize: FontScale * 12,
+    fontSize: FontScale * 10,
+    fontWeight: 'bold',
   },
   alertText: {
     left: Width * 0.23,
