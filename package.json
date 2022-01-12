@@ -42,7 +42,8 @@
     "react-native-shadow": "^1.2.2",
     "react-native-shadow-2": "^5.1.2",
     "react-native-simple-modal": "^9.0.1",
-    "react-native-svg": "^12.1.1",
+    "react-native-svg": "12.1.1",
+    "react-native-svg-transformer": "1.0.0",
     "react-native-unimodules": "0.14.10",
     "react-native-web": "~0.13.12"
   },
