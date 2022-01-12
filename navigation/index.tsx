@@ -4,7 +4,7 @@
  *
  */
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
+import { ColorSchemeName, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -15,6 +15,7 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import MatchingScreen from '../screens/MatchingScreen';
@@ -34,6 +35,16 @@ import ToSScreen from '../screens/ToSScreen';
 import AuthScreen from '../screens/AuthScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 
+import HomeIconSelected from '../assets/icons/svg/home-icon-selected.svg';
+import HomeIconUnselected from '../assets/icons/svg/home-icon-unselected.svg';
+import MatchingIconSelected from '../assets/icons/svg/matching-icon-selected.svg';
+import MatchingIconUnselected from '../assets/icons/svg/matching-icon-unselected.svg';
+import ForumIconSelected from '../assets/icons/svg/forum-icon-selected.svg';
+import ForumIconUnselected from '../assets/icons/svg/forum-icon-unselected.svg';
+import ChattingIconSelected from '../assets/icons/svg/chatting-icon-selected.svg';
+import ChattingIconUnselected from '../assets/icons/svg/chatting-icon-unselected.svg';
+import SettingIconSelected from '../assets/icons/svg/setting-icon-selected.svg';
+import SettingIconUnselected from '../assets/icons/svg/setting-icon-unselected.svg';
 export default function Navigation({
   colorScheme,
 }: {
@@ -104,31 +115,39 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: '#2f95dc', //Colors[colorScheme].tint, // 네비게이션 바가 선택되었을 때 색깔
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: Colors.backgroundBlack,
+          borderTopWidth: 0,
+        },
       }}
     >
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <HomeIconSelected width={30} height={30} />
+            ) : (
+              <HomeIconUnselected width={30} height={30} />
+            ),
         }}
       />
       <BottomTab.Screen
         name="Matching"
         component={MatchingScreen}
         options={{
-          title: 'Matching',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="slideshare" color={color} />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <MatchingIconSelected width={30} height={30} />
+            ) : (
+              <MatchingIconUnselected width={30} height={30} />
+            ),
         }}
       />
       <BottomTab.Screen
@@ -136,19 +155,24 @@ function BottomTabNavigator() {
         component={CommunityScreen}
         options={({ navigation }: RootTabScreenProps<'Community'>) => ({
           title: 'Community',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="list-alt" color={color} />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <ForumIconSelected width={30} height={30} />
+            ) : (
+              <ForumIconUnselected width={30} height={30} />
+            ),
         })}
       />
       <BottomTab.Screen
         name="Social"
         component={SocialScreen}
         options={{
-          title: 'Social',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="comments" color={color} />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <ChattingIconSelected width={30} height={30} />
+            ) : (
+              <ChattingIconUnselected width={30} height={30} />
+            ),
         }}
       />
       <BottomTab.Screen
@@ -156,9 +180,12 @@ function BottomTabNavigator() {
         component={MoreScreen}
         options={{
           title: 'More',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ellipsis-h" color={color} />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <SettingIconSelected width={30} height={30} />
+            ) : (
+              <SettingIconUnselected width={30} height={30} />
+            ),
         }}
       />
     </BottomTab.Navigator>
