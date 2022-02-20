@@ -3,18 +3,34 @@
 const DATA = [
   {
     id: 1,
-    profileImg: require('../assets/images/Nunu.png'),
     username: '하아아푸움',
+    tier: 'Gold 3',
+    mostChampImg: require('../assets/images/Nunu.png'),
+    mostChampWinRate: '57%',
+    mostChampKDA: '3.87',
+    mostLineImg: require('../assets/images/lineJungle.png'),
+    mostLineWinRate: '57%',
+    mostLineKDA: '3.87',
   },
   {
     id: 2,
-    profileImg: require('../assets/images/Irelia.png'),
     username: '모닝글라스',
+    mostChampImg: require('../assets/images/Irelia.png'),
+    mostChampWinRate: '57%',
+    mostChampKDA: '3.87',
+    mostLineImg: require('../assets/images/lineJungle.png'),
+    mostLineWinRate: '57%',
+    mostLineKDA: '3.87',
   },
   {
     id: 3,
-    profileImg: require('../assets/images/Teemo.png'),
     username: '개란말이개미',
+    mostChampImg: require('../assets/images/Teemo.png'),
+    mostChampWinRate: '57%',
+    mostChampKDA: '3.87',
+    mostLineImg: require('../assets/images/lineJungle.png'),
+    mostLineWinRate: '57%',
+    mostLineKDA: '3.87',
   },
 ];
 

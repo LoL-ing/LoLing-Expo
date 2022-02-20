@@ -1,12 +1,14 @@
 import { Dimensions } from 'react-native';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const Width = Dimensions.get('window').width;
+const Height = Dimensions.get('window').height;
+const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 export default {
-  window: {
-    width,
-    height,
-  },
-  isSmallDevice: width < 375,
+
+    Width,
+    Height,
+    FontScale
+
+  // isSmallDevice: Width < 375,
 };
