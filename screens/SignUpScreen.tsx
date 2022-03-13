@@ -1,7 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { visitWithTypeInfo } from 'graphql';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { StyleSheet, Pressable, Dimensions } from 'react-native';
+import { StyleSheet, Pressable, Dimensions, SafeAreaView } from 'react-native';
 import { TextInput, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
@@ -53,7 +54,7 @@ export default function SignUpScreen() {
   };
 
   return (
-    <View style={styles.fullscreen}>
+    <SafeAreaView style={styles.fullscreen}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -289,8 +290,8 @@ export default function SignUpScreen() {
         {/* 통신사 & 전화번호 입력 칸  */}
         <View
           style={{
-            width: Width * 0.9,
-            height: Height * 0.05,
+            // width: Width * 0.9,
+            // height: Height * 0.05,
             flexDirection: 'row',
             alignItems: 'center',
             marginVertical: Height * 0.025,
@@ -311,6 +312,7 @@ export default function SignUpScreen() {
                 isPhoneNumFocused
                   ? styles.focusedTextInput
                   : styles.unfocusedTextInput,
+                { marginBottom: 0 },
               ]}
               placeholder="휴대폰 번호"
               placeholderTextColor="#484868"
@@ -335,57 +337,63 @@ export default function SignUpScreen() {
                       ? Colors.backgroundPurple
                       : Colors.textUnfocusedPurple,
                 },
-                styles.authRequestButton,
+                styles.verifyingIdContainer,
+                { marginBottom: 0 },
               ]}
               onPress={() => setAuthRequested(true)}
             >
-              <Text style={styles.authRequestText}>인증 요청</Text>
+              <Text style={styles.verifyingIdText}>인증 요청</Text>
             </Pressable>
           </View>
         </View>
         {/* 인증번호 입력칸  */}
-        <View
-          style={[
-            {
-              left: Width * 0.2,
-              marginVertical: Height * 0.03,
-              opacity: authRequested ? 1 : 0,
-            },
-            styles.textInputAndButtonContainer,
-          ]}
-        >
-          <TextInput
+        {authRequested ? (
+          <View
             style={[
-              styles.halfTextInput,
-              isAuthNumFocused
-                ? styles.focusedTextInput
-                : styles.unfocusedTextInput,
-            ]}
-            placeholder="인증번호 4자리"
-            placeholderTextColor="#73737D"
-            maxLength={11}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            onFocus={() => setIsAuthNumFocused(true)}
-            onBlur={() => setIsAuthNumFocused(false)}
-            onChangeText={(text: string) => setAuthNum(text)}
-          />
-          <Pressable
-            style={({ pressed }) => [
               {
-                opacity: pressed ? 0.5 : 1,
-                backgroundColor:
-                  authNum.length === 4 && !authChecked
-                    ? Colors.backgroundPurple
-                    : Colors.textUnfocusedPurple,
+                left: Width * 0.2,
+                marginVertical: Height * 0.01,
               },
-              styles.authRequestButton,
+              styles.textInputAndButtonContainer,
             ]}
-            onPress={() => setAuthChecked(true)}
           >
-            <Text style={styles.authRequestText}>인증 확인</Text>
-          </Pressable>
-        </View>
+            <TextInput
+              style={[
+                styles.halfTextInput,
+                isAuthNumFocused
+                  ? styles.focusedTextInput
+                  : styles.unfocusedTextInput,
+                { marginBottom: 0 },
+              ]}
+              placeholder="인증번호 4자리"
+              placeholderTextColor={Colors.textUnfocusedPurple}
+              maxLength={11}
+              keyboardType="number-pad"
+              returnKeyType="done"
+              onFocus={() => setIsAuthNumFocused(true)}
+              onBlur={() => setIsAuthNumFocused(false)}
+              onChangeText={(text: string) => setAuthNum(text)}
+            />
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                  backgroundColor:
+                    authNum.length === 4 && !authChecked
+                      ? Colors.backgroundPurple
+                      : Colors.textUnfocusedPurple,
+                },
+                styles.verifyingIdContainer,
+                { marginBottom: 0 },
+              ]}
+              onPress={() => setAuthChecked(true)}
+            >
+              <Text style={styles.verifyingIdText}>인증 확인</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <View></View>
+        )}
         {/* 인증 완료 문구는 Text, 인증 번호 발송 실패시 Pressable을 눌러 재전송 */}
         {authRequested ? (
           authChecked ? (
@@ -430,7 +438,7 @@ export default function SignUpScreen() {
           </View>
         </Pressable>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -441,6 +449,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingHorizontal: Width * 0.05,
     backgroundColor: Colors.backgroundBlack,
+    alignItems: 'center',
   },
   contentContainer: {
     marginLeft: 20,
@@ -588,5 +597,7 @@ const styles = StyleSheet.create({
     left: Width * 0.23,
     color: Colors.textFocusedPurple,
     fontSize: FontScale * 10,
+    marginBottom: Height * 0.04,
+    marginTop: Height * 0.01,
   },
 });

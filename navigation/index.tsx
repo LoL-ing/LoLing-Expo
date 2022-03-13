@@ -34,6 +34,7 @@ import SignInScreen from '../screens/SignInScreen';
 import ToSScreen from '../screens/ToSScreen';
 import AuthScreen from '../screens/AuthScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 
 import HomeIconSelected from '../assets/icons/svg/home-icon-selected.svg';
 import HomeIconUnselected from '../assets/icons/svg/home-icon-unselected.svg';
@@ -102,6 +103,11 @@ function RootNavigator() {
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
