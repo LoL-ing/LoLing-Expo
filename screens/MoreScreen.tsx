@@ -13,44 +13,34 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       >
         <Text>프로필 보기</Text>
       </Pressable>
-      <View
-        style={styles.separator}
-      />
+      <View style={styles.separator} />
       <Menu
         title="공지사항"
         destination="SignIn"
         navigate={navigation.navigate}
       ></Menu>
-      <View
-        style={styles.separator}
-      />
+      <View style={styles.separator} />
 
       <Menu
         title="이벤트"
         destination="ToS"
         navigate={navigation.navigate}
       ></Menu>
-      <View
-        style={styles.separator}
-      />
+      <View style={styles.separator} />
 
-      <Menu
+      {/* <Menu
         title="고객센터"
-        destination="Authentication"
+        destination="Welcome"
         navigate={navigation.navigate}
       ></Menu>
-      <View
-        style={styles.separator}
-      />
+      <View style={styles.separator} /> */}
 
       <Menu
         title="FAQ"
         destination="SignUp"
         navigate={navigation.navigate}
       ></Menu>
-      <View
-        style={styles.separator}
-      />
+      <View style={styles.separator} />
 
       {/* <Menu title="1:1 문의"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
@@ -77,6 +67,6 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 1,
     marginVertical: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
 });

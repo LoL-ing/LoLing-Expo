@@ -11,9 +11,7 @@ export default function SocialScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>LoLing</Text>
-      <View
-        style={styles.separator}
-      />
+      <View style={styles.separator} />
       <ScrollView>
         <FlatList
           data={MarkedFriends}

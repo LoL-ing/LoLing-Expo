@@ -48,6 +48,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       ToS: 'tos',
       Authentication: 'authentication',
       SignUp: 'signup',
+      // Welcome: 'welcome',
     },
   },
 };

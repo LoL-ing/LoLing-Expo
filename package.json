@@ -39,6 +39,7 @@
     "react-native-modal": "^13.0.0",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
+    "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~3.4.0",
     "react-native-scroll-indicator": "0.1.0",
     "react-native-shadow": "^1.2.2",
@@ -47,7 +48,8 @@
     "react-native-svg": "12.1.1",
     "react-native-svg-transformer": "1.0.0",
     "react-native-unimodules": "0.14.10",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "string-length": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
