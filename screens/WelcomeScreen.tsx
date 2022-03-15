@@ -40,7 +40,128 @@ export default function WelcomeScreen() {
 
   return (
     <View style={Styles.fullscreen}>
-      <Text>흠</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>환영합니다!</Text>
+      </View>
+      <View>
+        <Text>닉네임</Text>
+        <Text
+          style={[
+            styles.descriptionText,
+            {
+              color: isNicknameInit
+                ? isNicknameFocused
+                  ? Colors.textFocusedPurple
+                  : Colors.textUnfocusedPurple
+                : isCheckedDuplicateNickname
+                ? Colors.textFocusedPurple
+                : Colors.textRed,
+            },
+          ]}
+        >
+          {isNicknameInit === false
+            ? '사용 가능한 비밀번호입니다!'
+            : `영어 대문자, 소문자, 특수문자 중 2가지 이상의 조합으로 8자 이상`}
+        </Text>
+        <TextInput
+          style={[
+            styles.fullTextInput,
+            isNicknameInit
+              ? isNicknameFocused
+                ? styles.focusedTextInput
+                : styles.unfocusedTextInput
+              : isCheckedDuplicateNickname
+              ? isNicknameFocused
+                ? styles.focusedTextInput
+                : styles.unfocusedTextInput
+              : styles.errorTextInput,
+          ]}
+          placeholder="닉네임"
+          placeholderTextColor={
+            isNicknameFocused ? Colors.textWhite : Colors.textUnfocusedPurple
+          }
+          returnKeyType="next"
+          secureTextEntry={true}
+          onFocus={() => {
+            setIsNicknameFocused(true);
+          }}
+          onBlur={() => {
+            // setIsNicknameInit(false);
+            setIsNicknameFocused(false);
+
+            checkDuplicateNickname(nickname);
+            // if (checkpassword === password && checkpassword != '') {
+            //   setIsPasswordCorrect(true);
+            // } else setIsPasswordCorrect(false);
+          }}
+          onChangeText={text => {
+            setNickname(text);
+          }}
+          value={nickname}
+          onSubmitEditing={() => {
+            nicknameField.current?.focus();
+          }}
+          maxLength={8}
+        />
+      </View>
+      <View>
+        <Text>유저들에게 한 마디</Text>
+        <Text>50자 내외로 작성해주세요.</Text>
+        <TextInput
+          style={[
+            styles.fullTextInput,
+            isDescriptionFocused
+              ? styles.focusedTextInput
+              : styles.unfocusedTextInput,
+          ]}
+          placeholder="최대 50자"
+          placeholderTextColor={
+            isNicknameFocused ? Colors.textWhite : Colors.textUnfocusedPurple
+          }
+          returnKeyType="next"
+          onFocus={() => {
+            setIsDescriptionFocused(true);
+          }}
+          onBlur={() => {
+            setIsDescriptionFocused(false);
+          }}
+          onChangeText={text => {
+            setDescription(text);
+          }}
+          value={description}
+          onSubmitEditing={() => {
+            descriptionField.current?.focus();
+          }}
+          maxLength={50}
+        />
+      </View>
+      <View
+        style={[
+          styles.socialContainer,
+          {
+            backgroundColor:
+              isCheckedDuplicateNickname === true
+                ? Colors.textFocusedPurple
+                : Colors.backgroundNavy,
+          },
+        ]}
+      >
+        <Text style={styles.socialText}>롤 계정 인증하기</Text>
+      </View>
+      <View
+        style={[
+          styles.socialContainer,
+          {
+            backgroundColor:
+              isCheckedDuplicateNickname === true
+                ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
+                  Colors.textFocusedPurple
+                : Colors.textUnfocusedPurple,
+          },
+        ]}
+      >
+        <Text style={styles.socialText}>매칭 시작</Text>
+      </View>
     </View>
   );
 }

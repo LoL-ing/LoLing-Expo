@@ -48,7 +48,8 @@
     "react-native-svg": "12.1.1",
     "react-native-svg-transformer": "1.0.0",
     "react-native-unimodules": "0.14.10",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "string-length": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

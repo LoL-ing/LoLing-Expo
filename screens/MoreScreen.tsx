@@ -28,12 +28,12 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       ></Menu>
       <View style={styles.separator} />
 
-      <Menu
+      {/* <Menu
         title="고객센터"
         destination="Welcome"
         navigate={navigation.navigate}
       ></Menu>
-      <View style={styles.separator} />
+      <View style={styles.separator} /> */}
 
       <Menu
         title="FAQ"
