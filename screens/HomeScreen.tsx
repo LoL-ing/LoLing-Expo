@@ -15,18 +15,267 @@ import getHomeScreenFriends from '../data/HomeScreenFriends';
 import getFriends from '../data/Friends';
 import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import { RootTabScreenProps } from '../types';
+import getMyProfile from '../data/MyProfile';
+import { Shadow } from 'react-native-shadow-2';
+
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 const MyFriends = getFriends();
 const MatchableUsers = getHomeScreenFriends();
+const MyProfile = getMyProfile();
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   return (
     <ScrollView contentContainerStyle={styles.fullScreenView}>
-      <Pressable style={styles.profileContainer}>
-        <Text style={styles.profileText}>하아아아품</Text>
-      </Pressable>
+      <View style={styles.profileContainer}>
+        <View style={styles.profileSummaryContainer}>
+          <Image
+            style={{
+              width: Width * 0.2,
+              height: Width * 0.2,
+              borderRadius: Width * 0.1,
+              marginHorizontal: Width * 0.05,
+            }}
+            source={MyProfile.profileImg}
+          />
+
+          <View
+            style={{
+              height: Height * 0.1,
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.textWhite,
+                fontWeight: 'bold',
+                fontSize: FontScale * 20,
+              }}
+            >
+              {MyProfile.nickname}
+            </Text>
+            <Text
+              style={{
+                color: Colors.textWhite,
+                fontWeight: '900',
+                fontSize: FontScale * 16,
+              }}
+            >
+              {MyProfile.tier}
+            </Text>
+            <View
+              style={{
+                width: Width * 0.4,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text
+                style={{
+                  color: Colors.textWhite,
+                  fontWeight: '700',
+                  opacity: 0.7,
+                  fontSize: FontScale * 12,
+                }}
+              >
+                승률 {MyProfile.winrate}
+              </Text>
+              <Text
+                style={{
+                  color: Colors.textWhite,
+                  fontWeight: '600',
+                  opacity: 0.7,
+                  fontSize: FontScale * 12,
+                }}
+              >
+                KDA {MyProfile.KDA}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <View
+            style={{
+              width: Width * 0.51,
+              paddingVertical: Height * 0.025,
+              paddingLeft: Width * 0.03,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.textGray,
+                fontSize: FontScale * 6,
+                marginBottom: Height * 0.01,
+              }}
+            >
+              CHAMPION
+            </Text>
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            >
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  style={{
+                    width: Width * 0.09,
+                    height: Height * 0.045,
+                    borderRadius: 50,
+                  }}
+                  source={require('../assets/images/Teemo.png')}
+                />
+                <View
+                  style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.textFocusedPurple,
+                      fontSize: FontScale * 9,
+                    }}
+                  >
+                    {MyProfile.champ1Winrate}
+                  </Text>
+                  <Text
+                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
+                  >
+                    / {MyProfile.champ1KDA}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  style={{
+                    width: Width * 0.09,
+                    height: Height * 0.045,
+                    borderRadius: 50,
+                  }}
+                  source={require('../assets/images/Irelia.png')}
+                />
+                <View
+                  style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.textFocusedPurple,
+                      fontSize: FontScale * 9,
+                    }}
+                  >
+                    {MyProfile.champ2Winrate}
+                  </Text>
+                  <Text
+                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
+                  >
+                    / {MyProfile.champ2KDA}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  style={{
+                    width: Width * 0.09,
+                    height: Height * 0.045,
+                    borderRadius: 50,
+                  }}
+                  source={require('../assets/images/Nunu.png')}
+                />
+                <View
+                  style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.textFocusedPurple,
+                      fontSize: FontScale * 9,
+                    }}
+                  >
+                    {MyProfile.champ3Winrate}
+                  </Text>
+                  <Text
+                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
+                  >
+                    / {MyProfile.champ3KDA}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View
+            style={{
+              width: Width * 0.315,
+              paddingVertical: Height * 0.025,
+              marginLeft: Width * 0.05,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.textGray,
+                fontSize: FontScale * 6,
+                marginBottom: Height * 0.01,
+              }}
+            >
+              POSITION
+            </Text>
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            >
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  style={{
+                    width: Width * 0.09,
+                    height: Height * 0.045,
+                    borderRadius: 50,
+                  }}
+                  source={require('../assets/images/lineTop.png')}
+                />
+                <View
+                  style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.textFocusedPurple,
+                      fontSize: FontScale * 9,
+                    }}
+                  >
+                    {MyProfile.champ1Winrate}
+                  </Text>
+                  <Text
+                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
+                  >
+                    / {MyProfile.champ1KDA}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  style={{
+                    width: Width * 0.09,
+                    height: Height * 0.045,
+                    borderRadius: 50,
+                  }}
+                  source={require('../assets/images/lineJungle.png')}
+                />
+                <View
+                  style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.textFocusedPurple,
+                      fontSize: FontScale * 9,
+                    }}
+                  >
+                    {MyProfile.champ2Winrate}
+                  </Text>
+                  <Text
+                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
+                  >
+                    / {MyProfile.champ2KDA}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
 
       <View style={[styles.listContainer]}>
         <View
@@ -34,7 +283,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginVertical: Height * 0.02,
+            marginVertical: Height * 0.03,
           }}
         >
           <Text style={styles.titleText}>매칭 가능한 유저들</Text>
@@ -101,7 +350,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginVertical: Height * 0.02,
+            marginVertical: Height * 0.03,
           }}
         >
           <Text style={styles.titleText}>친구 목록</Text>
@@ -133,18 +382,16 @@ const styles = StyleSheet.create({
   fullScreenView: {
     width: Width,
     height: Height,
-    padding: 10,
-
+    paddingVertical: Height * 0.07,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-
     backgroundColor: Colors.backgroundBlack,
   },
   matchingContainer: {
     width: Width * 0.5,
     height: Height * 0.15,
-    marginHorizontal: 10,
+    marginRight: Width * 0.05,
     backgroundColor: Colors.backgroundNavy,
     borderRadius: 30,
     shadowOpacity: 30,
@@ -159,23 +406,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: Colors.backgroundPurple,
+    backgroundColor: '#9F70F1',
     borderRadius: 30,
   },
   profileContainer: {
-    width: Width * 0.95,
-    height: 150,
+    width: Width * 0.9,
+    height: Height * 0.32,
+    backgroundColor: Colors.backgroundNavy,
+    borderRadius: 20,
+  },
+  profileSummaryContainer: {
+    width: Width * 0.9,
+    height: Height * 0.18,
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 10,
-    backgroundColor: Colors.backgroundPurple,
-    borderRadius: 10,
+    backgroundColor: '#9F70F1',
+    borderRadius: 20,
   },
   listContainer: {
-    width: Width * 0.95,
-    //height: 200,
-    padding: 10,
-
+    width: Width * 0.9,
+    marginVertical: Height * 0.01,
     backgroundColor: Colors.backgroundBlack,
-    borderRadius: 10,
   },
   titleText: {
     fontSize: 20,

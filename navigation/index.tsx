@@ -130,6 +130,8 @@ function BottomTabNavigator() {
           backgroundColor: Colors.backgroundBlack,
           borderTopWidth: 0,
         },
+        tabBarHideOnKeyboard: true,
+        headerShown: false,
       }}
     >
       <BottomTab.Screen

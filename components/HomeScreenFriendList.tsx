@@ -19,7 +19,7 @@ export default function HomeScreenFriendList(props: {
       style={{
         backgroundColor: Colors.backgroundBlack,
         alignItems: 'center',
-        marginHorizontal: 10,
+        marginRight: Layout.Width * 0.07,
       }}
     >
       <View style={{ backgroundColor: Colors.backgroundBlack }}>
@@ -34,8 +34,8 @@ export default function HomeScreenFriendList(props: {
 
 const styles = StyleSheet.create({
   profileImgStyle: {
-    width: Layout.Width * 0.25,
-    height: Layout.Width * 0.25,
-    borderRadius: Layout.Width * 0.25,
+    width: Layout.Width * 0.2,
+    height: Layout.Width * 0.2,
+    borderRadius: Layout.Width * 0.1,
   },
 });
