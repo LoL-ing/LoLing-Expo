@@ -15,6 +15,7 @@ const DATA = [
   {
     id: 2,
     username: '모닝글라스',
+    tier: 'Master',
     mostChampImg: require('../assets/images/Irelia.png'),
     mostChampWinRate: '57%',
     mostChampKDA: '3.87',
@@ -25,6 +26,7 @@ const DATA = [
   {
     id: 3,
     username: '개란말이개미',
+    tier: 'Silver 1',
     mostChampImg: require('../assets/images/Teemo.png'),
     mostChampWinRate: '57%',
     mostChampKDA: '3.87',

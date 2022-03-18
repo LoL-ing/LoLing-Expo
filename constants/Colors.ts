@@ -11,7 +11,7 @@ export default {
   textBlack: '#000000',
   backgroundBlack: '#161627',
   backgroundNavy: '#23233F',
-  backgroundPurple: '#C5A3FF',
+  backgroundPurple: '#9F70F1',
 
   shadowStartColor: '#C5A3FF77',
 

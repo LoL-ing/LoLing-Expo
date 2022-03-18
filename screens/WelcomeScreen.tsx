@@ -1,18 +1,26 @@
-import { FontAwesome } from '@expo/vector-icons';
-import { visitWithTypeInfo } from 'graphql';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { StyleSheet, Pressable, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
+  SafeAreaView,
+} from 'react-native';
 import { TextInput, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
+import { RootStackScreenProps } from '../types';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({
+  navigation,
+}: RootStackScreenProps<'Welcome'>) {
   const [nickname, setNickname] = useState('');
   const [description, setDescription] = useState('');
 
@@ -39,145 +47,166 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <View style={Styles.fullscreen}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>환영합니다!</Text>
-      </View>
-      <View>
-        <Text>닉네임</Text>
-        <Text
-          style={[
-            styles.descriptionText,
-            {
-              color: isNicknameInit
-                ? isNicknameFocused
-                  ? Colors.textFocusedPurple
-                  : Colors.textUnfocusedPurple
-                : isCheckedDuplicateNickname
-                ? Colors.textFocusedPurple
-                : Colors.textRed,
-            },
-          ]}
+    <SafeAreaView style={[Styles.fullscreen, { alignItems: 'center' }]}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 25,
+          }}
         >
-          {isNicknameInit === false
-            ? '사용 가능한 비밀번호입니다!'
-            : `영어 대문자, 소문자, 특수문자 중 2가지 이상의 조합으로 8자 이상`}
-        </Text>
-        <TextInput
-          style={[
-            styles.fullTextInput,
-            isNicknameInit
-              ? isNicknameFocused
-                ? styles.focusedTextInput
-                : styles.unfocusedTextInput
-              : isCheckedDuplicateNickname
-              ? isNicknameFocused
-                ? styles.focusedTextInput
-                : styles.unfocusedTextInput
-              : styles.errorTextInput,
-          ]}
-          placeholder="닉네임"
-          placeholderTextColor={
-            isNicknameFocused ? Colors.textWhite : Colors.textUnfocusedPurple
-          }
-          returnKeyType="next"
-          secureTextEntry={true}
-          onFocus={() => {
-            setIsNicknameFocused(true);
-          }}
-          onBlur={() => {
-            // setIsNicknameInit(false);
-            setIsNicknameFocused(false);
+          <View style={{ alignItems: 'center' }}>
+            <Text style={styles.titleText}>환영합니다!</Text>
+          </View>
 
-            checkDuplicateNickname(nickname);
-            // if (checkpassword === password && checkpassword != '') {
-            //   setIsPasswordCorrect(true);
-            // } else setIsPasswordCorrect(false);
-          }}
-          onChangeText={text => {
-            setNickname(text);
-          }}
-          value={nickname}
-          onSubmitEditing={() => {
-            nicknameField.current?.focus();
-          }}
-          maxLength={8}
-        />
-      </View>
-      <View>
-        <Text>유저들에게 한 마디</Text>
-        <Text>50자 내외로 작성해주세요.</Text>
-        <TextInput
-          style={[
-            styles.fullTextInput,
-            isDescriptionFocused
-              ? styles.focusedTextInput
-              : styles.unfocusedTextInput,
-          ]}
-          placeholder="최대 50자"
-          placeholderTextColor={
-            isNicknameFocused ? Colors.textWhite : Colors.textUnfocusedPurple
-          }
-          returnKeyType="next"
-          onFocus={() => {
-            setIsDescriptionFocused(true);
-          }}
-          onBlur={() => {
-            setIsDescriptionFocused(false);
-          }}
-          onChangeText={text => {
-            setDescription(text);
-          }}
-          value={description}
-          onSubmitEditing={() => {
-            descriptionField.current?.focus();
-          }}
-          maxLength={50}
-        />
-      </View>
-      <View
-        style={[
-          styles.socialContainer,
-          {
-            backgroundColor:
-              isCheckedDuplicateNickname === true
-                ? Colors.textFocusedPurple
-                : Colors.backgroundNavy,
-          },
-        ]}
-      >
-        <Text style={styles.socialText}>롤 계정 인증하기</Text>
-      </View>
-      <View
-        style={[
-          styles.socialContainer,
-          {
-            backgroundColor:
-              isCheckedDuplicateNickname === true
-                ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
-                  Colors.textFocusedPurple
-                : Colors.textUnfocusedPurple,
-          },
-        ]}
-      >
-        <Text style={styles.socialText}>매칭 시작</Text>
-      </View>
-    </View>
+          <View style={styles.subContainer}>
+            <Text style={styles.subtitleText}>닉네임</Text>
+            <Text
+              style={[
+                styles.descriptionText,
+                {
+                  color: isNicknameInit
+                    ? Colors.textGray
+                    : isCheckedDuplicateNickname
+                    ? Colors.textFocusedPurple
+                    : Colors.textRed,
+                },
+              ]}
+            >
+              {isNicknameInit
+                ? `8자 이내로 입력해주세요`
+                : isCheckedDuplicateNickname
+                ? `사용 가능한 닉네임입니다!`
+                : `사용 중인 닉네임입니다.`}
+            </Text>
+            <TextInput
+              style={[
+                styles.fullTextInput,
+                isNicknameInit
+                  ? isNicknameFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput
+                  : isCheckedDuplicateNickname
+                  ? isNicknameFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput
+                  : styles.errorTextInput,
+              ]}
+              placeholder="닉네임"
+              placeholderTextColor={
+                isNicknameFocused
+                  ? Colors.textWhite
+                  : Colors.textUnfocusedPurple
+              }
+              returnKeyType="next"
+              onFocus={() => {
+                setIsNicknameFocused(true);
+              }}
+              onBlur={() => {
+                // setIsNicknameInit(false);
+                setIsNicknameFocused(false);
+                setIsCheckedDuplicateNickname(false);
+                checkDuplicateNickname(nickname);
+                // if (checkpassword === password && checkpassword != '') {
+                //   setIsPasswordCorrect(true);
+                // } else setIsPasswordCorrect(false);
+              }}
+              onChangeText={text => {
+                setNickname(text);
+              }}
+              value={nickname}
+              onSubmitEditing={() => {
+                nicknameField.current?.focus();
+              }}
+              maxLength={8}
+              textAlign={'center'}
+              clearButtonMode="while-editing"
+            />
+          </View>
+          <View style={styles.subContainer}>
+            <Text style={styles.subtitleText}>유저들에게 한 마디</Text>
+            <Text style={[styles.descriptionText, { color: Colors.textGray }]}>
+              50자 이내로 작성해주세요.
+            </Text>
+            <TextInput
+              style={[
+                styles.fullTextInput,
+                isDescriptionFocused
+                  ? styles.focusedTextInput
+                  : styles.unfocusedTextInput,
+              ]}
+              placeholder="최대 50자"
+              placeholderTextColor={
+                isDescriptionFocused
+                  ? Colors.textWhite
+                  : Colors.textUnfocusedPurple
+              }
+              returnKeyType="next"
+              onFocus={() => {
+                setIsDescriptionFocused(true);
+              }}
+              onBlur={() => {
+                setIsDescriptionFocused(false);
+              }}
+              onChangeText={text => {
+                setDescription(text);
+              }}
+              value={description}
+              onSubmitEditing={() => {
+                descriptionField.current?.focus();
+              }}
+              maxLength={50}
+              textAlign={'center'}
+              clearButtonMode="while-editing"
+              multiline={true}
+            />
+          </View>
+          <Pressable
+            style={({ pressed }) => [
+              styles.socialContainer,
+              {
+                opacity: pressed ? 0.5 : 1,
+                backgroundColor: isCheckedDuplicateNickname
+                  ? Colors.backgroundPurple
+                  : Colors.backgroundNavy,
+              },
+            ]}
+            onPress={() => navigation.navigate('SelectMyLineChamp')}
+          >
+            <Text style={styles.socialText}>롤 계정 인증하기</Text>
+          </Pressable>
+
+          <Pressable
+            style={[
+              styles.socialContainer,
+              {
+                backgroundColor: Colors.textUnfocusedPurple,
+                // isCheckedDuplicateNickname === true
+                //   ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
+                //     Colors.textFocusedPurple
+                //   : Colors.textUnfocusedPurple,
+              },
+            ]}
+          >
+            <Text style={styles.socialText}>매칭 시작</Text>
+          </Pressable>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Height * 0.4,
-    marginBottom: Height * 0.8,
+    marginTop: Height * 0.2,
+    marginBottom: Height * 0.2,
   },
   titleText: {
     color: Colors.textWhite,
     fontSize: FontScale * 24,
     fontWeight: 'bold',
-    marginVertical: Height * 0.1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: Height * 0.05,
+    marginBottom: Height * 0.1,
   },
   focusedTextInput: {
     borderBottomColor: Colors.textFocusedPurple,
@@ -194,22 +223,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: Height * 0.02,
   },
+  subtitleText: {
+    color: Colors.textWhite,
+    fontSize: FontScale * 14,
+    fontWeight: 'bold',
+  },
+  descriptionText: {
+    color: Colors.textGray,
+    fontSize: FontScale * 10,
+    fontWeight: 'normal',
+    marginVertical: Height * 0.01,
+  },
+  subContainer: {
+    alignItems: 'center',
+    marginVertical: Height * 0.027,
+  },
 
   signUpContainer: {
     width: Width,
     flex: 1,
     alignItems: 'center',
     backgroundColor: Colors.backgroundBlack,
-  },
-  subtitleText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 14,
-    fontWeight: 'normal',
-  },
-  descriptionText: {
-    color: Colors.textFocusedPurple,
-    fontSize: FontScale * 10,
-    fontWeight: 'normal',
   },
   separator: {
     width: Width,
@@ -245,7 +279,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: Colors.textUnfocusedPurple,
     borderRadius: 30,
-    marginBottom: Height * 0.05,
+    marginVertical: Height * 0.01,
   },
   socialText: {
     color: Colors.textWhite,
@@ -262,11 +296,7 @@ const styles = StyleSheet.create({
     height: Height * 0.125,
     marginBottom: Height * 0.027,
   },
-  subContainer: {
-    width: Width * 0.9,
-    height: Height * 0.1,
-    marginBottom: Height * 0.027,
-  },
+
   fullTextInput: {
     width: Width * 0.9,
     height: Height * 0.06,

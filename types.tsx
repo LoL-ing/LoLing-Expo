@@ -24,7 +24,8 @@ export type RootStackParamList = {
   ToS: undefined;
   Authentication: undefined;
   SignUp: undefined;
-  //Welcome: undefined;
+  Welcome: undefined;
+  SelectMyLineChamp: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

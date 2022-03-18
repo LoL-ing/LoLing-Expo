@@ -2,11 +2,14 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Colors from '../constants/Colors';
+import { RootStackScreenProps } from '../types';
 
-export default function CommnunityScreen() {
+export default function SelectMyLineChampScreen({
+  navigation,
+}: RootStackScreenProps<'SelectMyLineChamp'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText}>LoLing</Text>
+      <Text style={styles.titleText}>Select My Line and champ</Text>
       <View style={styles.separator} />
     </View>
   );
