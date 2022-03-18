@@ -34,8 +34,9 @@ export default function HomeScreenFriendList(props: {
 
 const styles = StyleSheet.create({
   profileImgStyle: {
-    width: Layout.Width * 0.2,
-    height: Layout.Width * 0.2,
-    borderRadius: Layout.Width * 0.1,
+    width: Layout.Width * 0.15,
+    height: Layout.Width * 0.15,
+    borderRadius: Layout.Width * 0.075,
+    marginBottom: Layout.Height * 0.01,
   },
 });

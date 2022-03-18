@@ -16,7 +16,6 @@ import getFriends from '../data/Friends';
 import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import { RootTabScreenProps } from '../types';
 import getMyProfile from '../data/MyProfile';
-import { Shadow } from 'react-native-shadow-2';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -30,15 +29,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     <ScrollView contentContainerStyle={styles.fullScreenView}>
       <View style={styles.profileContainer}>
         <View style={styles.profileSummaryContainer}>
-          <Image
-            style={{
-              width: Width * 0.2,
-              height: Width * 0.2,
-              borderRadius: Width * 0.1,
-              marginHorizontal: Width * 0.05,
-            }}
-            source={MyProfile.profileImg}
-          />
+          <Image style={styles.profileImg} source={MyProfile.profileImg} />
 
           <View
             style={{
@@ -46,24 +37,8 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
               justifyContent: 'space-between',
             }}
           >
-            <Text
-              style={{
-                color: Colors.textWhite,
-                fontWeight: 'bold',
-                fontSize: FontScale * 20,
-              }}
-            >
-              {MyProfile.nickname}
-            </Text>
-            <Text
-              style={{
-                color: Colors.textWhite,
-                fontWeight: '900',
-                fontSize: FontScale * 16,
-              }}
-            >
-              {MyProfile.tier}
-            </Text>
+            <Text style={styles.profileNicknameText}>{MyProfile.nickname}</Text>
+            <Text style={styles.profileTierText}>{MyProfile.tier}</Text>
             <View
               style={{
                 width: Width * 0.4,
@@ -72,126 +47,69 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 justifyContent: 'space-between',
               }}
             >
-              <Text
-                style={{
-                  color: Colors.textWhite,
-                  fontWeight: '700',
-                  opacity: 0.7,
-                  fontSize: FontScale * 12,
-                }}
-              >
+              <Text style={styles.profileInfoText}>
                 승률 {MyProfile.winrate}
               </Text>
-              <Text
-                style={{
-                  color: Colors.textWhite,
-                  fontWeight: '600',
-                  opacity: 0.7,
-                  fontSize: FontScale * 12,
-                }}
-              >
-                KDA {MyProfile.KDA}
-              </Text>
+              <Text style={styles.profileInfoText}>KDA {MyProfile.KDA}</Text>
             </View>
           </View>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <View
             style={{
-              width: Width * 0.51,
+              width: Width * 0.48,
               paddingVertical: Height * 0.025,
-              paddingLeft: Width * 0.03,
+              marginLeft: Width * 0.025,
             }}
           >
-            <Text
-              style={{
-                color: Colors.textGray,
-                fontSize: FontScale * 6,
-                marginBottom: Height * 0.01,
-              }}
-            >
-              CHAMPION
-            </Text>
+            <Text style={styles.profileSubtitleText}>CHAMPION</Text>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.winRateAndKDAContainer}>
                 <Image
-                  style={{
-                    width: Width * 0.09,
-                    height: Height * 0.045,
-                    borderRadius: 50,
-                  }}
+                  style={styles.championImg}
                   source={require('../assets/images/Teemo.png')}
                 />
                 <View
                   style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
                 >
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontSize: FontScale * 9,
-                    }}
-                  >
+                  <Text style={styles.profileWinRateText}>
                     {MyProfile.champ1Winrate}
                   </Text>
-                  <Text
-                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
-                  >
+                  <Text style={styles.profileKDAText}>
                     / {MyProfile.champ1KDA}
                   </Text>
                 </View>
               </View>
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.winRateAndKDAContainer}>
                 <Image
-                  style={{
-                    width: Width * 0.09,
-                    height: Height * 0.045,
-                    borderRadius: 50,
-                  }}
+                  style={styles.championImg}
                   source={require('../assets/images/Irelia.png')}
                 />
                 <View
                   style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
                 >
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontSize: FontScale * 9,
-                    }}
-                  >
+                  <Text style={styles.profileWinRateText}>
                     {MyProfile.champ2Winrate}
                   </Text>
-                  <Text
-                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
-                  >
+                  <Text style={styles.profileKDAText}>
                     / {MyProfile.champ2KDA}
                   </Text>
                 </View>
               </View>
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.winRateAndKDAContainer}>
                 <Image
-                  style={{
-                    width: Width * 0.09,
-                    height: Height * 0.045,
-                    borderRadius: 50,
-                  }}
+                  style={styles.championImg}
                   source={require('../assets/images/Nunu.png')}
                 />
                 <View
                   style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
                 >
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontSize: FontScale * 9,
-                    }}
-                  >
+                  <Text style={styles.profileWinRateText}>
                     {MyProfile.champ3Winrate}
                   </Text>
-                  <Text
-                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
-                  >
+                  <Text style={styles.profileKDAText}>
                     / {MyProfile.champ3KDA}
                   </Text>
                 </View>
@@ -206,68 +124,38 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
               marginLeft: Width * 0.05,
             }}
           >
-            <Text
-              style={{
-                color: Colors.textGray,
-                fontSize: FontScale * 6,
-                marginBottom: Height * 0.01,
-              }}
-            >
-              POSITION
-            </Text>
+            <Text style={styles.profileSubtitleText}>POSITION</Text>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.winRateAndKDAContainer}>
                 <Image
-                  style={{
-                    width: Width * 0.09,
-                    height: Height * 0.045,
-                    borderRadius: 50,
-                  }}
+                  style={styles.positionImg}
                   source={require('../assets/images/lineTop.png')}
                 />
                 <View
                   style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
                 >
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontSize: FontScale * 9,
-                    }}
-                  >
+                  <Text style={styles.profileWinRateText}>
                     {MyProfile.champ1Winrate}
                   </Text>
-                  <Text
-                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
-                  >
+                  <Text style={styles.profileKDAText}>
                     / {MyProfile.champ1KDA}
                   </Text>
                 </View>
               </View>
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.winRateAndKDAContainer}>
                 <Image
-                  style={{
-                    width: Width * 0.09,
-                    height: Height * 0.045,
-                    borderRadius: 50,
-                  }}
+                  style={styles.positionImg}
                   source={require('../assets/images/lineJungle.png')}
                 />
                 <View
                   style={{ flexDirection: 'row', marginTop: Height * 0.01 }}
                 >
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontSize: FontScale * 9,
-                    }}
-                  >
+                  <Text style={styles.profileWinRateText}>
                     {MyProfile.champ2Winrate}
                   </Text>
-                  <Text
-                    style={{ color: Colors.textWhite, fontSize: FontScale * 9 }}
-                  >
+                  <Text style={styles.profileKDAText}>
                     / {MyProfile.champ2KDA}
                   </Text>
                 </View>
@@ -299,7 +187,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           data={MatchableUsers}
           renderItem={({ item }) => (
             <View style={styles.matchingContainer}>
-              <View style={styles.titleContainer}>
+              <View style={styles.userInfoContainer}>
                 <Text style={styles.userText}>{item.username}</Text>
                 <Text style={styles.rankText}>{item.tier}</Text>
               </View>
@@ -313,7 +201,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
               >
                 <View style={styles.matchingInfoContainer}>
                   <Image
-                    style={styles.matchingImg}
+                    style={styles.championImg}
                     source={item.mostChampImg}
                   ></Image>
                   <View style={{ marginLeft: 10 }}>
@@ -326,7 +214,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
                 <View style={styles.matchingInfoContainer}>
                   <Image
-                    style={styles.matchingImg}
+                    style={styles.championImg}
                     source={item.mostLineImg}
                   ></Image>
                   <View style={{ marginLeft: 10 }}>
@@ -374,6 +262,26 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           showsHorizontalScrollIndicator={false}
         />
       </View>
+
+      <View style={[styles.listContainer]}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginVertical: Height * 0.03,
+          }}
+        >
+          <Text style={styles.titleText}>실시간 인기 게시물</Text>
+          <Pressable>
+            <FontAwesome
+              name="chevron-right"
+              size={20}
+              color={Colors.textWhite}
+            />
+          </Pressable>
+        </View>
+      </View>
     </ScrollView>
   );
 }
@@ -382,8 +290,7 @@ const styles = StyleSheet.create({
   fullScreenView: {
     width: Width,
     height: Height,
-    paddingVertical: Height * 0.07,
-    flex: 1,
+    paddingVertical: Height * 0.065,
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: Colors.backgroundBlack,
@@ -394,19 +301,17 @@ const styles = StyleSheet.create({
     marginRight: Width * 0.05,
     backgroundColor: Colors.backgroundNavy,
     borderRadius: 30,
-    shadowOpacity: 30,
-    elevation: 30,
   },
-  titleContainer: {
+  userInfoContainer: {
     width: Width * 0.45,
     height: Height * 0.04,
+    marginVertical: Height * 0.013,
+    paddingHorizontal: Width * 0.03,
     flexDirection: 'row',
     alignSelf: 'center',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#9F70F1',
+    backgroundColor: Colors.backgroundPurple,
     borderRadius: 30,
   },
   profileContainer: {
@@ -418,37 +323,67 @@ const styles = StyleSheet.create({
   profileSummaryContainer: {
     width: Width * 0.9,
     height: Height * 0.18,
+    paddingHorizontal: Width * 0.025,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#9F70F1',
+    backgroundColor: Colors.backgroundPurple,
     borderRadius: 20,
+  },
+  profileImg: {
+    width: Width * 0.2,
+    height: Width * 0.2,
+    marginHorizontal: Width * 0.05,
+    borderRadius: Width * 0.1,
+  },
+  profileNicknameText: {
+    color: Colors.textWhite,
+    fontSize: FontScale * 20,
+    fontWeight: 'bold',
+  },
+  profileTierText: {
+    color: Colors.textWhite,
+    fontSize: FontScale * 16,
+    fontWeight: '900',
+  },
+  profileSubtitleText: {
+    color: Colors.textGray,
+    fontSize: FontScale * 6,
+    marginBottom: Height * 0.01,
+  },
+  profileWinRateText: {
+    color: Colors.textFocusedPurple,
+    fontSize: FontScale * 9,
+  },
+  profileKDAText: {
+    color: Colors.textWhite,
+    fontSize: FontScale * 9,
+  },
+  winRateAndKDAContainer: {
+    width: Width * 0.15,
+    alignItems: 'center',
   },
   listContainer: {
     width: Width * 0.9,
-    marginVertical: Height * 0.01,
+    marginVertical: Height * 0.008,
     backgroundColor: Colors.backgroundBlack,
   },
   titleText: {
-    fontSize: 20,
-    fontWeight: 'bold',
     color: Colors.textWhite,
+    fontSize: FontScale * 16,
+    fontWeight: 'bold',
   },
-  profileText: {
-    fontSize: 20,
-    color: Colors.textBlack,
-  },
-  profileImgStyle: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
+  profileInfoText: {
+    color: Colors.textWhite,
+    fontSize: FontScale * 12,
+    fontWeight: '600',
+    opacity: 0.7,
   },
   matchingInfoContainer: {
+    paddingVertical: Height * 0.013,
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
   },
-  matchingImg: {
+  championImg: {
     width: Width * 0.09,
     height: Height * 0.045,
     borderRadius: 50,
@@ -456,17 +391,18 @@ const styles = StyleSheet.create({
   winRateText: {
     color: Colors.textFocusedPurple,
     fontSize: FontScale * 12,
-    fontWeight: 'normal',
   },
   KDAText: {
     color: Colors.textGray,
     fontSize: FontScale * 12,
-    fontWeight: 'normal',
+  },
+  positionImg: {
+    width: Width * 0.09,
+    height: Height * 0.045,
   },
   userText: {
     color: Colors.textWhite,
     fontSize: FontScale * 10,
-    fontWeight: 'normal',
   },
   rankText: {
     color: Colors.textWhite,
