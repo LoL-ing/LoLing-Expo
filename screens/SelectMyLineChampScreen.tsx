@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { RootStackScreenProps } from '../types';
 
-import FavoriteLine from '../assets/images/favoriteLine.svg';
+import FavoriteLine from '../assets/text_images/favoriteLine.svg';
 import TopUnselected from '../assets/icons/svg/top-icon-unselected.svg';
 import MiddleUnselected from '../assets/icons/svg/middle-icon-unselected.svg';
 import BottomUnselected from '../assets/icons/svg/bottom-icon-unselected.svg';
@@ -13,11 +13,11 @@ import JungleUnselected from '../assets/icons/svg/jungle-icon-unselected.svg';
 import SupportUnselected from '../assets/icons/svg/support-icon-unselected.svg';
 import BottomSelected from '../assets/icons/svg/bottom-icon-selected.svg';
 import SupportSelected from '../assets/icons/svg/support-icon-selected.svg';
-import FavoriteChamp from '../assets/images/favoriteChamp.svg';
-import SelectFirstChamp from '../assets/images/selectFirstChamp.svg';
-import SelectSecondChamp from '../assets/images/selectSecondChamp.svg';
-import SelectThirdChamp from '../assets/images/selectThirdChamp.svg';
-import StartMatching from '../assets/images/startMatching.svg';
+import FavoriteChamp from '../assets/text_images/favoriteChamp.svg';
+import SelectFirstChamp from '../assets/text_images/selectFirstChamp.svg';
+import SelectSecondChamp from '../assets/text_images/selectSecondChamp.svg';
+import SelectThirdChamp from '../assets/text_images/selectThirdChamp.svg';
+import StartMatching from '../assets/text_images/startMatching.svg';
 import { useState } from 'react';
 
 export default function SelectMyLineChampScreen({
