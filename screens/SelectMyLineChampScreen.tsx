@@ -5,7 +5,10 @@ import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { RootStackScreenProps } from '../types';
 
+import Welcome from '../assets/text_images/welcome.svg';
 import FavoriteLine from '../assets/text_images/favoriteLine.svg';
+import FirstLine from '../assets/text_images/firstLine.svg';
+import SecondLine from '../assets/text_images/secondLine.svg';
 import TopUnselected from '../assets/icons/svg/top-icon-unselected.svg';
 import MiddleUnselected from '../assets/icons/svg/middle-icon-unselected.svg';
 import BottomUnselected from '../assets/icons/svg/bottom-icon-unselected.svg';
@@ -14,55 +17,107 @@ import SupportUnselected from '../assets/icons/svg/support-icon-unselected.svg';
 import BottomSelected from '../assets/icons/svg/bottom-icon-selected.svg';
 import SupportSelected from '../assets/icons/svg/support-icon-selected.svg';
 import FavoriteChamp from '../assets/text_images/favoriteChamp.svg';
-import SelectFirstChamp from '../assets/text_images/selectFirstChamp.svg';
-import SelectSecondChamp from '../assets/text_images/selectSecondChamp.svg';
-import SelectThirdChamp from '../assets/text_images/selectThirdChamp.svg';
+import First from '../assets/text_images/1st.svg';
+import Second from '../assets/text_images/2nd.svg';
+import Third from '../assets/text_images/3rd.svg';
 import StartMatching from '../assets/text_images/startMatching.svg';
 import { useState } from 'react';
 
 export default function SelectMyLineChampScreen({
   navigation,
 }: RootStackScreenProps<'SelectMyLineChamp'>) {
-  const [isTopSelected, setIsTopSelected] = useState(false);
-  const [isMiddleSelected, setIsMiddleSelected] = useState(false);
-  const [isBottomSelected, setIsBottomSelected] = useState(false);
-  const [isJungleSelected, setIsJungleSelected] = useState(false);
-  const [isSupportSelected, setIsSupportSelected] = useState(false);
+  const [firstLine, setFirstLine] = useState('');
+  const [secondLine, setSecondLine] = useState('');
 
   const changeIsTopSelected = () => {
-    setIsTopSelected(!isTopSelected);
+    if (firstLine === 'top') {
+      if (secondLine === '') setFirstLine('');
+      else {
+        setFirstLine(secondLine);
+        setSecondLine('');
+      }
+    } else if (secondLine === 'top') setSecondLine('');
+    else if (firstLine !== '') {
+      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
+      else setSecondLine('top');
+    } else setFirstLine('top');
   };
 
   const changeIsMiddleSelected = () => {
-    setIsMiddleSelected(!isMiddleSelected);
+    if (firstLine === 'middle') {
+      if (secondLine === '') setFirstLine('');
+      else {
+        setFirstLine(secondLine);
+        setSecondLine('');
+      }
+    } else if (secondLine === 'middle') setSecondLine('');
+    else if (firstLine !== '') {
+      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
+      else setSecondLine('middle');
+    } else setFirstLine('middle');
   };
 
   const changeIsBottomSelected = () => {
-    setIsBottomSelected(!isBottomSelected);
+    if (firstLine === 'bottom') {
+      if (secondLine === '') setFirstLine('');
+      else {
+        setFirstLine(secondLine);
+        setSecondLine('');
+      }
+    } else if (secondLine === 'bottom') setSecondLine('');
+    else if (firstLine !== '') {
+      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
+      else setSecondLine('bottom');
+    } else setFirstLine('bottom');
   };
 
   const changeIsJungleSelected = () => {
-    setIsJungleSelected(!isJungleSelected);
+    if (firstLine === 'jungle') {
+      if (secondLine === '') setFirstLine('');
+      else {
+        setFirstLine(secondLine);
+        setSecondLine('');
+      }
+    } else if (secondLine === 'jungle') setSecondLine('');
+    else if (firstLine !== '') {
+      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
+      else setSecondLine('jungle');
+    } else setFirstLine('jungle');
   };
 
   const changeIsSupportSelected = () => {
-    setIsSupportSelected(!isSupportSelected);
+    if (firstLine === 'support') {
+      if (secondLine === '') setFirstLine('');
+      else {
+        setFirstLine(secondLine);
+        setSecondLine('');
+      }
+    } else if (secondLine === 'support') setSecondLine('');
+    else if (firstLine !== '') {
+      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
+      else setSecondLine('support');
+    } else setFirstLine('support');
   };
 
   return (
     <View style={styles.fullScreenView}>
+      <Welcome
+        width={Layout.Width * 0.35}
+        style={{ marginBottom: Layout.Height * 0.07 }}
+      />
       <View style={styles.selectLoLAccountContainer}>
         <Text style={styles.selectLoLAccountText}>endendtndus@naver.com</Text>
       </View>
       <View
         style={{
           width: Layout.Width * 0.87,
-          height: Layout.Height * 0.15,
           justifyContent: 'space-between',
-          marginVertical: Layout.Height * 0.05,
+          marginVertical: Layout.Height * 0.07,
         }}
       >
-        <View style={{ alignItems: 'center' }}>
+        <View
+          style={{ alignItems: 'center', marginBottom: Layout.Height * 0.025 }}
+        >
           <FavoriteLine width={Layout.Width * 0.5} />
         </View>
         <View
@@ -72,113 +127,163 @@ export default function SelectMyLineChampScreen({
             justifyContent: 'space-around',
           }}
         >
-          <Pressable
-            onPress={() => {
-              changeIsTopSelected();
-            }}
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
-          >
-            {isTopSelected ? <TopUnselected /> : <TopUnselected />}
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              changeIsMiddleSelected();
-            }}
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
-          >
-            {isMiddleSelected ? <MiddleUnselected /> : <MiddleUnselected />}
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              changeIsBottomSelected();
-            }}
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
-          >
-            {isBottomSelected ? <BottomSelected /> : <BottomUnselected />}
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              changeIsJungleSelected();
-            }}
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
-          >
-            {isJungleSelected ? <JungleUnselected /> : <JungleUnselected />}
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              changeIsSupportSelected();
-            }}
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
-          >
-            {isSupportSelected ? <SupportSelected /> : <SupportUnselected />}
-          </Pressable>
+          <View style={{ alignItems: 'center' }}>
+            {firstLine == 'top' ? (
+              <FirstLine />
+            ) : secondLine == 'top' ? (
+              <SecondLine />
+            ) : undefined}
+
+            <Pressable
+              onPress={() => {
+                changeIsTopSelected();
+              }}
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}
+            >
+              {firstLine == 'top' || secondLine == 'top' ? (
+                <TopUnselected />
+              ) : (
+                <TopUnselected />
+              )}
+            </Pressable>
+          </View>
+
+          <View style={{ alignItems: 'center' }}>
+            {firstLine == 'middle' ? (
+              <FirstLine />
+            ) : secondLine == 'middle' ? (
+              <SecondLine />
+            ) : undefined}
+            <Pressable
+              onPress={() => {
+                changeIsMiddleSelected();
+              }}
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}
+            >
+              {firstLine == 'middle' || secondLine == 'middle' ? (
+                <MiddleUnselected />
+              ) : (
+                <MiddleUnselected />
+              )}
+            </Pressable>
+          </View>
+
+          <View style={{ alignItems: 'center' }}>
+            {firstLine == 'bottom' ? (
+              <FirstLine />
+            ) : secondLine == 'bottom' ? (
+              <SecondLine />
+            ) : undefined}
+            <Pressable
+              onPress={() => {
+                changeIsBottomSelected();
+              }}
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}
+            >
+              {firstLine == 'bottom' || secondLine == 'bottom' ? (
+                <BottomSelected />
+              ) : (
+                <BottomUnselected />
+              )}
+            </Pressable>
+          </View>
+
+          <View style={{ alignItems: 'center' }}>
+            {firstLine == 'jungle' ? (
+              <FirstLine />
+            ) : secondLine == 'jungle' ? (
+              <SecondLine />
+            ) : undefined}
+            <Pressable
+              onPress={() => {
+                changeIsJungleSelected();
+              }}
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}
+            >
+              {firstLine == 'jungle' || secondLine == 'jungle' ? (
+                <JungleUnselected />
+              ) : (
+                <JungleUnselected />
+              )}
+            </Pressable>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            {firstLine == 'support' ? (
+              <FirstLine />
+            ) : secondLine == 'support' ? (
+              <SecondLine />
+            ) : undefined}
+            <Pressable
+              onPress={() => {
+                changeIsSupportSelected();
+              }}
+              style={({ pressed }) => [
+                {
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}
+            >
+              {firstLine == 'support' || secondLine == 'support' ? (
+                <SupportSelected />
+              ) : (
+                <SupportUnselected />
+              )}
+            </Pressable>
+          </View>
         </View>
       </View>
 
       <View
         style={{
           alignItems: 'center',
-          height: Layout.Height * 0.42,
+          height: Layout.Height * 0.18,
           justifyContent: 'space-between',
         }}
       >
         <FavoriteChamp width={Layout.Width * 0.5} />
         <View
           style={{
-            alignItems: 'center',
-            height: Layout.Height * 0.315,
+            width: Layout.Width * 0.6,
+            flexDirection: 'row',
             justifyContent: 'space-between',
           }}
         >
           <Pressable
-            style={({ pressed }) => [
-              styles.selectChampButton,
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
-            <SelectFirstChamp width={Layout.Width * 0.45} />
+            <First width={Layout.Width * 0.17} />
           </Pressable>
           <Pressable
-            style={({ pressed }) => [
-              styles.selectChampButton,
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
-            <SelectSecondChamp width={Layout.Width * 0.45} />
+            <Second width={Layout.Width * 0.17} />
           </Pressable>
           <Pressable
-            style={({ pressed }) => [
-              styles.selectChampButton,
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
-            <SelectThirdChamp width={Layout.Width * 0.45} />
+            <Third width={Layout.Width * 0.17} />
           </Pressable>
         </View>
       </View>
@@ -233,7 +338,7 @@ const styles = StyleSheet.create({
   startMatchingButton: {
     width: Layout.Width * 0.86,
     height: Layout.Height * 0.072,
-    marginVertical: Layout.Height * 0.05,
+    marginVertical: Layout.Height * 0.1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 30,
