@@ -1,9 +1,18 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Modal,
+  FlatList,
+} from 'react-native';
 
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { RootStackScreenProps } from '../types';
+import getSelectChampions from '../data/SelectChampions';
+import SelectChampion from '../components/SelectChampion';
 
 import Welcome from '../assets/text_images/welcome.svg';
 import FavoriteLine from '../assets/text_images/favoriteLine.svg';
@@ -21,6 +30,8 @@ import First from '../assets/text_images/1st.svg';
 import Second from '../assets/text_images/2nd.svg';
 import Third from '../assets/text_images/3rd.svg';
 import StartMatching from '../assets/text_images/startMatching.svg';
+import FavoriteFirstChamp from '../assets/text_images/favoriteFirstChamp.svg';
+import Save from '../assets/text_images/save.svg';
 import { useState } from 'react';
 
 export default function SelectMyLineChampScreen({
@@ -28,6 +39,7 @@ export default function SelectMyLineChampScreen({
 }: RootStackScreenProps<'SelectMyLineChamp'>) {
   const [firstLine, setFirstLine] = useState('');
   const [secondLine, setSecondLine] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const changeIsTopSelected = () => {
     if (firstLine === 'top') {
@@ -268,6 +280,7 @@ export default function SelectMyLineChampScreen({
             style={({ pressed }) => ({
               opacity: pressed ? 0.5 : 1,
             })}
+            onPress={() => setModalVisible(true)}
           >
             <First width={Layout.Width * 0.17} />
           </Pressable>
@@ -275,6 +288,7 @@ export default function SelectMyLineChampScreen({
             style={({ pressed }) => ({
               opacity: pressed ? 0.5 : 1,
             })}
+            onPress={() => setModalVisible(true)}
           >
             <Second width={Layout.Width * 0.17} />
           </Pressable>
@@ -282,6 +296,7 @@ export default function SelectMyLineChampScreen({
             style={({ pressed }) => ({
               opacity: pressed ? 0.5 : 1,
             })}
+            onPress={() => setModalVisible(true)}
           >
             <Third width={Layout.Width * 0.17} />
           </Pressable>
@@ -299,6 +314,42 @@ export default function SelectMyLineChampScreen({
       >
         <StartMatching width={Layout.Width * 0.17} />
       </Pressable>
+
+      <Modal
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.fullScreenModal}>
+          <FavoriteFirstChamp width={Layout.Width * 0.4} />
+          <View style={{ height: Layout.Height * 0.65 }}>
+            <FlatList
+              data={getSelectChampions()}
+              renderItem={({ item }) => (
+                <SelectChampion
+                  champImg={item.champImg}
+                  champName={item.champName}
+                  champRole={item.champRole}
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+          <Pressable
+            style={({ pressed }) => [
+              styles.savingButton,
+              {
+                opacity: pressed ? 0.5 : 1,
+                backgroundColor: Colors.textUnfocusedPurple,
+              },
+            ]}
+            onPress={() => setModalVisible(false)}
+          >
+            <Save width={Layout.Width * 0.17} />
+          </Pressable>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -310,6 +361,13 @@ const styles = StyleSheet.create({
     paddingVertical: Layout.Height * 0.065,
     flexDirection: 'column',
     alignItems: 'center',
+    backgroundColor: Colors.backgroundBlack,
+  },
+  fullScreenModal: {
+    width: Layout.Width,
+    height: Layout.Height,
+    paddingVertical: Layout.Height * 0.065,
+    paddingHorizontal: Layout.Width * 0.05,
     backgroundColor: Colors.backgroundBlack,
   },
   selectLoLAccountContainer: {
@@ -336,11 +394,21 @@ const styles = StyleSheet.create({
     borderColor: Colors.textUnfocusedPurple,
   },
   startMatchingButton: {
-    width: Layout.Width * 0.86,
+    width: Layout.Width * 0.9,
     height: Layout.Height * 0.072,
     marginVertical: Layout.Height * 0.1,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 30,
+  },
+  savingButton: {
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.072,
+    marginVertical: Layout.Height * 0.05,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
     borderRadius: 30,
   },
 });
