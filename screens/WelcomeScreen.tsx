@@ -1,3 +1,4 @@
+import { tsConstructorType } from '@babel/types';
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import {
@@ -13,6 +14,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import { RootStackScreenProps } from '../types';
+import Layout from '../constants/Layout';
+import Welcome from '../assets/text_images/Welcome.svg';
+import Nickname from '../assets/text_images/nickname.svg';
+import Description from '../assets/text_images/description.svg';
+import MatchingStartUnfocused from '../assets/text_images/matchingStart-unfocused.svg';
+import LolaccountUnfocused from '../assets/text_images/lolaccount-unfocused.svg';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -23,6 +30,7 @@ export default function WelcomeScreen({
 }: RootStackScreenProps<'Welcome'>) {
   const [nickname, setNickname] = useState('');
   const [description, setDescription] = useState('');
+  const [countvalue, setCount] = useState(0);
 
   const [isNicknameFocused, setIsNicknameFocused] = useState(false);
   const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
@@ -46,6 +54,10 @@ export default function WelcomeScreen({
     }
   };
 
+  const countValue = (input: string) => {
+    setCount(input.length);
+  };
+
   return (
     <SafeAreaView style={[Styles.fullscreen, { alignItems: 'center' }]}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -55,12 +67,12 @@ export default function WelcomeScreen({
             paddingBottom: 25,
           }}
         >
-          <View style={{ alignItems: 'center' }}>
-            <Text style={styles.titleText}>환영합니다!</Text>
+          <View style={[styles.titleContainer, { alignItems: 'center' }]}>
+            <Welcome width={Layout.Width * 0.35} />
           </View>
 
           <View style={styles.subContainer}>
-            <Text style={styles.subtitleText}>닉네임</Text>
+            <Nickname width={Layout.Width * 0.12} />
             <Text
               style={[
                 styles.descriptionText,
@@ -124,9 +136,22 @@ export default function WelcomeScreen({
             />
           </View>
           <View style={styles.subContainer}>
-            <Text style={styles.subtitleText}>유저들에게 한 마디</Text>
-            <Text style={[styles.descriptionText, { color: Colors.textGray }]}>
-              50자 이내로 작성해주세요.
+            <Description width={Layout.Width * 0.35} />
+
+            <Text
+              style={[
+                styles.descriptionText,
+                {
+                  color:
+                    isDescriptionFocused && countvalue !== 0
+                      ? Colors.textFocusedPurple
+                      : Colors.textGray,
+                },
+              ]}
+            >
+              {countvalue == 0
+                ? '50자 이내로 작성해주세요.'
+                : countvalue + ' / 50'}
             </Text>
             <TextInput
               style={[
@@ -150,6 +175,7 @@ export default function WelcomeScreen({
               }}
               onChangeText={text => {
                 setDescription(text);
+                countValue(text);
               }}
               value={description}
               onSubmitEditing={() => {
@@ -161,6 +187,7 @@ export default function WelcomeScreen({
               multiline={true}
             />
           </View>
+
           <Pressable
             style={({ pressed }) => [
               styles.socialContainer,
@@ -173,22 +200,17 @@ export default function WelcomeScreen({
             ]}
             onPress={() => navigation.navigate('SelectMyLineChamp')}
           >
-            <Text style={styles.socialText}>롤 계정 인증하기</Text>
+            <LolaccountUnfocused />
           </Pressable>
-
           <Pressable
-            style={[
+            style={({ pressed }) => [
               styles.socialContainer,
               {
-                backgroundColor: Colors.textUnfocusedPurple,
-                // isCheckedDuplicateNickname === true
-                //   ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
-                //     Colors.textFocusedPurple
-                //   : Colors.textUnfocusedPurple,
+                opacity: pressed ? 0.5 : 1,
               },
             ]}
           >
-            <Text style={styles.socialText}>매칭 시작</Text>
+            <MatchingStartUnfocused />
           </Pressable>
         </ScrollView>
       </TouchableWithoutFeedback>
@@ -198,8 +220,8 @@ export default function WelcomeScreen({
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Height * 0.2,
-    marginBottom: Height * 0.2,
+    marginTop: Height * 0.1,
+    marginBottom: Height * 0.1,
   },
   titleText: {
     color: Colors.textWhite,
@@ -272,8 +294,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   socialContainer: {
-    width: Width * 0.9,
-    height: Height * 0.062,
+    //width: Width * 0.9,
+    //height: Height * 0.062,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
