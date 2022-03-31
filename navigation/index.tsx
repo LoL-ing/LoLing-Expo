@@ -109,7 +109,7 @@ function RootNavigator() {
       <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, animation: 'fade' }}
       />
       <Stack.Screen
         name="SelectMyLineChamp"

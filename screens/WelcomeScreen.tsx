@@ -1,6 +1,6 @@
 import { tsConstructorType } from '@babel/types';
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -8,9 +8,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   SafeAreaView,
+  InteractionManagerStatic,
 } from 'react-native';
-import { TextInput, Text, View } from 'react-native';
+import { TextInput, Text, View, Animated } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import { RootStackScreenProps } from '../types';
@@ -25,9 +27,15 @@ const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
-export default function WelcomeScreen({
-  navigation,
-}: RootStackScreenProps<'Welcome'>) {
+export default function WelcomeScreen(
+  { navigation }: RootStackScreenProps<'Welcome'>,
+  measurements: {
+    height: number;
+    width: number;
+    x: number;
+    y: number;
+  },
+) {
   const [nickname, setNickname] = useState('');
   const [description, setDescription] = useState('');
   const [countvalue, setCount] = useState(0);
@@ -53,6 +61,52 @@ export default function WelcomeScreen({
       setIsNicknameInit(false);
     }
   };
+  /* animation */
+  const settingAnim = useRef(new Animated.Value(0)).current;
+  const signupAnim = useRef(new Animated.Value(0)).current;
+  const welcomeUpAnim = useRef(new Animated.Value(Height * 0.9)).current;
+  const changeBtnAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.sequence([
+      // + signupscreen에서 fadeout 200ms
+      Animated.timing(signupAnim, {
+        toValue: 147,
+        duration: 400,
+        useNativeDriver: true,
+        delay: 300,
+      }),
+      Animated.parallel([
+        Animated.timing(welcomeUpAnim, {
+          toValue: Height * 0.35,
+          duration: 1200,
+          useNativeDriver: true,
+          delay: 300,
+        }),
+        Animated.timing(changeBtnAnim, {
+          toValue: 1,
+          duration: 1200,
+          useNativeDriver: true,
+          delay: 300,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(settingAnim, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+          delay: 800,
+        }),
+        Animated.timing(welcomeUpAnim, {
+          toValue: Height * 0.01,
+          duration: 600,
+          useNativeDriver: true,
+          delay: 800,
+        }),
+      ]),
+    ]).start();
+  });
+  /* end of animation */
 
   const countValue = (input: string) => {
     setCount(input.length);
@@ -67,77 +121,88 @@ export default function WelcomeScreen({
             paddingBottom: 25,
           }}
         >
+          <Animated.View
+            style={{
+              alignItems: 'center',
+              transform: [{ translateY: welcomeUpAnim }],
+            }}
+          >
           <View style={[styles.titleContainer, { alignItems: 'center' }]}>
             <Welcome width={Layout.Width * 0.35} />
           </View>
-
-          <View style={styles.subContainer}>
-            <Nickname width={Layout.Width * 0.12} />
-            <Text
-              style={[
-                styles.descriptionText,
-                {
-                  color: isNicknameInit
-                    ? Colors.textGray
-                    : isCheckedDuplicateNickname
-                    ? Colors.textFocusedPurple
-                    : Colors.textRed,
-                },
-              ]}
-            >
-              {isNicknameInit
-                ? `8자 이내로 입력해주세요`
-                : isCheckedDuplicateNickname
-                ? `사용 가능한 닉네임입니다!`
-                : `사용 중인 닉네임입니다.`}
-            </Text>
-            <TextInput
-              style={[
-                styles.fullTextInput,
-                isNicknameInit
-                  ? isNicknameFocused
-                    ? styles.focusedTextInput
-                    : styles.unfocusedTextInput
+          </Animated.View>
+        
+          <Animated.View
+            style={{
+              opacity: settingAnim,
+            }}
+          >
+            <View style={styles.subContainer}>
+              <Nickname width={Layout.Width * 0.12} />
+              <Text
+                style={[
+                  styles.descriptionText,
+                  {
+                    color: isNicknameInit
+                      ? Colors.textGray
+                      : isCheckedDuplicateNickname
+                      ? Colors.textFocusedPurple
+                      : Colors.textRed,
+                  },
+                ]}
+              >
+                {isNicknameInit
+                  ? `8자 이내로 입력해주세요`
                   : isCheckedDuplicateNickname
-                  ? isNicknameFocused
-                    ? styles.focusedTextInput
-                    : styles.unfocusedTextInput
-                  : styles.errorTextInput,
-              ]}
-              placeholder="닉네임"
-              placeholderTextColor={
-                isNicknameFocused
-                  ? Colors.textWhite
-                  : Colors.textUnfocusedPurple
-              }
-              returnKeyType="next"
-              onFocus={() => {
-                setIsNicknameFocused(true);
-              }}
-              onBlur={() => {
-                // setIsNicknameInit(false);
-                setIsNicknameFocused(false);
-                setIsCheckedDuplicateNickname(false);
-                checkDuplicateNickname(nickname);
-                // if (checkpassword === password && checkpassword != '') {
-                //   setIsPasswordCorrect(true);
-                // } else setIsPasswordCorrect(false);
-              }}
-              onChangeText={text => {
-                setNickname(text);
-              }}
-              value={nickname}
-              onSubmitEditing={() => {
-                nicknameField.current?.focus();
-              }}
-              maxLength={8}
-              textAlign={'center'}
-              clearButtonMode="while-editing"
-            />
-          </View>
-          <View style={styles.subContainer}>
-            <Description width={Layout.Width * 0.35} />
-
+                  ? `사용 가능한 닉네임입니다!`
+                  : `사용 중인 닉네임입니다.`}
+              </Text>
+              <TextInput
+                style={[
+                  styles.fullTextInput,
+                  isNicknameInit
+                    ? isNicknameFocused
+                      ? styles.focusedTextInput
+                      : styles.unfocusedTextInput
+                    : isCheckedDuplicateNickname
+                    ? isNicknameFocused
+                      ? styles.focusedTextInput
+                      : styles.unfocusedTextInput
+                    : styles.errorTextInput,
+                ]}
+                placeholder="닉네임"
+                placeholderTextColor={
+                  isNicknameFocused
+                    ? Colors.textWhite
+                    : Colors.textUnfocusedPurple
+                }
+                returnKeyType="next"
+                onFocus={() => {
+                  setIsNicknameFocused(true);
+                }}
+                onBlur={() => {
+                  // setIsNicknameInit(false);
+                  setIsNicknameFocused(false);
+                  setIsCheckedDuplicateNickname(false);
+                  checkDuplicateNickname(nickname);
+                  // if (checkpassword === password && checkpassword != '') {
+                  //   setIsPasswordCorrect(true);
+                  // } else setIsPasswordCorrect(false);
+                }}
+                onChangeText={text => {
+                  setNickname(text);
+                }}
+                value={nickname}
+                onSubmitEditing={() => {
+                  nicknameField.current?.focus();
+                }}
+                maxLength={8}
+                textAlign={'center'}
+                clearButtonMode="while-editing"
+              />
+            </View>
+            <View style={styles.subContainer}>
+              <Description width={Layout.Width * 0.35} />
             <Text
               style={[
                 styles.descriptionText,
@@ -187,31 +252,59 @@ export default function WelcomeScreen({
               multiline={true}
             />
           </View>
-
-          <Pressable
-            style={({ pressed }) => [
+          </Animated.View>
+        
+          <View style={{ height: Height * 0.05 }}></View>
+        
+        
+          <Animated.View
+            style={[
               styles.socialContainer,
-              {
-                opacity: pressed ? 0.5 : 1,
-                backgroundColor: isCheckedDuplicateNickname
-                  ? Colors.backgroundPurple
-                  : Colors.backgroundNavy,
-              },
-            ]}
-            onPress={() => navigation.navigate('SelectMyLineChamp')}
-          >
-            <LolaccountUnfocused />
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              styles.socialContainer,
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
+              styles.focusedsocialContainer,
+              // {
+              //   position: 'absolute',
+              //   top: measurements.height,
+              // },
+              { transform: [{ translateY: signupAnim }] },
             ]}
           >
-            <MatchingStartUnfocused />
-          </Pressable>
+            <Text style={styles.socialText}>가입 완료</Text>
+          </Animated.View>
+        
+          <Animated.View style={{ opacity: settingAnim }}>
+            <Pressable
+              style={({ pressed }) => [
+                styles.socialContainer,
+                {
+                  opacity: pressed ? 0.5 : 1,
+                  backgroundColor: isCheckedDuplicateNickname
+                    ? Colors.backgroundPurple
+                    : Colors.backgroundNavy,
+                },
+              ]}
+              onPress={() => navigation.navigate('SelectMyLineChamp')}
+            >
+              <LolaccountUnfocused />
+            </Pressable>
+          </Animated.View>
+        
+          <Animated.View style={{ opacity: changeBtnAnim }}>
+            <Pressable
+            style={({ pressed }) => [
+                styles.socialContainer,
+                {
+                  backgroundColor: Colors.textUnfocusedPurple,
+                  // isCheckedDuplicateNickname === true
+                  //   ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
+                  //     Colors.textFocusedPurple
+                  //   : Colors.textUnfocusedPurple,
+                  opacity: pressed ? 0.5 : 1,
+                },
+              ]}
+            >
+              <MatchingStartUnfocused />
+            </Pressable>
+          </Animated.View>
         </ScrollView>
       </TouchableWithoutFeedback>
     </SafeAreaView>
@@ -302,6 +395,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.textUnfocusedPurple,
     borderRadius: 30,
     marginVertical: Height * 0.01,
+  },
+  focusedsocialContainer: {
+    backgroundColor: Colors.backgroundPurple,
   },
   socialText: {
     color: Colors.textWhite,
