@@ -17,7 +17,7 @@ import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import { RootStackScreenProps } from '../types';
 import Layout from '../constants/Layout';
-import Welcome from '../assets/text_images/Welcome.svg';
+import Welcome from '../assets/text_images/welcome.svg';
 import Nickname from '../assets/text_images/nickname.svg';
 import Description from '../assets/text_images/description.svg';
 import MatchingStartUnfocused from '../assets/text_images/matchingStart-unfocused.svg';
@@ -127,11 +127,11 @@ export default function WelcomeScreen(
               transform: [{ translateY: welcomeUpAnim }],
             }}
           >
-          <View style={[styles.titleContainer, { alignItems: 'center' }]}>
-            <Welcome width={Layout.Width * 0.35} />
-          </View>
+            <View style={[styles.titleContainer, { alignItems: 'center' }]}>
+              <Welcome width={Layout.Width * 0.35} />
+            </View>
           </Animated.View>
-        
+
           <Animated.View
             style={{
               opacity: settingAnim,
@@ -203,60 +203,59 @@ export default function WelcomeScreen(
             </View>
             <View style={styles.subContainer}>
               <Description width={Layout.Width * 0.35} />
-            <Text
-              style={[
-                styles.descriptionText,
-                {
-                  color:
-                    isDescriptionFocused && countvalue !== 0
-                      ? Colors.textFocusedPurple
-                      : Colors.textGray,
-                },
-              ]}
-            >
-              {countvalue == 0
-                ? '50자 이내로 작성해주세요.'
-                : countvalue + ' / 50'}
-            </Text>
-            <TextInput
-              style={[
-                styles.fullTextInput,
-                isDescriptionFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput,
-              ]}
-              placeholder="최대 50자"
-              placeholderTextColor={
-                isDescriptionFocused
-                  ? Colors.textWhite
-                  : Colors.textUnfocusedPurple
-              }
-              returnKeyType="next"
-              onFocus={() => {
-                setIsDescriptionFocused(true);
-              }}
-              onBlur={() => {
-                setIsDescriptionFocused(false);
-              }}
-              onChangeText={text => {
-                setDescription(text);
-                countValue(text);
-              }}
-              value={description}
-              onSubmitEditing={() => {
-                descriptionField.current?.focus();
-              }}
-              maxLength={50}
-              textAlign={'center'}
-              clearButtonMode="while-editing"
-              multiline={true}
-            />
-          </View>
+              <Text
+                style={[
+                  styles.descriptionText,
+                  {
+                    color:
+                      isDescriptionFocused && countvalue !== 0
+                        ? Colors.textFocusedPurple
+                        : Colors.textGray,
+                  },
+                ]}
+              >
+                {countvalue == 0
+                  ? '50자 이내로 작성해주세요.'
+                  : countvalue + ' / 50'}
+              </Text>
+              <TextInput
+                style={[
+                  styles.fullTextInput,
+                  isDescriptionFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput,
+                ]}
+                placeholder="최대 50자"
+                placeholderTextColor={
+                  isDescriptionFocused
+                    ? Colors.textWhite
+                    : Colors.textUnfocusedPurple
+                }
+                returnKeyType="next"
+                onFocus={() => {
+                  setIsDescriptionFocused(true);
+                }}
+                onBlur={() => {
+                  setIsDescriptionFocused(false);
+                }}
+                onChangeText={text => {
+                  setDescription(text);
+                  countValue(text);
+                }}
+                value={description}
+                onSubmitEditing={() => {
+                  descriptionField.current?.focus();
+                }}
+                maxLength={50}
+                textAlign={'center'}
+                clearButtonMode="while-editing"
+                multiline={true}
+              />
+            </View>
           </Animated.View>
-        
+
           <View style={{ height: Height * 0.05 }}></View>
-        
-        
+
           <Animated.View
             style={[
               styles.socialContainer,
@@ -270,7 +269,7 @@ export default function WelcomeScreen(
           >
             <Text style={styles.socialText}>가입 완료</Text>
           </Animated.View>
-        
+
           <Animated.View style={{ opacity: settingAnim }}>
             <Pressable
               style={({ pressed }) => [
@@ -287,10 +286,10 @@ export default function WelcomeScreen(
               <LolaccountUnfocused />
             </Pressable>
           </Animated.View>
-        
+
           <Animated.View style={{ opacity: changeBtnAnim }}>
             <Pressable
-            style={({ pressed }) => [
+              style={({ pressed }) => [
                 styles.socialContainer,
                 {
                   backgroundColor: Colors.textUnfocusedPurple,
