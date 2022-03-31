@@ -2,17 +2,27 @@ import { FontAwesome } from '@expo/vector-icons';
 import { visitWithTypeInfo } from 'graphql';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { StyleSheet, Pressable, Dimensions, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  SafeAreaView,
+  NativeEventEmitter,
+} from 'react-native';
 import { TextInput, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { nativeViewProps } from 'react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler';
 import Colors from '../constants/Colors';
 import passwordValidator from '../constants/passwordValidator';
+import { RootStackScreenProps } from '../types';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
-export default function SignUpScreen() {
+export default function SignUpScreen({
+  navigation,
+}: RootStackScreenProps<'SignUp'>) {
   const [id, setId] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +52,7 @@ export default function SignUpScreen() {
   const nameField = useRef<TextInput>(null);
   const emailField = useRef<TextInput>(null);
 
+  let measurements: any;
   const checkDuplicateId = (input: string) => {
     if (input === '') {
       alert(`아이디를 입력해주세요.`);
@@ -413,12 +424,18 @@ export default function SignUpScreen() {
             opacity: pressed ? 0.5 : 1,
           })}
           onPress={() => {
-            if (
-              !(isCheckedDuplicateId === true && isPasswordcorrect === true)
-            ) {
-              alert(`아이디 중복확인 및 비밀번호 확인을 해주세요.`);
-            }
-            console.log(FontScale);
+            // if (
+            //   !(isCheckedDuplicateId === true && isPasswordcorrect === true)
+            // ) {
+            //   alert(`아이디 중복확인 및 비밀번호 확인을 해주세요.`);
+            // } else {
+            //   navigation.navigate('Welcome');
+            // }
+            navigation.navigate('Welcome', measurements);
+          }}
+          onLayout={event => {
+            measurements = event.nativeEvent.layout;
+            //console.log(measurements);
           }}
         >
           <View
@@ -510,7 +527,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: Colors.textUnfocusedPurple,
     borderRadius: 30,
-    marginBottom: Height * 0.05,
+    marginBottom: Height * 0.1,
   },
   socialText: {
     color: Colors.textWhite,
