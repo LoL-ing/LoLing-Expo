@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import {
   Pressable,
   View,
@@ -15,13 +16,16 @@ export default function SelectChampion(props: {
   champImg: ImageSourcePropType;
   champName: string;
   champRole: string;
+  isSelected: boolean;
 }) {
   return (
-    <Pressable
-      style={({ pressed }) => [
+    <View
+      style={[
         styles.champItemView,
         {
-          opacity: pressed ? 0.5 : 1,
+          backgroundColor: props.isSelected
+            ? Colors.backgroundPurple
+            : Colors.backgroundNavy,
         },
       ]}
     >
@@ -34,9 +38,20 @@ export default function SelectChampion(props: {
         }}
       >
         <Text style={styles.champName}>{props.champName}</Text>
-        <Text style={styles.champRole}>{props.champRole}</Text>
+        <Text
+          style={[
+            styles.champRole,
+            {
+              color: props.isSelected
+                ? Colors.textWhite
+                : Colors.textUnfocusedPurple,
+            },
+          ]}
+        >
+          {props.champRole}
+        </Text>
       </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -48,7 +63,7 @@ const styles = StyleSheet.create({
     marginVertical: Layout.Height * 0.01,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.backgroundNavy,
+
     borderRadius: 8,
   },
   champImg: {
@@ -59,9 +74,9 @@ const styles = StyleSheet.create({
   champName: {
     color: Colors.textWhite,
     fontSize: Layout.FontScale * 10,
+    fontWeight: 'bold',
   },
   champRole: {
-    color: Colors.textUnfocusedPurple,
     fontSize: Layout.FontScale * 10,
   },
 });
