@@ -14,6 +14,18 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { nativeViewProps } from 'react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler';
 import Colors from '../constants/Colors';
 import passwordValidator from '../constants/passwordValidator';
+import Layout from '../constants/Layout';
+import Id from '../assets/text_images/Id.svg';
+import Password from '../assets/text_images/password.svg';
+import PasswordCheck from '../assets/text_images/passwordCheck.svg';
+import Name from '../assets/text_images/name.svg';
+import Email from '../assets/text_images/email.svg';
+import SignUpButtonOn from '../assets/text_images/signUpButton_on.svg';
+import SignUpButtonOff from '../assets/text_images/signUpButton_off.svg';
+import SignUp from '../assets/text_images/signUp.svg';
+import IdentifyButtonOn from '../assets/text_images/identifyButton_on.svg';
+import IdentifyButtonOff from '../assets/text_images/identifyButton_off.svg';
+import IdCheck_off from '../assets/text_images/idCheck_off.svg';
 import { RootStackScreenProps } from '../types';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
@@ -68,14 +80,14 @@ export default function SignUpScreen({
     <SafeAreaView style={styles.fullscreen}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 25,
-        }}
+        contentContainerStyle={{}}
       >
-        <Text style={styles.titleText}>회원 가입</Text>
+        <View style={styles.titleContainer}>
+          <SignUp />
+        </View>
         <View>
           <View style={[styles.subContainer, { marginTop: 0 }]}>
-            <Text style={styles.subtitleText}>아이디</Text>
+            <Id />
             <View style={styles.IdtextInputGroup}>
               <TextInput
                 style={[
@@ -120,7 +132,7 @@ export default function SignUpScreen({
             </View>
           </View>
           <View style={styles.descriptionSubContainer}>
-            <Text style={styles.subtitleText}>비밀번호</Text>
+            <Password />
             <TextInput
               style={[
                 styles.fullTextInput,
@@ -184,7 +196,7 @@ export default function SignUpScreen({
             </Text>
           </View>
           <View style={styles.descriptionSubContainer}>
-            <Text style={styles.subtitleText}>비밀번호 확인</Text>
+            <PasswordCheck />
             <TextInput
               style={[
                 styles.fullTextInput,
@@ -245,7 +257,7 @@ export default function SignUpScreen({
           </View>
         </View>
         <View style={styles.subContainer}>
-          <Text style={styles.subtitleText}>이름</Text>
+          <Name />
           <TextInput
             style={[
               styles.fullTextInput,
@@ -275,7 +287,7 @@ export default function SignUpScreen({
           />
         </View>
         <View style={styles.subContainer}>
-          <Text style={styles.subtitleText}>이메일</Text>
+          <Email />
           <TextInput
             style={[
               styles.fullTextInput,
@@ -467,6 +479,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Width * 0.05,
     backgroundColor: Colors.backgroundBlack,
     alignItems: 'center',
+  },
+  titleContainer: {
+    marginTop: Height * 0.1,
+    marginBottom: Height * 0.1,
   },
   contentContainer: {
     marginLeft: 20,
