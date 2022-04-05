@@ -27,6 +27,7 @@ import IdentifyButtonOn from '../assets/text_images/identifyButton_on.svg';
 import IdentifyButtonOff from '../assets/text_images/identifyButton_off.svg';
 import IdCheck_off from '../assets/text_images/idCheck_off.svg';
 import { RootStackScreenProps } from '../types';
+import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -80,7 +81,9 @@ export default function SignUpScreen({
     <SafeAreaView style={styles.fullscreen}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{}}
+        contentContainerStyle={{
+          paddingBottom: 60,
+        }}
       >
         <View style={styles.titleContainer}>
           <SignUp />
@@ -431,10 +434,30 @@ export default function SignUpScreen({
             </Pressable>
           )
         ) : undefined}
+      </ScrollView>
+
+      <View
+        style={{
+          height: Height * 0.1,
+          position: 'absolute',
+          top: Height * 0.82 + 48,
+          backgroundColor: Colors.backgroundBlack,
+        }}
+        onLayout={event => {
+          const layout = event.nativeEvent.layout;
+          console.log('height:', layout.height);
+          console.log('width:', layout.width);
+          console.log('x:', layout.x);
+          console.log('y:', layout.y);
+        }}
+      >
         <Pressable
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.5 : 1,
-          })}
+          style={({ pressed }) => [
+            {
+              opacity: pressed ? 0.5 : 1,
+            },
+            styles.socialContainer,
+          ]}
           onPress={() => {
             // if (
             //   !(isCheckedDuplicateId === true && isPasswordcorrect === true)
@@ -443,38 +466,34 @@ export default function SignUpScreen({
             // } else {
             //   navigation.navigate('Welcome');
             // }
-            navigation.navigate('Welcome', measurements);
-          }}
-          onLayout={event => {
-            measurements = event.nativeEvent.layout;
-            //console.log(measurements);
+            navigation.navigate('Welcome');
           }}
         >
-          <View
-            style={[
-              styles.socialContainer,
-              {
-                backgroundColor:
-                  isCheckedDuplicateId === true &&
-                  isPasswordcorrect === true &&
-                  authChecked === true
-                    ? Colors.textFocusedPurple
-                    : Colors.textUnfocusedPurple,
-              },
-            ]}
-          >
-            <Text style={styles.socialText}>가입 완료</Text>
-          </View>
+          {/* <View
+          style={[
+            // styles.socialContainer,
+            {
+              backgroundColor:
+                isCheckedDuplicateId === true &&
+                isPasswordcorrect === true &&
+                authChecked === true
+                  ? Colors.textFocusedPurple
+                  : Colors.textUnfocusedPurple,
+            },
+          ]}
+        > */}
+          <SignupCompleteFocused />
+          {/* </View> */}
         </Pressable>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: Width,
-    height: Height,
+    width: '100%',
+    height: '100%',
     flexDirection: 'column',
     paddingHorizontal: Width * 0.05,
     backgroundColor: Colors.backgroundBlack,
@@ -536,15 +555,23 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   socialContainer: {
-    width: Width * 0.9,
-    height: Height * 0.062,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: Colors.textUnfocusedPurple,
-    borderRadius: 30,
-    marginBottom: Height * 0.1,
+    // backgroundColor: Colors.textUnfocusedPurple,
+    // borderRadius: 30,
+    marginVertical: Height * 0.01,
   },
+  // socialContainer: {
+  //   width: Width * 0.9,
+  //   height: Height * 0.062,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'space-around',
+  //   backgroundColor: Colors.textUnfocusedPurple,
+  //   borderRadius: 30,
+  //   marginVertical: Height * 0.02,
+  // },
   socialText: {
     color: Colors.textWhite,
     fontSize: FontScale * 14,
