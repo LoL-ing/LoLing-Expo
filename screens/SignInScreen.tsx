@@ -140,7 +140,9 @@ export default function SignInScreen() {
                   alignItems: 'center',
                 })}
               >
-                <GoToSignUp />
+                <View style={{ marginRight: Width * 0.13 }}>
+                  <GoToSignUp />
+                </View>
               </Pressable>
             </View>
 
