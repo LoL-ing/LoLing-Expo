@@ -5,10 +5,16 @@ import Collapsible from 'react-native-collapsible';
 import { Shadow } from 'react-native-shadow-2';
 import { ScrollView } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
+import Layout from '../constants/Layout';
 
 import { RootStackScreenProps } from '../types';
 import Colors from '../constants/Colors';
 
+import AgreeAllOn from '../assets/text_images/agree_on.svg';
+import AgreeAllOff from '../assets/text_images/agree_off.svg';
+import Hello from '../assets/text_images/Hello!.svg';
+import NextButtonOff from '../assets/text_images/nextoff.svg';
+import NextButtonOn from '../assets/text_images/nexton.svg';
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
@@ -70,47 +76,22 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
 
   return (
     <View style={styles.fullscreen}>
-      <Text style={styles.titleText}>안녕하세요!</Text>
+      <View style={styles.titleContainer}>
+        <Hello />
+      </View>
+
       <View style={styles.fourButtonContainer}>
         <Pressable
           style={({ pressed }) => [
-            styles.fullconsentButton,
             {
               opacity: pressed ? 0.5 : 1,
-              backgroundColor:
-                fullconsent ?
-                  Colors.backgroundPurple
-                  :
-                  Colors.backgroundNavy
             },
           ]}
           onPress={() => {
             changeFullConsent();
           }}
         >
-          {fullconsent ? (
-            <FontAwesome
-              name="check-circle"
-              size={30}
-              color={Colors.iconWhite}
-            />
-          ) : (
-            <FontAwesome
-              name="check-circle-o"
-              size={30}
-              color={Colors.iconGray}
-            />
-          )}
-          <Text
-            style={{
-              color: Colors.textWhite,
-              fontSize: FontScale * 14,
-              fontWeight: 'bold',
-              marginLeft: Width * 0.05,
-            }}
-          >
-            약관 전체 동의하기
-          </Text>
+          {fullconsent ? <AgreeAllOn /> : <AgreeAllOff />}
         </Pressable>
         <View style={styles.fullToSContainer}>
           <View style={styles.uncollapsibleContainer}>
@@ -171,7 +152,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           </View>
           <Collapsible collapsed={collapsedEssential}>
             <ScrollView style={styles.collapsibleContainer}>
-              <Text style={{ color: Colors.textGray, fontSize: FontScale * 10 }}>
+              <Text
+                style={{ color: Colors.textGray, fontSize: FontScale * 10 }}
+              >
                 {`제1장 총칙
 
 제 1조 (목적)
@@ -242,7 +225,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           </View>
           <Collapsible collapsed={collapsedOptional1}>
             <ScrollView style={styles.collapsibleContainer}>
-              <Text style={{ color: Colors.textGray, fontSize: FontScale * 10 }}>
+              <Text
+                style={{ color: Colors.textGray, fontSize: FontScale * 10 }}
+              >
                 {`제1장 총칙
 
 제 1조 (목적)
@@ -314,7 +299,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           </View>
           <Collapsible collapsed={collapsedOptional2}>
             <ScrollView style={styles.collapsibleContainer}>
-              <Text style={{ color: Colors.textGray, fontSize: FontScale * 10 }}>
+              <Text
+                style={{ color: Colors.textGray, fontSize: FontScale * 10 }}
+              >
                 {`제1장 총칙
 
 제 1조 (목적)
@@ -329,21 +316,28 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
       </View>
 
       <Pressable
-        style={({ pressed }) => ([
+        style={({ pressed }) => [
           styles.nextButtonPosition,
-          { opacity: pressed ? 0.5 : 1, }
-        ])}
+          { opacity: pressed ? 0.5 : 1 },
+        ]}
         onPress={() =>
           essential
             ? navigation.navigate('Authentication')
             : alert('필수 약관에 동의하셔야합니다')
         }
       >
-        <Shadow startColor={Colors.shadowStartColor} distance={essential ? 8 : 0}>
+        <Shadow
+          startColor={Colors.shadowStartColor}
+          distance={essential ? 8 : 0}
+        >
           <View
             style={[
               styles.nextButton,
-              { backgroundColor: essential ? Colors.backgroundPurple : Colors.textUnfocusedPurple }
+              {
+                backgroundColor: essential
+                  ? Colors.backgroundPurple
+                  : Colors.textUnfocusedPurple,
+              },
             ]}
           >
             <FontAwesome
@@ -354,7 +348,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           </View>
         </Shadow>
       </Pressable>
-    </View >
+    </View>
   );
 }
 
@@ -366,6 +360,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: Width * 0.05,
     flexDirection: 'column',
     backgroundColor: Colors.backgroundBlack,
+  },
+  titleContainer: {
+    marginTop: Height * 0.07,
+    marginBottom: Height * 0.07,
+    marginLeft: Width * 0.02,
   },
   titleText: {
     color: Colors.textWhite,
@@ -428,5 +427,5 @@ const styles = StyleSheet.create({
     borderRadius: Width * 0.17,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
