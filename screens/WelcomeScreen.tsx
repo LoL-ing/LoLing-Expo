@@ -23,6 +23,8 @@ import Description from '../assets/text_images/description.svg';
 import MatchingStartUnfocused from '../assets/text_images/matchingStart-unfocused.svg';
 import LolaccountUnfocused from '../assets/text_images/lolaccount-unfocused.svg';
 import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
+import StartMatching from '../assets/text_images/startMatching.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -58,9 +60,13 @@ export default function WelcomeScreen({
   };
   /* animation */
   const settingAnim = useRef(new Animated.Value(0)).current;
-  const welcomeUpAnim = useRef(new Animated.Value(Height * 0.9)).current;
+  const welcomeUpAnim = useRef(new Animated.Value(Height * 1)).current;
   const changeMatchingBtnAnim = useRef(new Animated.Value(0)).current;
+  const [endAnim, setendAnim] = useState(false);
 
+  const bottomsize = 8;
+  const insets = useSafeAreaInsets();
+  //console.log(insets.bottom);
   useEffect(() => {
     Animated.sequence([
       // + signupscreen에서 fadeout 200ms
@@ -93,6 +99,9 @@ export default function WelcomeScreen({
         }),
       ]),
     ]).start();
+    setTimeout(() => {
+      setendAnim(true);
+    }, 2900);
   }, []);
   /* end of animation */
 
@@ -101,171 +110,178 @@ export default function WelcomeScreen({
   };
 
   return (
-    <SafeAreaView style={[Styles.fullscreen, { alignItems: 'center' }]}>
+    <SafeAreaView
+      style={[
+        Styles.fullscreen,
+        {
+          alignItems: 'center',
+        },
+      ]}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 25,
-        }}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
-        <Animated.View
-          style={{
-            alignItems: 'center',
-            transform: [{ translateY: welcomeUpAnim }],
-          }}
-        >
-          <View style={[styles.titleContainer, { alignItems: 'center' }]}>
-            <Welcome width={Layout.Width * 0.35} />
-          </View>
-        </Animated.View>
+        <View style={{ height: Layout.Height * 0.665 }}>
+          <Animated.View
+            style={{
+              alignItems: 'center',
+              transform: [{ translateY: welcomeUpAnim }],
+            }}
+          >
+            <View style={[styles.titleContainer, { alignItems: 'center' }]}>
+              <Welcome width={Layout.Width * 0.35} />
+            </View>
+          </Animated.View>
 
-        <Animated.View
-          style={{
-            opacity: settingAnim,
-          }}
-        >
-          <View style={styles.subContainer}>
-            <Nickname width={Layout.Width * 0.12} />
-            <Text
-              style={[
-                styles.descriptionText,
-                {
-                  color: isNicknameInit
-                    ? Colors.textGray
-                    : isCheckedDuplicateNickname
-                    ? Colors.textFocusedPurple
-                    : Colors.textRed,
-                },
-              ]}
-            >
-              {isNicknameInit
-                ? `8자 이내로 입력해주세요`
-                : isCheckedDuplicateNickname
-                ? `사용 가능한 닉네임입니다!`
-                : `사용 중인 닉네임입니다.`}
-            </Text>
-            <TextInput
-              style={[
-                styles.fullTextInput,
-                isNicknameInit
-                  ? isNicknameFocused
-                    ? styles.focusedTextInput
-                    : styles.unfocusedTextInput
-                  : isCheckedDuplicateNickname
-                  ? isNicknameFocused
-                    ? styles.focusedTextInput
-                    : styles.unfocusedTextInput
-                  : styles.errorTextInput,
-              ]}
-              placeholder="닉네임"
-              placeholderTextColor={
-                isNicknameFocused
-                  ? Colors.textWhite
-                  : Colors.textUnfocusedPurple
-              }
-              returnKeyType="next"
-              onFocus={() => {
-                setIsNicknameFocused(true);
-              }}
-              onBlur={() => {
-                // setIsNicknameInit(false);
-                setIsNicknameFocused(false);
-                setIsCheckedDuplicateNickname(false);
-                checkDuplicateNickname(nickname);
-                // if (checkpassword === password && checkpassword != '') {
-                //   setIsPasswordCorrect(true);
-                // } else setIsPasswordCorrect(false);
-              }}
-              onChangeText={text => {
-                setNickname(text);
-              }}
-              value={nickname}
-              onSubmitEditing={() => {
-                nicknameField.current?.focus();
-              }}
-              maxLength={8}
-              textAlign={'center'}
-              clearButtonMode="while-editing"
-            />
-          </View>
-          <View style={styles.subContainer}>
-            <Description width={Layout.Width * 0.35} />
-            <Text
-              style={[
-                styles.descriptionText,
-                {
-                  color:
-                    isDescriptionFocused && countvalue !== 0
+          <Animated.View
+            style={{
+              opacity: settingAnim,
+            }}
+          >
+            <View style={styles.subContainer}>
+              <Nickname width={Layout.Width * 0.12} />
+              <Text
+                style={[
+                  styles.descriptionText,
+                  {
+                    color: isNicknameInit
+                      ? Colors.textGray
+                      : isCheckedDuplicateNickname
                       ? Colors.textFocusedPurple
-                      : Colors.textGray,
-                },
-              ]}
-            >
-              {countvalue == 0
-                ? '50자 이내로 작성해주세요.'
-                : countvalue + ' / 50'}
-            </Text>
-            <TextInput
-              style={[
-                styles.fullTextInput,
-                isDescriptionFocused
-                  ? styles.focusedTextInput
-                  : styles.unfocusedTextInput,
-              ]}
-              placeholder="최대 50자"
-              placeholderTextColor={
-                isDescriptionFocused
-                  ? Colors.textWhite
-                  : Colors.textUnfocusedPurple
-              }
-              returnKeyType="next"
-              onFocus={() => {
-                setIsDescriptionFocused(true);
-              }}
-              onBlur={() => {
-                setIsDescriptionFocused(false);
-              }}
-              onChangeText={text => {
-                setDescription(text);
-                countValue(text);
-              }}
-              value={description}
-              onSubmitEditing={() => {
-                descriptionField.current?.focus();
-              }}
-              maxLength={50}
-              textAlign={'center'}
-              clearButtonMode="while-editing"
-              multiline={true}
-            />
-          </View>
-        </Animated.View>
-
-        <View style={{ height: Height * 0.07 }}></View>
+                      : Colors.textRed,
+                  },
+                ]}
+              >
+                {isNicknameInit
+                  ? `8자 이내로 입력해주세요`
+                  : isCheckedDuplicateNickname
+                  ? `사용 가능한 닉네임입니다!`
+                  : `사용 중인 닉네임입니다.`}
+              </Text>
+              <TextInput
+                style={[
+                  styles.fullTextInput,
+                  isNicknameInit
+                    ? isNicknameFocused
+                      ? styles.focusedTextInput
+                      : styles.unfocusedTextInput
+                    : isCheckedDuplicateNickname
+                    ? isNicknameFocused
+                      ? styles.focusedTextInput
+                      : styles.unfocusedTextInput
+                    : styles.errorTextInput,
+                ]}
+                placeholder="닉네임"
+                placeholderTextColor={
+                  isNicknameFocused
+                    ? Colors.textWhite
+                    : Colors.textUnfocusedPurple
+                }
+                returnKeyType="next"
+                onFocus={() => {
+                  setIsNicknameFocused(true);
+                }}
+                onBlur={() => {
+                  // setIsNicknameInit(false);
+                  setIsNicknameFocused(false);
+                  setIsCheckedDuplicateNickname(false);
+                  checkDuplicateNickname(nickname);
+                  // if (checkpassword === password && checkpassword != '') {
+                  //   setIsPasswordCorrect(true);
+                  // } else setIsPasswordCorrect(false);
+                }}
+                onChangeText={text => {
+                  setNickname(text);
+                }}
+                value={nickname}
+                onSubmitEditing={() => {
+                  nicknameField.current?.focus();
+                }}
+                maxLength={8}
+                textAlign={'center'}
+                clearButtonMode="while-editing"
+              />
+            </View>
+            <View style={styles.subContainer}>
+              <Description width={Layout.Width * 0.35} />
+              <Text
+                style={[
+                  styles.descriptionText,
+                  {
+                    color:
+                      isDescriptionFocused && countvalue !== 0
+                        ? Colors.textFocusedPurple
+                        : Colors.textGray,
+                  },
+                ]}
+              >
+                {countvalue == 0
+                  ? '50자 이내로 작성해주세요.'
+                  : countvalue + ' / 50'}
+              </Text>
+              <TextInput
+                style={[
+                  styles.fullTextInput,
+                  isDescriptionFocused
+                    ? styles.focusedTextInput
+                    : styles.unfocusedTextInput,
+                ]}
+                placeholder="최대 50자"
+                placeholderTextColor={
+                  isDescriptionFocused
+                    ? Colors.textWhite
+                    : Colors.textUnfocusedPurple
+                }
+                returnKeyType="next"
+                onFocus={() => {
+                  setIsDescriptionFocused(true);
+                }}
+                onBlur={() => {
+                  setIsDescriptionFocused(false);
+                }}
+                onChangeText={text => {
+                  setDescription(text);
+                  countValue(text);
+                }}
+                value={description}
+                onSubmitEditing={() => {
+                  descriptionField.current?.focus();
+                }}
+                maxLength={50}
+                textAlign={'center'}
+                clearButtonMode="while-editing"
+                multiline={true}
+              />
+            </View>
+          </Animated.View>
+        </View>
 
         <Animated.View
           style={[
             styles.socialContainer,
             {
               position: 'absolute',
-              top: Height * 0.82,
+
+              // //top: Layout.Height * 0.77,
+              bottom: bottomsize,
               opacity: changeMatchingBtnAnim.interpolate({
                 inputRange: [0, 1],
                 outputRange: [1, 0],
               }),
             },
           ]}
-          onLayout={event => {
-            const layout = event.nativeEvent.layout;
-            console.log('height:', layout.height);
-            console.log('width:', layout.width);
-            console.log('x:', layout.x);
-            console.log('y:', layout.y);
-          }}
+          // onLayout={event => {
+          //   const layout = event.nativeEvent.layout;
+          //   console.log('height:', layout.height);
+          //   console.log('width:', layout.width);
+          //   console.log('x:', layout.x);
+          //   console.log('y:', layout.y);
+          // }}
         >
-          <SignupCompleteFocused />
+          <SignupCompleteFocused width={Layout.Width * 0.9} />
         </Animated.View>
-
+        <View style={{ height: Layout.Height * 0.03 }} />
         <Animated.View style={{ opacity: settingAnim }}>
           <Pressable
             style={({ pressed }) => [
@@ -275,12 +291,14 @@ export default function WelcomeScreen({
                 backgroundColor: isCheckedDuplicateNickname
                   ? Colors.backgroundPurple
                   : Colors.backgroundNavy,
-                marginBottom: Height * 0.1,
+                //marginBottom: Layout.Height * 0.1,
               },
             ]}
-            onPress={() => navigation.navigate('SelectMyLineChamp')}
+            onPress={() => {
+              if (endAnim) navigation.navigate('SelectMyLineChamp');
+            }}
           >
-            <LolaccountUnfocused />
+            <LolaccountUnfocused width={Layout.Width * 0.9} />
           </Pressable>
         </Animated.View>
 
@@ -288,7 +306,10 @@ export default function WelcomeScreen({
           style={{
             opacity: changeMatchingBtnAnim,
             position: 'absolute',
-            top: Height * 0.82,
+            //top: Height * 0.82,
+            //top: Layout.Height * 0.77,
+            bottom: bottomsize,
+            alignSelf: 'center',
           }}
         >
           <Pressable
@@ -304,7 +325,7 @@ export default function WelcomeScreen({
               },
             ]}
           >
-            <MatchingStartUnfocused />
+            <StartMatching width={Layout.Width * 0.17} />
           </Pressable>
         </Animated.View>
       </ScrollView>
@@ -314,8 +335,8 @@ export default function WelcomeScreen({
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Height * 0.1,
-    marginBottom: Height * 0.1,
+    marginTop: Height * 0.08,
+    marginBottom: Height * 0.08,
   },
   titleText: {
     color: Colors.textWhite,
@@ -388,12 +409,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   socialContainer: {
-    flexDirection: 'row',
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.072,
+    marginVertical: Layout.Height * 0.01,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: Colors.textUnfocusedPurple,
+    justifyContent: 'center',
+    alignSelf: 'center',
     borderRadius: 30,
-    marginVertical: Height * 0.01,
   },
   focusedsocialContainer: {
     backgroundColor: Colors.backgroundPurple,
