@@ -322,7 +322,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
         ]}
         onPress={() =>
           essential
-            ? navigation.navigate('Authentication')
+            ? navigation.navigate('SignUp')
             : alert('필수 약관에 동의하셔야합니다')
         }
       >
