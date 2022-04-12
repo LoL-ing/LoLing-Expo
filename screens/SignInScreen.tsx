@@ -22,6 +22,7 @@ import LoginButton from '../assets/text_images/loginButton.svg';
 import KaKao from '../assets/text_images/kakaoLogin.svg';
 import Naver from '../assets/text_images/naverLogin.svg';
 import Google from '../assets/text_images/googleLogin.svg';
+import { RootStackScreenProps } from '../types';
 
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
@@ -37,7 +38,9 @@ const loginData = [
   },
 ];
 
-export default function SignInScreen() {
+export default function SignInScreen({
+  navigation,
+}: RootStackScreenProps<'SignIn'>) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isIDFocused, setisIDFocused] = useState(false);
@@ -139,6 +142,7 @@ export default function SignInScreen() {
                   opacity: pressed ? 0.5 : 1,
                   alignItems: 'center',
                 })}
+                onPress={() => navigation.navigate('ToS')}
               >
                 <View style={{ marginRight: Width * 0.13 }}>
                   <GoToSignUp />
