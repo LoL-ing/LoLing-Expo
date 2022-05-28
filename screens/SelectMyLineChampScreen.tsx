@@ -340,83 +340,6 @@ export default function SelectMyLineChampScreen({
             justifyContent: 'space-between',
           }}
         >
-<<<<<<< HEAD
-          <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            })}
-            onPress={() => {
-              setModalVisible(true);
-              setSelectFirstChamp(true);
-              setSelectSecondChamp(false);
-              setSelectThirdChamp(false);
-            }}
-          >
-            {firstChamp === '' ? (
-              <First width={Layout.Width * 0.17} />
-            ) : (
-              <Image
-                source={firstChampImgSource}
-                style={{
-                  width: Layout.Width * 0.17,
-                  height: Layout.Width * 0.17,
-                }}
-              />
-            )}
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            })}
-            onPress={() => {
-              setModalVisible(true);
-              setSelectSecondChamp(true);
-              setSelectFirstChamp(false);
-              setSelectThirdChamp(false);
-            }}
-          >
-            {secondChamp === '' ? (
-              <Second width={Layout.Width * 0.17} />
-            ) : (
-              <Image
-                source={secondChampImgSource}
-                style={{
-                  width: Layout.Width * 0.17,
-                  height: Layout.Width * 0.17,
-                }}
-              />
-            )}
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            })}
-            onPress={() => {
-              setModalVisible(true);
-              setSelectThirdChamp(true);
-              setSelectFirstChamp(false);
-              setSelectSecondChamp(false);
-            }}
-          >
-            {thirdChamp === '' ? (
-              <Third width={Layout.Width * 0.17} />
-            ) : (
-              <Image
-                source={thirdChampImgSource}
-                style={{
-                  width: Layout.Width * 0.17,
-                  height: Layout.Width * 0.17,
-                }}
-              />
-            )}
-          </Pressable>
-=======
           <View style={styles.selectChampButton}>
             {firstChamp !== '' ? (
               <FirstPurpleText />
@@ -552,7 +475,6 @@ export default function SelectMyLineChampScreen({
               {thirdChamp}
             </Text>
           </View>
->>>>>>> 79de9907accf2a5deb22513343c2d83132ba0ca6
         </View>
       </View>
 
@@ -588,10 +510,7 @@ export default function SelectMyLineChampScreen({
         <View style={styles.fullScreenModal}>
           <View
             style={{
-<<<<<<< HEAD
-=======
               height: Layout.Height * 0.12,
->>>>>>> 79de9907accf2a5deb22513343c2d83132ba0ca6
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -604,192 +523,6 @@ export default function SelectMyLineChampScreen({
             ) : selectThirdChamp ? (
               <FavoriteThirdChamp width={Layout.Width * 0.4} />
             ) : undefined}
-<<<<<<< HEAD
-            <Pressable
-              style={[
-                {
-                  width: Layout.Width * 0.13,
-                  height: Layout.Width * 0.13,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: Layout.Width * 0.1,
-                  backgroundColor: Colors.textUnfocusedPurple,
-                },
-                selectFirstChamp
-                  ? {
-                      borderWidth: 2.5,
-                      borderColor: Colors.backgroundPurple,
-                    }
-                  : undefined,
-              ]}
-              onPress={() => {
-                setSelectFirstChamp(true);
-                setSelectSecondChamp(false);
-                setSelectThirdChamp(false);
-              }}
-            >
-              {firstChamp === '' ? (
-                <QuestionMark />
-              ) : (
-                <Image
-                  source={firstChampImgSource}
-                  style={{
-                    width: Layout.Width * 0.12,
-                    height: Layout.Width * 0.12,
-                  }}
-                />
-              )}
-            </Pressable>
-            <Pressable
-              style={[
-                {
-                  width: Layout.Width * 0.13,
-                  height: Layout.Width * 0.13,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: Layout.Width * 0.1,
-                  backgroundColor: Colors.textUnfocusedPurple,
-                },
-                selectSecondChamp
-                  ? {
-                      borderWidth: 2.5,
-                      borderColor: Colors.backgroundPurple,
-                    }
-                  : undefined,
-              ]}
-              onPress={() => {
-                setSelectSecondChamp(true);
-                setSelectFirstChamp(false);
-                setSelectThirdChamp(false);
-              }}
-            >
-              {secondChamp === '' ? (
-                <QuestionMark />
-              ) : (
-                <Image
-                  source={secondChampImgSource}
-                  style={{
-                    width: Layout.Width * 0.12,
-                    height: Layout.Width * 0.12,
-                  }}
-                />
-              )}
-            </Pressable>
-            <Pressable
-              style={[
-                {
-                  width: Layout.Width * 0.13,
-                  height: Layout.Width * 0.13,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: Layout.Width * 0.1,
-                  backgroundColor: Colors.textUnfocusedPurple,
-                },
-
-                selectThirdChamp
-                  ? {
-                      borderWidth: 2.5,
-                      borderColor: Colors.backgroundPurple,
-                    }
-                  : undefined,
-              ]}
-              onPress={() => {
-                setSelectThirdChamp(true);
-                setSelectFirstChamp(false);
-                setSelectSecondChamp(false);
-              }}
-            >
-              {thirdChamp === '' ? (
-                <QuestionMark />
-              ) : (
-                <Image
-                  source={thirdChampImgSource}
-                  style={{
-                    width: Layout.Width * 0.12,
-                    height: Layout.Width * 0.12,
-                  }}
-                />
-              )}
-            </Pressable>
-          </View>
-
-          <View style={{ height: Layout.Height * 0.65 }}>
-            {selectFirstChamp ? (
-              <FlatList
-                data={getSelectChampions()}
-                renderItem={({ item }) => (
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                    })}
-                    onPress={() => {
-                      firstChamp !== item.champName
-                        ? setFirstChamp(item.champName)
-                        : setFirstChamp('');
-                    }}
-                  >
-                    <SelectChampion
-                      champImg={item.champImg}
-                      champName={item.champName}
-                      champRole={item.champRole}
-                      isSelected={firstChamp === item.champName}
-                    />
-                  </Pressable>
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            ) : selectSecondChamp ? (
-              <FlatList
-                data={getSelectChampions()}
-                renderItem={({ item }) => (
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                    })}
-                    onPress={() => {
-                      secondChamp !== item.champName
-                        ? setSecondChamp(item.champName)
-                        : setSecondChamp('');
-                    }}
-                  >
-                    <SelectChampion
-                      champImg={item.champImg}
-                      champName={item.champName}
-                      champRole={item.champRole}
-                      isSelected={secondChamp === item.champName}
-                    />
-                  </Pressable>
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            ) : selectThirdChamp ? (
-              <FlatList
-                data={getSelectChampions()}
-                renderItem={({ item }) => (
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                    })}
-                    onPress={() => {
-                      thirdChamp !== item.champName
-                        ? setThirdChamp(item.champName)
-                        : setThirdChamp('');
-                    }}
-                  >
-                    <SelectChampion
-                      champImg={item.champImg}
-                      champName={item.champName}
-                      champRole={item.champRole}
-                      isSelected={thirdChamp === item.champName}
-                    />
-                  </Pressable>
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            ) : undefined}
-          </View>
-
-=======
             <View style={styles.selectFirstSecondThirdChamp}>
               {selectFirstChamp === true ? (
                 <FirstPurpleText />
@@ -1007,7 +740,6 @@ export default function SelectMyLineChampScreen({
             ) : undefined}
           </View>
 
->>>>>>> 79de9907accf2a5deb22513343c2d83132ba0ca6
           <Pressable
             style={({ pressed }) => [
               styles.savingButton,
