@@ -5,7 +5,6 @@
  */
 import * as React from 'react';
 import { ColorSchemeName, View } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,
@@ -72,6 +71,11 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
@@ -86,11 +90,7 @@ function RootNavigator() {
         component={ProfileScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ headerShown: false }}
-      />
+
       <Stack.Screen
         name="ToS"
         component={ToSScreen}
@@ -204,14 +204,4 @@ function BottomTabNavigator() {
       />
     </BottomTab.Navigator>
   );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={25} style={{ marginBottom: -3 }} {...props} />;
 }
