@@ -1,15 +1,32 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
+
 
 export default function MatchingScreen() {
-  return (
+
+  _renderItem = ({item, index}) => {
+    return (
+        <View style={styles.slide}>
+            <Text style={styles.title}>{ item.title }</Text>
+        </View>
+    );
+}
+  render() {
+    return (
     <View style={styles.container}>
       <Text style={styles.titleText}>LoLing</Text>
-      <View
-        style={styles.separator}
-      />
+
+            <Carousel
+              ref={(c) => { this._carousel = c; }}
+              data={this.state.entries}
+              renderItem={this._renderItem}
+              sliderWidth={sliderWidth}
+              itemWidth={itemWidth}
+            />
     </View>
   );
+    }
 }
 
 const styles = StyleSheet.create({

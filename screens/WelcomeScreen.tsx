@@ -22,20 +22,17 @@ import Nickname from '../assets/text_images/nickname.svg';
 import Description from '../assets/text_images/description.svg';
 import MatchingStartUnfocused from '../assets/text_images/matchingStart-unfocused.svg';
 import LolaccountUnfocused from '../assets/text_images/lolaccount-unfocused.svg';
+import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
+import StartMatching from '../assets/text_images/startMatching.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
-export default function WelcomeScreen(
-  { navigation }: RootStackScreenProps<'Welcome'>,
-  measurements: {
-    height: number;
-    width: number;
-    x: number;
-    y: number;
-  },
-) {
+export default function WelcomeScreen({
+  navigation,
+}: RootStackScreenProps<'Welcome'>) {
   const [nickname, setNickname] = useState('');
   const [description, setDescription] = useState('');
   const [countvalue, setCount] = useState(0);
@@ -63,27 +60,24 @@ export default function WelcomeScreen(
   };
   /* animation */
   const settingAnim = useRef(new Animated.Value(0)).current;
-  const signupAnim = useRef(new Animated.Value(0)).current;
-  const welcomeUpAnim = useRef(new Animated.Value(Height * 0.9)).current;
-  const changeBtnAnim = useRef(new Animated.Value(0)).current;
+  const welcomeUpAnim = useRef(new Animated.Value(Height * 1)).current;
+  const changeMatchingBtnAnim = useRef(new Animated.Value(0)).current;
+  const [endAnim, setendAnim] = useState(false);
 
+  const bottomsize = 8;
+  const insets = useSafeAreaInsets();
+  //console.log(insets.bottom);
   useEffect(() => {
     Animated.sequence([
       // + signupscreen에서 fadeout 200ms
-      Animated.timing(signupAnim, {
-        toValue: 147,
-        duration: 400,
-        useNativeDriver: true,
-        delay: 300,
-      }),
       Animated.parallel([
         Animated.timing(welcomeUpAnim, {
-          toValue: Height * 0.35,
+          toValue: Height * 0.25,
           duration: 1200,
           useNativeDriver: true,
           delay: 300,
         }),
-        Animated.timing(changeBtnAnim, {
+        Animated.timing(changeMatchingBtnAnim, {
           toValue: 1,
           duration: 1200,
           useNativeDriver: true,
@@ -105,7 +99,10 @@ export default function WelcomeScreen(
         }),
       ]),
     ]).start();
-  });
+    setTimeout(() => {
+      setendAnim(true);
+    }, 2900);
+  }, []);
   /* end of animation */
 
   const countValue = (input: string) => {
@@ -113,14 +110,19 @@ export default function WelcomeScreen(
   };
 
   return (
-    <SafeAreaView style={[Styles.fullscreen, { alignItems: 'center' }]}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: 25,
-          }}
-        >
+    <SafeAreaView
+      style={[
+        Styles.fullscreen,
+        {
+          alignItems: 'center',
+        },
+      ]}
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View style={{ height: Layout.Height * 0.665 }}>
           <Animated.View
             style={{
               alignItems: 'center',
@@ -253,67 +255,88 @@ export default function WelcomeScreen(
               />
             </View>
           </Animated.View>
+        </View>
 
-          <View style={{ height: Height * 0.05 }}></View>
+        <Animated.View
+          style={[
+            styles.socialContainer,
+            {
+              position: 'absolute',
 
-          <Animated.View
-            style={[
+              // //top: Layout.Height * 0.77,
+              bottom: bottomsize,
+              opacity: changeMatchingBtnAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, 0],
+              }),
+            },
+          ]}
+          // onLayout={event => {
+          //   const layout = event.nativeEvent.layout;
+          //   console.log('height:', layout.height);
+          //   console.log('width:', layout.width);
+          //   console.log('x:', layout.x);
+          //   console.log('y:', layout.y);
+          // }}
+        >
+          <SignupCompleteFocused width={Layout.Width * 0.9} />
+        </Animated.View>
+        <View style={{ height: Layout.Height * 0.03 }} />
+        <Animated.View style={{ opacity: settingAnim }}>
+          <Pressable
+            style={({ pressed }) => [
               styles.socialContainer,
-              styles.focusedsocialContainer,
-              // {
-              //   position: 'absolute',
-              //   top: measurements.height,
-              // },
-              { transform: [{ translateY: signupAnim }] },
+              {
+                opacity: pressed ? 0.5 : 1,
+                backgroundColor: isCheckedDuplicateNickname
+                  ? Colors.backgroundPurple
+                  : Colors.backgroundNavy,
+                //marginBottom: Layout.Height * 0.1,
+              },
+            ]}
+            onPress={() => {
+              if (endAnim) navigation.navigate('SelectMyLineChamp');
+            }}
+          >
+            <LolaccountUnfocused width={Layout.Width * 0.9} />
+          </Pressable>
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            opacity: changeMatchingBtnAnim,
+            position: 'absolute',
+            //top: Height * 0.82,
+            //top: Layout.Height * 0.77,
+            bottom: bottomsize,
+            alignSelf: 'center',
+          }}
+        >
+          <Pressable
+            style={({ pressed }) => [
+              styles.socialContainer,
+              {
+                backgroundColor: Colors.textUnfocusedPurple,
+                // isCheckedDuplicateNickname === true
+                //   ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
+                //     Colors.textFocusedPurple
+                //   : Colors.textUnfocusedPurple,
+                opacity: pressed ? 0.5 : 1,
+              },
             ]}
           >
-            <Text style={styles.socialText}>가입 완료</Text>
-          </Animated.View>
-
-          <Animated.View style={{ opacity: settingAnim }}>
-            <Pressable
-              style={({ pressed }) => [
-                styles.socialContainer,
-                {
-                  opacity: pressed ? 0.5 : 1,
-                  backgroundColor: isCheckedDuplicateNickname
-                    ? Colors.backgroundPurple
-                    : Colors.backgroundNavy,
-                },
-              ]}
-              onPress={() => navigation.navigate('SelectMyLineChamp')}
-            >
-              <LolaccountUnfocused />
-            </Pressable>
-          </Animated.View>
-
-          <Animated.View style={{ opacity: changeBtnAnim }}>
-            <Pressable
-              style={({ pressed }) => [
-                styles.socialContainer,
-                {
-                  backgroundColor: Colors.textUnfocusedPurple,
-                  // isCheckedDuplicateNickname === true
-                  //   ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
-                  //     Colors.textFocusedPurple
-                  //   : Colors.textUnfocusedPurple,
-                  opacity: pressed ? 0.5 : 1,
-                },
-              ]}
-            >
-              <MatchingStartUnfocused />
-            </Pressable>
-          </Animated.View>
-        </ScrollView>
-      </TouchableWithoutFeedback>
+            <StartMatching width={Layout.Width * 0.17} />
+          </Pressable>
+        </Animated.View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Height * 0.1,
-    marginBottom: Height * 0.1,
+    marginTop: Height * 0.08,
+    marginBottom: Height * 0.08,
   },
   titleText: {
     color: Colors.textWhite,
@@ -386,14 +409,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   socialContainer: {
-    //width: Width * 0.9,
-    //height: Height * 0.062,
-    flexDirection: 'row',
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.072,
+    marginVertical: Layout.Height * 0.01,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: Colors.textUnfocusedPurple,
+    justifyContent: 'center',
+    alignSelf: 'center',
     borderRadius: 30,
-    marginVertical: Height * 0.01,
   },
   focusedsocialContainer: {
     backgroundColor: Colors.backgroundPurple,

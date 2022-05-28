@@ -14,6 +14,15 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
+import Layout from '../constants/Layout';
+
+import FindIdPassword from '../assets/text_images/findIdPassword.svg';
+import GoToSignUp from '../assets/text_images/goToSignUp.svg';
+import LoginButton from '../assets/text_images/loginButton.svg';
+import KaKao from '../assets/text_images/kakaoLogin.svg';
+import Naver from '../assets/text_images/naverLogin.svg';
+import Google from '../assets/text_images/googleLogin.svg';
+import { RootStackScreenProps } from '../types';
 
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
@@ -29,7 +38,9 @@ const loginData = [
   },
 ];
 
-export default function SignInScreen() {
+export default function SignInScreen({
+  navigation,
+}: RootStackScreenProps<'SignIn'>) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isIDFocused, setisIDFocused] = useState(false);
@@ -124,65 +135,31 @@ export default function SignInScreen() {
                   alignItems: 'center',
                 })}
               >
-                <Text style={styles.findIDText}>아이디 / 비밀번호 찾기</Text>
+                <FindIdPassword width={Layout.Width * 1} />
               </Pressable>
               <Pressable
                 style={({ pressed }) => ({
                   opacity: pressed ? 0.5 : 1,
                   alignItems: 'center',
                 })}
+                onPress={() => navigation.navigate('ToS')}
               >
-                <Text
-                  style={{
-                    fontSize: FontScale * 15,
-                    color: Colors.textFocusedPurple,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    회원가입
-                  </Text>
-                  하러 가기
-                  <Text
-                    style={{
-                      color: Colors.textFocusedPurple,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {'  >'}
-                  </Text>
-                </Text>
+                <View style={{ marginRight: Width * 0.13 }}>
+                  <GoToSignUp />
+                </View>
               </Pressable>
             </View>
 
-            <Shadow
-              startColor={'#C5A3FF77'}
-              distance={9}
-              containerViewStyle={{
-                marginHorizontal: 15,
-                marginVertical: 30,
-                alignSelf: 'center',
-              }}
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+                paddingVertical: 5,
+                alignItems: 'center',
+              })}
+              onPress={() => isSigninTrue(email, password)}
             >
-              <View style={styles.LOGINButton}>
-                <Pressable
-                  style={({ pressed }) => ({
-                    opacity: pressed ? 0.5 : 1,
-                    paddingVertical: 5,
-                    alignItems: 'center',
-                  })}
-                  onPress={() => isSigninTrue(email, password)}
-                >
-                  <View style={styles.LOGINButton}>
-                    <Text style={styles.LOGINtext}>LOG IN</Text>
-                  </View>
-                </Pressable>
-              </View>
-            </Shadow>
+              <LoginButton />
+            </Pressable>
           </View>
 
           <Pressable
@@ -191,20 +168,7 @@ export default function SignInScreen() {
               alignSelf: 'center',
             })}
           >
-            <View style={styles.socialSigninButton}>
-              <Image
-                source={require('../assets/images/kakao.png')}
-                style={{ width: 30, height: 30 }}
-              />
-              <Text style={styles.socialText}>
-                <Text style={styles.innerText}>카카오</Text>로 로그인하기
-              </Text>
-              <FontAwesome
-                name="arrow-circle-o-up"
-                size={30}
-                color={Colors.backgroundNavy}
-              ></FontAwesome>
-            </View>
+            <KaKao />
           </Pressable>
 
           <Pressable
@@ -213,20 +177,7 @@ export default function SignInScreen() {
               alignSelf: 'center',
             })}
           >
-            <View style={styles.socialSigninButton}>
-              <Image
-                source={require('../assets/images/naver.png')}
-                style={{ width: 30, height: 30 }}
-              />
-              <Text style={styles.socialText}>
-                <Text style={styles.innerText}>네이버</Text>로 로그인하기
-              </Text>
-              <FontAwesome
-                name="arrow-circle-o-up"
-                size={30}
-                color={Colors.backgroundNavy}
-              ></FontAwesome>
-            </View>
+            <Naver />
           </Pressable>
 
           <Pressable
@@ -235,20 +186,7 @@ export default function SignInScreen() {
               alignSelf: 'center',
             })}
           >
-            <View style={styles.socialSigninButton}>
-              <Image
-                source={require('../assets/images/google.png')}
-                style={{ width: 30, height: 30 }}
-              />
-              <Text style={styles.socialText}>
-                <Text style={styles.innerText}>구글</Text>로 로그인하기
-              </Text>
-              <FontAwesome
-                name="arrow-circle-o-up"
-                size={30}
-                color={Colors.backgroundNavy}
-              ></FontAwesome>
-            </View>
+            <Google />
           </Pressable>
         </View>
       </View>
@@ -344,3 +282,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundBlack,
   },
 });
+/**
+ <Shadow
+              startColor={'#C5A3FF77'}
+              distance={9}
+              containerViewStyle={{
+                marginHorizontal: 15,
+                marginVertical: 30,
+                alignSelf: 'center',
+              }}
+            >
+              <View style={styles.LOGINButton}>
+                <Pressable
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                    paddingVertical: 5,
+                    alignItems: 'center',
+                  })}
+                  onPress={() => isSigninTrue(email, password)}
+                >
+                  <View style={styles.LOGINButton}>
+                    <Text style={styles.LOGINtext}>LOG IN</Text>
+                  </View>
+                </Pressable>
+              </View>
+            </Shadow>
+ */
