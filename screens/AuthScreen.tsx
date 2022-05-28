@@ -1,4 +1,3 @@
-import { FontAwesome } from '@expo/vector-icons';
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import {
@@ -138,11 +137,6 @@ export default function AuthScreen({
         >
           <View style={styles.pickerholderContainer}>
             <Text style={styles.pickerholderText}>통신사</Text>
-            <FontAwesome
-              name="chevron-down"
-              size={15}
-              color={'#73737D'}
-            ></FontAwesome>
           </View>
           <View style={styles.textInputAndButtonContainer}>
             <TextInput
@@ -261,13 +255,7 @@ export default function AuthScreen({
                     : Colors.textUnfocusedPurple,
                 },
               ]}
-            >
-              <FontAwesome
-                name="arrow-right"
-                size={30}
-                color={Colors.iconWhite}
-              />
-            </View>
+            ></View>
           </Shadow>
         </Pressable>
       </View>

@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { TextInput, Image, Keyboard } from 'react-native';
 import { useState } from 'react';
-import { FontAwesome } from '@expo/vector-icons';
 import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
@@ -30,10 +29,21 @@ const FontScale = Dimensions.get('window').fontScale;
 
 //여기는 로그인 스크린이다.
 
-const loginData = [
+// const getSalt = () => 'itisloling';
+const userAccounts = [
   {
     name: 'yejin',
     email: 'kyj0032@korea.ac.kr',
+    password: '1234',
+  },
+  {
+    name: 'chaeyoung',
+    email: 'ekqlek9@naver.com',
+    password: '1234',
+  },
+  {
+    name: 'heewoong',
+    email: '19990708@naver.com',
     password: '1234',
   },
 ];
@@ -45,14 +55,50 @@ export default function SignInScreen({
   const [password, setPassword] = useState('');
   const [isIDFocused, setisIDFocused] = useState(false);
   const [isPWFocused, setisPWFocused] = useState(false);
-  const [signin, setSignin] = useState(true);
+  const [signIn, setSignIn] = useState(true);
+
+  const signInCheck = async (email: string, plainPassword: string) => {
+    // const hashedPassword: string = await makeHashedPassword(plainPassword);
+    setSignIn(await requestAuth(email, plainPassword));
+    // setSignIn(await requestAuth(email, hashedPassword));
+  };
+
+  const requestAuth = async (email: string, hashedPassword: string) => {
+    const index = userAccounts.findIndex(
+      account => account.email.trim() === email.trim(),
+    );
+    if (index >= 0) {
+      if (
+        hashedPassword === userAccounts[index].password
+        // hashedPassword ===
+        // (await makeHashedPassword(userAccounts[index].password))
+      ) {
+        alert('로그인 성공');
+        navigation.navigate('Root');
+        return true;
+      }
+      alert('비밀번호가 올바르지 않습니다.');
+      return false;
+    }
+    alert('사용자 정보가 존재하지 않습니다.');
+    return false;
+  };
+
+  // const makeHashedPassword = async (plainPassword: string) => {
+  //   const salt = getSalt();
+  //   const hashed = await crypto.digestStringAsync(
+  //       crypto.CryptoDigestAlgorithm.SHA512,
+  //       plainPassword + salt,
+  //   );
+  //   return hashed;
+  // };
 
   const passwordField = useRef<TextInput>(null);
 
-  const isSigninTrue = (email: string, password: string) => {
-    alert(`email: ${email} password: ${password}`);
-    if (loginData[0].password != password) setSignin(false);
-  };
+  // const isSigninTrue = (email: string, password: string) => {
+  //   alert(`email: ${email} password: ${password}`);
+  //   if (userAccounts[0].password != password) setSignin(false);
+  // };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -87,7 +133,7 @@ export default function SignInScreen({
               <TextInput
                 style={[
                   styles.textInput,
-                  signin
+                  signIn
                     ? isPWFocused
                       ? styles.focusedTextInput
                       : styles.unfocusedTextInput
@@ -108,7 +154,7 @@ export default function SignInScreen({
                 value={password}
                 ref={passwordField}
                 onSubmitEditing={() => {
-                  isSigninTrue(email, password);
+                  signInCheck(email, password);
                 }}
                 clearButtonMode="while-editing"
               />
@@ -116,7 +162,7 @@ export default function SignInScreen({
             <View
               style={[
                 styles.signinFailedContainer,
-                { opacity: signin ? 0 : 1 },
+                { opacity: signIn ? 0 : 1 },
               ]}
             >
               <Image
@@ -156,7 +202,7 @@ export default function SignInScreen({
                 paddingVertical: 5,
                 alignItems: 'center',
               })}
-              onPress={() => isSigninTrue(email, password)}
+              onPress={() => signInCheck(email, password)}
             >
               <LoginButton />
             </Pressable>
@@ -282,29 +328,3 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundBlack,
   },
 });
-/**
- <Shadow
-              startColor={'#C5A3FF77'}
-              distance={9}
-              containerViewStyle={{
-                marginHorizontal: 15,
-                marginVertical: 30,
-                alignSelf: 'center',
-              }}
-            >
-              <View style={styles.LOGINButton}>
-                <Pressable
-                  style={({ pressed }) => ({
-                    opacity: pressed ? 0.5 : 1,
-                    paddingVertical: 5,
-                    alignItems: 'center',
-                  })}
-                  onPress={() => isSigninTrue(email, password)}
-                >
-                  <View style={styles.LOGINButton}>
-                    <Text style={styles.LOGINtext}>LOG IN</Text>
-                  </View>
-                </Pressable>
-              </View>
-            </Shadow>
- */

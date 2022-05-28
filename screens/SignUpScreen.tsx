@@ -1,4 +1,3 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { visitWithTypeInfo } from 'graphql';
 import * as React from 'react';
 import { useRef, useState } from 'react';
@@ -27,6 +26,7 @@ import SignUp from '../assets/text_images/signUp.svg';
 import IdentifyButtonOn from '../assets/text_images/identifyButton_on.svg';
 import IdentifyButtonOff from '../assets/text_images/identifyButton_off.svg';
 import IdCheck_off from '../assets/text_images/idCheck_off.svg';
+import ChevronDown from '../assets/icons/svg/chevron_down.svg';
 import { RootStackScreenProps } from '../types';
 import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -341,11 +341,7 @@ export default function SignUpScreen({
             >
               <View style={styles.pickerholderContainer}>
                 <Text style={styles.pickerholderText}>통신사</Text>
-                <FontAwesome
-                  name="chevron-down"
-                  size={15}
-                  color={'#73737D'}
-                ></FontAwesome>
+                <ChevronDown />
               </View>
               <View style={styles.textInputAndButtonContainer}>
                 <TextInput
