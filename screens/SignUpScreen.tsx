@@ -68,7 +68,7 @@ export default function SignUpScreen({
 
   const insets = useSafeAreaInsets();
   //console.log(insets.bottom);
-  const scrollViewRef = useRef();
+  const scrollViewRef = useRef<TextInput>(null);
 
   let measurements: any;
   const checkDuplicateId = (input: string) => {
@@ -298,7 +298,7 @@ export default function SignUpScreen({
                 }}
                 onChangeText={text => setName(text)}
                 value={name}
-                autoCompleteType="username"
+                //autoCompleteType="username"
                 onSubmitEditing={() => {
                   emailField.current?.focus();
                 }}

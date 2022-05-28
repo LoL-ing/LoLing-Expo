@@ -61,7 +61,7 @@ export default function AuthScreen({
             }}
             onChangeText={text => setName(text)}
             value={name}
-            autoCompleteType="username"
+            // autoCompleteType="username"
             onSubmitEditing={() => {
               firstRRNField.current?.focus();
             }}
