@@ -17,7 +17,7 @@ import getSelectChampions from '../data/SelectChampions';
 import SelectChampion from '../components/SelectChampion';
 
 import Welcome from '../assets/text_images/welcome.svg';
-import FavoriteLine from '../assets/text_images/favoriteLine.svg';
+import PlayWithLine from '../assets/text_images/playwithLine.svg';
 import FirstPurpleText from '../assets/text_images/firstPurpleText.svg';
 import SecondPurpleText from '../assets/text_images/secondPurpleText.svg';
 import ThirdPurpleText from '../assets/text_images/thirdPurpleText.svg';
@@ -39,7 +39,7 @@ import MiddleSelected from '../assets/icons/svg/middle-icon-selected.svg';
 import BottomSelected from '../assets/icons/svg/bottom-icon-selected.svg';
 import JungleSelected from '../assets/icons/svg/jungle-icon-selected.svg';
 import SupportSelected from '../assets/icons/svg/support-icon-selected.svg';
-import FavoriteChamp from '../assets/text_images/favoriteChamp.svg';
+import PlayWithChamp from '../assets/text_images/playwithChamp.svg';
 import First from '../assets/text_images/1st.svg';
 import Second from '../assets/text_images/2nd.svg';
 import Third from '../assets/text_images/3rd.svg';
@@ -78,6 +78,20 @@ export default function SelectMyLineChampScreen({
     } else setFirstLine('top');
   };
 
+  const changeIsJungleSelected = () => {
+    if (firstLine === 'jungle') {
+      if (secondLine === '') setFirstLine('');
+      else {
+        setFirstLine(secondLine);
+        setSecondLine('');
+      }
+    } else if (secondLine === 'jungle') setSecondLine('');
+    else if (firstLine !== '') {
+      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
+      else setSecondLine('jungle');
+    } else setFirstLine('jungle');
+  };
+
   const changeIsMiddleSelected = () => {
     if (firstLine === 'middle') {
       if (secondLine === '') setFirstLine('');
@@ -104,20 +118,6 @@ export default function SelectMyLineChampScreen({
       if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
       else setSecondLine('bottom');
     } else setFirstLine('bottom');
-  };
-
-  const changeIsJungleSelected = () => {
-    if (firstLine === 'jungle') {
-      if (secondLine === '') setFirstLine('');
-      else {
-        setFirstLine(secondLine);
-        setSecondLine('');
-      }
-    } else if (secondLine === 'jungle') setSecondLine('');
-    else if (firstLine !== '') {
-      if (secondLine !== '') alert('라인은 2개까지만 선택할 수 있습니다!');
-      else setSecondLine('jungle');
-    } else setFirstLine('jungle');
   };
 
   const changeIsSupportSelected = () => {
@@ -174,7 +174,7 @@ export default function SelectMyLineChampScreen({
             marginBottom: Layout.Height * 0.015,
           }}
         >
-          <FavoriteLine width={Layout.Width * 0.5} />
+          <PlayWithLine width={Layout.Width * 0.7} />
         </View>
         <View
           style={{
@@ -212,7 +212,33 @@ export default function SelectMyLineChampScreen({
               <TopPurpleText opacity={0} />
             )}
           </View>
-
+          <View style={styles.selectLineBotton}>
+            {firstLine == 'jungle' ? (
+              <FirstPurpleText />
+            ) : secondLine == 'jungle' ? (
+              <SecondPurpleText />
+            ) : (
+              <FirstPurpleText opacity={0} />
+            )}
+            <Pressable
+              onPress={() => {
+                changeIsJungleSelected();
+              }}
+            >
+              {firstLine == 'jungle' || secondLine == 'jungle' ? (
+                <JungleSelected />
+              ) : (
+                <JungleUnselected />
+              )}
+            </Pressable>
+            {firstLine == 'jungle' ? (
+              <JunglePurpleText />
+            ) : secondLine == 'jungle' ? (
+              <JunglePurpleText />
+            ) : (
+              <JunglePurpleText opacity={0} />
+            )}
+          </View>
           <View style={styles.selectLineBotton}>
             {firstLine == 'middle' ? (
               <FirstPurpleText />
@@ -270,33 +296,6 @@ export default function SelectMyLineChampScreen({
           </View>
 
           <View style={styles.selectLineBotton}>
-            {firstLine == 'jungle' ? (
-              <FirstPurpleText />
-            ) : secondLine == 'jungle' ? (
-              <SecondPurpleText />
-            ) : (
-              <FirstPurpleText opacity={0} />
-            )}
-            <Pressable
-              onPress={() => {
-                changeIsJungleSelected();
-              }}
-            >
-              {firstLine == 'jungle' || secondLine == 'jungle' ? (
-                <JungleSelected />
-              ) : (
-                <JungleUnselected />
-              )}
-            </Pressable>
-            {firstLine == 'jungle' ? (
-              <JunglePurpleText />
-            ) : secondLine == 'jungle' ? (
-              <JunglePurpleText />
-            ) : (
-              <JunglePurpleText opacity={0} />
-            )}
-          </View>
-          <View style={styles.selectLineBotton}>
             {firstLine == 'support' ? (
               <FirstPurpleText />
             ) : secondLine == 'support' ? (
@@ -333,7 +332,7 @@ export default function SelectMyLineChampScreen({
           justifyContent: 'space-between',
         }}
       >
-        <FavoriteChamp width={Layout.Width * 0.5} />
+        <PlayWithChamp width={Layout.Width * 0.7} />
         <View
           style={{
             width: Layout.Width * 0.65,

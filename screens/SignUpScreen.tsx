@@ -478,7 +478,7 @@ export default function SignUpScreen({
                   // } else {
                   //   navigation.navigate('Welcome');
                   // }
-                  scrollViewRef.current.scrollToEnd({ animated: true });
+                  scrollViewRef.current?.scrollToEnd({ animated: true });
                   setTimeout(() => {
                     navigation.navigate('Welcome');
                   }, 500);
