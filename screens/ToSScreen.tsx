@@ -4,11 +4,16 @@ import { StyleSheet, Pressable, Dimensions, Text, View } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Shadow } from 'react-native-shadow-2';
 import { ScrollView } from 'react-native-gesture-handler';
-import { FontAwesome } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 
 import { RootStackScreenProps } from '../types';
 import Colors from '../constants/Colors';
+
+import CheckCircleUnchecked from '../assets/icons/svg/circle_check_outline.svg';
+import CheckCircleChecked from '../assets/icons/svg/circle_check_outline2.svg';
+import ChevronDown from '../assets/icons/svg/chevron_down.svg';
+import ChevronUp from '../assets/icons/svg/chevron_up.svg';
+import ArrowRight from '../assets/icons/svg/arrow-right.svg';
 
 import AgreeAllOn from '../assets/text_images/agree_on.svg';
 import AgreeAllOff from '../assets/text_images/agree_off.svg';
@@ -103,19 +108,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeEssential();
               }}
             >
-              {essential ? (
-                <FontAwesome
-                  name="check-circle"
-                  size={30}
-                  color={Colors.textFocusedPurple}
-                />
-              ) : (
-                <FontAwesome
-                  name="check-circle-o"
-                  size={30}
-                  color={Colors.iconGray}
-                />
-              )}
+              {essential ? <CheckCircleChecked /> : <CheckCircleUnchecked />}
             </Pressable>
             <Text
               style={{
@@ -135,19 +128,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeCollapsedEssential();
               }}
             >
-              {collapsedEssential ? (
-                <FontAwesome
-                  name="chevron-down"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                />
-              ) : (
-                <FontAwesome
-                  name="chevron-up"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                />
-              )}
+              {collapsedEssential ? <ChevronDown /> : <ChevronUp />}
             </Pressable>
           </View>
           <Collapsible collapsed={collapsedEssential}>
@@ -176,19 +157,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeOptional1();
               }}
             >
-              {optional1 ? (
-                <FontAwesome
-                  name="check-circle"
-                  size={30}
-                  color={Colors.textFocusedPurple}
-                />
-              ) : (
-                <FontAwesome
-                  name="check-circle-o"
-                  size={30}
-                  color={Colors.iconGray}
-                />
-              )}
+              {optional1 ? <CheckCircleChecked /> : <CheckCircleUnchecked />}
             </Pressable>
             <Text
               style={{
@@ -208,19 +177,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeCollapsedOptional1();
               }}
             >
-              {collapsedOptional1 ? (
-                <FontAwesome
-                  name="chevron-down"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                ></FontAwesome>
-              ) : (
-                <FontAwesome
-                  name="chevron-up"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                ></FontAwesome>
-              )}
+              {collapsedOptional1 ? <ChevronDown /> : <ChevronUp />}
             </Pressable>
           </View>
           <Collapsible collapsed={collapsedOptional1}>
@@ -250,19 +207,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeOptional2();
               }}
             >
-              {optional2 ? (
-                <FontAwesome
-                  name="check-circle"
-                  size={30}
-                  color={Colors.textFocusedPurple}
-                />
-              ) : (
-                <FontAwesome
-                  name="check-circle-o"
-                  size={30}
-                  color={Colors.iconGray}
-                />
-              )}
+              {optional2 ? <CheckCircleChecked /> : <CheckCircleUnchecked />}
             </Pressable>
             <Text
               style={{
@@ -282,19 +227,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
                 changeCollapsedOptional2();
               }}
             >
-              {collapsedOptional2 ? (
-                <FontAwesome
-                  name="chevron-down"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                />
-              ) : (
-                <FontAwesome
-                  name="chevron-up"
-                  size={20}
-                  color={Colors.textFocusedPurple}
-                />
-              )}
+              {collapsedOptional2 ? <ChevronDown /> : <ChevronUp />}
             </Pressable>
           </View>
           <Collapsible collapsed={collapsedOptional2}>
@@ -340,11 +273,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
               },
             ]}
           >
-            <FontAwesome
-              name="arrow-right"
-              size={30}
-              color={Colors.iconWhite}
-            />
+            <ArrowRight />
           </View>
         </Shadow>
       </Pressable>

@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import Chevron_Right from '../assets/icons/svg/fi_chevron-right.svg';
 import * as React from 'react';
 import {
   Pressable,
@@ -176,11 +176,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         >
           <Text style={styles.titleText}>매칭 가능한 유저들</Text>
           <Pressable>
-            <FontAwesome
-              name="chevron-right"
-              size={20}
-              color={Colors.textWhite}
-            />
+            <Chevron_Right />
           </Pressable>
         </View>
         <FlatList
@@ -243,11 +239,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         >
           <Text style={styles.titleText}>친구 목록</Text>
           <Pressable onPress={() => navigation.navigate('Social')}>
-            <FontAwesome
-              name="chevron-right"
-              size={20}
-              color={Colors.textWhite}
-            />
+            <Chevron_Right />
           </Pressable>
         </View>
         <FlatList
@@ -274,11 +266,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         >
           <Text style={styles.titleText}>실시간 인기 게시물</Text>
           <Pressable>
-            <FontAwesome
-              name="chevron-right"
-              size={20}
-              color={Colors.textWhite}
-            />
+            <Chevron_Right />
           </Pressable>
         </View>
       </View>
