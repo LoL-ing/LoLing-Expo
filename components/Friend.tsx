@@ -1,5 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
+import Good from '../assets/icons/svg/good.svg';
+import GoodOff from '../assets/icons/svg/good-off.svg';
+import Bad from '../assets/icons/svg/bad.svg';
+import BadOff from '../assets/icons/svg/bad-off.svg';
+import Report from '../assets/icons/svg/report.svg';
+import Chat from '../assets/icons/svg/chat.svg';
+import Profile from '../assets/icons/svg/profile.svg';
+import FriendEsc from '../assets/icons/svg/friend-esc.svg';
 import {
   Pressable,
   StyleSheet,
@@ -7,214 +15,182 @@ import {
   ImageSourcePropType,
   Modal,
   Text,
-  View
+  View,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Colors from '../constants/Colors';
-
-const starOn = require('../assets/images/starOn.png');
-const starOff = require('../assets/images/starOff.png');
+import Layout from '../constants/Layout';
 
 export default function Friend(props: {
   nickname: string;
-  bookmark: boolean;
   profileImg: ImageSourcePropType;
+  tier: string;
 }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [goodOn, setGoodOn] = useState(false);
+  const [badOn, setBadOn] = useState(false);
+
   return (
     <View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.bottomView}>
-          <View style={styles.modalView}>
-            <View>
-              <View
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View
+            style={{
+              width: Layout.Width,
+              height: Layout.Height * 0.7,
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              backgroundColor: 'black',
+              opacity: 0.7,
+              paddingVertical: Layout.Height * 0.01,
+              paddingHorizontal: Layout.Width * 0.05,
+            }}
+          >
+            <FriendEsc width={Layout.Width * 0.08} />
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={styles.modalView}>
+          <View
+            style={{
+              flexDirection: 'row',
+              width: Layout.Width * 0.8,
+              height: Layout.Height * 0.1,
+              marginBottom: Layout.Height * 0.04,
+            }}
+          >
+            <Image
+              source={props.profileImg}
+              style={{
+                width: Layout.Width * 0.19,
+                height: Layout.Width * 0.19,
+                borderRadius: Layout.Width * 0.19,
+              }}
+            ></Image>
+            <View
+              style={{
+                marginHorizontal: Layout.Width * 0.07,
+                width: Layout.Width * 0.45,
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text
                 style={{
-                  flexDirection: 'row',
-                  backgroundColor: Colors.backgroundPurple,
+                  color: Colors.textWhite,
+                  fontSize: 22,
+                  fontWeight: 'bold',
                 }}
               >
-                <View
-                  style={{
-                    backgroundColor: Colors.backgroundPurple,
-                    width: '40%',
-                  }}
-                >
-                  <Image
-                    source={props.profileImg}
-                    style={{ width: 100, height: 100, borderRadius: 100 }}
-                  ></Image>
-                </View>
-                <View
-                  style={{
-                    width: '60%',
-                    justifyContent: 'center',
-                    backgroundColor: Colors.backgroundPurple,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      backgroundColor: Colors.backgroundPurple,
-                    }}
-                  >
-                    <View style={{ backgroundColor: Colors.backgroundPurple }}>
-                      <Text
-                        style={{
-                          color: Colors.textBlack,
-                          fontSize: 30,
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {props.nickname}
-                      </Text>
-                    </View>
-
-                    <Pressable
-                      style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1,
-                        backgroundColor: Colors.backgroundPurple,
-                      })}
-                    >
-                      <Image
-                        source={props.bookmark === true ? starOn : starOff}
-                        style={{ width: 40, height: 40, margin: 10 }}
-                      ></Image>
-                    </Pressable>
-                  </View>
-
-                  <View
-                    style={{
-                      backgroundColor: Colors.backgroundPurple,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Pressable
-                      style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1,
-                        paddingVertical: 5,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        backgroundColor: Colors.backgroundPurple,
-                      })}
-                    >
-                      <Text style={styles.pressableText}>좋아요</Text>
-                    </Pressable>
-                    <Pressable
-                      style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1,
-                        paddingVertical: 5,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        backgroundColor: Colors.backgroundPurple,
-                      })}
-                    >
-                      <Text style={styles.pressableText}>싫어요</Text>
-                    </Pressable>
-                    <Pressable
-                      style={({ pressed }) => ({
-                        opacity: pressed ? 0.5 : 1,
-                        paddingVertical: 5,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        backgroundColor: Colors.backgroundPurple,
-                      })}
-                    >
-                      <Text style={styles.pressableText}>신고하기</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </View>
-
+                {props.nickname}
+              </Text>
               <View
                 style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'space-around',
-                  backgroundColor: Colors.backgroundPurple,
+                  justifyContent: 'space-between',
                 }}
               >
                 <Pressable
                   style={({ pressed }) => ({
                     opacity: pressed ? 0.5 : 1,
-                    paddingVertical: 5,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: Colors.backgroundPurple,
                   })}
+                  onPress={() => {
+                    if (badOn) setBadOn(false);
+                    setGoodOn(!goodOn);
+                  }}
                 >
-                  <Text style={styles.pressableText}>1대1 채팅</Text>
+                  {goodOn ? (
+                    <Good width={Layout.Width * 0.08} />
+                  ) : (
+                    <GoodOff width={Layout.Width * 0.08} />
+                  )}
                 </Pressable>
                 <Pressable
                   style={({ pressed }) => ({
                     opacity: pressed ? 0.5 : 1,
-                    paddingVertical: 5,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: Colors.backgroundPurple,
                   })}
-                  //onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    if (goodOn) setGoodOn(false);
+                    setBadOn(!badOn);
+                  }}
                 >
-                  <Text style={styles.pressableText}>프로필 상세보기</Text>
+                  {badOn ? (
+                    <Bad width={Layout.Width * 0.08} />
+                  ) : (
+                    <BadOff width={Layout.Width * 0.08} />
+                  )}
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                  })}
+                >
+                  <Report width={Layout.Width * 0.23} />
                 </Pressable>
               </View>
             </View>
+          </View>
 
+          <View
+            style={{
+              flexDirection: 'row',
+              width: Layout.Width * 0.86,
+              height: Layout.Height * 0.05,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Chat width={Layout.Width * 0.4} />
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <Profile width={Layout.Width * 0.4} />
             </Pressable>
           </View>
         </View>
+        {/* </View> */}
       </Modal>
 
       <Pressable
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
-          paddingVertical: 5,
+          paddingHorizontal: Layout.Width * 0.077,
           flexDirection: 'row',
-          justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: Colors.backgroundBlack,
+
+          width: Layout.Width,
+          height: Layout.Height * 0.11,
         })}
         onPress={() => setModalVisible(true)}
       >
+        <Image source={props.profileImg} style={styles.profileImg}></Image>
+
         <View
           style={{
-            width: '80%',
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: Colors.backgroundBlack,
+            marginHorizontal: Layout.Width * 0.06,
+            height: Layout.Height * 0.043,
+            justifyContent: 'space-between',
           }}
         >
-          <Image source={props.profileImg} style={styles.profileImg}></Image>
-
           <Text style={styles.nickname}>{props.nickname}</Text>
-        </View>
-
-        <View style={{ backgroundColor: Colors.backgroundBlack }}>
-          <Image
-            source={props.bookmark === true ? starOn : starOff}
-            style={styles.star}
-          ></Image>
+          {/* <View style={{paddingVe:5}} > */}
+          <Text style={styles.tier}>{props.tier}</Text>
+          {/* <Text style={styles.nickname}>{props.tier}</Text> */}
+          {/* </View> */}
         </View>
       </Pressable>
     </View>
@@ -222,30 +198,16 @@ export default function Friend(props: {
 }
 
 const styles = StyleSheet.create({
-  bottomView: {
-    marginTop: 22,
-
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-
-    backgroundColor: 'rgba(100, 100, 100, 0)',
-  },
   modalView: {
-    width: '100%',
-    margin: 20,
-    padding: 35,
-
-    backgroundColor: Colors.backgroundPurple,
+    width: Layout.Width,
+    height: Layout.Height * 0.3,
+    backgroundColor: Colors.backgroundNavy,
     borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderTopWidth: 1,
+    top: Layout.Height * 0.7,
+    position: 'absolute',
+    alignItems: 'center',
+    paddingTop: Layout.Height * 0.047,
   },
   button: {
     padding: 10,
@@ -261,16 +223,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   profileImg: {
-    width: 50,
-    height: 50,
-    margin: 10,
-
-    borderRadius: 50,
+    width: 60,
+    height: 60,
   },
   nickname: {
     color: Colors.textWhite,
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 15,
+  },
+  tier: {
+    color: Colors.textWhite,
+    opacity: 0.7,
+
+    fontSize: 12,
   },
 
   star: {
