@@ -44,12 +44,12 @@ export default function Friend(props: {
           <View
             style={{
               width: Layout.Width,
-              height: Layout.Height * 0.7,
+              height: Layout.Height * 0.8,
               justifyContent: 'flex-end',
               alignItems: 'flex-end',
               backgroundColor: 'black',
               opacity: 0.7,
-              paddingVertical: Layout.Height * 0.01,
+              paddingVertical: Layout.Height * 0.11,
               paddingHorizontal: Layout.Width * 0.05,
             }}
           >
@@ -162,7 +162,6 @@ export default function Friend(props: {
             </Pressable>
           </View>
         </View>
-        {/* </View> */}
       </Modal>
 
       <Pressable
@@ -187,10 +186,7 @@ export default function Friend(props: {
           }}
         >
           <Text style={styles.nickname}>{props.nickname}</Text>
-          {/* <View style={{paddingVe:5}} > */}
           <Text style={styles.tier}>{props.tier}</Text>
-          {/* <Text style={styles.nickname}>{props.tier}</Text> */}
-          {/* </View> */}
         </View>
       </Pressable>
     </View>

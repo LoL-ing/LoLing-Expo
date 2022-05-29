@@ -192,23 +192,28 @@ export default function SocialScreen() {
                 </View>
               </Shadow>
             </Pressable>
-
+            <View
+              style={{
+                width: Layout.Width,
+                justifyContent: 'flex-start',
+                paddingHorizontal: Layout.Width * 0.077,
+                marginTop: Layout.Height * 0.045,
+                marginBottom: Layout.Height * 0.022,
+              }}
+            >
+              <Text
+                style={{
+                  color: Colors.textWhite,
+                  fontWeight: 'bold',
+                  fontSize: 18,
+                }}
+              >
+                친구 목록
+              </Text>
+            </View>
             <FlatList
               data={searchedFriend(originFriends, keyword)}
               showsVerticalScrollIndicator={false}
-              ListHeaderComponent={
-                <Text
-                  style={{
-                    color: Colors.textWhite,
-                    fontWeight: 'bold',
-                    fontSize: 18,
-                    marginHorizontal: Layout.Width * 0.077,
-                    marginVertical: Layout.Height * 0.026,
-                  }}
-                >
-                  친구 목록
-                </Text>
-              }
               renderItem={({ item }) => (
                 <Friend
                   nickname={item.nickname}

@@ -46,6 +46,16 @@ const userAccounts = [
     email: '19990708@naver.com',
     password: '1234',
   },
+  {
+    name: 'yeoreum',
+    email: 'fmadudid@korea.ac.kr',
+    password: '1234',
+  },
+  {
+    name: 'admin',
+    email: '1234',
+    password: '1234',
+  },
 ];
 
 export default function SignInScreen({
