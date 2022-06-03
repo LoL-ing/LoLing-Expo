@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  Pressable,
+  Modal,
+  Image,
+} from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -7,19 +15,19 @@ import Friend from '../components/Friend';
 import getFriends from '../data/Friends';
 import { useState } from 'react';
 
-import DeleteFrined from '../assets/icons/svg/delete-frined-icon.svg';
+import DeleteFriend from '../components/DeleteFriend';
+import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
 import Searching from '../assets/icons/svg/search-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
 import ProfileCollection from '../assets/icons/svg/profile-collection.svg';
-import { CurrentRenderContext } from '@react-navigation/native';
 import { Shadow } from 'react-native-shadow-2';
 
 const originFriends = getFriends();
 
 function searchedFriend(friendList: typeof originFriends, nickname: string) {
   if (nickname === '') {
-    return originFriends;
+    return friendList;
   } else {
     return originFriends.filter(friend => friend.nickname.includes(nickname));
   }
@@ -28,8 +36,81 @@ function searchedFriend(friendList: typeof originFriends, nickname: string) {
 export default function SocialScreen() {
   const [showFriendList, setShowFriendList] = useState(true);
   const [keyword, setKeyword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: Colors.backgroundBlack,
+            height: Layout.Height,
+          }}
+        >
+          <View
+            style={{
+              width: Layout.Width,
+              justifyContent: 'flex-start',
+              paddingHorizontal: Layout.Width * 0.077,
+              marginTop: Layout.Height * 0.045,
+              marginBottom: Layout.Height * 0.022,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.textWhite,
+                fontWeight: 'bold',
+                fontSize: 18,
+              }}
+            >
+              친구 목록
+            </Text>
+          </View>
+
+          <FlatList
+            data={originFriends}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <DeleteFriend
+                nickname={item.nickname}
+                profileImg={item.profileImg}
+                tier={item.tier}
+                line={item.line}
+              />
+            )}
+          />
+          <View style={{ flexDirection: 'row' }}>
+            <Pressable
+              style={{
+                width: 100,
+                height: 100,
+                backgroundColor: Colors.backgroundPurple,
+              }}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text>취소</Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                width: 100,
+                height: 100,
+                backgroundColor: Colors.textUnfocusedPurple,
+              }}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text>완료</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <View
         style={{
           width: Layout.Width,
@@ -105,8 +186,11 @@ export default function SocialScreen() {
             alignItems: 'center',
           }}
         >
-          <Pressable style={{ width: Layout.Width * 0.12 }}>
-            <DeleteFrined width={Layout.Width * 0.07} />
+          <Pressable
+            style={{ width: Layout.Width * 0.12 }}
+            onPress={() => setModalVisible(true)}
+          >
+            <DeleteFrinedIcon width={Layout.Width * 0.07} />
           </Pressable>
           <Pressable style={{ width: Layout.Width * 0.12 }}>
             <AddFrined width={Layout.Width * 0.07} />
@@ -219,6 +303,7 @@ export default function SocialScreen() {
                   nickname={item.nickname}
                   profileImg={item.profileImg}
                   tier={item.tier}
+                  line={item.line}
                 />
               )}
             />
@@ -239,5 +324,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.backgroundBlack,
     paddingVertical: Layout.Height * 0.05,
+  },
+  profileImg: {
+    width: 60,
+    height: 60,
+  },
+  nickname: {
+    color: Colors.textWhite,
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  tier: {
+    color: Colors.textWhite,
+    opacity: 0.7,
+
+    fontSize: 12,
   },
 });
