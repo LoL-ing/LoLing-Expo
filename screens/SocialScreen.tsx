@@ -15,18 +15,11 @@ import Friend from '../components/Friend';
 import getFriends from '../data/Friends';
 import { useState } from 'react';
 
-import DeleteFrined from '../assets/icons/svg/delete-frined-icon.svg';
+import DeleteFriend from '../components/DeleteFriend';
+import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
 import Searching from '../assets/icons/svg/search-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
-
-import Top from '../assets/icons/svg/top-icon-selected.svg';
-import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
-import Mid from '../assets/icons/svg/middle-icon-selected.svg';
-import Jungle from '../assets/icons/svg/jungle-icon-selected.svg';
-import Support from '../assets/icons/svg/support-icon-selected.svg';
-import Delete from '../assets/icons/svg/delete-icon.svg';
-
 import ProfileCollection from '../assets/icons/svg/profile-collection.svg';
 import { Shadow } from 'react-native-shadow-2';
 
@@ -34,7 +27,7 @@ const originFriends = getFriends();
 
 function searchedFriend(friendList: typeof originFriends, nickname: string) {
   if (nickname === '') {
-    return originFriends;
+    return friendList;
   } else {
     return originFriends.filter(friend => friend.nickname.includes(nickname));
   }
@@ -44,7 +37,6 @@ export default function SocialScreen() {
   const [showFriendList, setShowFriendList] = useState(true);
   const [keyword, setKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <View style={styles.container}>
       <Modal
@@ -85,71 +77,12 @@ export default function SocialScreen() {
             data={originFriends}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-              <Pressable
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                  paddingHorizontal: Layout.Width * 0.077,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  width: Layout.Width,
-                  height: Layout.Height * 0.11,
-                })}
-                onPress={() => setModalVisible(true)}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Image
-                    source={item.profileImg}
-                    style={styles.profileImg}
-                  ></Image>
-                  <View
-                    style={{
-                      marginHorizontal: Layout.Width * 0.06,
-                      height: Layout.Height * 0.06,
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Text style={styles.nickname}>{item.nickname}</Text>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Text style={styles.tier}>{item.tier}</Text>
-
-                      {item.line == 'top' ? (
-                        <Top
-                          width={Layout.Width * 0.05}
-                          style={{ marginLeft: 10 }}
-                        />
-                      ) : item.line == 'bottom' ? (
-                        <Bottom
-                          width={Layout.Width * 0.05}
-                          style={{ marginLeft: 10 }}
-                        />
-                      ) : item.line == 'mid' ? (
-                        <Mid
-                          width={Layout.Width * 0.05}
-                          style={{ marginLeft: 10 }}
-                        />
-                      ) : item.line == 'jungle' ? (
-                        <Jungle
-                          width={Layout.Width * 0.05}
-                          style={{ marginLeft: 10 }}
-                        />
-                      ) : (
-                        <Support
-                          width={Layout.Width * 0.05}
-                          style={{ marginLeft: 10 }}
-                        />
-                      )}
-                    </View>
-                  </View>
-                </View>
-                <Delete />
-              </Pressable>
+              <DeleteFriend
+                nickname={item.nickname}
+                profileImg={item.profileImg}
+                tier={item.tier}
+                line={item.line}
+              />
             )}
           />
           <View style={{ flexDirection: 'row' }}>
@@ -257,7 +190,7 @@ export default function SocialScreen() {
             style={{ width: Layout.Width * 0.12 }}
             onPress={() => setModalVisible(true)}
           >
-            <DeleteFrined width={Layout.Width * 0.07} />
+            <DeleteFrinedIcon width={Layout.Width * 0.07} />
           </Pressable>
           <Pressable style={{ width: Layout.Width * 0.12 }}>
             <AddFrined width={Layout.Width * 0.07} />
