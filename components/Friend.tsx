@@ -48,63 +48,21 @@ export default function Friend(props: {
         }}
       >
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View
-            style={{
-              width: Layout.Width,
-              height: Layout.Height * 0.8,
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              backgroundColor: 'black',
-              opacity: 0.7,
-              paddingVertical: Layout.Height * 0.11,
-              paddingHorizontal: Layout.Width * 0.05,
-            }}
-          >
+          <View style={styles.modalBackground}>
             <Pressable onPress={() => setModalVisible(false)}>
               <FriendEsc width={Layout.Width * 0.08} />
             </Pressable>
           </View>
         </TouchableWithoutFeedback>
-        <View style={styles.modalView}>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: Layout.Width * 0.8,
-              height: Layout.Height * 0.1,
-              marginBottom: Layout.Height * 0.04,
-            }}
-          >
+        <View style={styles.modalContents}>
+          <View style={styles.modalProfileImgContainer}>
             <Image
               source={props.profileImg}
-              style={{
-                width: Layout.Width * 0.19,
-                height: Layout.Width * 0.19,
-                borderRadius: Layout.Width * 0.19,
-              }}
+              style={styles.modalProfileImg}
             ></Image>
-            <View
-              style={{
-                marginHorizontal: Layout.Width * 0.07,
-                width: Layout.Width * 0.45,
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text
-                style={{
-                  color: Colors.textWhite,
-                  fontSize: 22,
-                  fontWeight: 'bold',
-                }}
-              >
-                {props.nickname}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
+            <View style={styles.modalNicknameContainer}>
+              <Text style={styles.modalNickname}>{props.nickname}</Text>
+              <View style={styles.modalGoodOrBadButtonContainer}>
                 <Pressable
                   style={({ pressed }) => ({
                     opacity: pressed ? 0.5 : 1,
@@ -146,15 +104,7 @@ export default function Friend(props: {
             </View>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              width: Layout.Width * 0.86,
-              height: Layout.Height * 0.05,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.modalChatOrViewProfileButtonConatiner}>
             <Pressable
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
@@ -166,6 +116,7 @@ export default function Friend(props: {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
+              // onPress={() => _renderItem(' ', '')}
             >
               <Profile width={Layout.Width * 0.4} />
             </Pressable>
@@ -174,33 +125,20 @@ export default function Friend(props: {
       </Modal>
 
       <Pressable
-        style={({ pressed }) => ({
-          opacity: pressed ? 0.5 : 1,
-          paddingHorizontal: Layout.Width * 0.077,
-          flexDirection: 'row',
-          alignItems: 'center',
-          width: Layout.Width,
-          height: Layout.Height * 0.11,
-        })}
+        style={({ pressed }) => [
+          {
+            opacity: pressed ? 0.5 : 1,
+          },
+          styles.friendItem,
+        ]}
         onPress={() => setModalVisible(true)}
       >
         <Image source={props.profileImg} style={styles.profileImg}></Image>
 
-        <View
-          style={{
-            marginHorizontal: Layout.Width * 0.06,
-            height: Layout.Height * 0.06,
-            justifyContent: 'space-between',
-          }}
-        >
+        <View style={styles.nicknameContainer}>
           <Text style={styles.nickname}>{props.nickname}</Text>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.tierAndLineContainer}>
             <Text style={styles.tier}>{props.tier}</Text>
 
             {props.line == 'top' ? (
@@ -222,29 +160,71 @@ export default function Friend(props: {
 }
 
 const styles = StyleSheet.create({
-  modalView: {
+  modalBackground: {
+    width: Layout.Width,
+    height: Layout.Height * 0.8,
+    paddingVertical: Layout.Height * 0.11,
+    paddingHorizontal: Layout.Width * 0.05,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    backgroundColor: 'black',
+    opacity: 0.7,
+  },
+  modalContents: {
     width: Layout.Width,
     height: Layout.Height * 0.3,
-    backgroundColor: Colors.backgroundNavy,
-    borderRadius: 20,
-    borderTopWidth: 1,
+    paddingTop: Layout.Height * 0.047,
     top: Layout.Height * 0.7,
     position: 'absolute',
     alignItems: 'center',
-    paddingTop: Layout.Height * 0.047,
-  },
-  button: {
-    padding: 10,
+    backgroundColor: Colors.backgroundNavy,
     borderRadius: 20,
-    elevation: 2,
+    borderTopWidth: 1,
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  modalProfileImgContainer: {
+    width: Layout.Width * 0.8,
+    height: Layout.Height * 0.1,
+    marginBottom: Layout.Height * 0.04,
+    flexDirection: 'row',
   },
-  textStyle: {
+  modalProfileImg: {
+    width: Layout.Width * 0.19,
+    height: Layout.Width * 0.19,
+    borderRadius: Layout.Width * 0.19,
+  },
+  modalNicknameContainer: {
+    width: Layout.Width * 0.45,
+    marginHorizontal: Layout.Width * 0.07,
+    justifyContent: 'space-between',
+  },
+  modalNickname: {
     color: Colors.textWhite,
+    fontSize: 22,
     fontWeight: 'bold',
-    textAlign: 'center',
+  },
+  modalGoodOrBadButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  modalChatOrViewProfileButtonConatiner: {
+    width: Layout.Width * 0.86,
+    height: Layout.Height * 0.05,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  friendItem: {
+    width: Layout.Width,
+    height: Layout.Height * 0.11,
+    paddingHorizontal: Layout.Width * 0.077,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nicknameContainer: {
+    height: Layout.Height * 0.06,
+    marginHorizontal: Layout.Width * 0.06,
+    justifyContent: 'space-between',
   },
   profileImg: {
     width: 60,
@@ -252,24 +232,16 @@ const styles = StyleSheet.create({
   },
   nickname: {
     color: Colors.textWhite,
-    fontWeight: 'bold',
     fontSize: 15,
+    fontWeight: 'bold',
+  },
+  tierAndLineContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tier: {
     color: Colors.textWhite,
     opacity: 0.7,
-
     fontSize: 12,
-  },
-
-  star: {
-    width: 30,
-    height: 30,
-    margin: 10,
-  },
-
-  pressableText: {
-    color: Colors.textBlack,
-    fontSize: 20,
   },
 });
