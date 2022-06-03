@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  Pressable,
+  Modal,
+  Image,
+} from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -11,8 +19,15 @@ import DeleteFrined from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
 import Searching from '../assets/icons/svg/search-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
+
+import Top from '../assets/icons/svg/top-icon-selected.svg';
+import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
+import Mid from '../assets/icons/svg/middle-icon-selected.svg';
+import Jungle from '../assets/icons/svg/jungle-icon-selected.svg';
+import Support from '../assets/icons/svg/support-icon-selected.svg';
+import Delete from '../assets/icons/svg/delete-icon.svg';
+
 import ProfileCollection from '../assets/icons/svg/profile-collection.svg';
-import { CurrentRenderContext } from '@react-navigation/native';
 import { Shadow } from 'react-native-shadow-2';
 
 const originFriends = getFriends();
@@ -28,8 +43,141 @@ function searchedFriend(friendList: typeof originFriends, nickname: string) {
 export default function SocialScreen() {
   const [showFriendList, setShowFriendList] = useState(true);
   const [keyword, setKeyword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: Colors.backgroundBlack,
+            height: Layout.Height,
+          }}
+        >
+          <View
+            style={{
+              width: Layout.Width,
+              justifyContent: 'flex-start',
+              paddingHorizontal: Layout.Width * 0.077,
+              marginTop: Layout.Height * 0.045,
+              marginBottom: Layout.Height * 0.022,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.textWhite,
+                fontWeight: 'bold',
+                fontSize: 18,
+              }}
+            >
+              친구 목록
+            </Text>
+          </View>
+
+          <FlatList
+            data={originFriends}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <Pressable
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                  paddingHorizontal: Layout.Width * 0.077,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: Layout.Width,
+                  height: Layout.Height * 0.11,
+                })}
+                onPress={() => setModalVisible(true)}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    source={item.profileImg}
+                    style={styles.profileImg}
+                  ></Image>
+                  <View
+                    style={{
+                      marginHorizontal: Layout.Width * 0.06,
+                      height: Layout.Height * 0.06,
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Text style={styles.nickname}>{item.nickname}</Text>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Text style={styles.tier}>{item.tier}</Text>
+
+                      {item.line == 'top' ? (
+                        <Top
+                          width={Layout.Width * 0.05}
+                          style={{ marginLeft: 10 }}
+                        />
+                      ) : item.line == 'bottom' ? (
+                        <Bottom
+                          width={Layout.Width * 0.05}
+                          style={{ marginLeft: 10 }}
+                        />
+                      ) : item.line == 'mid' ? (
+                        <Mid
+                          width={Layout.Width * 0.05}
+                          style={{ marginLeft: 10 }}
+                        />
+                      ) : item.line == 'jungle' ? (
+                        <Jungle
+                          width={Layout.Width * 0.05}
+                          style={{ marginLeft: 10 }}
+                        />
+                      ) : (
+                        <Support
+                          width={Layout.Width * 0.05}
+                          style={{ marginLeft: 10 }}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </View>
+                <Delete />
+              </Pressable>
+            )}
+          />
+          <View style={{ flexDirection: 'row' }}>
+            <Pressable
+              style={{
+                width: 100,
+                height: 100,
+                backgroundColor: Colors.backgroundPurple,
+              }}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text>취소</Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                width: 100,
+                height: 100,
+                backgroundColor: Colors.textUnfocusedPurple,
+              }}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text>완료</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <View
         style={{
           width: Layout.Width,
@@ -105,7 +253,10 @@ export default function SocialScreen() {
             alignItems: 'center',
           }}
         >
-          <Pressable style={{ width: Layout.Width * 0.12 }}>
+          <Pressable
+            style={{ width: Layout.Width * 0.12 }}
+            onPress={() => setModalVisible(true)}
+          >
             <DeleteFrined width={Layout.Width * 0.07} />
           </Pressable>
           <Pressable style={{ width: Layout.Width * 0.12 }}>
@@ -219,6 +370,7 @@ export default function SocialScreen() {
                   nickname={item.nickname}
                   profileImg={item.profileImg}
                   tier={item.tier}
+                  line={item.line}
                 />
               )}
             />
@@ -239,5 +391,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.backgroundBlack,
     paddingVertical: Layout.Height * 0.05,
+  },
+  profileImg: {
+    width: 60,
+    height: 60,
+  },
+  nickname: {
+    color: Colors.textWhite,
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  tier: {
+    color: Colors.textWhite,
+    opacity: 0.7,
+
+    fontSize: 12,
   },
 });

@@ -21,10 +21,17 @@ import {
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
+import Top from '../assets/icons/svg/top-icon-selected.svg';
+import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
+import Mid from '../assets/icons/svg/middle-icon-selected.svg';
+import Jungle from '../assets/icons/svg/jungle-icon-selected.svg';
+import Support from '../assets/icons/svg/support-icon-selected.svg';
+
 export default function Friend(props: {
   nickname: string;
   profileImg: ImageSourcePropType;
   tier: string;
+  line: string;
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [goodOn, setGoodOn] = useState(false);
@@ -53,7 +60,9 @@ export default function Friend(props: {
               paddingHorizontal: Layout.Width * 0.05,
             }}
           >
-            <FriendEsc width={Layout.Width * 0.08} />
+            <Pressable onPress={() => setModalVisible(false)}>
+              <FriendEsc width={Layout.Width * 0.08} />
+            </Pressable>
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.modalView}>
@@ -170,7 +179,6 @@ export default function Friend(props: {
           paddingHorizontal: Layout.Width * 0.077,
           flexDirection: 'row',
           alignItems: 'center',
-
           width: Layout.Width,
           height: Layout.Height * 0.11,
         })}
@@ -181,12 +189,32 @@ export default function Friend(props: {
         <View
           style={{
             marginHorizontal: Layout.Width * 0.06,
-            height: Layout.Height * 0.043,
+            height: Layout.Height * 0.06,
             justifyContent: 'space-between',
           }}
         >
           <Text style={styles.nickname}>{props.nickname}</Text>
-          <Text style={styles.tier}>{props.tier}</Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Text style={styles.tier}>{props.tier}</Text>
+
+            {props.line == 'top' ? (
+              <Top width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
+            ) : props.line == 'bottom' ? (
+              <Bottom width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
+            ) : props.line == 'mid' ? (
+              <Mid width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
+            ) : props.line == 'jungle' ? (
+              <Jungle width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
+            ) : (
+              <Support width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
+            )}
+          </View>
         </View>
       </Pressable>
     </View>
