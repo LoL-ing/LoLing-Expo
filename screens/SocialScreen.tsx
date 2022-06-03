@@ -6,7 +6,6 @@ import {
   View,
   Pressable,
   Modal,
-  Image,
 } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
@@ -38,7 +37,7 @@ export default function SocialScreen() {
   const [keyword, setKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={styles.container}>
+    <View style={styles.topContainer}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -47,30 +46,9 @@ export default function SocialScreen() {
           setModalVisible(!modalVisible);
         }}
       >
-        <View
-          style={{
-            backgroundColor: Colors.backgroundBlack,
-            height: Layout.Height,
-          }}
-        >
-          <View
-            style={{
-              width: Layout.Width,
-              justifyContent: 'flex-start',
-              paddingHorizontal: Layout.Width * 0.077,
-              marginTop: Layout.Height * 0.045,
-              marginBottom: Layout.Height * 0.022,
-            }}
-          >
-            <Text
-              style={{
-                color: Colors.textWhite,
-                fontWeight: 'bold',
-                fontSize: 18,
-              }}
-            >
-              친구 목록
-            </Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.flatListTitleContainer}>
+            <Text style={styles.flatListTitleText}>친구 목록</Text>
           </View>
 
           <FlatList
@@ -111,34 +89,18 @@ export default function SocialScreen() {
         </View>
       </Modal>
 
-      <View
-        style={{
-          width: Layout.Width,
-          height: Layout.Height * 0.058,
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <View
-          style={{
-            width: Layout.Width * 0.4,
-            flexDirection: 'row',
-          }}
-        >
+      <View style={styles.fixedButtonContainer}>
+        <View style={styles.friendOrChattingRoomButtonContainer}>
           <Pressable
             onPress={() => setShowFriendList(true)}
-            style={{
-              width: Layout.Width * 0.2,
-              height: Layout.Height * 0.058,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderBottomColor: showFriendList
-                ? Colors.backgroundPurple
-                : Colors.textUnfocusedPurple,
-              borderBottomWidth: 2,
-              flexDirection: 'row',
-            }}
+            style={[
+              styles.friendOrChattingRoomButton,
+              {
+                borderBottomColor: showFriendList
+                  ? Colors.backgroundPurple
+                  : Colors.textUnfocusedPurple,
+              },
+            ]}
           >
             <Text
               style={{
@@ -154,23 +116,21 @@ export default function SocialScreen() {
           </Pressable>
           <Pressable
             onPress={() => setShowFriendList(false)}
-            style={{
-              width: Layout.Width * 0.2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderBottomColor: showFriendList
-                ? Colors.textUnfocusedPurple
-                : Colors.backgroundPurple,
-              borderBottomWidth: 2,
-              flexDirection: 'row',
-            }}
+            style={[
+              styles.friendOrChattingRoomButton,
+              {
+                borderBottomColor: showFriendList
+                  ? Colors.textUnfocusedPurple
+                  : Colors.backgroundPurple,
+              },
+            ]}
           >
             <Text
               style={{
                 color: showFriendList
                   ? Colors.textUnfocusedPurple
                   : Colors.backgroundPurple,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: 'bold',
               }}
             >
@@ -178,14 +138,7 @@ export default function SocialScreen() {
             </Text>
           </Pressable>
         </View>
-        <View
-          style={{
-            width: Layout.Width * 0.24,
-            height: Layout.Height * 0.058,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
+        <View style={styles.deleteOrAddFriendButtonContainer}>
           <Pressable
             style={{ width: Layout.Width * 0.12 }}
             onPress={() => setModalVisible(true)}
@@ -201,16 +154,7 @@ export default function SocialScreen() {
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <TextInput
-              style={{
-                width: Layout.Width * 0.86,
-                height: Layout.Height * 0.05,
-                borderBottomWidth: 2,
-                borderBottomColor: Colors.textUnfocusedPurple,
-                paddingHorizontal: 10,
-                marginVertical: Layout.Height * 0.03,
-                color: Colors.textWhite,
-                fontSize: 15,
-              }}
+              style={styles.searchFriendTextInput}
               placeholder={'친구 검색하기'}
               placeholderTextColor={Colors.textUnfocusedPurple}
               value={keyword}
@@ -223,17 +167,7 @@ export default function SocialScreen() {
               })}
             >
               <Shadow startColor={'#04030550'} offset={[0, 6]} radius={40}>
-                <View
-                  style={{
-                    width: Layout.Width * 0.86,
-                    height: Layout.Height * 0.1,
-                    backgroundColor: Colors.backgroundNavy,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-around',
-                    borderRadius: 10,
-                  }}
-                >
+                <View style={styles.receivedFriendRequestContainer}>
                   <ProfileCollection />
                   <View
                     style={{
@@ -276,24 +210,8 @@ export default function SocialScreen() {
                 </View>
               </Shadow>
             </Pressable>
-            <View
-              style={{
-                width: Layout.Width,
-                justifyContent: 'flex-start',
-                paddingHorizontal: Layout.Width * 0.077,
-                marginTop: Layout.Height * 0.045,
-                marginBottom: Layout.Height * 0.022,
-              }}
-            >
-              <Text
-                style={{
-                  color: Colors.textWhite,
-                  fontWeight: 'bold',
-                  fontSize: 18,
-                }}
-              >
-                친구 목록
-              </Text>
+            <View style={styles.flatListTitleContainer}>
+              <Text style={styles.flatListTitleText}>친구 목록</Text>
             </View>
             <FlatList
               data={searchedFriend(originFriends, keyword)}
@@ -317,27 +235,72 @@ export default function SocialScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalContainer: {
+    height: Layout.Height,
+    backgroundColor: Colors.backgroundBlack,
+  },
+  flatListTitleContainer: {
+    width: Layout.Width,
+    paddingHorizontal: Layout.Width * 0.077,
+    marginTop: Layout.Height * 0.045,
+    marginBottom: Layout.Height * 0.022,
+    justifyContent: 'flex-start',
+  },
+  flatListTitleText: {
+    color: Colors.textWhite,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  topContainer: {
     width: Layout.Width,
     height: Layout.Height,
+    paddingVertical: Layout.Height * 0.05,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.backgroundBlack,
-    paddingVertical: Layout.Height * 0.05,
   },
-  profileImg: {
-    width: 60,
-    height: 60,
+  fixedButtonContainer: {
+    width: Layout.Width,
+    height: Layout.Height * 0.058,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  nickname: {
+  friendOrChattingRoomButtonContainer: {
+    width: Layout.Width * 0.4,
+    flexDirection: 'row',
+  },
+  friendOrChattingRoomButton: {
+    width: Layout.Width * 0.2,
+    height: Layout.Height * 0.058,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+  },
+  deleteOrAddFriendButtonContainer: {
+    width: Layout.Width * 0.24,
+    height: Layout.Height * 0.058,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  receivedFriendRequestContainer: {
+    width: Layout.Width * 0.86,
+    height: Layout.Height * 0.1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: Colors.backgroundNavy,
+    borderRadius: 10,
+  },
+  searchFriendTextInput: {
+    width: Layout.Width * 0.86,
+    height: Layout.Height * 0.05,
+    paddingHorizontal: 10,
+    marginVertical: Layout.Height * 0.03,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.textUnfocusedPurple,
     color: Colors.textWhite,
-    fontWeight: 'bold',
     fontSize: 15,
-  },
-  tier: {
-    color: Colors.textWhite,
-    opacity: 0.7,
-
-    fontSize: 12,
   },
 });
