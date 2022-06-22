@@ -9,18 +9,12 @@ import {
   StyleSheet,
 } from 'react-native';
 import Colors from '../constants/Colors';
+import ProfileCard from '../components/ProfileCard';
+import getProfileCard from '../data/ProfileCard';
 import Arrow from '../assets/icons/svg/arrow-left.svg';
 import MatchingLeft from '../assets/icons/svg/matching-left.svg';
 import MatchingRight from '../assets/icons/svg/matching-right.svg';
 import MatchingHelp from '../assets/icons/svg/matching-help.svg';
-import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
-import MatchingOPGG from '../assets/icons/svg/matching-opgg.svg';
-import MatchingPosition from '../assets/text_images/matching-position.svg';
-import MatchingChampion from '../assets/text_images/matching-champion.svg';
-// import MatchingTop from '../assets/icons/svg/matching-champion.svg';
-// import MatchingJungle from '../assets/icons/svg/matching-champion.svg';
-// import MatchingChampion from '../assets/icons/svg/matching-champion.svg';
-import MatchingToUser from '../assets/text_images/matching-toUser.svg';
 
 import Carousel from 'react-native-snap-carousel';
 
@@ -33,261 +27,37 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      carouselItems: [
-        {
-          lolingId: 'Soodoll',
-          mannerTierImg: require('../assets/images/diamond.png'),
-          championImg: require('../assets/images/Galio.png'),
-          rank: 'Gold 3',
-          nickname: '겨드랑이에낀손',
-          winRate: '승률 59%',
-          winLose: '74승 52패',
-          lineImg_1: require('../assets/images/Galio.png'),
-          lineImg_2: require('../assets/images/Galio.png'),
-          line_winRate_1: '88%',
-          line_winRate_2: '88%',
-          line_kda_1: '3.87',
-          line_kda_2: '3.87',
-          championImg_1: require('../assets/images/Graves.png'),
-          championImg_2: require('../assets/images/Galio.png'),
-          championImg_3: require('../assets/images/Irelia.png'),
-          champ_winRate_1: '58%',
-          champ_winRate_2: '58%',
-          champ_winRate_3: '58%',
-          champ_kda_1: '2.44',
-          champ_kda_2: '2.44',
-          champ_kda_3: '2.44',
-          description: '여러분 한판 뜹시다. 저 진짜 장난아닙니다.',
-        },
-        {
-          rollingId: 'Item 3',
-          mannerTier: 'Text 3',
-          tierImg: require('../assets/images/diamond.png'),
-        },
-        {
-          rollingId: 'Item 3',
-          mannerTier: 'Text 3',
-          tierImg: require('../assets/images/diamond.png'),
-        },
-        {
-          rollingId: 'Item 4',
-          mannerTier: 'Text 4',
-          tierImg: require('../assets/images/diamond.png'),
-        },
-        {
-          rollingId: 'Item 5',
-          mannerTier: 'Text 5',
-          tierImg: require('../assets/images/diamond.png'),
-        },
-      ],
+      carouselItems: getProfileCard(),
     };
   }
 
   _renderItem({ item, index }) {
     return (
-      <View>
-        <View style={styles.cardHeader}>
-          <Text style={styles.cardHeaderlolingId}>{item.lolingId}</Text>
-          <View style={styles.cardHeaderManner}>
-            <Text style={{ fontSize: FontScale * 10, color: Colors.textWhite }}>
-              매너티어
-            </Text>
-            <Image
-              source={item.mannerTierImg}
-              style={{
-                width: Width * 0.07,
-                height: Width * 0.07,
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.card}>
-          <View style={styles.profileContainer}>
-            <Image source={item.championImg} style={styles.profileImg} />
-            <Text style={styles.profileRankText}>{item.rank}</Text>
-            <Text style={styles.profileNickname}>{item.nickname}</Text>
-            <Text style={styles.profileWinRate}>
-              {item.winRate + '    ' + item.winLose}
-            </Text>
-          </View>
-
-          <View style={{ alignItems: 'center' }}>
-            <View style={styles.positionChampionContainer}>
-              <MatchingPosition width={Width * 0.15} />
-              <View
-                style={{
-                  width: Width * 0.4,
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}
-              >
-                <View
-                  style={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Image source={item.lineImg_1} style={styles.smallImage} />
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.textWinRate}>
-                      {item.line_winRate_1}
-                    </Text>
-                    <Text style={styles.textWinLose}> / {item.line_kda_1}</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Image source={item.lineImg_2} style={styles.smallImage} />
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.textWinRate}>
-                      {item.line_winRate_2}
-                    </Text>
-                    <Text style={styles.textWinLose}> / {item.line_kda_2}</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          <View style={{ alignItems: 'center' }}>
-            <View style={styles.positionChampionContainer}>
-              <MatchingChampion width={Width * 0.18} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}
-              >
-                <View
-                  style={{
-                    width: Width * 0.6,
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                  }}
-                >
-                  <View
-                    style={{
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Image
-                      source={item.championImg_1}
-                      style={styles.smallImage}
-                    />
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.textWinRate}>
-                        {item.champ_winRate_1}
-                      </Text>
-                      <Text style={styles.textWinLose}>
-                        {' '}
-                        / {item.champ_kda_1}
-                      </Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Image
-                      source={item.championImg_2}
-                      style={styles.smallImage}
-                    />
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.textWinRate}>
-                        {item.champ_winRate_2}
-                      </Text>
-                      <Text style={styles.textWinLose}>
-                        {' '}
-                        / {item.champ_kda_2}
-                      </Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Image
-                      source={item.championImg_3}
-                      style={styles.smallImage}
-                    />
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.textWinRate}>
-                        {item.champ_winRate_3}
-                      </Text>
-                      <Text style={styles.textWinLose}>
-                        {' '}
-                        / {item.champ_kda_3}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          <View
-            style={{
-              alignItems: 'center',
-              paddingVertical: Height * 0.01,
-              marginTop: Height * 0.02,
-            }}
-          >
-            <MatchingToUser width={Width * 0.25} />
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={styles.quotText}>&ldquo;</Text>
-              <Text style={styles.descText}>
-                {' ' + item.description + ' '}
-              </Text>
-              <Text style={styles.quotText}>&ldquo;</Text>
-            </View>
-          </View>
-
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-              {
-                position: 'absolute',
-                top: Height * 0.65,
-                left: Width * 0.18,
-                zIndex: 100,
-              },
-            ]}
-          >
-            <MatchingOPGG />
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-              },
-              {
-                position: 'absolute',
-                top: Height * 0.65,
-                zIndex: 100,
-                right: Width * 0.18,
-              },
-            ]}
-          >
-            <MatchingChatting />
-          </Pressable>
-        </View>
-      </View>
+      <ProfileCard
+        lolingId={item.lolingId}
+        mannerTierImg={item.mannerTierImg}
+        championImg={item.championImg}
+        rank={item.rank}
+        nickname={item.nickname}
+        winRate={item.winRate}
+        winLose={item.winLose}
+        lineImg_1={item.lineImg_1}
+        lineImg_2={item.lineImg_2}
+        line_winRate_1={item.line_winRate_1}
+        line_winRate_2={item.line_winRate_2}
+        line_kda_1={item.line_kda_1}
+        line_kda_2={item.line_kda_2}
+        championImg_1={item.championImg_1}
+        championImg_2={item.championImg_2}
+        championImg_3={item.championImg_3}
+        champ_winRate_1={item.champ_winRate_1}
+        champ_winRate_2={item.champ_winRate_2}
+        champ_winRate_3={item.champ_winRate_3}
+        champ_kda_1={item.champ_kda_1}
+        champ_kda_2={item.champ_kda_2}
+        champ_kda_3={item.champ_kda_3}
+        description={item.description}
+      />
     );
   }
   render() {
