@@ -218,10 +218,32 @@ export default function SocialScreen() {
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <Friend
+                  lolingId={item.lolingId}
+                  mannerTierImg={item.mannerTierImg}
+                  championImg={item.championImg}
+                  rank={item.rank}
                   nickname={item.nickname}
                   profileImg={item.profileImg}
                   tier={item.tier}
                   line={item.line}
+                  winRate={item.winRate}
+                  winLose={item.winLose}
+                  lineImg_1={item.lineImg_1}
+                  lineImg_2={item.lineImg_2}
+                  line_winRate_1={item.line_winRate_1}
+                  line_winRate_2={item.line_winRate_2}
+                  line_kda_1={item.line_kda_1}
+                  line_kda_2={item.line_kda_2}
+                  championImg_1={item.championImg_1}
+                  championImg_2={item.championImg_2}
+                  championImg_3={item.championImg_3}
+                  champ_winRate_1={item.champ_winRate_1}
+                  champ_winRate_2={item.champ_winRate_2}
+                  champ_winRate_3={item.champ_winRate_3}
+                  champ_kda_1={item.champ_kda_1}
+                  champ_kda_2={item.champ_kda_2}
+                  champ_kda_3={item.champ_kda_3}
+                  description={item.description}
                 />
               )}
             />
