@@ -11,6 +11,8 @@ import { FlatList, TextInput } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import Friend from '../components/Friend';
+import ChattingRoom from '../components/ChattingRoom';
+import getChatRooms from '../data/ChatRooms';
 import getFriends from '../data/Friends';
 import { useState } from 'react';
 
@@ -20,9 +22,19 @@ import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
 import Searching from '../assets/icons/svg/search-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
 import ProfileCollection from '../assets/icons/svg/profile-collection.svg';
+import FriendRequest from '../assets/icons/svg/friend-request.svg';
+import FriendList from '../assets/icons/svg/friend-list.svg';
+import FriendOn from '../assets/icons/svg/friend-on.svg';
+import FriendOff from '../assets/icons/svg/friend-off.svg';
+import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
+import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
+
 import { Shadow } from 'react-native-shadow-2';
 
 const originFriends = getFriends();
+const chattingRooms = getChatRooms();
+
+const totalNumberOfMessages = chattingRooms.map(chattingRoom => chattingRoom.numberOfMessage).reduce((prev, curr) => prev + curr, 0);
 
 function searchedFriend(friendList: typeof originFriends, nickname: string) {
   if (nickname === '') {
@@ -32,9 +44,18 @@ function searchedFriend(friendList: typeof originFriends, nickname: string) {
   }
 }
 
+function searchedChattingRoom(ChattingRoomList: typeof chattingRooms, nickname: string) {
+  if (nickname === '') {
+    return chattingRooms;
+  } else {
+    return chattingRooms.filter(room => room.nickname.includes(nickname));
+  }
+}
+
 export default function SocialScreen() {
   const [showFriendList, setShowFriendList] = useState(true);
-  const [keyword, setKeyword] = useState('');
+  const [friendKeyword, setFriendKeyword] = useState('');
+  const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.topContainer}>
@@ -47,9 +68,12 @@ export default function SocialScreen() {
         }}
       >
         <View style={styles.modalContainer}>
+
           <View style={styles.flatListTitleContainer}>
-            <Text style={styles.flatListTitleText}>친구 목록</Text>
-          </View>
+          
+          <FriendList/>
+                    </View>
+          
 
           <FlatList
             data={originFriends}
@@ -102,17 +126,14 @@ export default function SocialScreen() {
               },
             ]}
           >
-            <Text
-              style={{
-                color: showFriendList
-                  ? Colors.backgroundPurple
-                  : Colors.textUnfocusedPurple,
-                fontSize: 18,
-                fontWeight: 'bold',
-              }}
-            >
-              친구
-            </Text>
+            
+            {showFriendList 
+            ? <FriendOn
+            width={Layout.Width*0.083}
+            height={Layout.Height*0.025}/>
+            : <FriendOff
+            width={Layout.Width*0.083}
+            height={Layout.Height*0.025}/>}
           </Pressable>
           <Pressable
             onPress={() => setShowFriendList(false)}
@@ -123,20 +144,43 @@ export default function SocialScreen() {
                   ? Colors.textUnfocusedPurple
                   : Colors.backgroundPurple,
               },
+              {
+                width : totalNumberOfMessages > 0? Layout.Width*0.24 :  Layout.Width * 0.2,
+              }
             ]}
           >
-            <Text
-              style={{
-                color: showFriendList
-                  ? Colors.textUnfocusedPurple
-                  : Colors.backgroundPurple,
-                fontSize: 18,
-                fontWeight: 'bold',
-              }}
-            >
-              채팅방
-            </Text>
+            {showFriendList 
+            ? <ChatRoomOff
+            width={Layout.Width*0.125}
+            height={Layout.Height*0.025}/>
+            : <ChatRoomOn
+            width={Layout.Width*0.125}
+                height={Layout.Height * 0.025} />}
+            {
+            totalNumberOfMessages > 0?
+            <View style={{
+            width: Layout.Width * 0.05,
+            height: Layout.Width * 0.05,
+            borderRadius:Layout.Width * 0.05,
+            backgroundColor: Colors.backgroundPurple,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginLeft: 7
+          }}>
+            <Text style={{color: Colors.textWhite, fontSize: 
+              totalNumberOfMessages <100 ?
+            12
+            :9 }} >
+              {totalNumberOfMessages}
+              </Text>
+              </View> :
+
+          undefined}
           </Pressable>
+          
+        
+            
         </View>
         <View style={styles.deleteOrAddFriendButtonContainer}>
           <Pressable
@@ -157,8 +201,8 @@ export default function SocialScreen() {
               style={styles.searchFriendTextInput}
               placeholder={'친구 검색하기'}
               placeholderTextColor={Colors.textUnfocusedPurple}
-              value={keyword}
-              onChangeText={(text: string) => setKeyword(text)}
+              value={friendKeyword}
+              onChangeText={(text: string) => setFriendKeyword(text)}
             />
 
             <Pressable
@@ -175,24 +219,9 @@ export default function SocialScreen() {
                       height: Layout.Height * 0.04,
                     }}
                   >
-                    <Text
-                      style={{
-                        color: Colors.textWhite,
-                        fontWeight: 'bold',
-                        fontSize: 15,
-                      }}
-                    >
-                      친구 요청
-                    </Text>
-                    <Text
-                      style={{
-                        color: Colors.textWhite,
-                        fontSize: 12,
-                        marginVertical: 5,
-                      }}
-                    >
-                      새로운 친구들이 기다리고 있어요!
-                    </Text>
+                    <FriendRequest
+                    width= {Layout.Width*0.395}
+                    height= {Layout.Height*0.044}/>
                   </View>
                   <View
                     style={{
@@ -211,10 +240,12 @@ export default function SocialScreen() {
               </Shadow>
             </Pressable>
             <View style={styles.flatListTitleContainer}>
-              <Text style={styles.flatListTitleText}>친구 목록</Text>
+              <FriendList
+               width={Layout.Width*0.156}
+               height={Layout.Height*0.022}/>
             </View>
             <FlatList
-              data={searchedFriend(originFriends, keyword)}
+              data={searchedFriend(originFriends, friendKeyword)}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <Friend
@@ -250,7 +281,30 @@ export default function SocialScreen() {
           </View>
         </ScrollView>
       ) : (
-        <Text style={{ color: Colors.textWhite }}>채팅방 목록입니당</Text>
+        <ScrollView>
+        <View style={{ alignItems: 'center' }}>
+          <TextInput
+            style={styles.searchFriendTextInput}
+            placeholder={'채팅방 검색하기'}
+            placeholderTextColor={Colors.textUnfocusedPurple}
+            value={chattingRoomKeyword}
+            onChangeText={(text: string) => setChattingRoomKeyword(text)}
+          />
+              <FlatList
+                data={searchedChattingRoom(chattingRooms, chattingRoomKeyword)}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <ChattingRoom
+                  nickname={item.nickname} 
+                  profileImg={item.profileImg}
+                  recentMessage={item.recentMessage}
+                  numberOfMessage={item.numberOfMessage}
+                  />
+                )}
+              />
+                
+        </View>
+      </ScrollView>
       )}
     </View>
   );
@@ -270,8 +324,8 @@ const styles = StyleSheet.create({
   },
   flatListTitleText: {
     color: Colors.textWhite,
-    fontSize: 18,
     fontWeight: 'bold',
+    fontSize: 18
   },
   topContainer: {
     width: Layout.Width,
