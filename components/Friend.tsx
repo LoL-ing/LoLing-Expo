@@ -18,9 +18,11 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
+import ProfileCard from '../components/ProfileCard';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
+import ProfileCardExit from '../assets/icons/svg/profilecard-exit.svg';
 import Top from '../assets/icons/svg/top-icon-selected.svg';
 import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
 import Mid from '../assets/icons/svg/middle-icon-selected.svg';
@@ -32,8 +34,32 @@ export default function Friend(props: {
   profileImg: ImageSourcePropType;
   tier: string;
   line: string;
+  lolingId: string;
+  mannerTierImg: ImageSourcePropType;
+  championImg: ImageSourcePropType;
+  rank: string;
+  winRate: string;
+  winLose: string;
+  lineImg_1: ImageSourcePropType;
+  lineImg_2: ImageSourcePropType;
+  line_winRate_1: string;
+  line_winRate_2: string;
+  line_kda_1: string;
+  line_kda_2: string;
+  championImg_1: ImageSourcePropType;
+  championImg_2: ImageSourcePropType;
+  championImg_3: ImageSourcePropType;
+  champ_winRate_1: string;
+  champ_winRate_2: string;
+  champ_winRate_3: string;
+  champ_kda_1: string;
+  champ_kda_2: string;
+  champ_kda_3: string;
+  description: string;
 }) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [friendModalVisible, setFriendModalVisible] = useState(false);
+  const [profilemodalVisible, setProfileModalVisible] = useState(false);
+
   const [goodOn, setGoodOn] = useState(false);
   const [badOn, setBadOn] = useState(false);
 
@@ -42,14 +68,75 @@ export default function Friend(props: {
       <Modal
         animationType="fade"
         transparent={true}
-        visible={modalVisible}
+        visible={profilemodalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setFriendModalVisible(!profilemodalVisible);
         }}
       >
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+        <View
+          style={{
+            position: 'absolute',
+            top: Layout.Height * 0.1,
+            left: Layout.Width * 0.12,
+            zIndex: 300,
+          }}
+        >
+          <View
+            style={{
+              alignItems: 'flex-end',
+              width: Layout.Width * 0.75,
+              paddingBottom: Layout.Height * 0.01,
+            }}
+          >
+            <Pressable
+              onPress={() => {
+                setProfileModalVisible(false);
+              }}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <ProfileCardExit />
+            </Pressable>
+          </View>
+          <ProfileCard
+            lolingId={props.lolingId}
+            mannerTierImg={props.mannerTierImg}
+            championImg={props.championImg}
+            rank={props.rank}
+            nickname={props.nickname}
+            winRate={props.winRate}
+            winLose={props.winLose}
+            lineImg_1={props.lineImg_1}
+            lineImg_2={props.lineImg_2}
+            line_winRate_1={props.line_winRate_1}
+            line_winRate_2={props.line_winRate_2}
+            line_kda_1={props.line_kda_1}
+            line_kda_2={props.line_kda_2}
+            championImg_1={props.championImg_1}
+            championImg_2={props.championImg_2}
+            championImg_3={props.championImg_3}
+            champ_winRate_1={props.champ_winRate_1}
+            champ_winRate_2={props.champ_winRate_2}
+            champ_winRate_3={props.champ_winRate_3}
+            champ_kda_1={props.champ_kda_1}
+            champ_kda_2={props.champ_kda_2}
+            champ_kda_3={props.champ_kda_3}
+            description={props.description}
+          />
+        </View>
+      </Modal>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={friendModalVisible}
+        onRequestClose={() => {
+          setFriendModalVisible(!friendModalVisible);
+        }}
+      >
+        <TouchableWithoutFeedback onPress={() => setFriendModalVisible(false)}>
           <View style={styles.modalBackground}>
-            <Pressable onPress={() => setModalVisible(false)}>
+            <Pressable onPress={() => setFriendModalVisible(false)}>
               <FriendEsc width={Layout.Width * 0.08} />
             </Pressable>
           </View>
@@ -116,7 +203,12 @@ export default function Friend(props: {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
-              // onPress={() => _renderItem(' ', '')}
+              onPress={() => {
+                {
+                  setFriendModalVisible(false);
+                  setProfileModalVisible(true);
+                }
+              }}
             >
               <Profile width={Layout.Width * 0.4} />
             </Pressable>
@@ -131,7 +223,7 @@ export default function Friend(props: {
           },
           styles.friendItem,
         ]}
-        onPress={() => setModalVisible(true)}
+        onPress={() => setFriendModalVisible(true)}
       >
         <Image source={props.profileImg} style={styles.profileImg}></Image>
 
