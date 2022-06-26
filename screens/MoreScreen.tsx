@@ -37,7 +37,7 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
 
       <Menu
         title="FAQ"
-        destination="SignUp"
+        destination="SelectMyLineChamp"
         navigate={navigation.navigate}
       ></Menu>
       <View style={styles.separator} />

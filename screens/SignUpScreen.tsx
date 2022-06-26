@@ -13,6 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { nativeViewProps } from 'react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler';
 import Colors from '../constants/Colors';
+import Styles from '../constants/Styles';
 import passwordValidator from '../constants/passwordValidator';
 import Layout from '../constants/Layout';
 import Id from '../assets/text_images/Id.svg';
@@ -83,7 +84,7 @@ export default function SignUpScreen({
   };
 
   return (
-    <SafeAreaView style={styles.fullscreen}>
+    <SafeAreaView style={[Styles.fullscreen, styles.fullscreen]}>
       <KeyboardAwareScrollView
         enableOnAndroid={false}
         showsVerticalScrollIndicator={false}
@@ -91,12 +92,9 @@ export default function SignUpScreen({
         <View style={styles.scrollViewScreen}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={
-              {
-                //paddingBottom: 25,
-                //flexGrow: 1,
-              }
-            }
+            // contentContainerStyle={{
+            //   flexGrow: 1,
+            // }}
             ref={scrollViewRef}
           >
             <View style={styles.titleContainer}>
@@ -494,7 +492,6 @@ export default function SignUpScreen({
           ]}
         > */}
                 <SignupCompleteFocused width={Layout.Width * 0.9} />
-                {/* </View> */}
               </Pressable>
             </View>
           </ScrollView>
@@ -506,16 +503,11 @@ export default function SignUpScreen({
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'column',
-    paddingHorizontal: Width * 0.05,
-    backgroundColor: Colors.backgroundBlack,
     alignItems: 'center',
   },
   scrollViewScreen: {
-    height: Layout.Height * 0.9,
-    //height: '85%',
+    //height: Layout.Height * 1.0,
+    paddingBottom: Layout.Height * 0.1,
   },
   titleContainer: {
     marginTop: Height * 0.1,
