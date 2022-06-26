@@ -114,7 +114,7 @@ function RootNavigator() {
       <Stack.Screen
         name="SelectMyLineChamp"
         component={SelectMyLineChampScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, animation: 'fade' }}
       />
     </Stack.Navigator>
   );
