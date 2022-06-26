@@ -78,7 +78,6 @@ export default function Friend(props: {
             position: 'absolute',
             top: Layout.Height * 0.1,
             left: Layout.Width * 0.12,
-            zIndex: 300,
           }}
         >
           <View

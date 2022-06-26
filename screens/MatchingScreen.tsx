@@ -76,7 +76,7 @@ export default class App extends React.Component {
         style={{
           flex: 1,
           backgroundColor: Colors.backgroundBlack,
-          paddingTop: 50,
+          paddingTop: Height * 0.02,
         }}
       >
         <Animated.View style={styles.headerContainer}>
