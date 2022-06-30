@@ -72,11 +72,11 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <SafeAreaView
+      <View
         style={{
           flex: 1,
           backgroundColor: Colors.backgroundBlack,
-          paddingTop: Height * 0.02,
+          paddingTop: Height * 0.04,
         }}
       >
         <Animated.View style={styles.headerContainer}>
@@ -106,7 +106,7 @@ export default class App extends React.Component {
             },
             {
               position: 'absolute',
-              top: Height * 0.5,
+              top: Height * 0.45,
               zIndex: 100,
               left: Width * 0.05,
             },
@@ -124,7 +124,7 @@ export default class App extends React.Component {
             },
             {
               position: 'absolute',
-              top: Height * 0.5,
+              top: Height * 0.45,
               zIndex: 100,
               right: Width * 0.04,
             },
@@ -135,7 +135,7 @@ export default class App extends React.Component {
         >
           <MatchingRight />
         </Pressable>
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -163,71 +163,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: 'row',
-    marginVertical: Height * 0.02,
+    marginVertical: Height * 0.01,
     marginHorizontal: Width * 0.05,
     justifyContent: 'space-between',
-  },
-  card: {
-    backgroundColor: Colors.backgroundNavy,
-    height: Height * 0.7,
-    width: Width * 0.75,
-    borderRadius: Width * 0.05,
-    position: 'absolute',
-  },
-  cardHeader: {
-    backgroundColor: Colors.backgroundPurple,
-    height: Height * 0.075,
-    width: Width * 0.75,
-    borderRadius: Width * 0.05,
-    position: 'absolute',
-    zIndex: 100,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: Width * 0.05,
-    alignItems: 'center',
-  },
-  profileContainer: {
-    marginTop: Height * 0.075 + Height * 0.02,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  quotText: {
-    color: Colors.textFocusedPurple,
-    fontSize: FontScale * 20,
-  },
-  descText: { color: Colors.textWhite, fontSize: FontScale * 10 },
-  positionChampionContainer: {
-    height: Height * 0.1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: Width * 0.06,
-  },
-  profileRankText: {
-    color: Colors.backgroundPurple,
-    fontWeight: 'bold',
-    fontSize: FontScale * 14,
-    marginVertical: Height * 0.005,
-  },
-  profileNickname: {
-    color: Colors.textWhite,
-    fontWeight: 'bold',
-    fontSize: FontScale * 16,
-    marginVertical: Height * 0.005,
-  },
-  profileWinRate: {
-    color: Colors.textGray,
-    fontSize: FontScale * 12,
-    marginVertical: Height * 0.005,
-  },
-  cardHeaderlolingId: {
-    fontSize: FontScale * 18,
-    color: Colors.textWhite,
-    fontWeight: 'bold',
-  },
-  cardHeaderManner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: Width * 0.2,
   },
 });
