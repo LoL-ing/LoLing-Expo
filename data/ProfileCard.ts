@@ -24,7 +24,7 @@ const ProfileCard = [
         champ_kda_1: '2.44',
         champ_kda_2: '2.44',
         champ_kda_3: '2.44',
-        description: '여러분 한판 뜹시다. 저 진짜 장난아닙니다.',
+        description: '여러분 한판 뜹시다. 저 진짜 장난아닙니다. 여러분 한판 뜹시다. 저 진짜 장난아닙니다.',
       },
       {
         lolingId: 'Soodoll',

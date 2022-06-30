@@ -73,10 +73,39 @@ export default function Friend(props: {
           setFriendModalVisible(!profilemodalVisible);
         }}
       >
+        <TouchableWithoutFeedback onPress={() => setProfileModalVisible(false)}>
+          <View
+            style={{
+              width: Layout.Width,
+              height: Layout.Height,
+              backgroundColor: 'black',
+              opacity: 0.7,
+            }}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                top: Layout.Height * 0.08,
+                left: Layout.Width * 0.8,
+              }}
+            >
+              <Pressable
+                onPress={() => {
+                  setProfileModalVisible(false);
+                }}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <ProfileCardExit />
+              </Pressable>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
         <View
           style={{
             position: 'absolute',
-            top: Layout.Height * 0.1,
+            top: Layout.Height * 0.12,
             left: Layout.Width * 0.12,
           }}
         >
@@ -86,18 +115,7 @@ export default function Friend(props: {
               width: Layout.Width * 0.75,
               paddingBottom: Layout.Height * 0.01,
             }}
-          >
-            <Pressable
-              onPress={() => {
-                setProfileModalVisible(false);
-              }}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <ProfileCardExit />
-            </Pressable>
-          </View>
+          ></View>
           <ProfileCard
             lolingId={props.lolingId}
             mannerTierImg={props.mannerTierImg}
