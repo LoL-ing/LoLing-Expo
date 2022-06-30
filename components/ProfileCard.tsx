@@ -192,16 +192,18 @@ export default function ProfileCard(props: {
 
         <View
           style={{
+            height: Height * 0.08,
             alignItems: 'center',
-            paddingVertical: Height * 0.01,
-            marginTop: Height * 0.02,
+            justifyContent: 'space-around',
+            marginTop: Height * 0.03,
           }}
         >
           <MatchingToUser width={Width * 0.25} />
           <View
             style={{
+              height: Height * 0.05,
+              width: Width * 0.6,
               flexDirection: 'row',
-              alignItems: 'center',
             }}
           >
             <Text style={styles.quotText}>&ldquo;</Text>
@@ -217,7 +219,7 @@ export default function ProfileCard(props: {
             },
             {
               position: 'absolute',
-              top: Height * 0.65,
+              top: Height * 0.7,
               left: Width * 0.18,
               zIndex: 100,
             },
@@ -232,7 +234,7 @@ export default function ProfileCard(props: {
             },
             {
               position: 'absolute',
-              top: Height * 0.65,
+              top: Height * 0.7,
               zIndex: 100,
               right: Width * 0.18,
             },
@@ -274,14 +276,14 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: Colors.backgroundNavy,
-    height: Height * 0.7,
+    height: Height * 0.75,
     width: Width * 0.75,
     borderRadius: Width * 0.05,
     position: 'absolute',
   },
   cardHeader: {
     backgroundColor: Colors.backgroundPurple,
-    height: Height * 0.075,
+    height: Height * 0.076,
     width: Width * 0.75,
     borderRadius: Width * 0.05,
     position: 'absolute',
@@ -292,7 +294,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileContainer: {
-    marginTop: Height * 0.075 + Height * 0.02,
+    marginTop: Height * 0.12,
     flexDirection: 'column',
     alignItems: 'center',
   },
@@ -300,12 +302,15 @@ const styles = StyleSheet.create({
     color: Colors.textFocusedPurple,
     fontSize: FontScale * 20,
   },
-  descText: { color: Colors.textWhite, fontSize: FontScale * 10 },
+  descText: {
+    color: Colors.textWhite,
+    fontSize: FontScale * 10,
+  },
   positionChampionContainer: {
     height: Height * 0.1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: Width * 0.06,
+    marginTop: Height * 0.03,
   },
   profileRankText: {
     color: Colors.backgroundPurple,
