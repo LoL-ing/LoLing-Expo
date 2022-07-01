@@ -9,28 +9,23 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import ProfileCard from '../components/ProfileCard';
 import getProfileCard from '../data/ProfileCard';
 import Arrow from '../assets/icons/svg/arrow-left.svg';
 import MatchingLeft from '../assets/icons/svg/matching-left.svg';
 import MatchingRight from '../assets/icons/svg/matching-right.svg';
 import MatchingHelp from '../assets/icons/svg/matching-help.svg';
+import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
 
 import Carousel from 'react-native-snap-carousel';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
-
-function withMyHook(Component: any) {
-  return function WrappedComponent(props) {
-    const initalAnim = useRef(new Animated.Value(0)).current;
-    return <Component {...props} myHookValue={initalAnim} />;
-  };
-}
 
 export default class App extends React.Component {
   constructor(props) {
@@ -75,11 +70,13 @@ export default class App extends React.Component {
       <View
         style={{
           flex: 1,
+          width: '100%',
+          height: '100%',
           backgroundColor: Colors.backgroundBlack,
           paddingTop: Height * 0.04,
         }}
       >
-        <Animated.View style={styles.headerContainer}>
+        <Animated.View style={[styles.headerContainer]}>
           <Arrow width={Width * 0.075} />
           <MatchingHelp width={Width * 0.075} />
         </Animated.View>
