@@ -28,6 +28,13 @@ const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
+function withMyHook(Component: any) {
+  return function WrappedComponent(props) {
+    const initalAnim = useRef(new Animated.Value(0)).current;
+    return <Component {...props} myHookValue={initalAnim} />;
+  };
+}
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
