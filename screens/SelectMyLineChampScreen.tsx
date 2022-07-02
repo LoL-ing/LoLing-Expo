@@ -9,11 +9,14 @@ import {
   Image,
   Animated,
   Easing,
+  SafeAreaView,
 } from 'react-native';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, createRef } from 'react';
 
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import Styles from '../constants/Styles';
+
 import { RootStackScreenProps } from '../types';
 import getSelectChampions from '../data/SelectChampions';
 import SelectChampion from '../components/SelectChampion';
@@ -175,25 +178,37 @@ export default function SelectMyLineChampScreen({
       ]),
     ]).start();
     setTimeout(() => {
-      navigation.navigate('Matching');
+      navigation.navigate('Root', { screen: 'Matching' });
     }, 1800);
   };
-
   /* end of animation */
+
+  const chattingRef = createRef();
+
   return (
-    <View style={styles.fullScreenView}>
+    //<View style={styles.fullScreenView}>
+    <SafeAreaView
+      style={[
+        Styles.fullscreen,
+        {
+          flexDirection: 'column',
+          alignItems: 'center',
+          flexGrow: 1,
+        },
+      ]}
+    >
       <Animated.View
         style={{
           opacity: ToMatchingAnim.interpolate({
             inputRange: [0, 1],
             outputRange: [1, 0],
           }),
+          flexGrow: 1,
         }}
       >
-        <Welcome
-          width={Layout.Width * 0.35}
-          style={{ marginBottom: Layout.Height * 0.07 }}
-        />
+        <View style={[styles.titleContainer, { alignItems: 'center' }]}>
+          <Welcome width={Layout.Width * 0.35} />
+        </View>
         <View style={styles.selectLoLAccountContainer}>
           <Text style={styles.selectLoLAccountText}>endendtndus@naver.com</Text>
         </View>
@@ -201,7 +216,8 @@ export default function SelectMyLineChampScreen({
           style={{
             width: Layout.Width * 0.87,
             justifyContent: 'space-between',
-            marginVertical: Layout.Height * 0.06,
+            //marginVertical: Layout.Height * 0.06,
+            marginVertical: Layout.Height * 0.03,
           }}
         >
           <View
@@ -520,21 +536,20 @@ export default function SelectMyLineChampScreen({
             opacity: pressed ? 0.5 : 1,
           },
         ]}
-        onPress={
-          () =>
-            firstLine &&
-            secondLine &&
-            firstChamp &&
-            secondChamp &&
-            thirdChamp !== ''
-              ? changeScreenAnim()
-              : alert('라인 2개와 챔피언 3개를 선택하셔야 합니다.')
-          //changeScreenAnim()
+        onPress={() =>
+          // firstLine &&
+          // secondLine &&
+          // firstChamp &&
+          // secondChamp &&
+          // thirdChamp !== ''
+          //   ? changeScreenAnim()
+          //   : alert('라인 2개와 챔피언 3개를 선택하셔야 합니다.')
+          changeScreenAnim()
         }
       >
         <Animated.View
           style={[
-            styles.startMatchingButton,
+            Styles.startMatchingButton,
             {
               backgroundColor:
                 firstLine &&
@@ -548,6 +563,8 @@ export default function SelectMyLineChampScreen({
                 inputRange: [0, 1],
                 outputRange: [Layout.Width * 0.9, Layout.Width * 0.17],
               }),
+              position: 'absolute',
+              bottom: 0,
             },
           ]}
         >
@@ -843,7 +860,7 @@ export default function SelectMyLineChampScreen({
           </Pressable>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -891,16 +908,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: Layout.Width * 0.1,
   },
-  startMatchingButton: {
-    width: Layout.Width * 0.9,
-    //height: Layout.Height * 0.072,
-    height: Layout.Height * 0.08,
-    marginVertical: Layout.Height * 0.06,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    borderRadius: 50,
-  },
   savingButton: {
     width: Layout.Width * 0.9,
     height: Layout.Height * 0.072,
@@ -922,5 +929,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.textUnfocusedPurple,
     borderRadius: Layout.Width * 0.1,
+  },
+  titleContainer: {
+    marginTop: Layout.Height * 0.08,
+    //marginBottom: Layout.Height * 0.08,
+    marginBottom: Layout.Height * 0.03,
   },
 });
