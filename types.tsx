@@ -31,6 +31,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   Welcome: undefined;
   SelectMyLineChamp: undefined;
+  BottomtabNavigator: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

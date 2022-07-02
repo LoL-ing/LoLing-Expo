@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   Animated,
+  Easing,
 } from 'react-native';
 import { useRef, useEffect } from 'react';
 
@@ -33,6 +34,7 @@ export default class App extends React.Component {
     this.state = {
       activeIndex: 0,
       carouselItems: getProfileCard(),
+      firstAnim: new Animated.Value(0),
     };
   }
 
@@ -65,6 +67,24 @@ export default class App extends React.Component {
       />
     );
   }
+  componentDidMount() {
+    this._fadeIn();
+  }
+  componentDidUpdate() {
+    //-> 아마 매칭할때마다 애니메이션을 넣게 될 듯 ..
+    this._fadeIn();
+  }
+
+  _fadeIn() {
+    Animated.timing(this.state.firstAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: false,
+      delay: 300,
+      easing: Easing.out(Easing.quad),
+    }).start();
+  }
+
   render() {
     return (
       <View
@@ -76,12 +96,27 @@ export default class App extends React.Component {
           paddingTop: Height * 0.04,
         }}
       >
-        <Animated.View style={[styles.headerContainer]}>
+        <Animated.View
+          style={[styles.headerContainer, { opacity: this.state.firstAnim }]}
+        >
           <Arrow width={Width * 0.075} />
           <MatchingHelp width={Width * 0.075} />
         </Animated.View>
-        <View
-          style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}
+        <Animated.View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            opacity: this.state.firstAnim,
+            transform: [
+              {
+                translateY: this.state.firstAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [+Layout.Height * 0.2, 0],
+                }),
+              },
+            ],
+          }}
         >
           <Carousel
             layout={'default'}
@@ -95,7 +130,7 @@ export default class App extends React.Component {
             renderItem={this._renderItem}
             onSnapToItem={index => this.setState({ activeIndex: index })}
           />
-        </View>
+        </Animated.View>
         <Pressable
           style={({ pressed }) => [
             {

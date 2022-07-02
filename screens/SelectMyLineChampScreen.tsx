@@ -178,7 +178,7 @@ export default function SelectMyLineChampScreen({
       ]),
     ]).start();
     setTimeout(() => {
-      navigation.navigate('Matching');
+      navigation.navigate('Root', { screen: 'Matching' });
     }, 1800);
   };
   /* end of animation */
