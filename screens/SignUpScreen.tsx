@@ -30,6 +30,7 @@ import IdCheck_off from '../assets/text_images/idCheck_off.svg';
 import ChevronDown from '../assets/icons/svg/chevron_down.svg';
 import { RootStackScreenProps } from '../types';
 import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
+import SignUpComplete from '../assets/text_images/signUpComplete.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -92,9 +93,9 @@ export default function SignUpScreen({
         <View style={styles.scrollViewScreen}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            // contentContainerStyle={{
-            //   flexGrow: 1,
-            // }}
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}
             ref={scrollViewRef}
           >
             <View style={styles.titleContainer}>
@@ -447,15 +448,14 @@ export default function SignUpScreen({
               )
             ) : undefined}
             <View
-              style={{
-                //height: Height * 0.1, 전체 scrollView 길이
-                //height: Layout.Height * 0.2,
-                // position: 'absolute',
-                // bottom: 0,
-                // top: Height * 0.82 + 48,
-                backgroundColor: Colors.backgroundBlack,
-                //justifyContent: 'center',
-              }}
+              style={[
+                Styles.startMatchingButton,
+                {
+                  backgroundColor: true
+                    ? Colors.backgroundPurple
+                    : Colors.textUnfocusedPurple,
+                },
+              ]}
             >
               <Pressable
                 style={({ pressed }) => [
@@ -478,20 +478,7 @@ export default function SignUpScreen({
                   }, 500);
                 }}
               >
-                {/* <View
-          style={[
-            // styles.socialContainer,
-            {
-              backgroundColor:
-                isCheckedDuplicateId === true &&
-                isPasswordcorrect === true &&
-                authChecked === true
-                  ? Colors.textFocusedPurple
-                  : Colors.textUnfocusedPurple,
-            },
-          ]}
-        > */}
-                <SignupCompleteFocused width={Layout.Width * 0.9} />
+                <SignUpComplete width={Layout.Width * 0.17} />
               </Pressable>
             </View>
           </ScrollView>
@@ -507,7 +494,7 @@ const styles = StyleSheet.create({
   },
   scrollViewScreen: {
     //height: Layout.Height * 1.0,
-    paddingBottom: Layout.Height * 0.1,
+    //paddingBottom: Layout.Height * 0.1,
   },
   titleContainer: {
     marginTop: Height * 0.1,
