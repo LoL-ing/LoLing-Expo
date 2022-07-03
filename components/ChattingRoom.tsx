@@ -48,9 +48,18 @@ export default function ChattingRoom(props: {
                         alignItems: 'center',
                         
                     }}>
-                        <Text style={{color:Colors.textWhite, fontSize: 15 }}>
-                            {props.numberOfMessage}
-                            </Text>
+                        { props.numberOfMessage > 999 ?
+           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style = {{color: Colors.textWhite, fontSize: 9, textAlign:'center', paddingLeft: 5}}>
+           999 </Text>
+            <Text style = {{ fontSize: 12, color: Colors.textWhite, marginBottom: 9, marginLeft:-2 }}> 
+            + </Text></View>)
+            : props.numberOfMessage < 100 ?
+            <Text style = {{color: Colors.textWhite, fontSize: 15, textAlign:'center'}}>
+            {props.numberOfMessage} </Text>
+            : <Text style = {{color: Colors.textWhite, fontSize: 11, textAlign:'center'}}>
+            {props.numberOfMessage} </Text> }
+
                           </View>
                           
                       )
