@@ -7,7 +7,7 @@ import { friendsState } from './atom';
 export const getFriendsSelector = selector({
   key: `friends/get`,
   get: async ({ get }) => {
-    const { data } = await axios.get('http:/172.30.1.49:8000/Friends');
+    const { data } = await axios.get('http:/54.153.85.38/Friends');
     console.log('response@@@@@@@@@@@@@@@@@@\n\n\n');
     return data.result;
   },
