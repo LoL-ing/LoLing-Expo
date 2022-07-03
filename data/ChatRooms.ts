@@ -1,7 +1,8 @@
 const ChatRooms = [
-{
-    nickname: "커피한보틀",
+  {
+    nickname: '커피한보틀',
     profileImg: require('../assets/images/Galio.png'),
+
     recentMessage: "저랑 같이 한판 하시죠!",
     numberOfMessage: 1001,
 }
@@ -23,5 +24,5 @@ const ChatRooms = [
 ];
 
 export default function getChatRooms() {
-    return ChatRooms;
-  }
+  return ChatRooms;
+}

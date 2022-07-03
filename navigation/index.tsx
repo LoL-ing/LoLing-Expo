@@ -69,15 +69,15 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator initialRouteName={'SignIn'}>
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -109,12 +109,15 @@ function RootNavigator() {
       <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
-        options={{ headerShown: false, animation: 'fade' }}
+        options={{
+          headerShown: false,
+          animation: 'fade',
+        }}
       />
       <Stack.Screen
         name="SelectMyLineChamp"
         component={SelectMyLineChampScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, animation: 'fade' }}
       />
     </Stack.Navigator>
   );

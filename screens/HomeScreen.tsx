@@ -12,19 +12,20 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import getHomeScreenFriends from '../data/HomeScreenFriends';
-import getFriends from '../data/Friends';
 import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import { RootTabScreenProps } from '../types';
 import getMyProfile from '../data/MyProfile';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { getFriendsSelector } from '../atoms/selector';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
-const MyFriends = getFriends();
 const MatchableUsers = getHomeScreenFriends();
 const MyProfile = getMyProfile();
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+  const friends = useRecoilValue(getFriendsSelector);
   return (
     <ScrollView contentContainerStyle={styles.fullScreenView}>
       <View style={styles.profileContainer}>
@@ -243,7 +244,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           </Pressable>
         </View>
         <FlatList
-          data={MyFriends}
+          data={friends}
           renderItem={({ item }) => (
             <HomeScreenFriendList
               nickname={item.nickname}

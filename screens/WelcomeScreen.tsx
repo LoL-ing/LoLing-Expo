@@ -9,6 +9,7 @@ import {
   Keyboard,
   SafeAreaView,
   InteractionManagerStatic,
+  Easing,
 } from 'react-native';
 import { TextInput, Text, View, Animated } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -22,8 +23,11 @@ import Nickname from '../assets/text_images/nickname.svg';
 import Description from '../assets/text_images/description.svg';
 import MatchingStartUnfocused from '../assets/text_images/matchingStart-unfocused.svg';
 import LolaccountUnfocused from '../assets/text_images/lolaccount-unfocused.svg';
+import LolaccountFocused from '../assets/text_images/lolaccount-focused.svg';
 import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
+import SignUpComplete from '../assets/text_images/signUpComplete.svg';
 import StartMatching from '../assets/text_images/startMatching.svg';
+import LoLAccount from '../assets/text_images/lolaccount.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
@@ -64,38 +68,39 @@ export default function WelcomeScreen({
   const changeMatchingBtnAnim = useRef(new Animated.Value(0)).current;
   const [endAnim, setendAnim] = useState(false);
 
-  const bottomsize = 8;
-  const insets = useSafeAreaInsets();
-  //console.log(insets.bottom);
   useEffect(() => {
     Animated.sequence([
       // + signupscreen에서 fadeout 200ms
       Animated.parallel([
         Animated.timing(welcomeUpAnim, {
-          toValue: Height * 0.25,
+          toValue: Layout.Height * 0.25,
           duration: 1200,
           useNativeDriver: true,
           delay: 300,
+          easing: Easing.out(Easing.quad),
         }),
         Animated.timing(changeMatchingBtnAnim, {
           toValue: 1,
           duration: 1200,
           useNativeDriver: true,
           delay: 300,
+          easing: Easing.out(Easing.quad),
         }),
       ]),
       Animated.parallel([
         Animated.timing(settingAnim, {
           toValue: 1,
-          duration: 600,
+          duration: 800,
           useNativeDriver: true,
           delay: 800,
+          easing: Easing.out(Easing.quad),
         }),
         Animated.timing(welcomeUpAnim, {
-          toValue: Height * 0.01,
-          duration: 600,
+          toValue: 0,
+          duration: 800,
           useNativeDriver: true,
           delay: 800,
+          easing: Easing.out(Easing.quad),
         }),
       ]),
     ]).start();
@@ -110,19 +115,14 @@ export default function WelcomeScreen({
   };
 
   return (
-    <SafeAreaView
-      style={[
-        Styles.fullscreen,
-        {
-          alignItems: 'center',
-        },
-      ]}
-    >
+    <SafeAreaView style={[Styles.fullscreen]}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
+        //style={{ paddingBottom: Layout.Height * 0.1 }}
       >
-        <View style={{ height: Layout.Height * 0.665 }}>
+        {/*<View style={{ height: Layout.Height * 0.665 }}>*/}
+        <View>
           <Animated.View
             style={{
               alignItems: 'center',
@@ -200,7 +200,6 @@ export default function WelcomeScreen({
                 }}
                 maxLength={8}
                 textAlign={'center'}
-                clearButtonMode="while-editing"
               />
             </View>
             <View style={styles.subContainer}>
@@ -259,73 +258,69 @@ export default function WelcomeScreen({
 
         <Animated.View
           style={[
-            styles.socialContainer,
+            Styles.startMatchingButton,
             {
+              backgroundColor: Colors.backgroundPurple,
               position: 'absolute',
-
-              // //top: Layout.Height * 0.77,
-              bottom: bottomsize,
+              bottom: 0,
               opacity: changeMatchingBtnAnim.interpolate({
                 inputRange: [0, 1],
                 outputRange: [1, 0],
               }),
             },
           ]}
-          // onLayout={event => {
-          //   const layout = event.nativeEvent.layout;
-          //   console.log('height:', layout.height);
-          //   console.log('width:', layout.width);
-          //   console.log('x:', layout.x);
-          //   console.log('y:', layout.y);
-          // }}
         >
-          <SignupCompleteFocused width={Layout.Width * 0.9} />
-        </Animated.View>
-        <View style={{ height: Layout.Height * 0.03 }} />
-        <Animated.View style={{ opacity: settingAnim }}>
           <Pressable
             style={({ pressed }) => [
-              styles.socialContainer,
               {
                 opacity: pressed ? 0.5 : 1,
-                backgroundColor: isCheckedDuplicateNickname
-                  ? Colors.backgroundPurple
-                  : Colors.backgroundNavy,
-                //marginBottom: Layout.Height * 0.1,
               },
+              styles.socialContainer,
+            ]}
+            onPress={() => {
+              // if (
+              //   !(isCheckedDuplicateId === true && isPasswordcorrect === true)
+              // ) {
+              //   alert(`아이디 중복확인 및 비밀번호 확인을 해주세요.`);
+              // } else {
+              //   navigation.navigate('Welcome');
+              // }
+              scrollViewRef.current?.scrollToEnd({ animated: true });
+              setTimeout(() => {
+                navigation.navigate('Welcome');
+              }, 500);
+            }}
+          >
+            <SignUpComplete width={Layout.Width * 0.17} />
+          </Pressable>
+        </Animated.View>
+        <View style={{ height: Layout.Height * 0.03 }} />
+        <Animated.View
+          style={[
+            Styles.startMatchingButton,
+            {
+              opacity: changeMatchingBtnAnim,
+              position: 'absolute',
+              bottom: 0,
+              alignSelf: 'center',
+              backgroundColor: isCheckedDuplicateNickname
+                ? Colors.backgroundPurple
+                : Colors.backgroundNavy,
+            },
+          ]}
+        >
+          <Pressable
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+              styles.socialContainer,
             ]}
             onPress={() => {
               if (endAnim) navigation.navigate('SelectMyLineChamp');
             }}
           >
-            <LolaccountUnfocused width={Layout.Width * 0.9} />
-          </Pressable>
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            opacity: changeMatchingBtnAnim,
-            position: 'absolute',
-            //top: Height * 0.82,
-            //top: Layout.Height * 0.77,
-            bottom: bottomsize,
-            alignSelf: 'center',
-          }}
-        >
-          <Pressable
-            style={({ pressed }) => [
-              styles.socialContainer,
-              {
-                backgroundColor: Colors.textUnfocusedPurple,
-                // isCheckedDuplicateNickname === true
-                //   ? //챔피언 , 라인까지 모두 선택시 바뀌도록 나중에 추가
-                //     Colors.textFocusedPurple
-                //   : Colors.textUnfocusedPurple,
-                opacity: pressed ? 0.5 : 1,
-              },
-            ]}
-          >
-            <StartMatching width={Layout.Width * 0.17} />
+            <LoLAccount width={Layout.Width * 0.25} />
           </Pressable>
         </Animated.View>
       </ScrollView>
@@ -335,8 +330,8 @@ export default function WelcomeScreen({
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: Height * 0.08,
-    marginBottom: Height * 0.08,
+    marginTop: Layout.Height * 0.08,
+    marginBottom: Layout.Height * 0.08,
   },
   titleText: {
     color: Colors.textWhite,
