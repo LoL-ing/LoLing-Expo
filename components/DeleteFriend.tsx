@@ -2,15 +2,12 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import Delete from '../assets/icons/svg/delete-icon.svg';
-import CancelDelete from '../assets/icons/svg/delete-cancel-icon.svg'
-
 import {
   Pressable,
   StyleSheet,
   Image,
   ImageSourcePropType,
   Text,
-  Modal,
   View,
 } from 'react-native';
 import Colors from '../constants/Colors';
@@ -21,7 +18,6 @@ import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
 import Mid from '../assets/icons/svg/middle-icon-selected.svg';
 import Jungle from '../assets/icons/svg/jungle-icon-selected.svg';
 import Support from '../assets/icons/svg/support-icon-selected.svg';
-import RNGestureHandlerButton from 'react-native-gesture-handler/lib/typescript/components/GestureHandlerButton';
 
 export default function DeleteFriend(props: {
   nickname: string;
@@ -30,11 +26,7 @@ export default function DeleteFriend(props: {
   line: string;
 }) {
   const [selected, setSelected] = useState(false);
-  
-
   return (
-    
-
     <Pressable
       style={({ pressed }) => ({
         opacity: pressed ? 0.5 : 1,
@@ -44,10 +36,8 @@ export default function DeleteFriend(props: {
         justifyContent: 'space-between',
         width: Layout.Width,
         height: Layout.Height * 0.11,
-        backgroundColor: selected ? 'rgba(64,64,90,0.7)' : Colors.backgroundBlack,
-        
+        backgroundColor: selected ? 'gray' : Colors.backgroundBlack,
       })}
-      
       onPress={() => setSelected(!selected)}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -83,8 +73,7 @@ export default function DeleteFriend(props: {
           </View>
         </View>
       </View>
-      {selected? <CancelDelete/> : <Delete/>}
-       
+      <Delete />
     </Pressable>
   );
 }
