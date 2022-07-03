@@ -17,7 +17,7 @@ import getFriends from '../data/Friends';
 import { useState } from 'react';
 
 import DeleteFriend from '../components/DeleteFriend';
-import DeleteFriendIcon from '../assets/icons/svg/delete-frined-icon.svg';
+import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
 import Searching from '../assets/icons/svg/search-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
@@ -28,9 +28,6 @@ import FriendOn from '../assets/icons/svg/friend-on.svg';
 import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
-import ChatPlus from '../assets/icons/svg/chat-plus.svg';
-import DeleteNo from '../assets/icons/svg/delete-no.svg';
-import DeleteYes from '../assets/icons/svg/delete-yes.svg';
 
 import { Shadow } from 'react-native-shadow-2';
 
@@ -60,83 +57,8 @@ export default function SocialScreen() {
   const [friendKeyword, setFriendKeyword] = useState('');
   const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [friendDeleteModalVisible, setFriendDeleteModalVisible] = useState(false);
   return (
     <View style={styles.topContainer}>
-
-      <Modal
-          animationType="fade"
-          transparent={true}
-          visible={friendDeleteModalVisible}
-          onRequestClose={()=> {
-            setFriendDeleteModalVisible(!friendDeleteModalVisible);
-          }}>
-            <View
-            style={{
-              position: 'absolute',
-              width: Layout.Width * 0.83,
-              height: Layout.Height* 0.228,
-              top:352,
-              left:30,
-              backgroundColor: Colors.backgroundNavy,
-              alignItems: 'center',
-              flexDirection: 'column',
-              borderRadius: 15,
-              paddingTop:55,
-            }} >
-              <View
-            style={{
-              width: Layout.Width * 0.8,
-              height: Layout.Height* 0.043,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            >
-              <Text style={{
-                color:'white', 
-                fontWeight: 'bold',
-                fontSize: 18,
-            }}>친구 편집 내용을 저장하시겠습니까?</Text>
-              <Text style={{
-                color:'white',
-                opacity:0.7,
-                fontSize:14,
-                }}>저장 시 복구가 불가능합니다.</Text>
-</View>
-                <View
-                 style={{
-                  width: Layout.Width * 0.72,
-                  height: Layout.Height* 0.042,
-                  marginTop:40,
-                  alignSelf:'center',
-                 justifyContent: 'space-between',
-                  flexDirection: 'row',
-                }}
-            >
-              <Pressable
-              onPress={() => {
-                setFriendDeleteModalVisible(false);
-              }}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <DeleteNo style={{width:Layout.Width*0.35,height:Layout.Height*0.042,}}/>
-              </Pressable>
-              <Pressable
-
-              onPress={() => {
-                setFriendDeleteModalVisible(false);
-              }}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <DeleteYes style={{width:Layout.Width*0.35,height:Layout.Height*0.042,}}/>
-              </Pressable>
-            </View>
-              
-            </View>
-          </Modal>
-
       <Modal
         animationType="fade"
         transparent={true}
@@ -145,11 +67,13 @@ export default function SocialScreen() {
           setModalVisible(!modalVisible);
         }}
       >
-      
         <View style={styles.modalContainer}>
+
           <View style={styles.flatListTitleContainer}>
+          
           <FriendList/>
                     </View>
+          
 
           <FlatList
             data={originFriends}
@@ -165,26 +89,24 @@ export default function SocialScreen() {
           />
           <View style={{ flexDirection: 'row' }}>
             <Pressable
-              style={({pressed}) => ({
-                opacity: pressed? 0.5 : 1,
+              style={{
                 width: 100,
                 height: 100,
                 backgroundColor: Colors.backgroundPurple,
-              })}
+              }}
               onPress={() => setModalVisible(false)}
             >
               <Text>취소</Text>
             </Pressable>
+
             <Pressable
-             style={({pressed}) => ({
-              opacity: pressed? 0.5 : 1,
+              style={{
                 width: 100,
                 height: 100,
                 backgroundColor: Colors.textUnfocusedPurple,
-              })}
+              }}
               onPress={() => setModalVisible(false)}
             >
-              
               <Text>완료</Text>
             </Pressable>
           </View>
@@ -246,22 +168,15 @@ export default function SocialScreen() {
             alignSelf: 'center',
             marginLeft: 7
           }}>
-           { totalNumberOfMessages > 999 ?
-           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style = {{color: Colors.textWhite, fontSize: 7, textAlign:'center', paddingLeft: 5}}>
-           999 </Text>
-            <Text style = {{ fontSize: 10, color: Colors.textWhite, marginBottom: 9, marginLeft:-2 }}> 
-            + </Text></View>)
-            : totalNumberOfMessages < 100 ?
-            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
-            {totalNumberOfMessages} </Text>
-            : <Text style = {{color: Colors.textWhite, fontSize: 9, textAlign:'center'}}>
-            {totalNumberOfMessages} </Text> }
+            <Text style={{color: Colors.textWhite, fontSize: 
+              totalNumberOfMessages <100 ?
+            12
+            :9 }} >
+              {totalNumberOfMessages}
+              </Text>
+              </View> :
 
-             
-              </View> 
-              :
-              undefined}
+          undefined}
           </Pressable>
           
         
@@ -270,9 +185,9 @@ export default function SocialScreen() {
         <View style={styles.deleteOrAddFriendButtonContainer}>
           <Pressable
             style={{ width: Layout.Width * 0.12 }}
-            onPress={() => setFriendDeleteModalVisible(true)}
+            onPress={() => setModalVisible(true)}
           >
-            <DeleteFriendIcon width={Layout.Width * 0.07} />
+            <DeleteFrinedIcon width={Layout.Width * 0.07} />
           </Pressable>
           <Pressable style={{ width: Layout.Width * 0.12 }}>
             <AddFrined width={Layout.Width * 0.07} />
