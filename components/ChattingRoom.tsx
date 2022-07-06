@@ -40,17 +40,27 @@ export default function ChattingRoom(props: {
                       ? 
                       (
                       <View style={{
-                        width: Layout.Width * 0.07,
-                        height: Layout.Width * 0.07,
+                        width :  (props.numberOfMessage > 999) ?
+                        Layout.Width * 0.115
+                       : (props.numberOfMessage >99) ?
+                         Layout.Width*0.09
+                         : Layout.Width*0.06,
+                        height: Layout.Width * 0.06,
                         backgroundColor: Colors.backgroundPurple,
-                        borderRadius: Layout.Width * 0.07,
+                        borderRadius: Layout.Width * 0.06,
                         justifyContent: 'center',
                         alignItems: 'center',
                         
                     }}>
-                        <Text style={{color:Colors.textWhite, fontSize: 15 }}>
-                            {props.numberOfMessage}
-                            </Text>
+                         { props.numberOfMessage > 999 ?
+           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style = {{color: Colors.textWhite, fontSize: 15, textAlign:'center'}}>
+           999 </Text>
+            <Text style = {{ fontSize: 13, color: Colors.textWhite,}}> 
+            + </Text></View>)
+            : 
+            <Text style = {{color: Colors.textWhite, fontSize: 15, textAlign:'center'}}>
+            {props.numberOfMessage} </Text>}
                           </View>
                           
                       )

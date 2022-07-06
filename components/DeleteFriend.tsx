@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import Delete from '../assets/icons/svg/delete-icon.svg';
+import CancelDelete from '../assets/icons/svg/delete-cancel-icon.svg';
 import {
   Pressable,
   StyleSheet,
@@ -29,14 +30,14 @@ export default function DeleteFriend(props: {
   return (
     <Pressable
       style={({ pressed }) => ({
-        opacity: pressed ? 0.5 : 1,
+        opacity: pressed ? 0.3 : selected ? 0.5 : 1,
         paddingHorizontal: Layout.Width * 0.077,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         width: Layout.Width,
         height: Layout.Height * 0.11,
-        backgroundColor: selected ? 'gray' : Colors.backgroundBlack,
+        backgroundColor: Colors.backgroundBlack,
       })}
       onPress={() => setSelected(!selected)}
     >
@@ -73,7 +74,7 @@ export default function DeleteFriend(props: {
           </View>
         </View>
       </View>
-      <Delete />
+      {selected? <CancelDelete/> : <Delete/>}
     </Pressable>
   );
 }
