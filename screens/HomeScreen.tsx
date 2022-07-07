@@ -28,9 +28,7 @@ const MatchableUsers = getHomeScreenFriends();
 const MyProfile = getMyProfile();
 const friends = getFriends();
 
-export default async function HomeScreen({
-  navigation,
-}: RootTabScreenProps<'Home'>) {
+export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   // const friends = await api_getProfiles();
   // const friends = getFriends();
   return (
