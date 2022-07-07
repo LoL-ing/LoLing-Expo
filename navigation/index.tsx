@@ -21,6 +21,7 @@ import MatchingScreen from '../screens/MatchingScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import CommunityScreen from '../screens/CommunityScreen';
 import SocialScreen from '../screens/SocialScreen';
+
 import {
   RootStackParamList,
   RootTabParamList,
@@ -35,6 +36,7 @@ import AuthScreen from '../screens/AuthScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SelectMyLineChampScreen from '../screens/SelectMyLineChampScreen';
+import DeleteFriendScreen from '../screens/DeleteFriendScreen';
 
 import HomeIconSelected from '../assets/icons/svg/home-icon-selected.svg';
 import HomeIconUnselected from '../assets/icons/svg/home-icon-unselected.svg';
@@ -118,6 +120,11 @@ function RootNavigator() {
         name="SelectMyLineChamp"
         component={SelectMyLineChampScreen}
         options={{ headerShown: false, animation: 'fade' }}
+      />
+      <Stack.Screen
+        name="DeleteFriend"
+        component={DeleteFriendScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
