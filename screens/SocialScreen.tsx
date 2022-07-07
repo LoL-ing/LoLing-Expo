@@ -28,6 +28,10 @@ import FriendOn from '../assets/icons/svg/friend-on.svg';
 import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
+import DeleteNo from '../assets/icons/svg/delete-no.svg';
+import DeleteYes from '../assets/icons/svg/delete-yes.svg';
+import FriendDeleteM1 from '../assets/icons/svg/friend-delete-m1.svg';
+import FriendDeleteM2 from '../assets/icons/svg/friend-delete-m2.svg';
 
 import { Shadow } from 'react-native-shadow-2';
 import { RootStackScreenProps } from '../types';
@@ -65,8 +69,75 @@ export default function SocialScreen({
   const [friendKeyword, setFriendKeyword] = useState('');
   const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [friendDeleteModalVisible, setFriendDeleteModalVisible] = useState(false);
+
   return (
     <View style={styles.topContainer}>
+      <Modal
+          animationType="fade"
+          transparent={true}
+          visible={friendDeleteModalVisible}
+          onRequestClose={()=> {
+            setFriendDeleteModalVisible(!friendDeleteModalVisible);
+          }}>
+            <View
+            style={{
+              position: 'absolute',
+              width: Layout.Width * 0.83,
+              height: Layout.Height* 0.2,
+              top: Layout.Height*0.386,
+              left: Layout.Width*0.083,
+              backgroundColor: Colors.backgroundNavy,
+              alignItems: 'center',
+              flexDirection: 'column',
+              borderRadius: 15,
+              paddingTop:Layout.Height*0.047,
+            }} >
+              <View
+            style={{
+              width: Layout.Width * 0.8,
+              height: Layout.Height* 0.046,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+            >
+              <FriendDeleteM1 width={Layout.Width*0.586} height= {Layout.Height*0.022} />
+              <FriendDeleteM2 width={Layout.Width*0.336} height= {Layout.Height*0.017} />
+</View>
+                <View
+                 style={{
+                  width: Layout.Width * 0.72,
+                  height: Layout.Height* 0.057,
+                  marginTop: Layout.Height*0.0135,
+                 flexDirection: 'row', 
+                 alignSelf: 'center',
+                 justifyContent: 'space-between',
+                }}
+            >
+              <Pressable
+              onPress={() => {
+                setFriendDeleteModalVisible(false);
+              }}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <DeleteNo width={Layout.Width*0.35} />
+              </Pressable>
+              <Pressable
+
+              onPress={() => {
+                setFriendDeleteModalVisible(false);
+              }}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <DeleteYes width={Layout.Width*0.35}/>
+              </Pressable>
+            </View>
+              
+            </View>
+          </Modal>
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -153,53 +224,54 @@ export default function SocialScreen({
                   : Colors.backgroundPurple,
               },
               {
-                width:
-                  totalNumberOfMessages > 0
-                    ? Layout.Width * 0.24
-                    : Layout.Width * 0.2,
-              },
+                width : totalNumberOfMessages > 999 ? Layout.Width*0.3
+                : totalNumberOfMessages > 99 ? Layout.Width*0.27
+                :totalNumberOfMessages > 0? Layout.Width*0.24 
+                :  Layout.Width * 0.2,
+              }
             ]}
           >
-            {showFriendList ? (
-              <ChatRoomOff
-                width={Layout.Width * 0.125}
-                height={Layout.Height * 0.025}
-              />
-            ) : (
-              <ChatRoomOn
-                width={Layout.Width * 0.125}
-                height={Layout.Height * 0.025}
-              />
-            )}
-            {totalNumberOfMessages > 0 ? (
-              <View
-                style={{
-                  width: Layout.Width * 0.05,
-                  height: Layout.Width * 0.05,
-                  borderRadius: Layout.Width * 0.05,
-                  backgroundColor: Colors.backgroundPurple,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  alignSelf: 'center',
-                  marginLeft: 7,
-                }}
-              >
-                <Text
-                  style={{
-                    color: Colors.textWhite,
-                    fontSize: totalNumberOfMessages < 100 ? 12 : 9,
-                  }}
-                >
-                  {totalNumberOfMessages}
-                </Text>
-              </View>
-            ) : undefined}
+            {showFriendList 
+            ? <ChatRoomOff
+            width={Layout.Width*0.125}
+            height={Layout.Height*0.025}/>
+            : <ChatRoomOn
+            width={Layout.Width*0.125}
+                height={Layout.Height * 0.025} />}
+            {
+            totalNumberOfMessages > 0?
+            <View style={{
+              width :  (totalNumberOfMessages > 999) ?
+              Layout.Width * 0.1
+              : (totalNumberOfMessages >99) ?
+              Layout.Width*0.07
+              : Layout.Width*0.05,
+            height: Layout.Width * 0.05,
+            borderRadius:Layout.Width * 0.05,
+            backgroundColor: Colors.backgroundPurple,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginLeft: 7
+          }}>
+            { totalNumberOfMessages> 999 ?
+           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
+           999 </Text>
+            <Text style = {{ fontSize: 10, color: Colors.textWhite, }}> 
+            + </Text></View>)
+            : 
+            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
+            {totalNumberOfMessages} </Text>}
+</View>
+          : undefined}
           </Pressable>
         </View>
         <View style={styles.deleteOrAddFriendButtonContainer}>
           <Pressable
             style={{ width: Layout.Width * 0.12 }}
             onPress={() => navigation.navigate('DeleteFriend')}
+
           >
             <DeleteFrinedIcon width={Layout.Width * 0.07} />
           </Pressable>
