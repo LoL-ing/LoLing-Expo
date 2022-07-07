@@ -50,8 +50,8 @@ const linking: LinkingOptions<RootStackParamList> = {
       SignUp: 'signup',
       Welcome: 'welcome',
       SelectMyLineChamp: 'selectmylinechamp',
-    },
-  },
+      DeleteFriend: 'deletefriend',
+    },  },
 };
 
 export default linking;

@@ -31,6 +31,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   Welcome: undefined;
   SelectMyLineChamp: undefined;
+  DeleteFriend: undefined;
   BottomtabNavigator: undefined;
 };
 
