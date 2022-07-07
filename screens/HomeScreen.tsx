@@ -15,17 +15,24 @@ import getHomeScreenFriends from '../data/HomeScreenFriends';
 import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import { RootTabScreenProps } from '../types';
 import getMyProfile from '../data/MyProfile';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { getFriendsSelector } from '../atoms/selector';
+import getFriends from '../data/Friends';
+// import { useRecoilState, useRecoilValue } from 'recoil';
+// import { profilesState } from '../atoms/atom';
+// import axios from 'axios';
+// import { api_getProfiles } from '../api/main';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 const MatchableUsers = getHomeScreenFriends();
 const MyProfile = getMyProfile();
+const friends = getFriends();
 
-export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
-  const friends = useRecoilValue(getFriendsSelector);
+export default async function HomeScreen({
+  navigation,
+}: RootTabScreenProps<'Home'>) {
+  // const friends = await api_getProfiles();
+  // const friends = getFriends();
   return (
     <ScrollView contentContainerStyle={styles.fullScreenView}>
       <View style={styles.profileContainer}>
