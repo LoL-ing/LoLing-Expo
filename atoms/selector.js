@@ -1,15 +1,16 @@
 /* eslint-disable no-useless-catch */
+// refresh 참고 : https://skyblue300a.tistory.com/10
+
 import axios from 'axios';
 import { selector } from 'recoil';
-import { api_getFriends } from '../api/main';
+// import { api_getFriends, api_getProfiles } from '../api/main';
 import { friendsState } from './atom';
-
 export const getFriendsSelector = selector({
   key: `friends/get`,
   get: async ({ get }) => {
-    const { data } = await axios.get('http:/54.153.85.38/Friends');
-    console.log('response@@@@@@@@@@@@@@@@@@\n\n\n');
-    return data.result;
+    const { data } = await axios.get('http:/54.153.85.38/profiles');
+    console.log(data);
+    return data;
   },
   set: ({ set }, newValue) => {
     set(friendsState, newValue);
