@@ -12,7 +12,7 @@ import Layout from '../constants/Layout';
 
 export default function HomeScreenFriendList(props: {
   nickname: string;
-  profileImg: ImageSourcePropType;
+  profileImg: string;
 }) {
   return (
     <View
@@ -23,7 +23,10 @@ export default function HomeScreenFriendList(props: {
       }}
     >
       <View style={{ backgroundColor: Colors.backgroundBlack }}>
-        <Image style={styles.profileImgStyle} source={props.profileImg}></Image>
+        <Image
+          style={styles.profileImgStyle}
+          source={require('../assets/images/Nunu.png')}
+        ></Image>
       </View>
       <View style={{ backgroundColor: Colors.backgroundBlack }}>
         <Text style={{ color: Colors.textWhite }}>{props.nickname}</Text>
