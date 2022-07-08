@@ -16,7 +16,8 @@ import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import { RootTabScreenProps } from '../types';
 import getMyProfile from '../data/MyProfile';
 import getFriends from '../data/Friends';
-// import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { getFriendsSelector } from '../atoms/selector';
 // import { profilesState } from '../atoms/atom';
 // import axios from 'axios';
 // import { api_getProfiles } from '../api/main';
@@ -29,8 +30,8 @@ const MyProfile = getMyProfile();
 const friends = getFriends();
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
-  // const friends = await api_getProfiles();
   // const friends = getFriends();
+  const friends = useRecoilValue(getFriendsSelector);
   return (
     <ScrollView contentContainerStyle={styles.fullScreenView}>
       <View style={styles.profileContainer}>
