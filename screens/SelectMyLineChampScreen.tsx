@@ -535,6 +535,7 @@ export default function SelectMyLineChampScreen({
           {
             opacity: pressed ? 0.5 : 1,
           },
+          Styles.startMatchingButton,
         ]}
         onPress={() =>
           // firstLine &&
