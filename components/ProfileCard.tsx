@@ -9,6 +9,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
+
 import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
 import MatchingOPGG from '../assets/icons/svg/matching-opgg.svg';
 import MatchingPosition from '../assets/text_images/matching-position.svg';

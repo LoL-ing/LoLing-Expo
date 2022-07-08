@@ -214,7 +214,7 @@ export default function SignInScreen({
               })}
               onPress={() => signInCheck(email, password)}
             >
-              <LoginButton width={Layout.Width} />
+              <LoginButton />
             </Pressable>
           </View>
 
@@ -224,7 +224,7 @@ export default function SignInScreen({
               alignSelf: 'center',
             })}
           >
-            <KaKao width={Layout.Width * 0.86} />
+            <KaKao />
           </Pressable>
 
           <Pressable
@@ -233,7 +233,7 @@ export default function SignInScreen({
               alignSelf: 'center',
             })}
           >
-            <Naver width={Layout.Width} />
+            <Naver />
           </Pressable>
 
           <Pressable
@@ -242,7 +242,7 @@ export default function SignInScreen({
               alignSelf: 'center',
             })}
           >
-            <Google width={Layout.Width} />
+            <Google />
           </Pressable>
         </View>
       </View>
