@@ -532,8 +532,12 @@ export default function SelectMyLineChampScreen({
       </Animated.View>
       <Pressable
         style={({ pressed }) => [
+          //Styles.startMatchingButton,
           {
             opacity: pressed ? 0.5 : 1,
+            width: Layout.Width * 0.9,
+            height: Layout.Height * 0.08,
+            marginBottom: Layout.Height * 0.06,
           },
         ]}
         onPress={() =>
@@ -563,8 +567,6 @@ export default function SelectMyLineChampScreen({
                 inputRange: [0, 1],
                 outputRange: [Layout.Width * 0.9, Layout.Width * 0.17],
               }),
-              position: 'absolute',
-              bottom: 0,
             },
           ]}
         >
