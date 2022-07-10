@@ -16,7 +16,6 @@ import getChatRooms from '../data/ChatRooms';
 import getFriends from '../data/Friends';
 import { useState } from 'react';
 
-import DeleteFriend from '../components/DeleteFriend';
 import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
 import Searching from '../assets/icons/svg/search-icon.svg';
@@ -28,10 +27,7 @@ import FriendOn from '../assets/icons/svg/friend-on.svg';
 import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
-import DeleteNo from '../assets/icons/svg/delete-no.svg';
-import DeleteYes from '../assets/icons/svg/delete-yes.svg';
-import FriendDeleteM1 from '../assets/icons/svg/friend-delete-m1.svg';
-import FriendDeleteM2 from '../assets/icons/svg/friend-delete-m2.svg';
+
 
 import { Shadow } from 'react-native-shadow-2';
 import { RootStackScreenProps } from '../types';
@@ -68,127 +64,9 @@ export default function SocialScreen({
   const [showFriendList, setShowFriendList] = useState(true);
   const [friendKeyword, setFriendKeyword] = useState('');
   const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [friendDeleteModalVisible, setFriendDeleteModalVisible] = useState(false);
 
   return (
     <View style={styles.topContainer}>
-      <Modal
-          animationType="fade"
-          transparent={true}
-          visible={friendDeleteModalVisible}
-          onRequestClose={()=> {
-            setFriendDeleteModalVisible(!friendDeleteModalVisible);
-          }}>
-            <View
-            style={{
-              position: 'absolute',
-              width: Layout.Width * 0.83,
-              height: Layout.Height* 0.2,
-              top: Layout.Height*0.386,
-              left: Layout.Width*0.083,
-              backgroundColor: Colors.backgroundNavy,
-              alignItems: 'center',
-              flexDirection: 'column',
-              borderRadius: 15,
-              paddingTop:Layout.Height*0.047,
-            }} >
-              <View
-            style={{
-              width: Layout.Width * 0.8,
-              height: Layout.Height* 0.046,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            >
-              <FriendDeleteM1 width={Layout.Width*0.586} height= {Layout.Height*0.022} />
-              <FriendDeleteM2 width={Layout.Width*0.336} height= {Layout.Height*0.017} />
-</View>
-                <View
-                 style={{
-                  width: Layout.Width * 0.72,
-                  height: Layout.Height* 0.057,
-                  marginTop: Layout.Height*0.0135,
-                 flexDirection: 'row', 
-                 alignSelf: 'center',
-                 justifyContent: 'space-between',
-                }}
-            >
-              <Pressable
-              onPress={() => {
-                setFriendDeleteModalVisible(false);
-              }}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <DeleteNo width={Layout.Width*0.35} />
-              </Pressable>
-              <Pressable
-
-              onPress={() => {
-                setFriendDeleteModalVisible(false);
-              }}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <DeleteYes width={Layout.Width*0.35}/>
-              </Pressable>
-            </View>
-              
-            </View>
-          </Modal>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.flatListTitleContainer}>
-            <FriendList />
-          </View>
-
-          <FlatList
-            data={originFriends}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <DeleteFriend
-                nickname={item.nickname}
-                profileImg={item.profileImg}
-                tier={item.tier}
-                line={item.line}
-              />
-            )}
-          />
-          <View style={{ flexDirection: 'row' }}>
-            <Pressable
-              style={{
-                width: 100,
-                height: 100,
-                backgroundColor: Colors.backgroundPurple,
-              }}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text>취소</Text>
-            </Pressable>
-
-            <Pressable
-              style={{
-                width: 100,
-                height: 100,
-                backgroundColor: Colors.textUnfocusedPurple,
-              }}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text>완료</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-
       <View style={styles.fixedButtonContainer}>
         <View style={styles.friendOrChattingRoomButtonContainer}>
           <Pressable
@@ -271,7 +149,6 @@ export default function SocialScreen({
           <Pressable
             style={{ width: Layout.Width * 0.12 }}
             onPress={() => navigation.navigate('DeleteFriend')}
-
           >
             <DeleteFrinedIcon width={Layout.Width * 0.07} />
           </Pressable>
@@ -398,10 +275,6 @@ export default function SocialScreen({
 }
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    height: Layout.Height,
-    backgroundColor: Colors.backgroundBlack,
-  },
   flatListTitleContainer: {
     width: Layout.Width,
     paddingHorizontal: Layout.Width * 0.077,
