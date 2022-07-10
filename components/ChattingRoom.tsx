@@ -52,15 +52,12 @@ export default function ChattingRoom(props: {
                         alignItems: 'center',
                         
                     }}>
-                         { props.numberOfMessage > 999 ?
-           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style = {{color: Colors.textWhite, fontSize: 15, textAlign:'center'}}>
-           999 </Text>
-            <Text style = {{ fontSize: 13, color: Colors.textWhite,}}> 
-            + </Text></View>)
+                         { props.numberOfMessage> 999 ?
+            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*12,}}>
+           999+</Text>
             : 
-            <Text style = {{color: Colors.textWhite, fontSize: 15, textAlign:'center'}}>
-            {props.numberOfMessage} </Text>}
+            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*12,}}>
+            {props.numberOfMessage}</Text>}
                           </View>
                           
                       )

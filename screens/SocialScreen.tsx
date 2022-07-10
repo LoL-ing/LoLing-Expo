@@ -133,14 +133,11 @@ export default function SocialScreen({
             marginLeft: 7
           }}>
             { totalNumberOfMessages> 999 ?
-           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
-           999 </Text>
-            <Text style = {{ fontSize: 10, color: Colors.textWhite, }}> 
-            + </Text></View>)
+            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*10,}}>
+           999+</Text>
             : 
-            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
-            {totalNumberOfMessages} </Text>}
+            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*10,}}>
+            {totalNumberOfMessages}</Text>}
 </View>
           : undefined}
           </Pressable>
