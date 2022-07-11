@@ -192,7 +192,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           renderItem={({ item }) => (
             <View style={styles.matchingContainer}>
               <View style={styles.userInfoContainer}>
-                <Text style={styles.userText}>{item.username}</Text>
+                <Text style={styles.userText}>{item.lol_name}</Text>
                 <Text style={styles.rankText}>{item.tier}</Text>
               </View>
 
@@ -206,7 +206,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 <View style={styles.matchingInfoContainer}>
                   <Image
                     style={styles.championImg}
-                    source={item.mostChampImg}
+                    source={require('../assets/images/Teemo.png')}
                   ></Image>
                   <View style={{ marginLeft: 10 }}>
                     <Text style={styles.winRateText}>
@@ -219,7 +219,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 <View style={styles.matchingInfoContainer}>
                   <Image
                     style={styles.championImg}
-                    source={item.mostLineImg}
+                    source={require('../assets/images/Teemo.png')}
                   ></Image>
                   <View style={{ marginLeft: 10 }}>
                     <Text style={styles.winRateText}>
