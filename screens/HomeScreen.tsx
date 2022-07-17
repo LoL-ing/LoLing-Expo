@@ -192,7 +192,13 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           renderItem={({ item }) => (
             <View style={styles.matchingContainer}>
               <View style={styles.userInfoContainer}>
-                <Text style={styles.userText}>{item.lol_name}</Text>
+                <Text
+                  style={styles.userText}
+                  ellipsizeMode={'tail'}
+                  numberOfLines={1}
+                >
+                  {item.lol_name}
+                </Text>
                 <Text style={styles.rankText}>{item.tier}</Text>
               </View>
 
@@ -397,6 +403,7 @@ const styles = StyleSheet.create({
     height: Height * 0.045,
   },
   userText: {
+    width: Width * 0.2,
     color: Colors.textWhite,
     fontSize: FontScale * 10,
   },

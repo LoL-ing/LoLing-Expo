@@ -7,6 +7,7 @@ import {
   Image,
   ImageSourcePropType,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -206,11 +207,12 @@ export default function ProfileCard(props: {
               height: Height * 0.05,
               width: Width * 0.6,
               flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <Text style={styles.quotText}>&ldquo;</Text>
             <Text style={styles.descText}>{' ' + props.description + ' '}</Text>
-            <Text style={styles.quotText}>&ldquo;</Text>
+            <Text style={styles.quotText}>&rdquo;</Text>
           </View>
         </View>
 
@@ -281,6 +283,7 @@ const styles = StyleSheet.create({
     height: Height * 0.75,
     width: Width * 0.75,
     borderRadius: Width * 0.05,
+    top: Platform.OS === 'ios' ? 0 : Height * 0.02,
     position: 'absolute',
   },
   cardHeader: {
@@ -289,6 +292,7 @@ const styles = StyleSheet.create({
     width: Width * 0.75,
     borderRadius: Width * 0.05,
     position: 'absolute',
+    top: Platform.OS === 'ios' ? 0 : Height * 0.02,
     zIndex: 100,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -305,8 +309,10 @@ const styles = StyleSheet.create({
     fontSize: FontScale * 20,
   },
   descText: {
+    width: Width * 0.55,
     color: Colors.textWhite,
     fontSize: FontScale * 10,
+    textAlign: 'center',
   },
   positionChampionContainer: {
     height: Height * 0.1,

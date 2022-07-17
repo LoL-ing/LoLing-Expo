@@ -96,9 +96,8 @@ export default class App extends React.Component {
     return (
       <View
         style={{
-          flex: 1,
-          width: '100%',
-          height: '100%',
+          width: Layout.Width,
+          height: Layout.Height,
           backgroundColor: Colors.backgroundBlack,
           paddingTop: Height * 0.04,
         }}
