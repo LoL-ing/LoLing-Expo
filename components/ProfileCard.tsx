@@ -210,7 +210,7 @@ export default function ProfileCard(props: {
           >
             <Text style={styles.quotText}>&ldquo;</Text>
             <Text style={styles.descText}>{' ' + props.description + ' '}</Text>
-            <Text style={styles.quotText}>&ldquo;</Text>
+            <Text style={styles.quotText}>&rdquo;</Text>
           </View>
         </View>
 
