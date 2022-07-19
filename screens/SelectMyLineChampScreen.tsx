@@ -55,6 +55,8 @@ import FavoriteThirdChamp from '../assets/text_images/favoriteThirdChamp.svg';
 import QuestionMark from '../assets/text_images/questionMark.svg';
 import Save from '../assets/text_images/save.svg';
 import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
+import { useRecoilValue } from 'recoil';
+import { getChampionsSelector } from '../atoms/selector';
 
 export default function SelectMyLineChampScreen({
   navigation,
@@ -69,6 +71,8 @@ export default function SelectMyLineChampScreen({
   const [selectFirstChamp, setSelectFirstChamp] = useState(false);
   const [selectSecondChamp, setSelectSecondChamp] = useState(false);
   const [selectThirdChamp, setSelectThirdChamp] = useState(false);
+
+  const championList = useRecoilValue(getChampionsSelector);
 
   const changeIsTopSelected = () => {
     if (firstLine === 'top') {
@@ -140,22 +144,30 @@ export default function SelectMyLineChampScreen({
     } else setFirstLine('support');
   };
 
+  interface champInterface {
+    champ_name: string;
+    champ_img_url: string;
+    champ_role: string;
+  }
   const firstChampImgSource =
     firstChamp !== ''
-      ? getSelectChampions().filter(item => item.champName === firstChamp)[0]
-          .champImg
+      ? championList.filter(
+          (item: champInterface) => item.champ_name === firstChamp,
+        )[0].champ_img_url
       : undefined;
 
   const secondChampImgSource =
     secondChamp !== ''
-      ? getSelectChampions().filter(item => item.champName === secondChamp)[0]
-          .champImg
+      ? championList.filter(
+          (item: champInterface) => item.champ_name === secondChamp,
+        )[0].champ_img_url
       : undefined;
 
   const thirdChampImgSource =
     thirdChamp !== ''
-      ? getSelectChampions().filter(item => item.champName === thirdChamp)[0]
-          .champImg
+      ? championList.filter(
+          (item: champInterface) => item.champ_name === thirdChamp,
+        )[0].champ_img_url
       : undefined;
 
   /* animation */
@@ -419,7 +431,7 @@ export default function SelectMyLineChampScreen({
                   <First width={Layout.Width * 0.17} />
                 ) : (
                   <Image
-                    source={firstChampImgSource}
+                    source={{ uri: firstChampImgSource }}
                     style={{
                       width: Layout.Width * 0.17,
                       height: Layout.Width * 0.17,
@@ -464,7 +476,7 @@ export default function SelectMyLineChampScreen({
                   <Second width={Layout.Width * 0.17} />
                 ) : (
                   <Image
-                    source={secondChampImgSource}
+                    source={{ uri: secondChampImgSource }}
                     style={{
                       width: Layout.Width * 0.17,
                       height: Layout.Width * 0.17,
@@ -509,7 +521,7 @@ export default function SelectMyLineChampScreen({
                   <Third width={Layout.Width * 0.17} />
                 ) : (
                   <Image
-                    source={thirdChampImgSource}
+                    source={{ uri: thirdChampImgSource }}
                     style={{
                       width: Layout.Width * 0.17,
                       height: Layout.Width * 0.17,
@@ -651,7 +663,7 @@ export default function SelectMyLineChampScreen({
                   <QuestionMark />
                 ) : (
                   <Image
-                    source={firstChampImgSource}
+                    source={{ uri: firstChampImgSource }}
                     style={{
                       width: Layout.Width * 0.12,
                       height: Layout.Width * 0.12,
@@ -697,7 +709,7 @@ export default function SelectMyLineChampScreen({
                   <QuestionMark />
                 ) : (
                   <Image
-                    source={secondChampImgSource}
+                    source={{ uri: secondChampImgSource }}
                     style={{
                       width: Layout.Width * 0.12,
                       height: Layout.Width * 0.12,
@@ -744,7 +756,7 @@ export default function SelectMyLineChampScreen({
                   <QuestionMark />
                 ) : (
                   <Image
-                    source={thirdChampImgSource}
+                    source={{ uri: thirdChampImgSource }}
                     style={{
                       width: Layout.Width * 0.12,
                       height: Layout.Width * 0.12,
@@ -769,23 +781,23 @@ export default function SelectMyLineChampScreen({
           <View style={{ height: Layout.Height * 0.65 }}>
             {selectFirstChamp ? (
               <FlatList
-                data={getSelectChampions()}
+                data={championList}
                 renderItem={({ item }) => (
                   <Pressable
                     style={({ pressed }) => ({
                       opacity: pressed ? 0.5 : 1,
                     })}
                     onPress={() => {
-                      firstChamp !== item.champName
-                        ? setFirstChamp(item.champName)
+                      firstChamp !== item.champ_name
+                        ? setFirstChamp(item.champ_name)
                         : setFirstChamp('');
                     }}
                   >
                     <SelectChampion
-                      champImg={item.champImg}
-                      champName={item.champName}
-                      champRole={item.champRole}
-                      isSelected={firstChamp === item.champName}
+                      champImg={item.champ_img_url}
+                      champName={item.champ_name}
+                      champRole={item.champ_role}
+                      isSelected={firstChamp === item.champ_name}
                     />
                   </Pressable>
                 )}
@@ -793,23 +805,23 @@ export default function SelectMyLineChampScreen({
               />
             ) : selectSecondChamp ? (
               <FlatList
-                data={getSelectChampions()}
+                data={championList}
                 renderItem={({ item }) => (
                   <Pressable
                     style={({ pressed }) => ({
                       opacity: pressed ? 0.5 : 1,
                     })}
                     onPress={() => {
-                      secondChamp !== item.champName
-                        ? setSecondChamp(item.champName)
+                      secondChamp !== item.champ_name
+                        ? setSecondChamp(item.champ_name)
                         : setSecondChamp('');
                     }}
                   >
                     <SelectChampion
-                      champImg={item.champImg}
-                      champName={item.champName}
-                      champRole={item.champRole}
-                      isSelected={secondChamp === item.champName}
+                      champImg={item.champ_img_url}
+                      champName={item.champ_name}
+                      champRole={item.champ_role}
+                      isSelected={secondChamp === item.champ_name}
                     />
                   </Pressable>
                 )}
@@ -817,23 +829,23 @@ export default function SelectMyLineChampScreen({
               />
             ) : selectThirdChamp ? (
               <FlatList
-                data={getSelectChampions()}
+                data={championList}
                 renderItem={({ item }) => (
                   <Pressable
                     style={({ pressed }) => ({
                       opacity: pressed ? 0.5 : 1,
                     })}
                     onPress={() => {
-                      thirdChamp !== item.champName
-                        ? setThirdChamp(item.champName)
+                      thirdChamp !== item.champ_name
+                        ? setThirdChamp(item.champ_name)
                         : setThirdChamp('');
                     }}
                   >
                     <SelectChampion
-                      champImg={item.champImg}
-                      champName={item.champName}
-                      champRole={item.champRole}
-                      isSelected={thirdChamp === item.champName}
+                      champImg={item.champ_img_url}
+                      champName={item.champ_name}
+                      champRole={item.champ_role}
+                      isSelected={thirdChamp === item.champ_name}
                     />
                   </Pressable>
                 )}
