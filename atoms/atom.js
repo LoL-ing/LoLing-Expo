@@ -14,3 +14,8 @@ export const championsState = atom({
   key: 'championsState',
   default: [],
 });
+
+export const lol_accountState = atom({
+  key: 'lol_accountState',
+  default: [],
+});

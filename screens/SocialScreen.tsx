@@ -27,6 +27,7 @@ import FriendOn from '../assets/icons/svg/friend-on.svg';
 import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
+import SearchIcon from '../assets/icons/svg/search-icon.svg';
 
 
 import { Shadow } from 'react-native-shadow-2';
@@ -133,14 +134,11 @@ export default function SocialScreen({
             marginLeft: 7
           }}>
             { totalNumberOfMessages> 999 ?
-           (<View style= {{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
-           999 </Text>
-            <Text style = {{ fontSize: 10, color: Colors.textWhite, }}> 
-            + </Text></View>)
+            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*10,}}>
+           999+</Text>
             : 
-            <Text style = {{color: Colors.textWhite, fontSize: 12, textAlign:'center'}}>
-            {totalNumberOfMessages} </Text>}
+            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*10,}}>
+            {totalNumberOfMessages}</Text>}
 </View>
           : undefined}
           </Pressable>
@@ -160,6 +158,10 @@ export default function SocialScreen({
       {showFriendList ? (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
+            <View
+            style={{
+              flexDirection: 'row',
+            }}>
             <TextInput
               style={styles.searchFriendTextInput}
               placeholder={'친구 검색하기'}
@@ -167,7 +169,10 @@ export default function SocialScreen({
               value={friendKeyword}
               onChangeText={(text: string) => setFriendKeyword(text)}
             />
-
+            <SearchIcon style ={{marginLeft:-(Layout.Width*0.067),
+            marginTop:Layout.Height*0.04}}
+            width={Layout.Width*0.067} height={Layout.Height*0.033}/>
+            </View>
             <Pressable
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
@@ -248,6 +253,9 @@ export default function SocialScreen({
       ) : (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
+            <View style={{
+              flexDirection: 'row',
+            }}>
             <TextInput
               style={styles.searchFriendTextInput}
               placeholder={'채팅방 검색하기'}
@@ -255,6 +263,10 @@ export default function SocialScreen({
               value={chattingRoomKeyword}
               onChangeText={(text: string) => setChattingRoomKeyword(text)}
             />
+            <SearchIcon style ={{marginLeft:-(Layout.Width*0.067),
+            marginTop:Layout.Height*0.04}}
+            width={Layout.Width*0.067} height={Layout.Height*0.033}/>
+            </View>
             <FlatList
               data={searchedChattingRoom(chattingRooms, chattingRoomKeyword)}
               showsVerticalScrollIndicator={false}

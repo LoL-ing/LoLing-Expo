@@ -13,7 +13,7 @@ import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
 export default function SelectChampion(props: {
-  champImg: ImageSourcePropType;
+  champImg: string;
   champName: string;
   champRole: string;
   isSelected: boolean;
@@ -29,7 +29,7 @@ export default function SelectChampion(props: {
         },
       ]}
     >
-      <Image style={styles.champImg} source={props.champImg} />
+      <Image style={styles.champImg} source={{ uri: props.champImg }} />
       <View
         style={{
           height: Layout.Height * 0.04,

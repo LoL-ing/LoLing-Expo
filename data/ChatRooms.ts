@@ -2,7 +2,7 @@ const ChatRooms = [
   {
     nickname: '커피한보틀',
     profileImg: require('../assets/images/Galio.png'),
-    recentMessage: '저랑 같이 한판 하시죠!',
+    recentMessage: '저랑 같이 한판 하시죠!안녕하세요안녕하세요',
     numberOfMessage: 20,
   },
   {

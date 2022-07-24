@@ -17,7 +17,7 @@ import { RootTabScreenProps } from '../types';
 import getMyProfile from '../data/MyProfile';
 import getFriends from '../data/Friends';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { getFriendsSelector } from '../atoms/selector';
+import { getFriendsSelector, getLoLAccountSelector } from '../atoms/selector';
 // import { profilesState } from '../atoms/atom';
 // import axios from 'axios';
 // import { api_getProfiles } from '../api/main';
@@ -25,13 +25,14 @@ import { getFriendsSelector } from '../atoms/selector';
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
-const MatchableUsers = getHomeScreenFriends();
+//const MatchableUsers = getHomeScreenFriends();
 const MyProfile = getMyProfile();
 const friends = getFriends();
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   // const friends = getFriends();
   const friends = useRecoilValue(getFriendsSelector);
+  const MatchableUsers = useRecoilValue(getLoLAccountSelector);
   return (
     <ScrollView contentContainerStyle={styles.fullScreenView}>
       <View style={styles.profileContainer}>
@@ -191,7 +192,13 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           renderItem={({ item }) => (
             <View style={styles.matchingContainer}>
               <View style={styles.userInfoContainer}>
-                <Text style={styles.userText}>{item.username}</Text>
+                <Text
+                  style={styles.userText}
+                  ellipsizeMode={'tail'}
+                  numberOfLines={1}
+                >
+                  {item.lol_name}
+                </Text>
                 <Text style={styles.rankText}>{item.tier}</Text>
               </View>
 
@@ -205,7 +212,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 <View style={styles.matchingInfoContainer}>
                   <Image
                     style={styles.championImg}
-                    source={item.mostChampImg}
+                    source={require('../assets/images/Teemo.png')}
                   ></Image>
                   <View style={{ marginLeft: 10 }}>
                     <Text style={styles.winRateText}>
@@ -218,7 +225,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                 <View style={styles.matchingInfoContainer}>
                   <Image
                     style={styles.championImg}
-                    source={item.mostLineImg}
+                    source={require('../assets/images/Teemo.png')}
                   ></Image>
                   <View style={{ marginLeft: 10 }}>
                     <Text style={styles.winRateText}>
@@ -396,6 +403,7 @@ const styles = StyleSheet.create({
     height: Height * 0.045,
   },
   userText: {
+    width: Width * 0.2,
     color: Colors.textWhite,
     fontSize: FontScale * 10,
   },

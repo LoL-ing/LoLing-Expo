@@ -19,7 +19,7 @@ export default function HomeScreenFriendList(props: {
       style={{
         backgroundColor: Colors.backgroundBlack,
         alignItems: 'center',
-        marginRight: Layout.Width * 0.07,
+        marginRight: Layout.Width * 0.05,
       }}
     >
       <View style={{ backgroundColor: Colors.backgroundBlack }}>
@@ -28,8 +28,22 @@ export default function HomeScreenFriendList(props: {
           source={require('../assets/images/Nunu.png')}
         ></Image>
       </View>
-      <View style={{ backgroundColor: Colors.backgroundBlack }}>
-        <Text style={{ color: Colors.textWhite }}>{props.nickname}</Text>
+      <View
+        style={{
+          backgroundColor: Colors.backgroundBlack,
+        }}
+      >
+        <Text
+          style={{
+            color: Colors.textWhite,
+            width: Layout.Width * 0.2,
+            textAlign: 'center',
+          }}
+          ellipsizeMode={'tail'}
+          numberOfLines={1}
+        >
+          {props.nickname}
+        </Text>
       </View>
     </View>
   );
