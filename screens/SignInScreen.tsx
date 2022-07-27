@@ -23,11 +23,14 @@ import Naver from '../assets/text_images/naverLogin.svg';
 import Google from '../assets/text_images/googleLogin.svg';
 import { RootStackScreenProps } from '../types';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { getAccessTokenSelector } from '../atoms/selector';
+import { accessTokenState } from '../atoms/atom';
+import axios from 'axios';
+
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
 const FontScale = Dimensions.get('window').fontScale;
-
-//여기는 로그인 스크린이다.
 
 // const getSalt = () => 'itisloling';
 const userAccounts = [
@@ -66,33 +69,46 @@ export default function SignInScreen({
   const [isIDFocused, setisIDFocused] = useState(false);
   const [isPWFocused, setisPWFocused] = useState(false);
   const [signIn, setSignIn] = useState(true);
+  const passwordField = useRef<TextInput>(null);
 
-  const signInCheck = async (email: string, plainPassword: string) => {
-    // const hashedPassword: string = await makeHashedPassword(plainPassword);
-    setSignIn(await requestAuth(email, plainPassword));
-    // setSignIn(await requestAuth(email, hashedPassword));
-  };
+  //const accessToken = useRecoilValue(getAccessTokenSelector({email, password}));
+  const [token, setToken] = useRecoilState(accessTokenState);
 
-  const requestAuth = async (email: string, hashedPassword: string) => {
-    const index = userAccounts.findIndex(
-      account => account.email.trim() === email.trim(),
-    );
-    if (index >= 0) {
-      if (
-        hashedPassword === userAccounts[index].password
-        // hashedPassword ===
-        // (await makeHashedPassword(userAccounts[index].password))
-      ) {
-        alert('로그인 성공');
-        navigation.navigate('Root');
-        return true;
-      }
-      alert('비밀번호가 올바르지 않습니다.');
-      return false;
-    }
-    alert('사용자 정보가 존재하지 않습니다.');
-    return false;
-  };
+  // async function requestAuth(email: string, password: string) {
+  //   const accessToken = await useRecoilValue(
+  //     getAccessTokenSelector({
+  //       email: email,
+  //       password: password,
+  //     }),
+  //   );
+  //   return accessToken;
+  // }
+  // const signInCheck = async (email: string, plainPassword: string) => {
+  //   // const hashedPassword: string = await makeHashedPassword(plainPassword);
+  //   setSignIn(await requestAuth(email, plainPassword));
+  //   // setSignIn(await requestAuth(email, hashedPassword));
+  // };
+
+  // const requestAuth = async (email: string, hashedPassword: string) => {
+  //   const index = userAccounts.findIndex(
+  //     account => account.email.trim() === email.trim(),
+  //   );
+  //   if (index >= 0) {
+  //     if (
+  //       hashedPassword === userAccounts[index].password
+  //       // hashedPassword ===
+  //       // (await makeHashedPassword(userAccounts[index].password))
+  //     ) {
+  //       alert('로그인 성공');
+  //       navigation.navigate('Root');
+  //       return true;
+  //     }
+  //     alert('비밀번호가 올바르지 않습니다.');
+  //     return false;
+  //   }
+  //   alert('사용자 정보가 존재하지 않습니다.');
+  //   return false;
+  // };
 
   // const makeHashedPassword = async (plainPassword: string) => {
   //   const salt = getSalt();
@@ -102,8 +118,6 @@ export default function SignInScreen({
   //   );
   //   return hashed;
   // };
-
-  const passwordField = useRef<TextInput>(null);
 
   // const isSigninTrue = (email: string, password: string) => {
   //   alert(`email: ${email} password: ${password}`);
@@ -163,9 +177,9 @@ export default function SignInScreen({
                 onChangeText={text => setPassword(text)}
                 value={password}
                 ref={passwordField}
-                onSubmitEditing={() => {
-                  signInCheck(email, password);
-                }}
+                // onSubmitEditing={() => {
+                //   signInCheck(email, password);
+                // }}
                 clearButtonMode="while-editing"
               />
             </View>
@@ -212,7 +226,31 @@ export default function SignInScreen({
                 paddingVertical: 5,
                 alignItems: 'center',
               })}
-              onPress={() => signInCheck(email, password)}
+              onPress={() => {
+                axios
+                  .get('http:/54.153.85.38/sign_in', {
+                    params: { email: email, password: password },
+                  })
+                  .then(function (response) {
+                    console.log(response.data);
+                    if (response.data) {
+                      setToken(response.data);
+                      navigation.navigate('Root');
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error, 'error');
+                  });
+
+                // requestAuth(email, password).then(thing =>
+                //   console.log('c', thing, 'c'),
+                // );
+                //console.log(requestAuth(email, password));
+                //if (requestAuth(email, password)) navigation.navigate('Root');
+
+                // console.log(accessToken);
+                // if (accessToken) navigation.navigate('Root');
+              }}
             >
               <LoginButton />
             </Pressable>
