@@ -3,8 +3,12 @@
 
 import axios from 'axios';
 import { selector, selectorFamily } from 'recoil';
-import { api_getChampions, api_getProfiles } from '../api/main';
-// import { api_getFriends, api_getProfiles } from '../api/main';
+import {
+  api_getChampions,
+  api_getProfiles,
+  api_getLoLAccount,
+  api_getAccessToken,
+} from '../api/main';
 import { friendsState } from './atom';
 import { lol_accountState } from './atom';
 import { accessTokenState } from './atom';
@@ -34,7 +38,7 @@ export const getChampionsSelector = selector({
 export const getLoLAccountSelector = selector({
   key: `lol_account/get`,
   get: async ({ get }) => {
-    const { data } = await axios.get('http:/54.153.85.38/lol_account');
+    const { data } = await api_getLoLAccount();
     return data;
   },
 });
@@ -44,9 +48,7 @@ export const getAccessTokenSelector = selectorFamily({
   get:
     (email, password) =>
     async ({ get }) => {
-      const { data } = await axios.get('http:/54.153.85.38/sign_in', {
-        params: { email: email, password: password },
-      });
+      const { data } = await api_getAccessToken({ email, password });
       return data;
     },
   set: ({ set }, newValue) => {
