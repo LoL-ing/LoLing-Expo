@@ -27,6 +27,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { getAccessTokenSelector } from '../atoms/selector';
 import { accessTokenState } from '../atoms/atom';
 import axios from 'axios';
+import { api_getAccessToken } from '../api/main';
 
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
@@ -226,22 +227,22 @@ export default function SignInScreen({
                 paddingVertical: 5,
                 alignItems: 'center',
               })}
-              onPress={() => {
-                // axios
-                //   .get('http:/54.153.85.38/sign_in', {
-                //     params: { email: email, password: password },
-                //   })
-                //   .then(function (response) {
-                //     console.log(response.data);
-                //     if (response.data) {
-                //       setToken(response.data);
-                //       navigation.navigate('Root');
-                //     }
-                //   })
-                //   .catch(function (error) {
-                //     console.log(error, 'error');
-                //   });
-                navigation.navigate('Root');
+              onPress={async function() {
+                const response = await api_getAccessToken({ email: email, password: password })
+                
+                if (response.data) {
+                  setToken(response.data);
+                  navigation.navigate('Root');
+                }
+
+                // requestAuth(email, password).then(thing =>
+                //   console.log('c', thing, 'c'),
+                // );
+                //console.log(requestAuth(email, password));
+                //if (requestAuth(email, password)) navigation.navigate('Root');
+
+                // console.log(accessToken);
+                // if (accessToken) navigation.navigate('Root');
               }}
             >
               <LoginButton />

@@ -1,15 +1,21 @@
 import axios from 'axios';
+import { API_URL } from '../config';
 import { useRecoilState } from 'recoil';
 import { profilesState } from '../atoms/atom';
-
-const BASE_URL = 'http:/54.153.85.38';
+import baseAPI from './base.js';
 
 export function api_getFriends() {
-  return axios.get(BASE_URL + '/friends');
+  return baseAPI.get('/friends/friends');
 }
 
 export function api_getProfiles() {
-  return axios.get(BASE_URL + '/profiles');
+  return baseAPI.get('/profiles/profiles', { lol_name: '꼽죽' });
+}
+
+export function api_getLoLAccount() {
+  return baseAPI.get('/profiles/lol_account', {
+    user_id: 'alsrb001218@naver.com',
+  });
 }
 
 export function test_profiles() {
@@ -19,5 +25,14 @@ export function test_profiles() {
 }
 
 export function api_getChampions() {
-  return axios.get(BASE_URL + '/champions');
+  return baseAPI.get('/champions/champions');
+}
+
+export function api_getAccessToken(params) {
+  console.log(API_URL);
+  console.log(baseAPI, params);
+  return baseAPI.get('/users/sign_in', {
+    email: params.email,
+    password: params.password,
+  });
 }
