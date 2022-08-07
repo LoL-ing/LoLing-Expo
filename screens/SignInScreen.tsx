@@ -227,29 +227,21 @@ export default function SignInScreen({
                 alignItems: 'center',
               })}
               onPress={() => {
-                axios
-                  .get('http:/54.153.85.38/sign_in', {
-                    params: { email: email, password: password },
-                  })
-                  .then(function (response) {
-                    console.log(response.data);
-                    if (response.data) {
-                      setToken(response.data);
-                      navigation.navigate('Root');
-                    }
-                  })
-                  .catch(function (error) {
-                    console.log(error, 'error');
-                  });
-
-                // requestAuth(email, password).then(thing =>
-                //   console.log('c', thing, 'c'),
-                // );
-                //console.log(requestAuth(email, password));
-                //if (requestAuth(email, password)) navigation.navigate('Root');
-
-                // console.log(accessToken);
-                // if (accessToken) navigation.navigate('Root');
+                // axios
+                //   .get('http:/54.153.85.38/sign_in', {
+                //     params: { email: email, password: password },
+                //   })
+                //   .then(function (response) {
+                //     console.log(response.data);
+                //     if (response.data) {
+                //       setToken(response.data);
+                //       navigation.navigate('Root');
+                //     }
+                //   })
+                //   .catch(function (error) {
+                //     console.log(error, 'error');
+                //   });
+                navigation.navigate('Root');
               }}
             >
               <LoginButton />
