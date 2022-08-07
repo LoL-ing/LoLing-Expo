@@ -37,6 +37,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SelectMyLineChampScreen from '../screens/SelectMyLineChampScreen';
 import DeleteFriendScreen from '../screens/DeleteFriendScreen';
+import ChatRoomScreen from '../screens/ChatroomScreen';
 
 import HomeIconSelected from '../assets/icons/svg/home-icon-selected.svg';
 import HomeIconUnselected from '../assets/icons/svg/home-icon-unselected.svg';
@@ -71,7 +72,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName={'SignIn'}>
+    // <Stack.Navigator initialRouteName={'SignIn'}>
+    <Stack.Navigator initialRouteName={'ChatRoom'}>
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
@@ -124,6 +126,11 @@ function RootNavigator() {
       <Stack.Screen
         name="DeleteFriend"
         component={DeleteFriendScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoomScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

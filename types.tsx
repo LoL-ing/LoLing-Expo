@@ -33,6 +33,7 @@ export type RootStackParamList = {
   SelectMyLineChamp: undefined;
   DeleteFriend: undefined;
   BottomtabNavigator: undefined;
+  ChatRoom: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

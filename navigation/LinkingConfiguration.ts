@@ -51,7 +51,9 @@ const linking: LinkingOptions<RootStackParamList> = {
       Welcome: 'welcome',
       SelectMyLineChamp: 'selectmylinechamp',
       DeleteFriend: 'deletefriend',
-    },  },
+      ChatRoom: 'chatroom',
+    },
+  },
 };
 
 export default linking;

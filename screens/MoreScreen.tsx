@@ -42,9 +42,13 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       ></Menu>
       <View style={styles.separator} />
 
-      {/* <Menu title="1:1 문의"></Menu>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      
+      <Menu
+        title="1:1 문의"
+        destination="ChatRoom"
+        navigate={navigation.navigate}
+      ></Menu>
+      <View style={styles.separator} />
+      {/*
       <Menu title="앱 가이드"></Menu>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       
