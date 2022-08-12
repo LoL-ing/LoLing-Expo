@@ -26,6 +26,8 @@ import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import Styles from '../constants/Styles';
 
+import { RootStackScreenProps } from '../types';
+
 const { StatusBarManager } = NativeModules;
 
 const data = {
@@ -77,7 +79,9 @@ const data = {
   ],
 };
 
-export default function chatroomScreen() {
+export default function ChatRoomScreen({
+  navigation,
+}: RootStackScreenProps<'ChatRoom'>) {
   const [message, setMessage] = useState('');
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [textInput, setTextInput] = useState('');
@@ -96,7 +100,9 @@ export default function chatroomScreen() {
         <View style={styles.header}>
           <Pressable
             style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate('More');
+            }}
           >
             <Arrow width={Layout.Width * 0.075} />
           </Pressable>
