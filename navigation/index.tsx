@@ -38,6 +38,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import SelectMyLineChampScreen from '../screens/SelectMyLineChampScreen';
 import DeleteFriendScreen from '../screens/DeleteFriendScreen';
 import ChatRoomScreen from '../screens/ChatroomScreen';
+import FriendRequestScreen from '../screens/FriendRequestScreen';
 
 import HomeIconSelected from '../assets/icons/svg/home-icon-selected.svg';
 import HomeIconUnselected from '../assets/icons/svg/home-icon-unselected.svg';
@@ -131,6 +132,11 @@ function RootNavigator() {
       <Stack.Screen
         name="ChatRoom"
         component={ChatRoomScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FriendRequest"
+        component={FriendRequestScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

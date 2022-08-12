@@ -34,6 +34,7 @@ export type RootStackParamList = {
   DeleteFriend: undefined;
   BottomtabNavigator: undefined;
   ChatRoom: undefined;
+  FriendRequest: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

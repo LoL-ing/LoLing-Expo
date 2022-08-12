@@ -29,7 +29,6 @@ import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
 
-
 import { Shadow } from 'react-native-shadow-2';
 import { RootStackScreenProps } from '../types';
 
@@ -103,44 +102,67 @@ export default function SocialScreen({
                   : Colors.backgroundPurple,
               },
               {
-                width : totalNumberOfMessages > 999 ? Layout.Width*0.3
-                : totalNumberOfMessages > 99 ? Layout.Width*0.27
-                :totalNumberOfMessages > 0? Layout.Width*0.24 
-                :  Layout.Width * 0.2,
-              }
+                width:
+                  totalNumberOfMessages > 999
+                    ? Layout.Width * 0.3
+                    : totalNumberOfMessages > 99
+                    ? Layout.Width * 0.27
+                    : totalNumberOfMessages > 0
+                    ? Layout.Width * 0.24
+                    : Layout.Width * 0.2,
+              },
             ]}
           >
-            {showFriendList 
-            ? <ChatRoomOff
-            width={Layout.Width*0.125}
-            height={Layout.Height*0.025}/>
-            : <ChatRoomOn
-            width={Layout.Width*0.125}
-                height={Layout.Height * 0.025} />}
-            {
-            totalNumberOfMessages > 0?
-            <View style={{
-              width :  (totalNumberOfMessages > 999) ?
-              Layout.Width * 0.1
-              : (totalNumberOfMessages >99) ?
-              Layout.Width*0.07
-              : Layout.Width*0.05,
-            height: Layout.Width * 0.05,
-            borderRadius:Layout.Width * 0.05,
-            backgroundColor: Colors.backgroundPurple,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginLeft: 7
-          }}>
-            { totalNumberOfMessages> 999 ?
-            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*10,}}>
-           999+</Text>
-            : 
-            <Text style = {{color: Colors.textWhite, fontSize: Layout.FontScale*10,}}>
-            {totalNumberOfMessages}</Text>}
-</View>
-          : undefined}
+            {showFriendList ? (
+              <ChatRoomOff
+                width={Layout.Width * 0.125}
+                height={Layout.Height * 0.025}
+              />
+            ) : (
+              <ChatRoomOn
+                width={Layout.Width * 0.125}
+                height={Layout.Height * 0.025}
+              />
+            )}
+            {totalNumberOfMessages > 0 ? (
+              <View
+                style={{
+                  width:
+                    totalNumberOfMessages > 999
+                      ? Layout.Width * 0.1
+                      : totalNumberOfMessages > 99
+                      ? Layout.Width * 0.07
+                      : Layout.Width * 0.05,
+                  height: Layout.Width * 0.05,
+                  borderRadius: Layout.Width * 0.05,
+                  backgroundColor: Colors.backgroundPurple,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  marginLeft: 7,
+                }}
+              >
+                {totalNumberOfMessages > 999 ? (
+                  <Text
+                    style={{
+                      color: Colors.textWhite,
+                      fontSize: Layout.FontScale * 10,
+                    }}
+                  >
+                    999+
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      color: Colors.textWhite,
+                      fontSize: Layout.FontScale * 10,
+                    }}
+                  >
+                    {totalNumberOfMessages}
+                  </Text>
+                )}
+              </View>
+            ) : undefined}
           </Pressable>
         </View>
         <View style={styles.deleteOrAddFriendButtonContainer}>
@@ -159,24 +181,31 @@ export default function SocialScreen({
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <TextInput
-              style={styles.searchFriendTextInput}
-              placeholder={'친구 검색하기'}
-              placeholderTextColor={Colors.textUnfocusedPurple}
-              value={friendKeyword}
-              onChangeText={(text: string) => setFriendKeyword(text)}
-            />
-            <SearchIcon style ={{marginLeft:-(Layout.Width*0.067),
-            marginTop:Layout.Height*0.04}}
-            width={Layout.Width*0.067} height={Layout.Height*0.033}/>
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <TextInput
+                style={styles.searchFriendTextInput}
+                placeholder={'친구 검색하기'}
+                placeholderTextColor={Colors.textUnfocusedPurple}
+                value={friendKeyword}
+                onChangeText={(text: string) => setFriendKeyword(text)}
+              />
+              <SearchIcon
+                style={{
+                  marginLeft: -(Layout.Width * 0.067),
+                  marginTop: Layout.Height * 0.04,
+                }}
+                width={Layout.Width * 0.067}
+                height={Layout.Height * 0.033}
+              />
             </View>
             <Pressable
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
+              onPress={() => navigation.navigate('FriendRequest')}
             >
               <Shadow startColor={'#04030550'} offset={[0, 6]} radius={40}>
                 <View style={styles.receivedFriendRequestContainer}>
@@ -253,19 +282,26 @@ export default function SocialScreen({
       ) : (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
-            <View style={{
-              flexDirection: 'row',
-            }}>
-            <TextInput
-              style={styles.searchFriendTextInput}
-              placeholder={'채팅방 검색하기'}
-              placeholderTextColor={Colors.textUnfocusedPurple}
-              value={chattingRoomKeyword}
-              onChangeText={(text: string) => setChattingRoomKeyword(text)}
-            />
-            <SearchIcon style ={{marginLeft:-(Layout.Width*0.067),
-            marginTop:Layout.Height*0.04}}
-            width={Layout.Width*0.067} height={Layout.Height*0.033}/>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <TextInput
+                style={styles.searchFriendTextInput}
+                placeholder={'채팅방 검색하기'}
+                placeholderTextColor={Colors.textUnfocusedPurple}
+                value={chattingRoomKeyword}
+                onChangeText={(text: string) => setChattingRoomKeyword(text)}
+              />
+              <SearchIcon
+                style={{
+                  marginLeft: -(Layout.Width * 0.067),
+                  marginTop: Layout.Height * 0.04,
+                }}
+                width={Layout.Width * 0.067}
+                height={Layout.Height * 0.033}
+              />
             </View>
             <FlatList
               data={searchedChattingRoom(chattingRooms, chattingRoomKeyword)}
