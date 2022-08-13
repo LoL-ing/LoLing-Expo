@@ -73,7 +73,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName={'SignIn'}>
-      {/* <Stack.Navigator initialRouteName={'ChatRoom'}> */}
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
