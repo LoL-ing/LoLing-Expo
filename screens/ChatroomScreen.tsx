@@ -33,8 +33,6 @@ import Layout from '../constants/Layout';
 import Styles from '../constants/Styles';
 import { RootStackScreenProps } from '../types';
 
-import { RootStackScreenProps } from '../types';
-
 const { StatusBarManager } = NativeModules;
 const data = {
   //데이터 관리를 어떻게 하는지 모르겠어서 일단은 임시로
