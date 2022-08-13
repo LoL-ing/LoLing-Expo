@@ -224,25 +224,23 @@ export default function chatroomScreen({
 
   return (
     <View>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={[dstyle(statusBarHeight, statusBarHeightAndroid).fullscreen]}
-        >
-          <StatusBar backgroundColor={Colors.backgroundBlack} />
-          {Platform.OS == 'ios' ? (
-            <KeyboardAvoidingView
-              style={{ flex: 1, backgroundColor: Colors.backgroundNavy }}
-              behavior={'padding'}
-              //keyboardVerticalOffset={statusBarHeight}
-            >
-              {contents({ navigation })}
-            </KeyboardAvoidingView>
-          ) : (
-            contents({ navigation })
-          )}
-          {acceptModal({ navigation })}
-        </View>
-      </TouchableWithoutFeedback>
+      <View
+        style={[dstyle(statusBarHeight, statusBarHeightAndroid).fullscreen]}
+      >
+        <StatusBar backgroundColor={Colors.backgroundBlack} />
+        {Platform.OS == 'ios' ? (
+          <KeyboardAvoidingView
+            style={{ flex: 1, backgroundColor: Colors.backgroundNavy }}
+            behavior={'padding'}
+            //keyboardVerticalOffset={statusBarHeight}
+          >
+            {contents({ navigation })}
+          </KeyboardAvoidingView>
+        ) : (
+          contents({ navigation })
+        )}
+        {acceptModal({ navigation })}
+      </View>
     </View>
   );
 }
