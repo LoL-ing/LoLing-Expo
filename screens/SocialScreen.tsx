@@ -14,7 +14,7 @@ import Friend from '../components/Friend';
 import ChattingRoom from '../components/ChattingRoom';
 import getChatRooms from '../data/ChatRooms';
 import getFriends from '../data/Friends';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
@@ -61,26 +61,33 @@ function searchedChattingRoom(
 export default function SocialScreen({
   navigation,
 }: RootStackScreenProps<'Social'>) {
-  const [showFriendList, setShowFriendList] = useState(true);
+  const [index, setIndex] = useState(0);
   const [friendKeyword, setFriendKeyword] = useState('');
   const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
+  const scrollViewRef = useRef<ScrollView>(null);
 
   return (
     <View style={styles.topContainer}>
       <View style={styles.fixedButtonContainer}>
         <View style={styles.friendOrChattingRoomButtonContainer}>
           <Pressable
-            onPress={() => setShowFriendList(true)}
+            onPress={() => {
+              scrollViewRef.current?.scrollTo({
+                x: 0,
+                animated: true,
+              });
+            }}
             style={[
               styles.friendOrChattingRoomButton,
               {
-                borderBottomColor: showFriendList
-                  ? Colors.backgroundPurple
-                  : Colors.textUnfocusedPurple,
+                borderBottomColor:
+                  index < 1
+                    ? Colors.backgroundPurple
+                    : Colors.textUnfocusedPurple,
               },
             ]}
           >
-            {showFriendList ? (
+            {index < 1 ? (
               <FriendOn
                 width={Layout.Width * 0.083}
                 height={Layout.Height * 0.025}
@@ -93,13 +100,19 @@ export default function SocialScreen({
             )}
           </Pressable>
           <Pressable
-            onPress={() => setShowFriendList(false)}
+            onPress={() => {
+              scrollViewRef.current?.scrollTo({
+                x: Layout.Width,
+                animated: true,
+              });
+            }}
             style={[
               styles.friendOrChattingRoomButton,
               {
-                borderBottomColor: showFriendList
-                  ? Colors.textUnfocusedPurple
-                  : Colors.backgroundPurple,
+                borderBottomColor:
+                  index < 1
+                    ? Colors.textUnfocusedPurple
+                    : Colors.backgroundPurple,
               },
               {
                 width:
@@ -113,7 +126,7 @@ export default function SocialScreen({
               },
             ]}
           >
-            {showFriendList ? (
+            {index < 1 ? (
               <ChatRoomOff
                 width={Layout.Width * 0.125}
                 height={Layout.Height * 0.025}
@@ -177,7 +190,16 @@ export default function SocialScreen({
           </Pressable>
         </View>
       </View>
-      {showFriendList ? (
+      <ScrollView
+        horizontal={true}
+        ref={scrollViewRef}
+        onScroll={e => {
+          const newIndex = Math.round(
+            e.nativeEvent.contentOffset.x / (Layout.Width * 0.86),
+          );
+          setIndex(newIndex);
+        }}
+      >
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <View
@@ -279,7 +301,6 @@ export default function SocialScreen({
             />
           </View>
         </ScrollView>
-      ) : (
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <View
@@ -317,7 +338,7 @@ export default function SocialScreen({
             />
           </View>
         </ScrollView>
-      )}
+      </ScrollView>
     </View>
   );
 }

@@ -11,7 +11,6 @@ const Styles = StyleSheet.create({
   },
   startMatchingButton: {
     width: Layout.Width * 0.9,
-    //height: Layout.Height * 0.072,
     height: Layout.Height * 0.08,
     marginBottom: Layout.Height * 0.06,
     alignItems: 'center',

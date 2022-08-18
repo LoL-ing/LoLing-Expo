@@ -16,8 +16,8 @@ import FriendRequest from '../components/FriendRequest';
 
 import { RootStackScreenProps } from '../types';
 
-const Width = Dimensions.get('window').width; //스크린 너비 초기화
-const Height = Dimensions.get('window').height;
+const Width = Dimensions.get('screen').width; //스크린 너비 초기화
+const Height = Dimensions.get('screen').height;
 const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 const data = {

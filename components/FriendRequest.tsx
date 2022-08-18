@@ -14,6 +14,7 @@ import FriendRequestIcon from '../assets/text_images/friendRequest.svg';
 import MatchingRequestIcon from '../assets/text_images/matchingRequest.svg';
 import RequestReject from '../assets/icons/svg/requestReject.svg';
 import RequestAllow from '../assets/icons/svg/requestAllow.svg';
+import { useNavigation } from '@react-navigation/native';
 
 const Width = Dimensions.get('window').width; //스크린 너비 초기화
 const Height = Dimensions.get('window').height;
@@ -24,24 +25,37 @@ export default function FriendRequest(props: {
   nickname: string;
   isFriendrequest: boolean;
 }) {
+  const navigation = useNavigation();
   return (
     <View style={styles.fullLine}>
-      <View style={styles.ImgBox}>
-        <Image
-          source={props.proflieImg}
-          style={{ width: Width * 0.15, height: Width * 0.15 }}
-        />
-      </View>
-      <View style={styles.nameRequestBox}>
-        <Text style={styles.nicknameText}>{props.nickname}</Text>
-        <View>
-          {props.isFriendrequest == true ? (
-            <FriendRequestIcon width={Width * 0.18} />
-          ) : (
-            <MatchingRequestIcon width={Width * 0.18} />
-          )}
+      <Pressable
+        style={({ pressed }) => [
+          { opacity: pressed ? 0.5 : 1 },
+          {
+            width: Width * 0.61,
+            height: Height * 0.11,
+            flexDirection: 'row',
+          },
+        ]}
+        onPress={() => navigation.navigate('ChatRoom')}
+      >
+        <View style={styles.ImgBox}>
+          <Image
+            source={props.proflieImg}
+            style={{ width: Width * 0.15, height: Width * 0.15 }}
+          />
         </View>
-      </View>
+        <View style={styles.nameRequestBox}>
+          <Text style={styles.nicknameText}>{props.nickname}</Text>
+          <View>
+            {props.isFriendrequest == true ? (
+              <FriendRequestIcon width={Width * 0.18} />
+            ) : (
+              <MatchingRequestIcon width={Width * 0.18} />
+            )}
+          </View>
+        </View>
+      </Pressable>
       <View style={styles.rejectAllowBox}>
         <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
           <RequestReject width={Width * 0.15} />
