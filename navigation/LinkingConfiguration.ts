@@ -52,7 +52,8 @@ const linking: LinkingOptions<RootStackParamList> = {
       SelectMyLineChamp: 'selectmylinechamp',
       DeleteFriend: 'deletefriend',
       ChatRoom: 'chatroom',
-      FriendRequest:'friendrequest',
+      FriendRequest: 'friendrequest',
+      Settings: 'setting',
     },
   },
 };

@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import React, { Suspense } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView, View } from 'react-native';
@@ -10,6 +10,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import { RecoilRoot } from 'recoil';
 import { Text } from 'react-native-svg';
+import Colors from './constants/Colors';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -29,7 +30,12 @@ export default function App() {
         >
           {/* <SafeAreaProvider> */}
           <Navigation colorScheme={colorScheme} />
-          <StatusBar />
+          <StatusBar
+            backgroundColor={'transparent'}
+            translucent={true}
+            barStyle="light-content"
+          />
+
           {/* </SafeAreaProvider> */}
         </Suspense>
       </RecoilRoot>
