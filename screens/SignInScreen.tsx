@@ -1,19 +1,22 @@
 import * as React from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   StyleSheet,
   Pressable,
-  Dimensions,
   TouchableWithoutFeedback,
   Text,
   View,
+  TextInput,
+  Image,
+  Keyboard,
 } from 'react-native';
-import { TextInput, Image, Keyboard } from 'react-native';
-import { useState } from 'react';
-import { Shadow } from 'react-native-shadow-2';
+import { useRecoilState } from 'recoil';
+import { accessTokenState } from '../atoms/atom';
+import { api_getAccessToken } from '../api/main';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import Layout from '../constants/Layout';
+import { RootStackScreenProps } from '../types';
 
 import FindIdPassword from '../assets/text_images/findIdPassword.svg';
 import GoToSignUp from '../assets/text_images/goToSignUp.svg';
@@ -21,46 +24,6 @@ import LoginButton from '../assets/text_images/loginButton.svg';
 import KaKao from '../assets/text_images/kakaoLogin.svg';
 import Naver from '../assets/text_images/naverLogin.svg';
 import Google from '../assets/text_images/googleLogin.svg';
-import { RootStackScreenProps } from '../types';
-
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { getAccessTokenSelector } from '../atoms/selector';
-import { accessTokenState } from '../atoms/atom';
-import axios from 'axios';
-import { api_getAccessToken } from '../api/main';
-
-const Width = Dimensions.get('window').width;
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale;
-
-// const getSalt = () => 'itisloling';
-const userAccounts = [
-  {
-    name: 'yejin',
-    email: 'kyj0032@korea.ac.kr',
-    password: '1234',
-  },
-  {
-    name: 'chaeyoung',
-    email: 'ekqlek9@naver.com',
-    password: '1234',
-  },
-  {
-    name: 'heewoong',
-    email: '19990708@naver.com',
-    password: '1234',
-  },
-  {
-    name: 'yeoreum',
-    email: 'fmadudid@korea.ac.kr',
-    password: '1234',
-  },
-  {
-    name: 'admin',
-    email: '1234',
-    password: '1234',
-  },
-];
 
 export default function SignInScreen({
   navigation,
@@ -72,58 +35,7 @@ export default function SignInScreen({
   const [signIn, setSignIn] = useState(true);
   const passwordField = useRef<TextInput>(null);
 
-  //const accessToken = useRecoilValue(getAccessTokenSelector({email, password}));
   const [token, setToken] = useRecoilState(accessTokenState);
-
-  // async function requestAuth(email: string, password: string) {
-  //   const accessToken = await useRecoilValue(
-  //     getAccessTokenSelector({
-  //       email: email,
-  //       password: password,
-  //     }),
-  //   );
-  //   return accessToken;
-  // }
-  // const signInCheck = async (email: string, plainPassword: string) => {
-  //   // const hashedPassword: string = await makeHashedPassword(plainPassword);
-  //   setSignIn(await requestAuth(email, plainPassword));
-  //   // setSignIn(await requestAuth(email, hashedPassword));
-  // };
-
-  // const requestAuth = async (email: string, hashedPassword: string) => {
-  //   const index = userAccounts.findIndex(
-  //     account => account.email.trim() === email.trim(),
-  //   );
-  //   if (index >= 0) {
-  //     if (
-  //       hashedPassword === userAccounts[index].password
-  //       // hashedPassword ===
-  //       // (await makeHashedPassword(userAccounts[index].password))
-  //     ) {
-  //       alert('로그인 성공');
-  //       navigation.navigate('Root');
-  //       return true;
-  //     }
-  //     alert('비밀번호가 올바르지 않습니다.');
-  //     return false;
-  //   }
-  //   alert('사용자 정보가 존재하지 않습니다.');
-  //   return false;
-  // };
-
-  // const makeHashedPassword = async (plainPassword: string) => {
-  //   const salt = getSalt();
-  //   const hashed = await crypto.digestStringAsync(
-  //       crypto.CryptoDigestAlgorithm.SHA512,
-  //       plainPassword + salt,
-  //   );
-  //   return hashed;
-  // };
-
-  // const isSigninTrue = (email: string, password: string) => {
-  //   alert(`email: ${email} password: ${password}`);
-  //   if (userAccounts[0].password != password) setSignin(false);
-  // };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -178,9 +90,6 @@ export default function SignInScreen({
                 onChangeText={text => setPassword(text)}
                 value={password}
                 ref={passwordField}
-                // onSubmitEditing={() => {
-                //   signInCheck(email, password);
-                // }}
                 clearButtonMode="while-editing"
               />
             </View>
@@ -192,7 +101,10 @@ export default function SignInScreen({
             >
               <Image
                 source={require('../assets/images/exclamation-circle.png')}
-                style={{ width: Width * 0.1, height: Width * 0.1 }}
+                style={{
+                  width: Layout.Width * 0.1,
+                  height: Layout.Width * 0.1,
+                }}
               />
               <Text style={styles.signinFailedText}>
                 잘못된 비밀번호입니다. 다시 입력하세요.
@@ -215,7 +127,7 @@ export default function SignInScreen({
                 })}
                 onPress={() => navigation.navigate('ToS')}
               >
-                <View style={{ marginRight: Width * 0.13 }}>
+                <View style={{ marginRight: Layout.Width * 0.13 }}>
                   <GoToSignUp />
                 </View>
               </Pressable>
@@ -227,22 +139,16 @@ export default function SignInScreen({
                 paddingVertical: 5,
                 alignItems: 'center',
               })}
-              onPress={async function() {
-                const response = await api_getAccessToken({ email: email, password: password })
-                
+              onPress={async function () {
+                const response = await api_getAccessToken({
+                  email: email,
+                  password: password,
+                });
+
                 if (response.data) {
                   setToken(response.data);
                   navigation.navigate('Root');
                 }
-
-                // requestAuth(email, password).then(thing =>
-                //   console.log('c', thing, 'c'),
-                // );
-                //console.log(requestAuth(email, password));
-                //if (requestAuth(email, password)) navigation.navigate('Root');
-
-                // console.log(accessToken);
-                // if (accessToken) navigation.navigate('Root');
               }}
             >
               <LoginButton />
@@ -283,55 +189,14 @@ export default function SignInScreen({
 
 const styles = StyleSheet.create({
   signinContainer: {
-    marginTop: Height * 0.2,
+    marginTop: Layout.Height * 0.2,
     backgroundColor: Colors.backgroundBlack,
-  },
-  socialLoginContainers: {
-    width: Width,
-    backgroundColor: Colors.backgroundBlack,
-    alignItems: 'center',
   },
   textInput: {
     color: Colors.textWhite,
-    fontSize: FontScale * 18,
+    fontSize: Layout.FontScale * 18,
     fontWeight: 'bold',
-    padding: FontScale * 15,
-  },
-  innerText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 16,
-    fontWeight: 'bold',
-  },
-  findIDText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 15,
-  },
-  LOGINButton: {
-    width: Width * 0.87,
-    height: Height * 0.062,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.backgroundPurple,
-    borderRadius: 40,
-  },
-  LOGINtext: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 15,
-    fontWeight: 'bold',
-  },
-  socialSigninButton: {
-    width: Width * 0.87,
-    height: Height * 0.06,
-    margin: Height * 0.012,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    borderRadius: 30,
-    backgroundColor: Colors.backgroundNavy,
-  },
-  socialText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 16,
+    padding: Layout.FontScale * 15,
   },
   signinTextInputContainer: {
     padding: 20,
@@ -351,7 +216,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   signinFailedContainer: {
-    paddingLeft: Width * 0.05,
+    paddingLeft: Layout.Width * 0.05,
     marginBottom: 5,
     flexDirection: 'row',
     alignItems: 'center',
@@ -359,7 +224,7 @@ const styles = StyleSheet.create({
   },
   signinFailedText: {
     color: Colors.textRed,
-    fontSize: FontScale * 15,
+    fontSize: Layout.FontScale * 15,
     marginLeft: 5,
   },
   twoButtonContainer: {

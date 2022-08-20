@@ -14,11 +14,11 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import ProfileCard from '../components/ProfileCard';
+import getFriends from '../data/Friends';
 
 import ProfileCardExit from '../assets/icons/svg/profilecard-exit.svg';
 
-import ProfileCard from '../components/ProfileCard';
-import getFriends from '../data/Friends';
 type propsType = {
   sender: string;
   senderId: number;
@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
   chatContainer: {
     backgroundColor: Colors.backgroundNavy,
     width: Layout.Width,
-    //height: Layout.Width * 0.11,
     flexDirection: 'row',
     alignItems: 'flex-end',
     paddingHorizontal: Layout.Width * 0.06,
@@ -253,9 +252,7 @@ const styles = StyleSheet.create({
   },
   messageStyle: {
     maxWidth: Layout.Width * 0.7,
-    //height: Layout.Width * 0.11,
     minHeight: Layout.Width * 0.11,
-    //maxHeight: Layout.Width * 1,
     backgroundColor: Colors.textUnfocusedPurple,
     alignItems: 'center',
     justifyContent: 'center',

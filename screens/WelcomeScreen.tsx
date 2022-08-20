@@ -1,38 +1,26 @@
-import { tsConstructorType } from '@babel/types';
 import * as React from 'react';
 import { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Pressable,
-  Dimensions,
-  TouchableWithoutFeedback,
-  Keyboard,
   SafeAreaView,
-  InteractionManagerStatic,
   Easing,
+  TextInput,
+  Text,
+  View,
+  Animated,
+  ScrollView,
 } from 'react-native';
-import { TextInput, Text, View, Animated } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import Styles from '../constants/Styles';
 import { RootStackScreenProps } from '../types';
-import Layout from '../constants/Layout';
+
 import Welcome from '../assets/text_images/welcome.svg';
 import Nickname from '../assets/text_images/nickname.svg';
 import Description from '../assets/text_images/description.svg';
-import MatchingStartUnfocused from '../assets/text_images/matchingStart-unfocused.svg';
-import LolaccountUnfocused from '../assets/text_images/lolaccount-unfocused.svg';
-import LolaccountFocused from '../assets/text_images/lolaccount-focused.svg';
-import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
 import SignUpComplete from '../assets/text_images/signUpComplete.svg';
-import StartMatching from '../assets/text_images/startMatching.svg';
 import LoLAccount from '../assets/text_images/lolaccount.svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-const Width = Dimensions.get('window').width; //스크린 너비 초기화
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 export default function WelcomeScreen({
   navigation,
@@ -62,15 +50,13 @@ export default function WelcomeScreen({
       setIsNicknameInit(false);
     }
   };
-  /* animation */
   const settingAnim = useRef(new Animated.Value(0)).current;
-  const welcomeUpAnim = useRef(new Animated.Value(Height * 1)).current;
+  const welcomeUpAnim = useRef(new Animated.Value(Layout.Height * 1)).current;
   const changeMatchingBtnAnim = useRef(new Animated.Value(0)).current;
   const [endAnim, setendAnim] = useState(false);
 
   useEffect(() => {
     Animated.sequence([
-      // + signupscreen에서 fadeout 200ms
       Animated.parallel([
         Animated.timing(welcomeUpAnim, {
           toValue: Layout.Height * 0.25,
@@ -108,7 +94,6 @@ export default function WelcomeScreen({
       setendAnim(true);
     }, 2900);
   }, []);
-  /* end of animation */
 
   const countValue = (input: string) => {
     setCount(input.length);
@@ -119,9 +104,7 @@ export default function WelcomeScreen({
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
-        //style={{ paddingBottom: Layout.Height * 0.1 }}
       >
-        {/*<View style={{ height: Layout.Height * 0.665 }}>*/}
         <View>
           <Animated.View
             style={{
@@ -183,13 +166,9 @@ export default function WelcomeScreen({
                   setIsNicknameFocused(true);
                 }}
                 onBlur={() => {
-                  // setIsNicknameInit(false);
                   setIsNicknameFocused(false);
                   setIsCheckedDuplicateNickname(false);
                   checkDuplicateNickname(nickname);
-                  // if (checkpassword === password && checkpassword != '') {
-                  //   setIsPasswordCorrect(true);
-                  // } else setIsPasswordCorrect(false);
                 }}
                 onChangeText={text => {
                   setNickname(text);
@@ -278,13 +257,6 @@ export default function WelcomeScreen({
               styles.socialContainer,
             ]}
             onPress={() => {
-              // if (
-              //   !(isCheckedDuplicateId === true && isPasswordcorrect === true)
-              // ) {
-              //   alert(`아이디 중복확인 및 비밀번호 확인을 해주세요.`);
-              // } else {
-              //   navigation.navigate('Welcome');
-              // }
               scrollViewRef.current?.scrollToEnd({ animated: true });
               setTimeout(() => {
                 navigation.navigate('Welcome');
@@ -335,73 +307,35 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 24,
+    fontSize: Layout.FontScale * 24,
     fontWeight: 'bold',
-    marginTop: Height * 0.05,
-    marginBottom: Height * 0.1,
+    marginTop: Layout.Height * 0.05,
+    marginBottom: Layout.Height * 0.1,
   },
   focusedTextInput: {
     borderBottomColor: Colors.textFocusedPurple,
     borderBottomWidth: 1,
-    marginBottom: Height * 0.02,
+    marginBottom: Layout.Height * 0.02,
   },
   unfocusedTextInput: {
     borderBottomColor: Colors.textUnfocusedPurple,
     borderBottomWidth: 1,
-    marginBottom: Height * 0.02,
+    marginBottom: Layout.Height * 0.02,
   },
   errorTextInput: {
     borderBottomColor: Colors.textRed,
     borderBottomWidth: 1,
-    marginBottom: Height * 0.02,
-  },
-  subtitleText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 14,
-    fontWeight: 'bold',
+    marginBottom: Layout.Height * 0.02,
   },
   descriptionText: {
     color: Colors.textGray,
-    fontSize: FontScale * 10,
+    fontSize: Layout.FontScale * 10,
     fontWeight: 'normal',
-    marginVertical: Height * 0.01,
+    marginVertical: Layout.Height * 0.01,
   },
   subContainer: {
     alignItems: 'center',
-    marginVertical: Height * 0.027,
-  },
-
-  signUpContainer: {
-    width: Width,
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Colors.backgroundBlack,
-  },
-  separator: {
-    width: Width,
-    height: 1,
-    marginVertical: 10,
-    backgroundColor: Colors.textFocusedPurple,
-  },
-  verifyingIdContainer: {
-    width: Width * 0.2,
-    height: Height * 0.04,
-    marginBottom: Height * 0.02,
-    //flexDirection: 'row',
-    //alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 30,
-  },
-  IdtextInputGroup: {
-    flexDirection: 'row',
-    //justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  verifyingIdText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 10,
-    fontWeight: 'bold',
-    alignSelf: 'center',
+    marginVertical: Layout.Height * 0.027,
   },
   socialContainer: {
     width: Layout.Width * 0.9,
@@ -412,77 +346,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30,
   },
-  focusedsocialContainer: {
-    backgroundColor: Colors.backgroundPurple,
-  },
-  socialText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 14,
-    fontWeight: 'bold',
-    padding: 17,
-  },
-  innerText: {
-    fontWeight: 'bold',
-  },
-
-  descriptionSubContainer: {
-    width: Width * 0.9,
-    height: Height * 0.125,
-    marginBottom: Height * 0.027,
-  },
-
   fullTextInput: {
-    width: Width * 0.9,
-    height: Height * 0.06,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 14,
+    fontSize: Layout.FontScale * 14,
     fontWeight: 'normal',
-  },
-  halfTextInput: {
-    width: Width * 0.4,
-    height: Height * 0.06,
-    color: Colors.textWhite,
-    fontSize: FontScale * 14,
-    fontWeight: 'normal',
-  },
-  pickerholderContainer: {
-    width: Width * 0.2,
-    height: Height * 0.06,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.textUnfocusedPurple,
-  },
-  pickerholderText: {
-    color: Colors.textUnfocusedPurple,
-    fontSize: FontScale * 14,
-    fontWeight: 'normal',
-  },
-  textInputAndButtonContainer: {
-    width: Width * 0.7,
-    height: Height * 0.05,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  authRequestButton: {
-    width: Width * 0.2,
-    height: Height * 0.05,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-  },
-  authRequestText: {
-    color: 'white',
-    fontSize: FontScale * 10,
-    fontWeight: 'bold',
-  },
-  alertText: {
-    left: Width * 0.23,
-    color: Colors.textFocusedPurple,
-    fontSize: FontScale * 10,
-    marginBottom: Height * 0.04,
-    marginTop: Height * 0.01,
   },
 });

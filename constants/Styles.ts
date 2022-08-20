@@ -4,8 +4,8 @@ import Layout from '../constants/Layout';
 
 const Styles = StyleSheet.create({
   fullscreen: {
-    width: '100%',
-    height: '100%',
+    width: Layout.Width,
+    height:  Layout.Height,
     flexDirection: 'column',
     backgroundColor: Colors.backgroundBlack,
   },

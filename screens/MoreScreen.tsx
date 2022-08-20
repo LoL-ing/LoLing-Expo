@@ -1,26 +1,23 @@
 import * as React from 'react';
+import Logout from '../assets/text_images/logout.svg';
+import { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Pressable,
   Text,
   View,
-  Dimensions,
   Image,
-  SafeAreaView,
-  StatusBar,
   Platform,
   NativeModules,
   ScrollView,
 } from 'react-native';
-import { RootTabScreenProps } from '../types';
-import Menu from '../components/Menu';
-import Styles from '../constants/Styles';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import Styles from '../constants/Styles';
+import Menu from '../components/Menu';
+import { RootTabScreenProps } from '../types';
 
 import ProfileEdit from '../assets/text_images/profileEdit.svg';
-import Logout from '../assets/text_images/logout.svg';
-import { useEffect, useState } from 'react';
 
 const data = {
   request: [
@@ -42,7 +39,14 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
       : null;
   }, []);
   return (
-    <View style={[Styles.fullscreen]}>
+    <View
+      style={[
+        Styles.fullscreen,
+        {
+          paddingBottom: Layout.AndroidBottomBarHeight * 2,
+        },
+      ]}
+    >
       <View style={[styles.header, dstyle(statusBarHeight).headerPadding]}>
         <Image source={data.request[0].profileImg} style={styles.profileImg} />
         <View style={styles.textContainer}>

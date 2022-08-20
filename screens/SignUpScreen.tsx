@@ -1,40 +1,30 @@
-import { visitWithTypeInfo } from 'graphql';
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import {
   StyleSheet,
   Pressable,
-  Dimensions,
   SafeAreaView,
-  NativeEventEmitter,
+  ScrollView,
+  TextInput,
+  Text,
+  View,
 } from 'react-native';
-import { TextInput, Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { nativeViewProps } from 'react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import Styles from '../constants/Styles';
 import passwordValidator from '../constants/passwordValidator';
-import Layout from '../constants/Layout';
+import { RootStackScreenProps } from '../types';
+
 import Id from '../assets/text_images/Id.svg';
 import Password from '../assets/text_images/password.svg';
 import PasswordCheck from '../assets/text_images/passwordCheck.svg';
 import Name from '../assets/text_images/name.svg';
 import Email from '../assets/text_images/email.svg';
-import SignUpButtonOn from '../assets/text_images/signUpButton_on.svg';
-import SignUpButtonOff from '../assets/text_images/signUpButton_off.svg';
 import SignUp from '../assets/text_images/signUp.svg';
-import IdentifyButtonOn from '../assets/text_images/identifyButton_on.svg';
-import IdentifyButtonOff from '../assets/text_images/identifyButton_off.svg';
-import IdCheck_off from '../assets/text_images/idCheck_off.svg';
 import ChevronDown from '../assets/icons/svg/chevron_down.svg';
-import { RootStackScreenProps } from '../types';
-import SignupCompleteFocused from '../assets/text_images/signupComplete-focused.svg';
 import SignUpComplete from '../assets/text_images/signUpComplete.svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-const Width = Dimensions.get('window').width; //스크린 너비 초기화
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 export default function SignUpScreen({
   navigation,
@@ -69,7 +59,6 @@ export default function SignUpScreen({
   const emailField = useRef<TextInput>(null);
 
   const insets = useSafeAreaInsets();
-  //console.log(insets.bottom);
   const scrollViewRef = useRef<TextInput>(null);
 
   let measurements: any;
@@ -90,7 +79,7 @@ export default function SignUpScreen({
         enableOnAndroid={false}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.scrollViewScreen}>
+        <View>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -111,7 +100,7 @@ export default function SignUpScreen({
                       isIdFocused
                         ? styles.focusedTextInput
                         : styles.unfocusedTextInput,
-                      { width: Width * 0.7 },
+                      { width: Layout.Width * 0.7 },
                     ]}
                     placeholder="아이디"
                     placeholderTextColor={
@@ -297,7 +286,6 @@ export default function SignUpScreen({
                 }}
                 onChangeText={text => setName(text)}
                 value={name}
-                //autoCompleteType="username"
                 onSubmitEditing={() => {
                   emailField.current?.focus();
                 }}
@@ -328,14 +316,11 @@ export default function SignUpScreen({
                 ref={emailField}
               />
             </View>
-            {/* 통신사 & 전화번호 입력 칸  */}
             <View
               style={{
-                // width: Width * 0.9,
-                // height: Height * 0.05,
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginVertical: Height * 0.025,
+                marginVertical: Layout.Height * 0.025,
               }}
             >
               <View style={styles.pickerholderContainer}>
@@ -383,13 +368,12 @@ export default function SignUpScreen({
                 </Pressable>
               </View>
             </View>
-            {/* 인증번호 입력칸  */}
             {authRequested ? (
               <View
                 style={[
                   {
-                    left: Width * 0.2,
-                    marginVertical: Height * 0.01,
+                    left: Layout.Width * 0.2,
+                    marginVertical: Layout.Height * 0.01,
                   },
                   styles.textInputAndButtonContainer,
                 ]}
@@ -431,7 +415,6 @@ export default function SignUpScreen({
             ) : (
               <View></View>
             )}
-            {/* 인증 완료 문구는 Text, 인증 번호 발송 실패시 Pressable을 눌러 재전송 */}
             {authRequested ? (
               authChecked ? (
                 <Text style={styles.alertText}>인증이 완료되었습니다!</Text>
@@ -465,13 +448,6 @@ export default function SignUpScreen({
                   styles.socialContainer,
                 ]}
                 onPress={() => {
-                  // if (
-                  //   !(isCheckedDuplicateId === true && isPasswordcorrect === true)
-                  // ) {
-                  //   alert(`아이디 중복확인 및 비밀번호 확인을 해주세요.`);
-                  // } else {
-                  //   navigation.navigate('Welcome');
-                  // }
                   scrollViewRef.current?.scrollToEnd({ animated: true });
                   setTimeout(() => {
                     navigation.navigate('Welcome');
@@ -492,137 +468,85 @@ const styles = StyleSheet.create({
   fullscreen: {
     alignItems: 'center',
   },
-  scrollViewScreen: {
-    //height: Layout.Height * 1.0,
-    //paddingBottom: Layout.Height * 0.1,
-  },
   titleContainer: {
-    marginTop: Height * 0.1,
-    marginBottom: Height * 0.1,
+    marginTop: Layout.Height * 0.1,
+    marginBottom: Layout.Height * 0.1,
   },
   contentContainer: {
     marginLeft: 20,
   },
-  titleText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 24,
-    fontWeight: 'bold',
-    marginVertical: Height * 0.1,
-  },
-  signUpContainer: {
-    width: Width,
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Colors.backgroundBlack,
-  },
-  subtitleText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 14,
-    fontWeight: 'normal',
-  },
   descriptionText: {
     color: Colors.textFocusedPurple,
-    fontSize: FontScale * 10,
+    fontSize: Layout.FontScale * 10,
     fontWeight: 'normal',
   },
-  separator: {
-    width: Width,
-    height: 1,
-    marginVertical: 10,
-    backgroundColor: Colors.textFocusedPurple,
-  },
   verifyingIdContainer: {
-    width: Width * 0.2,
-    height: Height * 0.04,
-    marginBottom: Height * 0.02,
-    //flexDirection: 'row',
-    //alignItems: 'center',
+    width: Layout.Width * 0.2,
+    height: Layout.Height * 0.04,
+    marginBottom: Layout.Height * 0.02,
     justifyContent: 'center',
     borderRadius: 30,
   },
   IdtextInputGroup: {
     flexDirection: 'row',
-    //justifyContent: 'space-between',
     alignItems: 'center',
   },
   verifyingIdText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 10,
+    fontSize: Layout.FontScale * 10,
     fontWeight: 'bold',
     alignSelf: 'center',
   },
   socialContainer: {
     width: Layout.Width * 0.9,
     height: Layout.Height * 0.072,
-    marginVertical: Layout.Height * 0.01,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 30,
-    // backgroundColor: Colors.textUnfocusedPurple,
-    // borderRadius: 30,
-  },
-  // socialContainer: {
-  //   width: Width * 0.9,
-  //   height: Height * 0.062,
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   justifyContent: 'space-around',
-  //   backgroundColor: Colors.textUnfocusedPurple,
-  //   borderRadius: 30,
-  //   marginVertical: Height * 0.02,
-  // },
-  socialText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 14,
-    fontWeight: 'bold',
-    padding: 17,
-  },
-  innerText: {
-    fontWeight: 'bold',
   },
   focusedTextInput: {
     borderBottomColor: Colors.textFocusedPurple,
     borderBottomWidth: 1,
-    marginBottom: Height * 0.02,
+    marginBottom: Layout.Height * 0.02,
   },
   unfocusedTextInput: {
     borderBottomColor: Colors.textUnfocusedPurple,
     borderBottomWidth: 1,
-    marginBottom: Height * 0.02,
+    marginBottom: Layout.Height * 0.02,
   },
   errorTextInput: {
     borderBottomColor: Colors.textRed,
     borderBottomWidth: 1,
-    marginBottom: Height * 0.02,
+    marginBottom: Layout.Height * 0.02,
   },
   descriptionSubContainer: {
-    width: Width * 0.9,
-    height: Height * 0.125,
-    marginBottom: Height * 0.027,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.125,
+    marginBottom: Layout.Height * 0.027,
   },
   subContainer: {
-    width: Width * 0.9,
-    height: Height * 0.1,
-    marginBottom: Height * 0.027,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.1,
+    marginBottom: Layout.Height * 0.027,
   },
   fullTextInput: {
-    width: Width * 0.9,
-    height: Height * 0.06,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 14,
+    fontSize: Layout.FontScale * 14,
     fontWeight: 'normal',
   },
   halfTextInput: {
-    width: Width * 0.4,
-    height: Height * 0.06,
+    width: Layout.Width * 0.4,
+    height: Layout.Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 14,
+    fontSize: Layout.FontScale * 14,
     fontWeight: 'normal',
   },
   pickerholderContainer: {
-    width: Width * 0.2,
-    height: Height * 0.06,
+    width: Layout.Width * 0.2,
+    height: Layout.Height * 0.06,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -631,33 +555,21 @@ const styles = StyleSheet.create({
   },
   pickerholderText: {
     color: Colors.textUnfocusedPurple,
-    fontSize: FontScale * 14,
+    fontSize: Layout.FontScale * 14,
     fontWeight: 'normal',
   },
   textInputAndButtonContainer: {
-    width: Width * 0.7,
-    height: Height * 0.05,
+    width: Layout.Width * 0.7,
+    height: Layout.Height * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  authRequestButton: {
-    width: Width * 0.2,
-    height: Height * 0.05,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-  },
-  authRequestText: {
-    color: 'white',
-    fontSize: FontScale * 10,
-    fontWeight: 'bold',
-  },
   alertText: {
-    left: Width * 0.23,
+    left: Layout.Width * 0.23,
     color: Colors.textFocusedPurple,
-    fontSize: FontScale * 10,
-    marginBottom: Height * 0.04,
-    marginTop: Height * 0.01,
+    fontSize: Layout.FontScale * 10,
+    marginBottom: Layout.Height * 0.04,
+    marginTop: Layout.Height * 0.01,
   },
 });

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Pressable, Dimensions, Text, View } from 'react-native';
+import { StyleSheet, Pressable, Text, View, ScrollView } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Shadow } from 'react-native-shadow-2';
-import { ScrollView } from 'react-native-gesture-handler';
 import Layout from '../constants/Layout';
 
 import { RootStackScreenProps } from '../types';
@@ -18,13 +17,6 @@ import ArrowRight from '../assets/icons/svg/arrow-right.svg';
 import AgreeAllOn from '../assets/text_images/agree_on.svg';
 import AgreeAllOff from '../assets/text_images/agree_off.svg';
 import Hello from '../assets/text_images/Hello!.svg';
-import NextButtonOff from '../assets/text_images/nextoff.svg';
-import NextButtonOn from '../assets/text_images/nexton.svg';
-const Width = Dimensions.get('window').width;
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale;
-
-//This is ToSScreen
 
 export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
   const [fullconsent, setFullConsent] = useState(false);
@@ -112,9 +104,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
             </Pressable>
             <Text
               style={{
-                fontSize: FontScale * 14,
+                fontSize: Layout.FontScale * 14,
                 color: Colors.textFocusedPurple,
-                marginLeft: Width * 0.05,
+                marginLeft: Layout.Width * 0.05,
               }}
             >
               [필수]
@@ -134,7 +126,10 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           <Collapsible collapsed={collapsedEssential}>
             <ScrollView style={styles.collapsibleContainer}>
               <Text
-                style={{ color: Colors.textGray, fontSize: FontScale * 10 }}
+                style={{
+                  color: Colors.textGray,
+                  fontSize: Layout.FontScale * 10,
+                }}
               >
                 {`제1장 총칙
 
@@ -161,9 +156,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
             </Pressable>
             <Text
               style={{
-                fontSize: FontScale * 14,
+                fontSize: Layout.FontScale * 14,
                 color: Colors.textFocusedPurple,
-                marginLeft: Width * 0.05,
+                marginLeft: Layout.Width * 0.05,
               }}
             >
               [선택]
@@ -183,7 +178,10 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           <Collapsible collapsed={collapsedOptional1}>
             <ScrollView style={styles.collapsibleContainer}>
               <Text
-                style={{ color: Colors.textGray, fontSize: FontScale * 10 }}
+                style={{
+                  color: Colors.textGray,
+                  fontSize: Layout.FontScale * 10,
+                }}
               >
                 {`제1장 총칙
 
@@ -211,9 +209,9 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
             </Pressable>
             <Text
               style={{
-                fontSize: FontScale * 14,
+                fontSize: Layout.FontScale * 14,
                 color: Colors.textFocusedPurple,
-                marginLeft: Width * 0.05,
+                marginLeft: Layout.Width * 0.05,
               }}
             >
               [선택]
@@ -233,7 +231,10 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
           <Collapsible collapsed={collapsedOptional2}>
             <ScrollView style={styles.collapsibleContainer}>
               <Text
-                style={{ color: Colors.textGray, fontSize: FontScale * 10 }}
+                style={{
+                  color: Colors.textGray,
+                  fontSize: Layout.FontScale * 10,
+                }}
               >
                 {`제1장 총칙
 
@@ -283,42 +284,28 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: Width,
-    height: Height,
-    paddingVertical: Height * 0.05,
-    paddingHorizontal: Width * 0.05,
+    width: Layout.Width,
+    height: Layout.Height,
+    paddingTop: Layout.AndroidStatusBarHeight,
+    paddingBottom: Layout.AndroidBottomBarHeight,
+    paddingHorizontal: Layout.Width * 0.05,
     flexDirection: 'column',
     backgroundColor: Colors.backgroundBlack,
   },
   titleContainer: {
-    marginTop: Height * 0.07,
-    marginBottom: Height * 0.07,
-    marginLeft: Width * 0.02,
-  },
-  titleText: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 28,
-    fontWeight: 'bold',
-    marginVertical: Height * 0.05,
+    marginTop: Layout.Height * 0.07,
+    marginBottom: Layout.Height * 0.07,
+    marginLeft: Layout.Width * 0.02,
   },
   fourButtonContainer: {
-    width: Width * 0.9,
-    marginVertical: Height * 0.05,
+    width: Layout.Width * 0.9,
+    marginVertical: Layout.Height * 0.05,
     backgroundColor: Colors.backgroundBlack,
   },
-  fullconsentButton: {
-    width: Width * 0.9,
-    height: Height * 0.07,
-    paddingLeft: Width * 0.05,
-    marginVertical: Height * 0.015,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
   uncollapsibleContainer: {
-    width: Width * 0.9,
-    height: Height * 0.07,
-    paddingHorizontal: Width * 0.05,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.07,
+    paddingHorizontal: Layout.Width * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -326,34 +313,34 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   collapsibleContainer: {
-    width: Width * 0.9,
-    height: Height * 0.15,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.15,
     backgroundColor: Colors.backgroundNavy,
     borderRadius: 30,
-    paddingHorizontal: Width * 0.05,
-    marginBottom: Height * 0.02,
+    paddingHorizontal: Layout.Width * 0.05,
+    marginBottom: Layout.Height * 0.02,
   },
   fullToSContainer: {
-    width: Width * 0.9,
-    marginVertical: Height * 0.015,
+    width: Layout.Width * 0.9,
+    marginVertical: Layout.Height * 0.015,
     justifyContent: 'center',
     backgroundColor: Colors.backgroundNavy,
     borderRadius: 30,
   },
   ToSTitleText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 14,
+    fontSize: Layout.FontScale * 14,
     marginRight: 50,
   },
   nextButtonPosition: {
     position: 'absolute',
-    top: Height * 0.85,
-    right: Width * 0.07,
+    top: Layout.Height * 0.85,
+    right: Layout.Width * 0.07,
   },
   nextButton: {
-    width: Width * 0.17,
-    height: Width * 0.17,
-    borderRadius: Width * 0.17,
+    width: Layout.Width * 0.17,
+    height: Layout.Width * 0.17,
+    borderRadius: Layout.Width * 0.17,
     alignItems: 'center',
     justifyContent: 'center',
   },

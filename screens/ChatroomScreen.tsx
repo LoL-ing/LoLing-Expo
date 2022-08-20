@@ -1,23 +1,22 @@
-import { useNavigationState } from '@react-navigation/native';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Pressable,
-  Image,
   Text,
   View,
-  SafeAreaView,
   FlatList,
   Platform,
   KeyboardAvoidingView,
   NativeModules,
-  TouchableWithoutFeedback,
   Keyboard,
   StatusBar,
-  ScrollView,
+  TextInput,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
+import SingleMessage from '../components/SingleMessage';
+import { RootStackScreenProps } from '../types';
 
 import Arrow from '../assets/icons/svg/arrow-left.svg';
 import OverflowMenu from '../assets/icons/svg/overflow-menu.svg';
@@ -26,17 +25,8 @@ import ChatAcceptText from '../assets/text_images/chat-accept-text.svg';
 import AcceptChatButton from '../assets/icons/svg/accept-chat.svg';
 import DenyChatButton from '../assets/icons/svg/deny-chat.svg';
 
-import SingleMessage from '../components/SingleMessage';
-
-import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
-import Styles from '../constants/Styles';
-import { RootStackScreenProps } from '../types';
-
 const { StatusBarManager } = NativeModules;
 const data = {
-  //데이터 관리를 어떻게 하는지 모르겠어서 일단은 임시로
-  //실제로는 sender_id로 닉네임이랑 프로필 이미지 불러올 거 같음
   sender: '유렉가',
   profileImg: require('../assets/images/Irelia.png'),
   messages: [
@@ -114,9 +104,6 @@ const contents = ({ navigation }: any) => {
         </Pressable>
       </View>
       <FlatList
-        // style={{
-        //   paddingVertical: Layout.Height * 0.01,
-        // }}
         data={data.messages}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.chatContainer}
@@ -232,7 +219,6 @@ export default function chatroomScreen({
           <KeyboardAvoidingView
             style={{ flex: 1, backgroundColor: Colors.backgroundNavy }}
             behavior={'padding'}
-            //keyboardVerticalOffset={statusBarHeight}
           >
             {contents({ navigation })}
           </KeyboardAvoidingView>
@@ -275,7 +261,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundBlack,
   },
   chatContainer: {
-    //flex: 1,
     backgroundColor: Colors.backgroundNavy,
   },
   chatRoomTitle: {
@@ -296,8 +281,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.textUnfocusedPurple,
     paddingLeft: Layout.Width * 0.064,
     paddingRight: Layout.Width * 0.016,
-    // position: 'absolute',
-    // bottom: 0,
   },
   textInput: {
     height: Layout.Width * 0.11,

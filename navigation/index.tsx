@@ -1,10 +1,5 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import * as React from 'react';
-import { ColorSchemeName, View } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,
@@ -12,22 +7,20 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
-import useColorScheme from '../hooks/useColorScheme';
-import HomeScreen from '../screens/HomeScreen';
-import MatchingScreen from '../screens/MatchingScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import CommunityScreen from '../screens/CommunityScreen';
-import SocialScreen from '../screens/SocialScreen';
-
 import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+
+import HomeScreen from '../screens/HomeScreen';
+import MatchingScreen from '../screens/MatchingScreen';
+import NotFoundScreen from '../screens/NotFoundScreen';
+import CommunityScreen from '../screens/CommunityScreen';
+import SocialScreen from '../screens/SocialScreen';
 import MoreScreen from '../screens/MoreScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignInScreen from '../screens/SignInScreen';
@@ -66,16 +59,11 @@ export default function Navigation({
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName={'SignIn'}>
-      {/* <Stack.Navigator initialRouteName={'ChatRoom'}> */}
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
@@ -149,13 +137,10 @@ function RootNavigator() {
   );
 }
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
+  console.log();
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -164,6 +149,7 @@ function BottomTabNavigator() {
         tabBarStyle: {
           backgroundColor: Colors.backgroundBlack,
           borderTopWidth: 0,
+          height: Layout.AndroidBottomBarHeight,
         },
         tabBarHideOnKeyboard: true,
         headerShown: false,

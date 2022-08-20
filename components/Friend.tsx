@@ -1,13 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Good from '../assets/icons/svg/good.svg';
-import GoodOff from '../assets/icons/svg/good-off.svg';
-import Bad from '../assets/icons/svg/bad.svg';
-import BadOff from '../assets/icons/svg/bad-off.svg';
-import Report from '../assets/icons/svg/report.svg';
-import Chat from '../assets/icons/svg/chat.svg';
-import Profile from '../assets/icons/svg/profile.svg';
-import FriendEsc from '../assets/icons/svg/friend-esc.svg';
 import {
   Pressable,
   StyleSheet,
@@ -18,10 +10,18 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import ProfileCard from '../components/ProfileCard';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import ProfileCard from '../components/ProfileCard';
 
+import Good from '../assets/icons/svg/good.svg';
+import GoodOff from '../assets/icons/svg/good-off.svg';
+import Bad from '../assets/icons/svg/bad.svg';
+import BadOff from '../assets/icons/svg/bad-off.svg';
+import Report from '../assets/icons/svg/report.svg';
+import Chat from '../assets/icons/svg/chat.svg';
+import Profile from '../assets/icons/svg/profile.svg';
+import FriendEsc from '../assets/icons/svg/friend-esc.svg';
 import ProfileCardExit from '../assets/icons/svg/profilecard-exit.svg';
 import Top from '../assets/icons/svg/top-icon-selected.svg';
 import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
@@ -85,7 +85,7 @@ export default function Friend(props: {
             <View
               style={{
                 position: 'absolute',
-                top: Layout.Height * 0.08,
+                top: Layout.Height * 0.06,
                 left: Layout.Width * 0.8,
               }}
             >
@@ -105,7 +105,7 @@ export default function Friend(props: {
         <View
           style={{
             position: 'absolute',
-            top: Layout.Height * 0.12,
+            top: Layout.Height * 0.1,
             left: Layout.Width * 0.12,
           }}
         >
@@ -271,19 +271,18 @@ export default function Friend(props: {
 const styles = StyleSheet.create({
   modalBackground: {
     width: Layout.Width,
-    height: Layout.Height * 0.8,
-    paddingVertical: Layout.Height * 0.11,
+    height: Layout.Height,
+    paddingVertical: Layout.Height * 0.4,
     paddingHorizontal: Layout.Width * 0.05,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    backgroundColor: 'black',
-    opacity: 0.7,
+    backgroundColor: '#00000070',
   },
   modalContents: {
     width: Layout.Width,
     height: Layout.Height * 0.3,
     paddingTop: Layout.Height * 0.047,
-    top: Layout.Height * 0.7,
+    bottom: 0,
     position: 'absolute',
     alignItems: 'center',
     backgroundColor: Colors.backgroundNavy,

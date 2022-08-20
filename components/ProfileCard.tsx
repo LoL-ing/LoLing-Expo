@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   Text,
   View,
-  Dimensions,
   Pressable,
   Image,
   ImageSourcePropType,
@@ -17,10 +16,6 @@ import MatchingOPGG from '../assets/icons/svg/matching-opgg.svg';
 import MatchingPosition from '../assets/text_images/matching-position.svg';
 import MatchingChampion from '../assets/text_images/matching-champion.svg';
 import MatchingToUser from '../assets/text_images/matching-toUser.svg';
-
-const Width = Dimensions.get('window').width; //스크린 너비 초기화
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 export default function ProfileCard(props: {
   lolingId: string;
@@ -52,14 +47,16 @@ export default function ProfileCard(props: {
       <View style={styles.cardHeader}>
         <Text style={styles.cardHeaderlolingId}>{props.lolingId}</Text>
         <View style={styles.cardHeaderManner}>
-          <Text style={{ fontSize: FontScale * 10, color: Colors.textWhite }}>
+          <Text
+            style={{ fontSize: Layout.FontScale * 10, color: Colors.textWhite }}
+          >
             매너티어
           </Text>
           <Image
             source={props.mannerTierImg}
             style={{
-              width: Width * 0.07,
-              height: Width * 0.07,
+              width: Layout.Width * 0.07,
+              height: Layout.Width * 0.07,
             }}
           />
         </View>
@@ -76,10 +73,10 @@ export default function ProfileCard(props: {
 
         <View style={{ alignItems: 'center' }}>
           <View style={styles.positionChampionContainer}>
-            <MatchingPosition width={Width * 0.15} />
+            <MatchingPosition width={Layout.Width * 0.15} />
             <View
               style={{
-                width: Width * 0.4,
+                width: Layout.Width * 0.4,
                 flexDirection: 'row',
                 justifyContent: 'space-around',
               }}
@@ -114,7 +111,7 @@ export default function ProfileCard(props: {
 
         <View style={{ alignItems: 'center' }}>
           <View style={styles.positionChampionContainer}>
-            <MatchingChampion width={Width * 0.18} />
+            <MatchingChampion width={Layout.Width * 0.18} />
             <View
               style={{
                 flexDirection: 'row',
@@ -123,7 +120,7 @@ export default function ProfileCard(props: {
             >
               <View
                 style={{
-                  width: Width * 0.6,
+                  width: Layout.Width * 0.6,
                   flexDirection: 'row',
                   justifyContent: 'space-around',
                 }}
@@ -195,17 +192,17 @@ export default function ProfileCard(props: {
 
         <View
           style={{
-            height: Height * 0.08,
+            height: Layout.Height * 0.08,
             alignItems: 'center',
             justifyContent: 'space-around',
-            marginTop: Height * 0.03,
+            marginTop: Layout.Height * 0.03,
           }}
         >
-          <MatchingToUser width={Width * 0.25} />
+          <MatchingToUser width={Layout.Width * 0.25} />
           <View
             style={{
-              height: Height * 0.05,
-              width: Width * 0.6,
+              height: Layout.Height * 0.05,
+              width: Layout.Width * 0.6,
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}
@@ -223,8 +220,8 @@ export default function ProfileCard(props: {
             },
             {
               position: 'absolute',
-              top: Height * 0.7,
-              left: Width * 0.18,
+              top: Layout.Height * 0.7,
+              left: Layout.Width * 0.18,
               zIndex: 100,
             },
           ]}
@@ -238,9 +235,9 @@ export default function ProfileCard(props: {
             },
             {
               position: 'absolute',
-              top: Height * 0.7,
+              top: Layout.Height * 0.7,
               zIndex: 100,
-              right: Width * 0.18,
+              right: Layout.Width * 0.18,
             },
           ]}
         >
@@ -253,92 +250,92 @@ export default function ProfileCard(props: {
 
 const styles = StyleSheet.create({
   profileImg: {
-    width: Width * 0.2,
-    height: Width * 0.2,
+    width: Layout.Width * 0.2,
+    height: Layout.Width * 0.2,
     borderRadius: 40,
     borderWidth: 2,
     borderColor: Colors.backgroundPurple,
   },
   textWinRate: {
     color: Colors.backgroundPurple,
-    fontSize: FontScale * 9,
+    fontSize: Layout.FontScale * 9,
   },
   textWinLose: {
     color: Colors.textWhite,
-    fontSize: FontScale * 9,
+    fontSize: Layout.FontScale * 9,
   },
   smallImage: {
-    width: Width * 0.1,
-    height: Width * 0.1,
-    margin: Width * 0.02,
+    width: Layout.Width * 0.1,
+    height: Layout.Width * 0.1,
+    margin: Layout.Width * 0.02,
   },
   headerContainer: {
     flexDirection: 'row',
-    marginVertical: Height * 0.02,
-    marginHorizontal: Width * 0.05,
+    marginVertical: Layout.Height * 0.02,
+    marginHorizontal: Layout.Width * 0.05,
     justifyContent: 'space-between',
   },
   card: {
     backgroundColor: Colors.backgroundNavy,
-    height: Height * 0.75,
-    width: Width * 0.75,
-    borderRadius: Width * 0.05,
-    top: Platform.OS === 'ios' ? 0 : Height * 0.02,
+    height: Layout.Height * 0.75,
+    width: Layout.Width * 0.75,
+    borderRadius: Layout.Width * 0.05,
+    top: Platform.OS === 'ios' ? 0 : Layout.Height * 0.02,
     position: 'absolute',
   },
   cardHeader: {
     backgroundColor: Colors.backgroundPurple,
-    height: Height * 0.076,
-    width: Width * 0.75,
-    borderRadius: Width * 0.05,
+    height: Layout.Height * 0.076,
+    width: Layout.Width * 0.75,
+    borderRadius: Layout.Width * 0.05,
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 0 : Height * 0.02,
+    top: Platform.OS === 'ios' ? 0 : Layout.Height * 0.02,
     zIndex: 100,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: Width * 0.05,
+    paddingHorizontal: Layout.Width * 0.05,
     alignItems: 'center',
   },
   profileContainer: {
-    marginTop: Height * 0.12,
+    marginTop: Layout.Height * 0.12,
     flexDirection: 'column',
     alignItems: 'center',
   },
   quotText: {
     color: Colors.textFocusedPurple,
-    fontSize: FontScale * 20,
+    fontSize: Layout.FontScale * 20,
   },
   descText: {
-    width: Width * 0.55,
+    width: Layout.Width * 0.55,
     color: Colors.textWhite,
-    fontSize: FontScale * 10,
+    fontSize: Layout.FontScale * 10,
     textAlign: 'center',
   },
   positionChampionContainer: {
-    height: Height * 0.1,
+    height: Layout.Height * 0.1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: Height * 0.03,
+    marginTop: Layout.Height * 0.03,
   },
   profileRankText: {
     color: Colors.backgroundPurple,
     fontWeight: 'bold',
-    fontSize: FontScale * 14,
-    marginVertical: Height * 0.005,
+    fontSize: Layout.FontScale * 14,
+    marginVertical: Layout.Height * 0.005,
   },
   profileNickname: {
     color: Colors.textWhite,
     fontWeight: 'bold',
-    fontSize: FontScale * 16,
-    marginVertical: Height * 0.005,
+    fontSize: Layout.FontScale * 16,
+    marginVertical: Layout.Height * 0.005,
   },
   profileWinRate: {
     color: Colors.textGray,
-    fontSize: FontScale * 12,
-    marginVertical: Height * 0.005,
+    fontSize: Layout.FontScale * 12,
+    marginVertical: Layout.Height * 0.005,
   },
   cardHeaderlolingId: {
-    fontSize: FontScale * 18,
+    fontSize: Layout.FontScale * 18,
     color: Colors.textWhite,
     fontWeight: 'bold',
   },
@@ -346,6 +343,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: Width * 0.2,
+    width: Layout.Width * 0.2,
   },
 });

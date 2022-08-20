@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
-import Chevron_Right from '../assets/icons/svg/fi_chevron-right.svg';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+
+import Chevron_Right from '../assets/icons/svg/fi_chevron-right.svg';
+
 export default function Menu(props: {
   navigate: (arg0: any) => void;
   destination: any;

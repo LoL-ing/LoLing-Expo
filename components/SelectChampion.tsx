@@ -1,13 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import {
-  Pressable,
-  View,
-  Text,
-  ImageSourcePropType,
-  StyleSheet,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
