@@ -1,16 +1,14 @@
 import * as React from 'react';
+import { useRef } from 'react';
 import {
-  Text,
   View,
-  SafeAreaView,
-  Dimensions,
   Pressable,
-  Image,
   StyleSheet,
   Animated,
   Easing,
+  StatusBar,
 } from 'react-native';
-import { useRef, useEffect } from 'react';
+import Carousel from 'react-native-snap-carousel';
 
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -20,13 +18,6 @@ import Arrow from '../assets/icons/svg/arrow-left.svg';
 import MatchingLeft from '../assets/icons/svg/matching-left.svg';
 import MatchingRight from '../assets/icons/svg/matching-right.svg';
 import MatchingHelp from '../assets/icons/svg/matching-help.svg';
-import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
-
-import Carousel from 'react-native-snap-carousel';
-
-const Width = Dimensions.get('window').width; //스크린 너비 초기화
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale + 0.3;
 
 function withMyHook(Component: any) {
   return function WrappedComponent(props) {
@@ -78,7 +69,6 @@ export default class App extends React.Component {
     this._fadeIn();
   }
   componentDidUpdate() {
-    //-> 아마 매칭할때마다 애니메이션을 넣게 될 듯 ..
     this._fadeIn();
   }
 
@@ -99,14 +89,14 @@ export default class App extends React.Component {
           width: Layout.Width,
           height: Layout.Height,
           backgroundColor: Colors.backgroundBlack,
-          paddingTop: Height * 0.04,
+          paddingTop: StatusBar.currentHeight,
         }}
       >
         <Animated.View
           style={[styles.headerContainer, { opacity: this.state.firstAnim }]}
         >
-          <Arrow width={Width * 0.075} />
-          <MatchingHelp width={Width * 0.075} />
+          <Arrow width={Layout.Width * 0.075} />
+          <MatchingHelp width={Layout.Width * 0.075} />
         </Animated.View>
         <Animated.View
           style={{
@@ -126,12 +116,11 @@ export default class App extends React.Component {
         >
           <Carousel
             layout={'default'}
-            //ref={ref => (this.carousel = ref)}
             ref={c => {
               this._carousel = c;
             }}
             data={this.state.carouselItems}
-            sliderWidth={Width}
+            sliderWidth={Layout.Width}
             itemWidth={300}
             renderItem={this._renderItem}
             onSnapToItem={index => this.setState({ activeIndex: index })}
@@ -144,9 +133,9 @@ export default class App extends React.Component {
             },
             {
               position: 'absolute',
-              top: Height * 0.45,
+              top: Layout.Height * 0.45,
               zIndex: 100,
-              left: Width * 0.05,
+              left: Layout.Width * 0.05,
             },
           ]}
           onPress={() => {
@@ -162,9 +151,9 @@ export default class App extends React.Component {
             },
             {
               position: 'absolute',
-              top: Height * 0.45,
+              top: Layout.Height * 0.45,
               zIndex: 100,
-              right: Width * 0.04,
+              right: Layout.Width * 0.04,
             },
           ]}
           onPress={() => {
@@ -179,30 +168,10 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  profileImg: {
-    width: Width * 0.2,
-    height: Width * 0.2,
-    borderRadius: 40,
-    borderWidth: 2,
-    borderColor: Colors.backgroundPurple,
-  },
-  textWinRate: {
-    color: Colors.backgroundPurple,
-    fontSize: FontScale * 9,
-  },
-  textWinLose: {
-    color: Colors.textWhite,
-    fontSize: FontScale * 9,
-  },
-  smallImage: {
-    width: Width * 0.1,
-    height: Width * 0.1,
-    margin: Width * 0.02,
-  },
   headerContainer: {
     flexDirection: 'row',
-    marginVertical: Height * 0.01,
-    marginHorizontal: Width * 0.05,
+    marginVertical: Layout.Height * 0.01,
+    marginHorizontal: Layout.Width * 0.05,
     justifyContent: 'space-between',
   },
 });

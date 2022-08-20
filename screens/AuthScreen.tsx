@@ -1,20 +1,11 @@
 import * as React from 'react';
 import { useState, useRef } from 'react';
-import {
-  StyleSheet,
-  Pressable,
-  Dimensions,
-  TextInput,
-  Text,
-  View,
-} from 'react-native';
+import { StyleSheet, Pressable, TextInput, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import { RootStackScreenProps } from '../types';
-import { ScrollView } from 'react-native-gesture-handler';
-const Width = Dimensions.get('window').width;
-const Height = Dimensions.get('window').height;
-const FontScale = Dimensions.get('window').fontScale;
 
 export default function AuthScreen({
   navigation,
@@ -38,7 +29,7 @@ export default function AuthScreen({
     <ScrollView>
       <View style={styles.fullscreen}>
         <Text style={styles.titleText}>본인 인증</Text>
-        {/* 이름 입력하는 칸 */}
+
         <View style={styles.subContainer}>
           <Text style={styles.subtitleText}>이름</Text>
           <TextInput
@@ -60,14 +51,17 @@ export default function AuthScreen({
             }}
             onChangeText={text => setName(text)}
             value={name}
-            // autoCompleteType="username"
             onSubmitEditing={() => {
               firstRRNField.current?.focus();
             }}
           />
         </View>
-        {/* 주민등록번호 입력하는 칸 */}
-        <View style={[styles.subContainer, { marginVertical: Height * 0.05 }]}>
+        <View
+          style={[
+            styles.subContainer,
+            { marginVertical: Layout.Height * 0.05 },
+          ]}
+        >
           <Text style={styles.subtitleText}>주민등록번호</Text>
           <View
             style={{
@@ -126,11 +120,10 @@ export default function AuthScreen({
             />
           </View>
         </View>
-        {/* 통신사 & 전화번호 입력 칸  */}
         <View
           style={{
-            width: Width * 0.9,
-            height: Height * 0.05,
+            width: Layout.Width * 0.9,
+            height: Layout.Height * 0.05,
             flexDirection: 'row',
             alignItems: 'center',
           }}
@@ -177,12 +170,11 @@ export default function AuthScreen({
             </Pressable>
           </View>
         </View>
-        {/* 인증번호 입력칸  */}
         <View
           style={[
             {
-              left: Width * 0.2,
-              marginVertical: Height * 0.03,
+              left: Layout.Width * 0.2,
+              marginVertical: Layout.Height * 0.03,
               opacity: authRequested ? 1 : 0,
             },
             styles.textInputAndButtonContainer,
@@ -220,7 +212,6 @@ export default function AuthScreen({
             <Text style={styles.authRequestText}>인증 확인</Text>
           </Pressable>
         </View>
-        {/* 인증 완료 문구는 Text, 인증 번호 발송 실패시 Pressable을 눌러 재전송 */}
         {authRequested ? (
           authChecked ? (
             <Text style={styles.alertText}>인증이 완료되었습니다!</Text>
@@ -234,7 +225,6 @@ export default function AuthScreen({
             </Pressable>
           )
         ) : undefined}
-        {/* 다음버튼 */}
         <Pressable
           style={({ pressed }) => [
             styles.nextButtonPosition,
@@ -265,40 +255,40 @@ export default function AuthScreen({
 
 const styles = StyleSheet.create({
   fullscreen: {
-    width: Width,
-    height: Height,
-    paddingVertical: Height * 0.05,
-    paddingHorizontal: Width * 0.05,
+    width: Layout.Width,
+    height: Layout.Height,
+    paddingVertical: Layout.Height * 0.05,
+    paddingHorizontal: Layout.Width * 0.05,
     flexDirection: 'column',
     backgroundColor: Colors.backgroundBlack,
   },
   titleText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 28,
+    fontSize: Layout.FontScale * 28,
     fontWeight: 'bold',
-    marginVertical: Height * 0.1,
+    marginVertical: Layout.Height * 0.1,
   },
   subContainer: {
-    width: Width * 0.9,
-    height: Height * 0.1,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.1,
   },
   subtitleText: {
     color: Colors.textWhite,
-    fontSize: FontScale * 15,
+    fontSize: Layout.FontScale * 15,
     fontWeight: 'normal',
   },
   fullTextInput: {
-    width: Width * 0.9,
-    height: Height * 0.06,
+    width: Layout.Width * 0.9,
+    height: Layout.Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 15,
+    fontSize: Layout.FontScale * 15,
     fontWeight: 'normal',
   },
   halfTextInput: {
-    width: Width * 0.4,
-    height: Height * 0.06,
+    width: Layout.Width * 0.4,
+    height: Layout.Height * 0.06,
     color: Colors.textWhite,
-    fontSize: FontScale * 15,
+    fontSize: Layout.FontScale * 15,
     fontWeight: 'normal',
   },
   focusedTextInput: {
@@ -310,8 +300,8 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.textUnfocusedPurple,
   },
   pickerholderContainer: {
-    width: Width * 0.2,
-    height: Height * 0.06,
+    width: Layout.Width * 0.2,
+    height: Layout.Height * 0.06,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -320,42 +310,42 @@ const styles = StyleSheet.create({
   },
   pickerholderText: {
     color: '#73737D',
-    fontSize: FontScale * 15,
+    fontSize: Layout.FontScale * 15,
     fontWeight: 'normal',
   },
   textInputAndButtonContainer: {
-    width: Width * 0.7,
-    height: Height * 0.05,
+    width: Layout.Width * 0.7,
+    height: Layout.Height * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   authRequestButton: {
-    width: Width * 0.2,
-    height: Height * 0.05,
+    width: Layout.Width * 0.2,
+    height: Layout.Height * 0.05,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 100,
   },
   authRequestText: {
     color: 'white',
-    fontSize: FontScale * 12,
+    fontSize: Layout.FontScale * 12,
   },
   alertText: {
-    left: Width * 0.23,
+    left: Layout.Width * 0.23,
     color: Colors.textFocusedPurple,
-    fontSize: FontScale * 10,
+    fontSize: Layout.FontScale * 10,
   },
   nextButtonPosition: {
     position: 'absolute',
-    top: Height * 0.85,
-    right: Width * 0.07,
+    top: Layout.Height * 0.85,
+    right: Layout.Width * 0.07,
   },
   nextButton: {
-    width: Width * 0.17,
-    height: Width * 0.17,
+    width: Layout.Width * 0.17,
+    height: Layout.Width * 0.17,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Width * 0.17,
+    borderRadius: Layout.Width * 0.17,
   },
 });

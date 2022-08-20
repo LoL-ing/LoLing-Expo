@@ -1,8 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-
-import Delete from '../assets/icons/svg/delete-icon.svg';
-import CancelDelete from '../assets/icons/svg/delete-cancel-icon.svg';
 import {
   Pressable,
   StyleSheet,
@@ -14,6 +11,8 @@ import {
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
+import Delete from '../assets/icons/svg/delete-icon.svg';
+import CancelDelete from '../assets/icons/svg/delete-cancel-icon.svg';
 import Top from '../assets/icons/svg/top-icon-selected.svg';
 import Bottom from '../assets/icons/svg/bottom-icon-selected.svg';
 import Mid from '../assets/icons/svg/middle-icon-selected.svg';
@@ -74,7 +73,7 @@ export default function DeleteFriend(props: {
           </View>
         </View>
       </View>
-      {selected? <CancelDelete/> : <Delete/>}
+      {selected ? <CancelDelete /> : <Delete />}
     </Pressable>
   );
 }

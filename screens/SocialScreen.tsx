@@ -1,24 +1,26 @@
 import * as React from 'react';
+import { useRef, useState } from 'react';
 import {
   StyleSheet,
   ScrollView,
   Text,
   View,
   Pressable,
-  Modal,
+  StatusBar,
+  FlatList,
+  TextInput,
 } from 'react-native';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
+import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import Friend from '../components/Friend';
 import ChattingRoom from '../components/ChattingRoom';
 import getChatRooms from '../data/ChatRooms';
 import getFriends from '../data/Friends';
-import { useRef, useState } from 'react';
+import { RootStackScreenProps } from '../types';
 
 import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
 import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
-import Searching from '../assets/icons/svg/search-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
 import ProfileCollection from '../assets/icons/svg/profile-collection.svg';
 import FriendRequest from '../assets/icons/svg/friend-request.svg';
@@ -28,9 +30,6 @@ import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
-
-import { Shadow } from 'react-native-shadow-2';
-import { RootStackScreenProps } from '../types';
 
 const originFriends = getFriends();
 const chattingRooms = getChatRooms();
@@ -351,15 +350,11 @@ const styles = StyleSheet.create({
     marginBottom: Layout.Height * 0.022,
     justifyContent: 'flex-start',
   },
-  flatListTitleText: {
-    color: Colors.textWhite,
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
   topContainer: {
     width: Layout.Width,
     height: Layout.Height,
-    paddingVertical: Layout.Height * 0.05,
+    paddingTop: StatusBar.currentHeight,
+    paddingBottom: Layout.AndroidBottomBarHeight * 2,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.backgroundBlack,

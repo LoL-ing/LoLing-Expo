@@ -9,7 +9,7 @@ export function api_getFriends() {
 }
 
 export function api_getProfiles() {
-  return baseAPI.get('/profiles/profiles', { lol_name: '꼽죽' });
+  return baseAPI.get('/profiles/profiles', { lol_name: '꼽 죽' });
 }
 
 export function api_getLoLAccount() {
@@ -29,8 +29,6 @@ export function api_getChampions() {
 }
 
 export function api_getAccessToken(params) {
-  console.log(API_URL);
-  console.log(baseAPI, params);
   return baseAPI.get('/users/sign_in', {
     email: params.email,
     password: params.password,

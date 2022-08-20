@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
     backgroundColor: Colors.backgroundBlack,
   },
   profileContainer: {
@@ -50,9 +49,7 @@ const styles = StyleSheet.create({
     height: '30%',
     marginVertical: 5,
     padding: 10,
-
     flexDirection: 'row',
-
     backgroundColor: Colors.backgroundPurple,
     borderRadius: 15,
   },
@@ -60,7 +57,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     margin: 10,
-
     borderRadius: 50,
   },
   usernameText: {

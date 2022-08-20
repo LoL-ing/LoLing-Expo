@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useRef, createRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,15 +13,13 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-import { useState, useRef, useEffect, createRef } from 'react';
-
+import { useRecoilValue } from 'recoil';
+import { getChampionsSelector } from '../atoms/selector';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import Styles from '../constants/Styles';
-
-import { RootStackScreenProps } from '../types';
-import getSelectChampions from '../data/SelectChampions';
 import SelectChampion from '../components/SelectChampion';
+import { RootStackScreenProps } from '../types';
 
 import Welcome from '../assets/text_images/welcome.svg';
 import PlayWithLine from '../assets/text_images/playwithLine.svg';
@@ -57,10 +56,6 @@ import QuestionMark from '../assets/text_images/questionMark.svg';
 import Save from '../assets/text_images/save.svg';
 import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
-
-import { useRecoilValue } from 'recoil';
-import { getChampionsSelector } from '../atoms/selector';
-
 
 export default function SelectMyLineChampScreen({
   navigation,
@@ -174,7 +169,6 @@ export default function SelectMyLineChampScreen({
         )[0].champ_img_url
       : undefined;
 
-  /* animation */
   const ToMatchingAnim = useRef(new Animated.Value(0)).current;
 
   const changeScreenAnim = () => {
@@ -187,17 +181,12 @@ export default function SelectMyLineChampScreen({
           useNativeDriver: false,
           delay: 600,
         }),
-        // Animated.decay(ToMatchingAnim, {
-        //   velocity: 0.2,
-        //   useNativeDriver: false,
-        // }),
       ]),
     ]).start();
     setTimeout(() => {
       navigation.navigate('Root', { screen: 'Matching' });
     }, 1800);
   };
-  /* end of animation */
 
   const chattingRef = createRef();
 
@@ -207,433 +196,424 @@ export default function SelectMyLineChampScreen({
     if (nickname === '') {
       return champList;
     } else {
-      return championList.filter((champ: any )=>champ.champ_name.includes(nickname));
+      return championList.filter((champ: any) =>
+        champ.champ_name.includes(nickname),
+      );
     }
   }
 
   return (
-    //<View style={styles.fullScreenView}>
-    <SafeAreaView
-      style={[
-        Styles.fullscreen,
-        {
-          flexDirection: 'column',
-          alignItems: 'center',
-          flexGrow: 1,
-        },
-      ]}
-    >
-      <Animated.View
-        style={{
-          opacity: ToMatchingAnim.interpolate({
-            inputRange: [0, 1],
-            outputRange: [1, 0],
-          }),
-          flexGrow: 1,
-        }}
+    <>
+      <SafeAreaView
+        style={[
+          Styles.fullscreen,
+          {
+            alignItems: 'center',
+          },
+        ]}
       >
-        <View style={[styles.titleContainer, { alignItems: 'center' }]}>
-          <Welcome width={Layout.Width * 0.35} />
-        </View>
-        <View style={styles.selectLoLAccountContainer}>
-          <Text style={styles.selectLoLAccountText}>endendtndus@naver.com</Text>
-        </View>
-        <View
+        <Animated.View
           style={{
-            width: Layout.Width * 0.87,
-            justifyContent: 'space-between',
-            //marginVertical: Layout.Height * 0.06,
-            marginVertical: Layout.Height * 0.03,
+            opacity: ToMatchingAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0],
+            }),
+            flexGrow: 1,
           }}
         >
-          <View
-            style={{
-              alignItems: 'center',
-              marginBottom: Layout.Height * 0.015,
-            }}
-          >
-            <PlayWithLine width={Layout.Width * 0.7} />
+          <View style={[styles.titleContainer, { alignItems: 'center' }]}>
+            <Welcome width={Layout.Width * 0.35} />
+          </View>
+          <View style={styles.selectLoLAccountContainer}>
+            <Text style={styles.selectLoLAccountText}>
+              endendtndus@naver.com
+            </Text>
           </View>
           <View
             style={{
               width: Layout.Width * 0.87,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
+              justifyContent: 'space-between',
+              marginVertical: Layout.Height * 0.03,
             }}
           >
-            <View style={styles.selectLineBotton}>
-              {firstLine == 'top' ? (
-                <FirstPurpleText />
-              ) : secondLine == 'top' ? (
-                <SecondPurpleText />
-              ) : (
-                <FirstPurpleText opacity={0} />
-              )}
-
-              <Pressable
-                onPress={() => {
-                  changeIsTopSelected();
-                }}
-              >
-                {firstLine == 'top' || secondLine == 'top' ? (
-                  <TopSelected />
-                ) : (
-                  <TopUnselected />
-                )}
-              </Pressable>
-
-              {firstLine == 'top' ? (
-                <TopPurpleText />
-              ) : secondLine == 'top' ? (
-                <TopPurpleText />
-              ) : (
-                <TopPurpleText opacity={0} />
-              )}
+            <View
+              style={{
+                alignItems: 'center',
+                marginBottom: Layout.Height * 0.015,
+              }}
+            >
+              <PlayWithLine width={Layout.Width * 0.7} />
             </View>
-            <View style={styles.selectLineBotton}>
-              {firstLine == 'jungle' ? (
-                <FirstPurpleText />
-              ) : secondLine == 'jungle' ? (
-                <SecondPurpleText />
-              ) : (
-                <FirstPurpleText opacity={0} />
-              )}
-              <Pressable
-                onPress={() => {
-                  changeIsJungleSelected();
-                }}
-              >
-                {firstLine == 'jungle' || secondLine == 'jungle' ? (
-                  <JungleSelected />
+            <View
+              style={{
+                width: Layout.Width * 0.87,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}
+            >
+              <View style={styles.selectLineBotton}>
+                {firstLine == 'top' ? (
+                  <FirstPurpleText />
+                ) : secondLine == 'top' ? (
+                  <SecondPurpleText />
                 ) : (
-                  <JungleUnselected />
+                  <FirstPurpleText opacity={0} />
                 )}
-              </Pressable>
-              {firstLine == 'jungle' ? (
-                <JunglePurpleText />
-              ) : secondLine == 'jungle' ? (
-                <JunglePurpleText />
-              ) : (
-                <JunglePurpleText opacity={0} />
-              )}
-            </View>
-            <View style={styles.selectLineBotton}>
-              {firstLine == 'middle' ? (
-                <FirstPurpleText />
-              ) : secondLine == 'middle' ? (
-                <SecondPurpleText />
-              ) : (
-                <FirstPurpleText opacity={0} />
-              )}
-              <Pressable
-                onPress={() => {
-                  changeIsMiddleSelected();
-                }}
-              >
-                {firstLine == 'middle' || secondLine == 'middle' ? (
-                  <MiddleSelected />
-                ) : (
-                  <MiddleUnselected />
-                )}
-              </Pressable>
-              {firstLine == 'middle' ? (
-                <MiddlePurpleText />
-              ) : secondLine == 'middle' ? (
-                <MiddlePurpleText />
-              ) : (
-                <MiddlePurpleText opacity={0} />
-              )}
-            </View>
 
-            <View style={styles.selectLineBotton}>
-              {firstLine == 'bottom' ? (
-                <FirstPurpleText />
-              ) : secondLine == 'bottom' ? (
-                <SecondPurpleText />
-              ) : (
-                <FirstPurpleText opacity={0} />
-              )}
-              <Pressable
-                onPress={() => {
-                  changeIsBottomSelected();
-                }}
-              >
-                {firstLine == 'bottom' || secondLine == 'bottom' ? (
-                  <BottomSelected />
-                ) : (
-                  <BottomUnselected />
-                )}
-              </Pressable>
-              {firstLine == 'bottom' ? (
-                <BottomPurpleText />
-              ) : secondLine == 'bottom' ? (
-                <BottomPurpleText />
-              ) : (
-                <BottomPurpleText opacity={0} />
-              )}
-            </View>
+                <Pressable
+                  onPress={() => {
+                    changeIsTopSelected();
+                  }}
+                >
+                  {firstLine == 'top' || secondLine == 'top' ? (
+                    <TopSelected />
+                  ) : (
+                    <TopUnselected />
+                  )}
+                </Pressable>
 
-            <View style={styles.selectLineBotton}>
-              {firstLine == 'support' ? (
-                <FirstPurpleText />
-              ) : secondLine == 'support' ? (
-                <SecondPurpleText />
-              ) : (
-                <FirstPurpleText opacity={0} />
-              )}
-              <Pressable
-                onPress={() => {
-                  changeIsSupportSelected();
-                }}
-              >
-                {firstLine == 'support' || secondLine == 'support' ? (
-                  <SupportSelected />
+                {firstLine == 'top' ? (
+                  <TopPurpleText />
+                ) : secondLine == 'top' ? (
+                  <TopPurpleText />
                 ) : (
-                  <SupportUnselected />
+                  <TopPurpleText opacity={0} />
                 )}
-              </Pressable>
-              {firstLine == 'support' ? (
-                <SupportPurpleText />
-              ) : secondLine == 'support' ? (
-                <SupportPurpleText />
-              ) : (
-                <SupportPurpleText opacity={0} />
-              )}
+              </View>
+              <View style={styles.selectLineBotton}>
+                {firstLine == 'jungle' ? (
+                  <FirstPurpleText />
+                ) : secondLine == 'jungle' ? (
+                  <SecondPurpleText />
+                ) : (
+                  <FirstPurpleText opacity={0} />
+                )}
+                <Pressable
+                  onPress={() => {
+                    changeIsJungleSelected();
+                  }}
+                >
+                  {firstLine == 'jungle' || secondLine == 'jungle' ? (
+                    <JungleSelected />
+                  ) : (
+                    <JungleUnselected />
+                  )}
+                </Pressable>
+                {firstLine == 'jungle' ? (
+                  <JunglePurpleText />
+                ) : secondLine == 'jungle' ? (
+                  <JunglePurpleText />
+                ) : (
+                  <JunglePurpleText opacity={0} />
+                )}
+              </View>
+              <View style={styles.selectLineBotton}>
+                {firstLine == 'middle' ? (
+                  <FirstPurpleText />
+                ) : secondLine == 'middle' ? (
+                  <SecondPurpleText />
+                ) : (
+                  <FirstPurpleText opacity={0} />
+                )}
+                <Pressable
+                  onPress={() => {
+                    changeIsMiddleSelected();
+                  }}
+                >
+                  {firstLine == 'middle' || secondLine == 'middle' ? (
+                    <MiddleSelected />
+                  ) : (
+                    <MiddleUnselected />
+                  )}
+                </Pressable>
+                {firstLine == 'middle' ? (
+                  <MiddlePurpleText />
+                ) : secondLine == 'middle' ? (
+                  <MiddlePurpleText />
+                ) : (
+                  <MiddlePurpleText opacity={0} />
+                )}
+              </View>
+
+              <View style={styles.selectLineBotton}>
+                {firstLine == 'bottom' ? (
+                  <FirstPurpleText />
+                ) : secondLine == 'bottom' ? (
+                  <SecondPurpleText />
+                ) : (
+                  <FirstPurpleText opacity={0} />
+                )}
+                <Pressable
+                  onPress={() => {
+                    changeIsBottomSelected();
+                  }}
+                >
+                  {firstLine == 'bottom' || secondLine == 'bottom' ? (
+                    <BottomSelected />
+                  ) : (
+                    <BottomUnselected />
+                  )}
+                </Pressable>
+                {firstLine == 'bottom' ? (
+                  <BottomPurpleText />
+                ) : secondLine == 'bottom' ? (
+                  <BottomPurpleText />
+                ) : (
+                  <BottomPurpleText opacity={0} />
+                )}
+              </View>
+
+              <View style={styles.selectLineBotton}>
+                {firstLine == 'support' ? (
+                  <FirstPurpleText />
+                ) : secondLine == 'support' ? (
+                  <SecondPurpleText />
+                ) : (
+                  <FirstPurpleText opacity={0} />
+                )}
+                <Pressable
+                  onPress={() => {
+                    changeIsSupportSelected();
+                  }}
+                >
+                  {firstLine == 'support' || secondLine == 'support' ? (
+                    <SupportSelected />
+                  ) : (
+                    <SupportUnselected />
+                  )}
+                </Pressable>
+                {firstLine == 'support' ? (
+                  <SupportPurpleText />
+                ) : secondLine == 'support' ? (
+                  <SupportPurpleText />
+                ) : (
+                  <SupportPurpleText opacity={0} />
+                )}
+              </View>
             </View>
           </View>
-        </View>
 
-        <View
-          style={{
-            height: Layout.Height * 0.22,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <PlayWithChamp width={Layout.Width * 0.7} />
           <View
             style={{
-              width: Layout.Width * 0.65,
-              flexDirection: 'row',
+              height: Layout.Height * 0.22,
+              alignItems: 'center',
               justifyContent: 'space-between',
             }}
           >
-            <View style={styles.selectChampButton}>
-              {firstChamp !== '' ? (
-                <FirstPurpleText />
-              ) : (
-                <FirstPurpleText opacity={0} />
-              )}
-              <Pressable
-                style={[
-                  styles.selectChampBox,
-                  firstChamp !== ''
-                    ? {
-                        borderWidth: 2.5,
-                        borderColor: Colors.backgroundPurple,
-                      }
-                    : undefined,
-                ]}
-                onPress={() => {
-                  setModalVisible(true);
-                  setSelectFirstChamp(true);
-                  setSelectSecondChamp(false);
-                  setSelectThirdChamp(false);
-                }}
-              >
-                {firstChamp === '' ? (
-                  <First width={Layout.Width * 0.17} />
+            <PlayWithChamp width={Layout.Width * 0.7} />
+            <View
+              style={{
+                width: Layout.Width * 0.65,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <View style={styles.selectChampButton}>
+                {firstChamp !== '' ? (
+                  <FirstPurpleText />
                 ) : (
-                  <Image
-                    source={{ uri: firstChampImgSource }}
-                    style={{
-                      width: Layout.Width * 0.17,
-                      height: Layout.Width * 0.17,
-                    }}
-                  />
+                  <FirstPurpleText opacity={0} />
                 )}
-              </Pressable>
-              <Text
-                style={{
-                  color: Colors.backgroundPurple,
-                  fontSize: Layout.FontScale * 8,
-                  fontWeight: 'bold',
-                }}
-              >
-                {firstChamp}
-              </Text>
-            </View>
-            <View style={styles.selectChampButton}>
-              {secondChamp !== '' ? (
-                <SecondPurpleText />
-              ) : (
-                <SecondPurpleText opacity={0} />
-              )}
-              <Pressable
-                style={[
-                  styles.selectChampBox,
-                  secondChamp !== ''
-                    ? {
-                        borderWidth: 2.5,
-                        borderColor: Colors.backgroundPurple,
-                      }
-                    : undefined,
-                ]}
-                onPress={() => {
-                  setModalVisible(true);
-                  setSelectSecondChamp(true);
-                  setSelectFirstChamp(false);
-                  setSelectThirdChamp(false);
-                }}
-              >
-                {secondChamp === '' ? (
-                  <Second width={Layout.Width * 0.17} />
+                <Pressable
+                  style={[
+                    styles.selectChampBox,
+                    firstChamp !== ''
+                      ? {
+                          borderWidth: 2.5,
+                          borderColor: Colors.backgroundPurple,
+                        }
+                      : undefined,
+                  ]}
+                  onPress={() => {
+                    setModalVisible(true);
+                    setSelectFirstChamp(true);
+                    setSelectSecondChamp(false);
+                    setSelectThirdChamp(false);
+                  }}
+                >
+                  {firstChamp === '' ? (
+                    <First width={Layout.Width * 0.17} />
+                  ) : (
+                    <Image
+                      source={{ uri: firstChampImgSource }}
+                      style={{
+                        width: Layout.Width * 0.17,
+                        height: Layout.Width * 0.17,
+                      }}
+                    />
+                  )}
+                </Pressable>
+                <Text
+                  style={{
+                    color: Colors.backgroundPurple,
+                    fontSize: Layout.FontScale * 8,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {firstChamp}
+                </Text>
+              </View>
+              <View style={styles.selectChampButton}>
+                {secondChamp !== '' ? (
+                  <SecondPurpleText />
                 ) : (
-                  <Image
-                    source={{ uri: secondChampImgSource }}
-                    style={{
-                      width: Layout.Width * 0.17,
-                      height: Layout.Width * 0.17,
-                    }}
-                  />
+                  <SecondPurpleText opacity={0} />
                 )}
-              </Pressable>
-              <Text
-                style={{
-                  color: Colors.backgroundPurple,
-                  fontSize: Layout.FontScale * 8,
-                  fontWeight: 'bold',
-                }}
-              >
-                {secondChamp}
-              </Text>
-            </View>
-            <View style={styles.selectChampButton}>
-              {thirdChamp !== '' ? (
-                <ThirdPurpleText />
-              ) : (
-                <ThirdPurpleText opacity={0} />
-              )}
-              <Pressable
-                style={[
-                  styles.selectChampBox,
-                  thirdChamp !== ''
-                    ? {
-                        borderWidth: 2.5,
-                        borderColor: Colors.backgroundPurple,
-                      }
-                    : undefined,
-                ]}
-                onPress={() => {
-                  setModalVisible(true);
-                  setSelectThirdChamp(true);
-                  setSelectFirstChamp(false);
-                  setSelectSecondChamp(false);
-                }}
-              >
-                {thirdChamp === '' ? (
-                  <Third width={Layout.Width * 0.17} />
+                <Pressable
+                  style={[
+                    styles.selectChampBox,
+                    secondChamp !== ''
+                      ? {
+                          borderWidth: 2.5,
+                          borderColor: Colors.backgroundPurple,
+                        }
+                      : undefined,
+                  ]}
+                  onPress={() => {
+                    setModalVisible(true);
+                    setSelectSecondChamp(true);
+                    setSelectFirstChamp(false);
+                    setSelectThirdChamp(false);
+                  }}
+                >
+                  {secondChamp === '' ? (
+                    <Second width={Layout.Width * 0.17} />
+                  ) : (
+                    <Image
+                      source={{ uri: secondChampImgSource }}
+                      style={{
+                        width: Layout.Width * 0.17,
+                        height: Layout.Width * 0.17,
+                      }}
+                    />
+                  )}
+                </Pressable>
+                <Text
+                  style={{
+                    color: Colors.backgroundPurple,
+                    fontSize: Layout.FontScale * 8,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {secondChamp}
+                </Text>
+              </View>
+              <View style={styles.selectChampButton}>
+                {thirdChamp !== '' ? (
+                  <ThirdPurpleText />
                 ) : (
-                  <Image
-                    source={{ uri: thirdChampImgSource }}
-                    style={{
-                      width: Layout.Width * 0.17,
-                      height: Layout.Width * 0.17,
-                    }}
-                  />
+                  <ThirdPurpleText opacity={0} />
                 )}
-              </Pressable>
-              <Text
-                style={{
-                  color: Colors.backgroundPurple,
-                  fontSize: Layout.FontScale * 8,
-                  fontWeight: 'bold',
-                }}
-              >
-                {thirdChamp}
-              </Text>
+                <Pressable
+                  style={[
+                    styles.selectChampBox,
+                    thirdChamp !== ''
+                      ? {
+                          borderWidth: 2.5,
+                          borderColor: Colors.backgroundPurple,
+                        }
+                      : undefined,
+                  ]}
+                  onPress={() => {
+                    setModalVisible(true);
+                    setSelectThirdChamp(true);
+                    setSelectFirstChamp(false);
+                    setSelectSecondChamp(false);
+                  }}
+                >
+                  {thirdChamp === '' ? (
+                    <Third width={Layout.Width * 0.17} />
+                  ) : (
+                    <Image
+                      source={{ uri: thirdChampImgSource }}
+                      style={{
+                        width: Layout.Width * 0.17,
+                        height: Layout.Width * 0.17,
+                      }}
+                    />
+                  )}
+                </Pressable>
+                <Text
+                  style={{
+                    color: Colors.backgroundPurple,
+                    fontSize: Layout.FontScale * 8,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {thirdChamp}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </Animated.View>
-      <Pressable
-        style={({ pressed }) => [
-          //Styles.startMatchingButton,
-          {
-            opacity: pressed ? 0.5 : 1,
-            width: Layout.Width * 0.9,
-            height: Layout.Height * 0.08,
-            marginBottom: Layout.Height * 0.06,
-          },
-        ]}
-        onPress={() =>
-          // firstLine &&
-          // secondLine &&
-          // firstChamp &&
-          // secondChamp &&
-          // thirdChamp !== ''
-          //   ? changeScreenAnim()
-          //   : alert('라인 2개와 챔피언 3개를 선택하셔야 합니다.')
-          changeScreenAnim()
-        }
-      >
-        <Animated.View
-          style={[
-            Styles.startMatchingButton,
+        </Animated.View>
+        <Pressable
+          style={({ pressed }) => [
             {
-              backgroundColor:
-                firstLine &&
-                secondLine &&
-                firstChamp &&
-                secondChamp &&
-                thirdChamp !== ''
-                  ? Colors.backgroundPurple
-                  : Colors.textUnfocusedPurple,
-              width: ToMatchingAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [Layout.Width * 0.9, Layout.Width * 0.17],
-              }),
+              opacity: pressed ? 0.5 : 1,
+              width: Layout.Width * 0.9,
+              height: Layout.Height * 0.08,
+              marginBottom: Layout.Height * 0.06,
             },
           ]}
+          onPress={() => firstLine && changeScreenAnim()}
         >
           <Animated.View
-            style={{
-              opacity: ToMatchingAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [1, 0],
-              }),
-              transform: [
-                {
-                  translateX: ToMatchingAnim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, Layout.Width * 0.4],
-                  }),
-                },
-              ],
-            }}
+            style={[
+              Styles.startMatchingButton,
+              {
+                backgroundColor:
+                  firstLine &&
+                  secondLine &&
+                  firstChamp &&
+                  secondChamp &&
+                  thirdChamp !== ''
+                    ? Colors.backgroundPurple
+                    : Colors.textUnfocusedPurple,
+                width: ToMatchingAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [Layout.Width * 0.9, Layout.Width * 0.17],
+                }),
+              },
+            ]}
           >
-            <StartMatching width={Layout.Width * 0.17} />
-          </Animated.View>
+            <Animated.View
+              style={{
+                opacity: ToMatchingAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0],
+                }),
+                transform: [
+                  {
+                    translateX: ToMatchingAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, Layout.Width * 0.4],
+                    }),
+                  },
+                ],
+              }}
+            >
+              <StartMatching width={Layout.Width * 0.17} />
+            </Animated.View>
 
-          <Animated.View
-            style={{
-              opacity: ToMatchingAnim,
-              position: 'absolute',
-              transform: [
-                {
-                  translateX: ToMatchingAnim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [-Layout.Width * 0.4, 0],
-                  }),
-                },
-              ],
-            }}
-          >
-            <MatchingChatting width={Layout.Width * 0.17} />
+            <Animated.View
+              style={{
+                opacity: ToMatchingAnim,
+                position: 'absolute',
+                transform: [
+                  {
+                    translateX: ToMatchingAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [-Layout.Width * 0.4, 0],
+                    }),
+                  },
+                ],
+              }}
+            >
+              <MatchingChatting width={Layout.Width * 0.17} />
+            </Animated.View>
           </Animated.View>
-        </Animated.View>
-      </Pressable>
-
+        </Pressable>
+      </SafeAreaView>
       <Modal visible={modalVisible}>
         <View style={styles.fullScreenModal}>
           <View
@@ -791,11 +771,12 @@ export default function SelectMyLineChampScreen({
               </Text>
             </View>
           </View>
-  
-  <View
+
+          <View
             style={{
               flexDirection: 'row',
-            }}>
+            }}
+          >
             <TextInput
               style={styles.searchChampTextInput}
               placeholder={'챔피언 검색하기'}
@@ -803,17 +784,20 @@ export default function SelectMyLineChampScreen({
               value={champKeyword}
               onChangeText={(text: string) => setChampKeyword(text)}
             />
-             <SearchIcon width={Layout.Width*0.067} height={Layout.Height*0.033}
-             style ={{
-              marginLeft:-(Layout.Width*0.067),
-            marginTop:Layout.Height*0.0165}}
-            /> 
-            </View>
+            <SearchIcon
+              width={Layout.Width * 0.067}
+              height={Layout.Height * 0.033}
+              style={{
+                marginLeft: -(Layout.Width * 0.067),
+                marginTop: Layout.Height * 0.0165,
+              }}
+            />
+          </View>
 
           <View style={{ height: Layout.Height * 0.59 }}>
             {selectFirstChamp ? (
               <FlatList
-                data={searchedChamp(championList,champKeyword)}
+                data={searchedChamp(championList, champKeyword)}
                 renderItem={({ item }) => (
                   <Pressable
                     style={({ pressed }) => ({
@@ -821,10 +805,11 @@ export default function SelectMyLineChampScreen({
                     })}
                     onPress={() => {
                       firstChamp !== item.champ_name
-                      ? (item.champ_name === secondChamp || item.champ_name === thirdChamp) 
-                      ? setFirstChamp('')
-                      : setFirstChamp(item.champ_name)
-                      : setFirstChamp('');
+                        ? item.champ_name === secondChamp ||
+                          item.champ_name === thirdChamp
+                          ? setFirstChamp('')
+                          : setFirstChamp(item.champ_name)
+                        : setFirstChamp('');
                     }}
                   >
                     <SelectChampion
@@ -839,17 +824,18 @@ export default function SelectMyLineChampScreen({
               />
             ) : selectSecondChamp ? (
               <FlatList
-                data={searchedChamp(championList,champKeyword)}
+                data={searchedChamp(championList, champKeyword)}
                 renderItem={({ item }) => (
                   <Pressable
                     style={({ pressed }) => ({
                       opacity: pressed ? 0.5 : 1,
                     })}
                     onPress={() => {
-                      (secondChamp !== item.champ_name) 
-                        ? (item.champ_name === firstChamp || item.champ_name === thirdChamp) 
-                        ? setSecondChamp('')
-                        : setSecondChamp(item.champ_name)
+                      secondChamp !== item.champ_name
+                        ? item.champ_name === firstChamp ||
+                          item.champ_name === thirdChamp
+                          ? setSecondChamp('')
+                          : setSecondChamp(item.champ_name)
                         : setSecondChamp('');
                     }}
                   >
@@ -865,18 +851,19 @@ export default function SelectMyLineChampScreen({
               />
             ) : selectThirdChamp ? (
               <FlatList
-                data={searchedChamp(championList,champKeyword)}
+                data={searchedChamp(championList, champKeyword)}
                 renderItem={({ item }) => (
                   <Pressable
                     style={({ pressed }) => ({
                       opacity: pressed ? 0.5 : 1,
                     })}
                     onPress={() => {
-                       thirdChamp !== item.champ_name
-                       ? (item.champ_name === firstChamp || item.champ_name === secondChamp) 
-                       ? setThirdChamp('')
-                       : setThirdChamp(item.champ_name)
-                       : setThirdChamp('');
+                      thirdChamp !== item.champ_name
+                        ? item.champ_name === firstChamp ||
+                          item.champ_name === secondChamp
+                          ? setThirdChamp('')
+                          : setThirdChamp(item.champ_name)
+                        : setThirdChamp('');
                     }}
                   >
                     <SelectChampion
@@ -912,23 +899,15 @@ export default function SelectMyLineChampScreen({
           </Pressable>
         </View>
       </Modal>
-    </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  fullScreenView: {
-    width: Layout.Width,
-    height: Layout.Height,
-    paddingVertical: Layout.Height * 0.065,
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: Colors.backgroundBlack,
-  },
   fullScreenModal: {
     width: Layout.Width,
     height: Layout.Height,
-    paddingVertical: Layout.Height * 0.065,
+    paddingTop: Layout.AndroidStatusBarHeight,
     paddingHorizontal: Layout.Width * 0.05,
     backgroundColor: Colors.backgroundBlack,
   },
@@ -963,7 +942,8 @@ const styles = StyleSheet.create({
   savingButton: {
     width: Layout.Width * 0.9,
     height: Layout.Height * 0.072,
-    marginVertical: Layout.Height * 0.05,
+    position: 'absolute',
+    bottom: Layout.AndroidBottomBarHeight,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -984,7 +964,6 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginTop: Layout.Height * 0.08,
-    //marginBottom: Layout.Height * 0.08,
     marginBottom: Layout.Height * 0.03,
   },
   searchChampTextInput: {
