@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Logout from '../assets/text_images/logout.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -10,6 +10,8 @@ import {
   Platform,
   NativeModules,
   ScrollView,
+  Animated,
+  Easing,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -29,6 +31,7 @@ const data = {
   ],
 };
 const { StatusBarManager } = NativeModules;
+
 export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   useEffect(() => {
@@ -38,40 +41,133 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
         })
       : null;
   }, []);
+
+  const transAnim = useRef(new Animated.Value(0)).current;
+  const transAnim2 = useRef(new Animated.Value(0)).current;
+  const onPressAnimation = () => {
+    Animated.sequence([
+      Animated.timing(transAnim, {
+        toValue: 1,
+        useNativeDriver: false,
+        duration: 300,
+        easing: Easing.out(Easing.quad),
+      }),
+      Animated.timing(transAnim2, {
+        toValue: 1,
+        useNativeDriver: false,
+        duration: 1200,
+        easing: Easing.out(Easing.exp),
+      }),
+    ]).start(() => {
+      setTimeout(() => {
+        transAnim.setValue(0);
+        transAnim2.setValue(0);
+      }, 100);
+    });
+    return;
+  };
+
+  const onPressAnimationReverse = () => {
+    Animated.sequence([
+      Animated.timing(transAnim2, {
+        toValue: 0,
+        useNativeDriver: false,
+        duration: 1200,
+        easing: Easing.out(Easing.exp),
+      }),
+      Animated.timing(transAnim, {
+        toValue: 0,
+        useNativeDriver: false,
+        duration: 300,
+        easing: Easing.out(Easing.quad),
+      }),
+    ]).start(() => {
+      // setTimeout(() => {
+      //   transAnim.setValue(0);
+      //   transAnim2.setValue(0);
+      // }, 100);
+    });
+    return;
+  };
+
   return (
     <View
       style={[
         Styles.fullscreen,
         {
           paddingBottom: Layout.AndroidBottomBarHeight * 2,
+          backgroundColor: Colors.backgroundNavy,
         },
       ]}
     >
-      <View style={[styles.header, dstyle(statusBarHeight).headerPadding]}>
-        <Image source={data.request[0].profileImg} style={styles.profileImg} />
-        <View style={styles.textContainer}>
-          <Text style={styles.profileNickName}>{data.request[0].nickname}</Text>
-          <Text style={styles.profileEmail}>{data.request[0].email}</Text>
-        </View>
-        <View style={styles.buttonsContainer}>
-          <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-            })}
-            onPress={() => navigation.navigate('Profile')}
-          >
-            <ProfileEdit width={Layout.Width * 0.73} />
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-            })}
-          >
-            <Logout width={Layout.Width * 0.11} />
-          </Pressable>
-        </View>
-      </View>
-      <ScrollView>
+      <Animated.View
+        style={[
+          styles.header,
+          dstyle(statusBarHeight).headerPadding,
+          {
+            height: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [Layout.Height * 0.375, (Layout.Height - 48) * 0.12], // 나중에 height 조절
+            }),
+            backgroundColor: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
+            }),
+            borderRadius: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [20, 0],
+            }),
+          },
+        ]}
+      >
+        <Animated.View
+          style={[
+            styles.headerContents,
+            {
+              opacity: transAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, 0],
+              }),
+            },
+          ]}
+        >
+          <Image
+            source={data.request[0].profileImg}
+            style={styles.profileImg}
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.profileNickName}>
+              {data.request[0].nickname}
+            </Text>
+            <Text style={styles.profileEmail}>{data.request[0].email}</Text>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              <ProfileEdit width={Layout.Width * 0.73} />
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <Logout width={Layout.Width * 0.11} />
+            </Pressable>
+          </View>
+        </Animated.View>
+      </Animated.View>
+      <Animated.ScrollView
+        style={{
+          opacity: transAnim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [1, 0],
+          }),
+        }}
+      >
         <View style={styles.settingBox}>
           <View style={styles.settingfaqText}>
             <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
@@ -81,25 +177,26 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
           <Menu
             title="환경설정"
             destination="Settings"
-            navigate={navigation.navigate}
+            onPressAnimation={onPressAnimation}
+            onPressAnimationReverse={onPressAnimationReverse}
           ></Menu>
 
           <Menu
             title="앱 가이드"
             destination="ToS"
-            navigate={navigation.navigate}
+            onPressAnimation={onPressAnimation}
           ></Menu>
 
           <Menu
             title="약관 및 정책"
             destination="Welcome"
-            navigate={navigation.navigate}
+            onPressAnimation={onPressAnimation}
           ></Menu>
 
           <Menu
             title="현재 버전 1.0.0"
             destination="SelectMyLineChamp"
-            navigate={navigation.navigate}
+            onPressAnimation={onPressAnimation}
           ></Menu>
         </View>
         <View style={styles.faqBox}>
@@ -111,16 +208,16 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
           <Menu
             title="고객센터"
             destination="SignIn"
-            navigate={navigation.navigate}
+            onPressAnimation={onPressAnimation}
           ></Menu>
 
           <Menu
             title="FAQ"
             destination="ToS"
-            navigate={navigation.navigate}
+            onPressAnimation={onPressAnimation}
           ></Menu>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }
@@ -136,11 +233,13 @@ const styles = StyleSheet.create({
   header: {
     width: Layout.Width,
     height: Layout.Height * 0.375,
+    backgroundColor: Colors.backgroundPurple,
+  },
+  headerContents: {
+    width: Layout.Width,
+    height: Layout.Height * 0.3,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    backgroundColor: Colors.backgroundPurple,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
   },
   profileImg: {
     width: Layout.Width * 0.139,

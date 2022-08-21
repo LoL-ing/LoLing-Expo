@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
 import Chevron_Right from '../assets/icons/svg/fi_chevron-right.svg';
 
 export default function Menu(props: {
-  navigate: (arg0: any) => void;
   destination: any;
   title: string;
+  onPressAnimation: any;
+  onPressAnimationReverse: any;
 }) {
+  const navigation = useNavigation();
   return (
     <Pressable
       style={({ pressed }) => ({
@@ -21,7 +24,17 @@ export default function Menu(props: {
         flexDirection: 'row',
         marginVertical: Layout.Height * 0.015,
       })}
-      onPress={() => props.navigate(props.destination)}
+      onPress={() => {
+        props.onPressAnimation();
+        setTimeout(
+          () =>
+            navigation.navigate(
+              props.destination,
+              props.onPressAnimationReverse,
+            ),
+          1000,
+        );
+      }}
     >
       <Text
         style={{
@@ -37,5 +50,3 @@ export default function Menu(props: {
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({});
