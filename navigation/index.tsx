@@ -149,7 +149,7 @@ function BottomTabNavigator() {
         tabBarStyle: {
           backgroundColor: Colors.backgroundBlack,
           borderTopWidth: 0,
-          height: Layout.AndroidBottomBarHeight,
+          // height: Layout.AndroidBottomBarHeight,
         },
         tabBarHideOnKeyboard: true,
         headerShown: false,

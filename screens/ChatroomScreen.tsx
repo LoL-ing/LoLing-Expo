@@ -24,6 +24,8 @@ import SendMessage from '../assets/icons/svg/send-message.svg';
 import ChatAcceptText from '../assets/text_images/chat-accept-text.svg';
 import AcceptChatButton from '../assets/icons/svg/accept-chat.svg';
 import DenyChatButton from '../assets/icons/svg/deny-chat.svg';
+import ImgIcon from '../assets/icons/svg/chatroom-img-icon.svg';
+import EmoticonIcon from '../assets/icons/svg/chatroom-emoticon-icon.svg';
 
 const { StatusBarManager } = NativeModules;
 const data = {
@@ -125,18 +127,26 @@ const contents = ({ navigation }: any) => {
         }}
       />
       <View style={styles.sendMessageContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="메세지를 입력하세요."
-          placeholderTextColor={Colors.textGray}
-          value={textInput}
-          maxLength={200}
-          onChangeText={text => {
-            setMessage(text);
-            setTextInput(text);
-          }}
-          returnKeyType="send"
-        />
+        <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
+          <ImgIcon />
+        </Pressable>
+        <View style={styles.textInputContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="메세지를 입력하세요."
+            placeholderTextColor={Colors.textUnfocusedPurple}
+            value={textInput}
+            maxLength={200}
+            onChangeText={text => {
+              setMessage(text);
+              setTextInput(text);
+            }}
+            returnKeyType="send"
+          />
+          <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
+            <EmoticonIcon />
+          </Pressable>
+        </View>
         <Pressable
           style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
           onPress={() => {
@@ -274,7 +284,7 @@ const styles = StyleSheet.create({
     height: Layout.Height * 0.08,
     paddingBottom: Layout.Height * 0.015,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -282,11 +292,18 @@ const styles = StyleSheet.create({
     paddingLeft: Layout.Width * 0.064,
     paddingRight: Layout.Width * 0.016,
   },
+  textInputContainer: {
+    width: Layout.Width * 0.68,
+    height: Layout.Height * 0.055,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#353565',
+    borderRadius: 30,
+  },
   textInput: {
     height: Layout.Width * 0.11,
-    width: Layout.Width * 0.78,
-    borderBottomColor: Colors.textGray,
-    borderBottomWidth: 1,
+    width: Layout.Width * 0.6,
+    paddingLeft: Layout.Width * 0.05,
     color: Colors.textWhite,
     fontSize: Layout.FontScale * 12,
   },

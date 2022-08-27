@@ -213,7 +213,7 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
 
           <Menu
             title="FAQ"
-            destination="ToS"
+            destination="ChatRoom"
             onPressAnimation={onPressAnimation}
           ></Menu>
         </View>
