@@ -9,6 +9,8 @@ import {
   StatusBar,
   FlatList,
   TextInput,
+  Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
@@ -30,6 +32,10 @@ import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
+import FriendRequestText from '../assets/text_images/friendRequestText.svg';
+import FriendRequestExit from '../assets/icons/svg/profilecard-exit.svg';
+import DeleteNo from '../assets/icons/svg/delete-no.svg';
+import DeleteYes from '../assets/icons/svg/delete-yes.svg';
 
 const originFriends = getFriends();
 const chattingRooms = getChatRooms();
@@ -63,10 +69,112 @@ export default function SocialScreen({
   const [index, setIndex] = useState(0);
   const [friendKeyword, setFriendKeyword] = useState('');
   const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
+  const [friendRequestKeyword, setFriendRequestKeyword] = useState('');
   const scrollViewRef = useRef<ScrollView>(null);
+  const [friendRequestModalVisible, setFriendRequestModalVisible] =
+    useState(false);
 
   return (
     <View style={styles.topContainer}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={friendRequestModalVisible}
+        onRequestClose={() => {
+          setFriendRequestModalVisible(!friendRequestModalVisible);
+        }}
+      >
+        <TouchableWithoutFeedback
+          onPress={() => setFriendRequestModalVisible(false)}
+        >
+          <View
+            style={{
+              width: Layout.Width,
+              height: Layout.Height,
+              backgroundColor: ' black',
+              opacity: 0.7,
+            }}
+          ></View>
+        </TouchableWithoutFeedback>
+        <View
+          style={{
+            width: Layout.Width * 0.83,
+            height: Layout.Height * 0.23,
+            alignItems: 'center',
+            backgroundColor: '#23233F',
+            borderRadius: 10,
+            position: 'absolute',
+            top: Layout.Height * 0.38,
+            left: Layout.Width * 0.08,
+          }}
+        >
+          <View
+            style={{
+              width: Layout.Width * 0.75,
+              height: Layout.Height * 0.06,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <View style={{ width: Layout.Width * 0.066 }}></View>
+            <FriendRequestText width={Layout.Width * 0.16} />
+            <Pressable
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+              onPress={() => setFriendRequestModalVisible(false)}
+            >
+              <FriendRequestExit />
+            </Pressable>
+          </View>
+          <View
+            style={{
+              width: Layout.Width * 0.72,
+              height: Layout.Height * 0.055,
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: Layout.Height * 0.01,
+              backgroundColor: '#353565',
+              borderRadius: 30,
+            }}
+          >
+            <TextInput
+              style={styles.searchFriendRequestTextInput}
+              placeholder={'롤링 닉네임을 입력하세요.'}
+              placeholderTextColor={Colors.textUnfocusedPurple}
+              value={friendRequestKeyword}
+              onChangeText={(text: string) => setFriendRequestKeyword(text)}
+            />
+            <SearchIcon
+              style={{
+                marginLeft: -(Layout.Width * 0.08),
+              }}
+              width={Layout.Width * 0.066}
+              height={Layout.Height * 0.033}
+            />
+          </View>
+          <View
+            style={{
+              width: Layout.Width * 0.75,
+              height: Layout.Height * 0.06,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}
+          >
+            <Pressable
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+              onPress={() => setFriendRequestModalVisible(false)}
+            >
+              <DeleteNo width={Layout.Width * 0.35} />
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            >
+              <DeleteYes width={Layout.Width * 0.35} />
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.fixedButtonContainer}>
         <View style={styles.friendOrChattingRoomButtonContainer}>
           <Pressable
@@ -184,7 +292,10 @@ export default function SocialScreen({
           >
             <DeleteFrinedIcon width={Layout.Width * 0.07} />
           </Pressable>
-          <Pressable style={{ width: Layout.Width * 0.12 }}>
+          <Pressable
+            style={{ width: Layout.Width * 0.12 }}
+            onPress={() => setFriendRequestModalVisible(true)}
+          >
             <AddFrined width={Layout.Width * 0.07} />
           </Pressable>
         </View>
@@ -353,7 +464,8 @@ const styles = StyleSheet.create({
   topContainer: {
     width: Layout.Width,
     height: Layout.Height,
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
+    paddingTop: Layout.Height * 0.045,
     paddingBottom: Layout.AndroidBottomBarHeight * 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -394,12 +506,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   searchFriendTextInput: {
-    width: Layout.Width * 0.86,
+    width: Layout.Width * 0.85,
     height: Layout.Height * 0.05,
-    paddingHorizontal: 10,
+    paddingHorizontal: Layout.Width * 0.01,
     marginVertical: Layout.Height * 0.03,
     borderBottomWidth: 2,
     borderBottomColor: Colors.textUnfocusedPurple,
+    color: Colors.textWhite,
+    fontSize: 15,
+  },
+  searchFriendRequestTextInput: {
+    width: Layout.Width * 0.7,
+    height: Layout.Height * 0.05,
+    paddingHorizontal: Layout.Width * 0.05,
+    marginVertical: Layout.Height * 0.03,
     color: Colors.textWhite,
     fontSize: 15,
   },
