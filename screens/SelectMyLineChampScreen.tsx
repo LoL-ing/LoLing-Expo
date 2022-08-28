@@ -56,6 +56,7 @@ import QuestionMark from '../assets/text_images/questionMark.svg';
 import Save from '../assets/text_images/save.svg';
 import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SelectMyLineChampScreen({
   navigation,
@@ -204,13 +205,16 @@ export default function SelectMyLineChampScreen({
 
   return (
     <>
-      <SafeAreaView
-        style={[
-          Styles.fullscreen,
-          {
-            alignItems: 'center',
-          },
-        ]}
+      <View
+        style={{
+          width: Layout.Width,
+          height: Layout.Height,
+          backgroundColor: Colors.backgroundBlack,
+          paddingTop: useSafeAreaInsets().top,
+          paddingBottom:
+            Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+          alignItems: 'center',
+        }}
       >
         <Animated.View
           style={{
@@ -613,9 +617,21 @@ export default function SelectMyLineChampScreen({
             </Animated.View>
           </Animated.View>
         </Pressable>
-      </SafeAreaView>
+      </View>
       <Modal visible={modalVisible}>
-        <View style={styles.fullScreenModal}>
+        <View
+          style={{
+            width: Layout.Width,
+            height: Layout.Height,
+            paddingTop: useSafeAreaInsets().top,
+            paddingBottom:
+              Layout.AndroidBottomBarHeight +
+              useSafeAreaInsets().bottom +
+              Layout.Height * 0.072,
+            paddingHorizontal: Layout.Width * 0.05,
+            backgroundColor: Colors.backgroundBlack,
+          }}
+        >
           <View
             style={{
               height: Layout.Height * 0.12,
@@ -794,110 +810,111 @@ export default function SelectMyLineChampScreen({
             />
           </View>
 
-          <View style={{ height: Layout.Height * 0.59 }}>
-            {selectFirstChamp ? (
-              <FlatList
-                data={searchedChamp(championList, champKeyword)}
-                renderItem={({ item }) => (
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                    })}
-                    onPress={() => {
-                      firstChamp !== item.champ_name
-                        ? item.champ_name === secondChamp ||
-                          item.champ_name === thirdChamp
-                          ? setFirstChamp('')
-                          : setFirstChamp(item.champ_name)
-                        : setFirstChamp('');
-                    }}
-                  >
-                    <SelectChampion
-                      champImg={item.champ_img_url}
-                      champName={item.champ_name}
-                      champRole={item.champ_role}
-                      isSelected={firstChamp === item.champ_name}
-                    />
-                  </Pressable>
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            ) : selectSecondChamp ? (
-              <FlatList
-                data={searchedChamp(championList, champKeyword)}
-                renderItem={({ item }) => (
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                    })}
-                    onPress={() => {
-                      secondChamp !== item.champ_name
-                        ? item.champ_name === firstChamp ||
-                          item.champ_name === thirdChamp
-                          ? setSecondChamp('')
-                          : setSecondChamp(item.champ_name)
-                        : setSecondChamp('');
-                    }}
-                  >
-                    <SelectChampion
-                      champImg={item.champ_img_url}
-                      champName={item.champ_name}
-                      champRole={item.champ_role}
-                      isSelected={secondChamp === item.champ_name}
-                    />
-                  </Pressable>
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            ) : selectThirdChamp ? (
-              <FlatList
-                data={searchedChamp(championList, champKeyword)}
-                renderItem={({ item }) => (
-                  <Pressable
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.5 : 1,
-                    })}
-                    onPress={() => {
-                      thirdChamp !== item.champ_name
-                        ? item.champ_name === firstChamp ||
-                          item.champ_name === secondChamp
-                          ? setThirdChamp('')
-                          : setThirdChamp(item.champ_name)
-                        : setThirdChamp('');
-                    }}
-                  >
-                    <SelectChampion
-                      champImg={item.champ_img_url}
-                      champName={item.champ_name}
-                      champRole={item.champ_role}
-                      isSelected={thirdChamp === item.champ_name}
-                    />
-                  </Pressable>
-                )}
-                showsVerticalScrollIndicator={false}
-              />
-            ) : undefined}
-          </View>
-
-          <Pressable
-            style={({ pressed }) => [
-              styles.savingButton,
-              {
-                opacity: pressed ? 0.5 : 1,
-                backgroundColor:
-                  firstChamp === '' || secondChamp === '' || thirdChamp === ''
-                    ? Colors.textUnfocusedPurple
-                    : Colors.backgroundPurple,
-              },
-            ]}
-            onPress={() => setModalVisible(false)}
-            disabled={
-              firstChamp === '' || secondChamp === '' || thirdChamp === ''
-            }
-          >
-            <Save width={Layout.Width * 0.17} />
-          </Pressable>
+          {/* <View style={{ height: Layout.Height * 0.54 }}> */}
+          {selectFirstChamp ? (
+            <FlatList
+              data={searchedChamp(championList, champKeyword)}
+              renderItem={({ item }) => (
+                <Pressable
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                  })}
+                  onPress={() => {
+                    firstChamp !== item.champ_name
+                      ? item.champ_name === secondChamp ||
+                        item.champ_name === thirdChamp
+                        ? setFirstChamp('')
+                        : setFirstChamp(item.champ_name)
+                      : setFirstChamp('');
+                  }}
+                >
+                  <SelectChampion
+                    champImg={item.champ_img_url}
+                    champName={item.champ_name}
+                    champRole={item.champ_role}
+                    isSelected={firstChamp === item.champ_name}
+                  />
+                </Pressable>
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : selectSecondChamp ? (
+            <FlatList
+              data={searchedChamp(championList, champKeyword)}
+              renderItem={({ item }) => (
+                <Pressable
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                  })}
+                  onPress={() => {
+                    secondChamp !== item.champ_name
+                      ? item.champ_name === firstChamp ||
+                        item.champ_name === thirdChamp
+                        ? setSecondChamp('')
+                        : setSecondChamp(item.champ_name)
+                      : setSecondChamp('');
+                  }}
+                >
+                  <SelectChampion
+                    champImg={item.champ_img_url}
+                    champName={item.champ_name}
+                    champRole={item.champ_role}
+                    isSelected={secondChamp === item.champ_name}
+                  />
+                </Pressable>
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : selectThirdChamp ? (
+            <FlatList
+              data={searchedChamp(championList, champKeyword)}
+              renderItem={({ item }) => (
+                <Pressable
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                  })}
+                  onPress={() => {
+                    thirdChamp !== item.champ_name
+                      ? item.champ_name === firstChamp ||
+                        item.champ_name === secondChamp
+                        ? setThirdChamp('')
+                        : setThirdChamp(item.champ_name)
+                      : setThirdChamp('');
+                  }}
+                >
+                  <SelectChampion
+                    champImg={item.champ_img_url}
+                    champName={item.champ_name}
+                    champRole={item.champ_role}
+                    isSelected={thirdChamp === item.champ_name}
+                  />
+                </Pressable>
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : undefined}
         </View>
+        <Pressable
+          style={({ pressed }) => [
+            styles.savingButton,
+            {
+              opacity: pressed ? 0.5 : 1,
+              backgroundColor:
+                firstChamp === '' || secondChamp === '' || thirdChamp === ''
+                  ? Colors.textUnfocusedPurple
+                  : Colors.backgroundPurple,
+              bottom:
+                Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+            },
+          ]}
+          onPress={() => setModalVisible(false)}
+          disabled={
+            firstChamp === '' || secondChamp === '' || thirdChamp === ''
+          }
+        >
+          <Save width={Layout.Width * 0.15} />
+        </Pressable>
+        {/* </View> */}
       </Modal>
     </>
   );
@@ -943,7 +960,6 @@ const styles = StyleSheet.create({
     width: Layout.Width * 0.9,
     height: Layout.Height * 0.072,
     position: 'absolute',
-    bottom: Layout.AndroidBottomBarHeight,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',

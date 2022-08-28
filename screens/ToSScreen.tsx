@@ -17,6 +17,7 @@ import ArrowRight from '../assets/icons/svg/arrow-right.svg';
 import AgreeAllOn from '../assets/text_images/agree_on.svg';
 import AgreeAllOff from '../assets/text_images/agree_off.svg';
 import Hello from '../assets/text_images/Hello!.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
   const [fullconsent, setFullConsent] = useState(false);
@@ -72,7 +73,19 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
   };
 
   return (
-    <View style={styles.fullscreen}>
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        backgroundColor: Colors.backgroundBlack,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
+
+        paddingHorizontal: Layout.Width * 0.05,
+        flexDirection: 'column',
+      }}
+    >
       <View style={styles.titleContainer}>
         <Hello />
       </View>

@@ -6,7 +6,7 @@ import Layout from '../constants/Layout';
 import DeleteFriend from '../components/DeleteFriend';
 import getFriends from '../data/Friends';
 import { RootStackScreenProps } from '../types';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Cancel from '../assets/text_images/cancel.svg';
 import Complete from '../assets/text_images/complete.svg';
 import FriendList from '../assets/icons/svg/friend-list.svg';
@@ -70,7 +70,18 @@ export default function DeleteFriendScreen({
         </View>
       </Modal>
 
-      <View style={styles.Container}>
+      <View
+        style={{
+          width: Layout.Width,
+          height: Layout.Height,
+          backgroundColor: Colors.backgroundBlack,
+          paddingTop: useSafeAreaInsets().top,
+          paddingBottom:
+            Layout.AndroidBottomBarHeight +
+            useSafeAreaInsets().bottom +
+            Layout.Height * 0.06,
+        }}
+      >
         <View style={styles.flatListTitleContainer}>
           <FriendList />
         </View>
@@ -87,46 +98,46 @@ export default function DeleteFriendScreen({
             />
           )}
         />
-        <View style={{ flexDirection: 'row' }}>
-          <Pressable
-            style={{
-              width: Layout.Width * 0.5,
-              height: Layout.Height * 0.06,
-              position: 'absolute',
-              left: 0,
-              bottom: Layout.AndroidBottomBarHeight,
-              backgroundColor: Colors.textUnfocusedPurple,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={() => navigation.navigate('Social')}
-          >
-            <Cancel width={Layout.Width * 0.08} />
-          </Pressable>
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+        <Pressable
+          style={{
+            width: Layout.Width * 0.5,
+            height: Layout.Height * 0.06,
+            position: 'absolute',
+            left: 0,
+            bottom: Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+            backgroundColor: Colors.textUnfocusedPurple,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={() => navigation.navigate('Social')}
+        >
+          <Cancel width={Layout.Width * 0.08} />
+        </Pressable>
 
-          <Pressable
-            style={{
-              width: Layout.Width * 0.5,
-              height: Layout.Height * 0.06,
-              right: 0,
-              position: 'absolute',
-              bottom: Layout.AndroidBottomBarHeight,
-              backgroundColor: Colors.backgroundPurple,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={() => setFriendDeleteModalVisible(true)}
-          >
-            <Complete width={Layout.Width * 0.08} />
-          </Pressable>
-        </View>
+        <Pressable
+          style={{
+            width: Layout.Width * 0.5,
+            height: Layout.Height * 0.06,
+            right: 0,
+            position: 'absolute',
+            bottom: Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+            backgroundColor: Colors.backgroundPurple,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={() => setFriendDeleteModalVisible(true)}
+        >
+          <Complete width={Layout.Width * 0.08} />
+        </Pressable>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  Container: {
+  container: {
     width: Layout.Width,
     height: Layout.Height,
     paddingTop: Layout.AndroidStatusBarHeight,

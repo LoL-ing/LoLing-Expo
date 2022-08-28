@@ -12,6 +12,7 @@ import {
   ScrollView,
   Animated,
   Easing,
+  StatusBar,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -20,6 +21,7 @@ import Menu from '../components/Menu';
 import { RootTabScreenProps } from '../types';
 
 import ProfileEdit from '../assets/text_images/profileEdit.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const data = {
   request: [
@@ -93,131 +95,145 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
   return (
     <View
       style={[
-        Styles.fullscreen,
         {
-          paddingBottom: Layout.AndroidBottomBarHeight * 2,
+          width: Layout.Width,
+          height: Layout.Height,
+          flexDirection: 'column',
+          paddingBottom:
+            Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
           backgroundColor: Colors.backgroundNavy,
         },
       ]}
     >
       <Animated.View
-        style={[
-          styles.header,
-          dstyle(statusBarHeight).headerPadding,
-          {
-            height: transAnim2.interpolate({
-              inputRange: [0, 1],
-              outputRange: [Layout.Height * 0.375, (Layout.Height - 48) * 0.12], // 나중에 height 조절
-            }),
-            backgroundColor: transAnim2.interpolate({
-              inputRange: [0, 1],
-              outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
-            }),
-            borderRadius: transAnim2.interpolate({
-              inputRange: [0, 1],
-              outputRange: [20, 0],
-            }),
-          },
-        ]}
+        style={{
+          height: useSafeAreaInsets().top,
+          backgroundColor: transAnim2.interpolate({
+            inputRange: [0, 1],
+            outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
+          }),
+        }}
+      />
+      <ScrollView
+        alwaysBounceHorizontal={false}
+        alwaysBounceVertical={false}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
       >
         <Animated.View
           style={[
-            styles.headerContents,
+            styles.header,
             {
-              opacity: transAnim.interpolate({
+              height: transAnim2.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1, 0],
+                outputRange: [Layout.Height * 0.3, Layout.Height * 0.12], // 나중에 height 조절
+              }),
+              backgroundColor: transAnim2.interpolate({
+                inputRange: [0, 1],
+                outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
+              }),
+              borderBottomLeftRadius: transAnim2.interpolate({
+                inputRange: [0, 1],
+                outputRange: [20, 0],
+              }),
+              borderBottomRightRadius: transAnim2.interpolate({
+                inputRange: [0, 1],
+                outputRange: [20, 0],
               }),
             },
           ]}
         >
-          <Image
-            source={data.request[0].profileImg}
-            style={styles.profileImg}
-          />
-          <View style={styles.textContainer}>
-            <Text style={styles.profileNickName}>
-              {data.request[0].nickname}
-            </Text>
-            <Text style={styles.profileEmail}>{data.request[0].email}</Text>
-          </View>
-          <View style={styles.buttonsContainer}>
-            <Pressable
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-              onPress={() => navigation.navigate('Profile')}
-            >
-              <ProfileEdit width={Layout.Width * 0.73} />
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <Logout width={Layout.Width * 0.11} />
-            </Pressable>
-          </View>
+          <Animated.View
+            style={[
+              styles.headerContents,
+              {
+                opacity: transAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0],
+                }),
+              },
+            ]}
+          >
+            <Image
+              source={data.request[0].profileImg}
+              style={styles.profileImg}
+            />
+            <View style={styles.textContainer}>
+              <Text style={styles.profileNickName}>
+                {data.request[0].nickname}
+              </Text>
+              <Text style={styles.profileEmail}>{data.request[0].email}</Text>
+            </View>
+            <View style={styles.buttonsContainer}>
+              <Pressable
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}
+                onPress={() => navigation.navigate('Profile')}
+              >
+                <ProfileEdit width={Layout.Width * 0.73} />
+              </Pressable>
+            </View>
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
-      <Animated.ScrollView
-        style={{
-          opacity: transAnim.interpolate({
-            inputRange: [0, 1],
-            outputRange: [1, 0],
-          }),
-        }}
-      >
-        <View style={styles.settingBox}>
-          <View style={styles.settingfaqText}>
-            <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
-              설정
-            </Text>
+        <Animated.View
+          style={{
+            opacity: transAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0],
+            }),
+            backgroundColor: Colors.backgroundNavy,
+          }}
+        >
+          <View style={styles.settingBox}>
+            <View style={styles.settingfaqText}>
+              <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
+                설정
+              </Text>
+            </View>
+            <Menu
+              title="환경설정"
+              destination="Settings"
+              onPressAnimation={onPressAnimation}
+              onPressAnimationReverse={onPressAnimationReverse}
+            ></Menu>
+
+            <Menu
+              title="앱 가이드"
+              destination="ToS"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+
+            <Menu
+              title="약관 및 정책"
+              destination="Welcome"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+
+            <Menu
+              title="현재 버전 1.0.0"
+              destination="SelectMyLineChamp"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
           </View>
-          <Menu
-            title="환경설정"
-            destination="Settings"
-            onPressAnimation={onPressAnimation}
-            onPressAnimationReverse={onPressAnimationReverse}
-          ></Menu>
-
-          <Menu
-            title="앱 가이드"
-            destination="ToS"
-            onPressAnimation={onPressAnimation}
-          ></Menu>
-
-          <Menu
-            title="약관 및 정책"
-            destination="Welcome"
-            onPressAnimation={onPressAnimation}
-          ></Menu>
-
-          <Menu
-            title="현재 버전 1.0.0"
-            destination="SelectMyLineChamp"
-            onPressAnimation={onPressAnimation}
-          ></Menu>
-        </View>
-        <View style={styles.faqBox}>
-          <View style={styles.settingfaqText}>
-            <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
-              문의
-            </Text>
-          </View>
-          <Menu
-            title="고객센터"
-            destination="SignIn"
-            onPressAnimation={onPressAnimation}
-          ></Menu>
-
+          <View style={styles.faqBox}>
+            <View style={styles.settingfaqText}>
+              <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
+                문의
+              </Text>
+            </View>
+            <Menu
+              title="고객센터"
+              destination="SignIn"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
           <Menu
             title="FAQ"
             destination="ChatRoom"
             onPressAnimation={onPressAnimation}
           ></Menu>
         </View>
-      </Animated.ScrollView>
+      </ScrollView>
     </View>
   );
 }
@@ -232,8 +248,7 @@ const dstyle = (ios: number) =>
 const styles = StyleSheet.create({
   header: {
     width: Layout.Width,
-    height: Layout.Height * 0.375,
-    backgroundColor: Colors.backgroundPurple,
+    height: Layout.Height * 0.3,
   },
   headerContents: {
     width: Layout.Width,
@@ -245,7 +260,7 @@ const styles = StyleSheet.create({
     width: Layout.Width * 0.139,
     height: Layout.Width * 0.139,
     borderRadius: Layout.Width * 0.07,
-    marginTop: Layout.Height * 0.06,
+    marginTop: Layout.Height * 0.03,
   },
   profileNickName: {
     color: Colors.textWhite,
