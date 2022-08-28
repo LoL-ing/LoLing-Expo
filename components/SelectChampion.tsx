@@ -50,7 +50,7 @@ export default function SelectChampion(props: {
 const styles = StyleSheet.create({
   champItemView: {
     width: Layout.Width * 0.9,
-    height: Layout.Height * 0.1,
+    height: Layout.Height * 0.09,
     paddingHorizontal: Layout.Width * 0.03,
     marginVertical: Layout.Height * 0.01,
     flexDirection: 'row',

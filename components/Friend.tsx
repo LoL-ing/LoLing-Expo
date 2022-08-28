@@ -152,11 +152,7 @@ export default function Friend(props: {
         }}
       >
         <TouchableWithoutFeedback onPress={() => setFriendModalVisible(false)}>
-          <View style={styles.modalBackground}>
-            <Pressable onPress={() => setFriendModalVisible(false)}>
-              <FriendEsc width={Layout.Width * 0.08} />
-            </Pressable>
-          </View>
+          <View style={styles.modalBackground} />
         </TouchableWithoutFeedback>
         <View style={styles.modalContents}>
           <View style={styles.modalProfileImgContainer}>
@@ -272,8 +268,8 @@ const styles = StyleSheet.create({
   modalBackground: {
     width: Layout.Width,
     height: Layout.Height,
-    paddingVertical: Layout.Height * 0.4,
-    paddingHorizontal: Layout.Width * 0.05,
+    // paddingVertical: Layout.Height * 0.4,
+    // paddingHorizontal: Layout.Width * 0.05,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     backgroundColor: '#00000070',
@@ -286,7 +282,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     backgroundColor: Colors.backgroundNavy,
-    borderRadius: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     borderTopWidth: 1,
   },
   modalProfileImgContainer: {

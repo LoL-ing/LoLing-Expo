@@ -30,6 +30,7 @@ import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const originFriends = getFriends();
 const chattingRooms = getChatRooms();
@@ -66,7 +67,16 @@ export default function SocialScreen({
   const scrollViewRef = useRef<ScrollView>(null);
 
   return (
-    <View style={styles.topContainer}>
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        backgroundColor: Colors.backgroundBlack,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
+      }}
+    >
       <View style={styles.fixedButtonContainer}>
         <View style={styles.friendOrChattingRoomButtonContainer}>
           <Pressable
@@ -350,15 +360,16 @@ const styles = StyleSheet.create({
     marginBottom: Layout.Height * 0.022,
     justifyContent: 'flex-start',
   },
-  topContainer: {
-    width: Layout.Width,
-    height: Layout.Height,
-    paddingTop: StatusBar.currentHeight,
-    paddingBottom: Layout.AndroidBottomBarHeight * 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.backgroundBlack,
-  },
+  // topContainer: {
+  //   width: Layout.Width,
+  //   height: Layout.Height,
+  //   paddingTop: useSafeAreaInsets().top,
+  //   paddingBottom:
+  //     Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   backgroundColor: Colors.backgroundBlack,
+  // },
   fixedButtonContainer: {
     width: Layout.Width,
     height: Layout.Height * 0.058,

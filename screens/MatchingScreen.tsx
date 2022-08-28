@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   StatusBar,
+  SafeAreaView,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
@@ -18,6 +19,7 @@ import Arrow from '../assets/icons/svg/arrow-left.svg';
 import MatchingLeft from '../assets/icons/svg/matching-left.svg';
 import MatchingRight from '../assets/icons/svg/matching-right.svg';
 import MatchingHelp from '../assets/icons/svg/matching-help.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function withMyHook(Component: any) {
   return function WrappedComponent(props) {
@@ -89,7 +91,9 @@ export default class App extends React.Component {
           width: Layout.Width,
           height: Layout.Height,
           backgroundColor: Colors.backgroundBlack,
-          paddingTop: StatusBar.currentHeight,
+          // paddingTop: useSafeAreaInsets().top + Layout.Height * 0.02,
+          // paddingBottom:
+          //   Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
         }}
       >
         <Animated.View

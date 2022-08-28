@@ -8,9 +8,9 @@ import {
   FlatList,
   Text,
   View,
-  SafeAreaView,
 } from 'react-native';
 import { useRecoilValue } from 'recoil';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getFriendsSelector, getLoLAccountSelector } from '../atoms/selector';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -24,16 +24,23 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const friends = useRecoilValue(getFriendsSelector);
   const MatchableUsers = useRecoilValue(getLoLAccountSelector);
   return (
-    <SafeAreaView
+    <View
       style={{
         width: Layout.Width,
         height: Layout.Height,
         backgroundColor: Colors.backgroundBlack,
-        paddingTop: Layout.AndroidStatusBarHeight + Layout.Height * 0.02,
-        paddingBottom: Layout.AndroidBottomBarHeight * 2,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
       }}
     >
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContainer}
+        alwaysBounceHorizontal={false}
+        alwaysBounceVertical={false}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.profileContainer}>
           <View style={styles.profileSummaryContainer}>
             <Image style={styles.profileImg} source={MyProfile.profileImg} />
@@ -307,7 +314,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -335,6 +342,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   profileContainer: {
+    marginTop: +Layout.Height * 0.02,
     width: Layout.Width * 0.9,
     height: Layout.Height * 0.32,
     backgroundColor: Colors.backgroundNavy,

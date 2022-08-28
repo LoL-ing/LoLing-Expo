@@ -12,6 +12,7 @@ import {
   Keyboard,
   StatusBar,
   TextInput,
+  Modal,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -24,6 +25,7 @@ import SendMessage from '../assets/icons/svg/send-message.svg';
 import ChatAcceptText from '../assets/text_images/chat-accept-text.svg';
 import AcceptChatButton from '../assets/icons/svg/accept-chat.svg';
 import DenyChatButton from '../assets/icons/svg/deny-chat.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { StatusBarManager } = NativeModules;
 const data = {
@@ -85,7 +87,7 @@ const data = {
 const contents = ({ navigation }: any) => {
   const [message, setMessage] = useState('');
   const [textInput, setTextInput] = useState('');
-
+  const [focused, setFocused] = useState(false);
   return (
     <>
       <View style={styles.header}>
@@ -124,29 +126,47 @@ const contents = ({ navigation }: any) => {
           );
         }}
       />
-      <View style={styles.sendMessageContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="메세지를 입력하세요."
-          placeholderTextColor={Colors.textGray}
-          value={textInput}
-          maxLength={200}
-          onChangeText={text => {
-            setMessage(text);
-            setTextInput(text);
-          }}
-          returnKeyType="send"
-        />
-        <Pressable
-          style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
-          onPress={() => {
-            Keyboard.dismiss();
-            setTextInput('');
-            //전송 작업
-          }}
+      <View style={{ backgroundColor: Colors.backgroundNavy }}>
+        <View
+          style={[
+            styles.sendMessageContainer,
+            {
+              height:
+                Platform.OS === 'ios' && !focused
+                  ? Layout.Height * 0.08 + useSafeAreaInsets().bottom * 0.5
+                  : Layout.Height * 0.08,
+              paddingBottom:
+                Platform.OS === 'ios' && !focused
+                  ? Layout.Height * 0.015 + useSafeAreaInsets().bottom * 0.5
+                  : Layout.Height * 0.015,
+            },
+          ]}
         >
-          <SendMessage width={Layout.Width * 0.11} style={{}} />
-        </Pressable>
+          <TextInput
+            style={styles.textInput}
+            placeholder="메세지를 입력하세요."
+            placeholderTextColor={Colors.textGray}
+            value={textInput}
+            maxLength={200}
+            onChangeText={text => {
+              setMessage(text);
+              setTextInput(text);
+            }}
+            returnKeyType="send"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
+          <Pressable
+            style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            onPress={() => {
+              Keyboard.dismiss();
+              setTextInput('');
+              //전송 작업
+            }}
+          >
+            <SendMessage width={Layout.Width * 0.11} style={{}} />
+          </Pressable>
+        </View>
       </View>
     </>
   );
@@ -155,6 +175,7 @@ const contents = ({ navigation }: any) => {
 const acceptModal = ({ navigation }: any) => {
   const [acceptModalVisible, setAcceptModalVisible] = useState(true);
   return acceptModalVisible ? (
+    // <Modal visible={acceptModalVisible} transparent={true}>
     <View style={styles.modalContainer}>
       <ChatAcceptText
         width={Layout.Width * 0.875}
@@ -193,41 +214,34 @@ const acceptModal = ({ navigation }: any) => {
         </Pressable>
       </View>
     </View>
-  ) : undefined;
+  ) : // </Modal>
+  undefined;
 };
 
 export default function chatroomScreen({
   navigation,
 }: RootStackScreenProps<'ChatRoom'>) {
-  const [statusBarHeight, setStatusBarHeight] = useState(0);
-  const statusBarHeightAndroid = StatusBar.currentHeight;
-  useEffect(() => {
-    Platform.OS == 'ios'
-      ? StatusBarManager.getHeight((statusBarFrameData: { height: any }) => {
-          setStatusBarHeight(statusBarFrameData.height);
-        })
-      : null;
-  }, []);
-
   return (
-    <View>
+    <>
       <View
-        style={[dstyle(statusBarHeight, statusBarHeightAndroid).fullscreen]}
+        style={{
+          width: Layout.Width,
+          height: Layout.Height,
+          flexDirection: 'column',
+          backgroundColor: Colors.backgroundBlack,
+          paddingTop: useSafeAreaInsets().top,
+          paddingBottom: Layout.AndroidBottomBarHeight,
+        }}
       >
-        <StatusBar backgroundColor={Colors.backgroundBlack} />
-        {Platform.OS == 'ios' ? (
-          <KeyboardAvoidingView
-            style={{ flex: 1, backgroundColor: Colors.backgroundNavy }}
-            behavior={'padding'}
-          >
-            {contents({ navigation })}
-          </KeyboardAvoidingView>
-        ) : (
-          contents({ navigation })
-        )}
-        {acceptModal({ navigation })}
+        <KeyboardAvoidingView
+          style={{ flex: 1, backgroundColor: Colors.backgroundNavy }}
+          behavior={'padding'}
+        >
+          {contents({ navigation })}
+        </KeyboardAvoidingView>
       </View>
-    </View>
+      {acceptModal({ navigation })}
+    </>
   );
 }
 
@@ -271,8 +285,6 @@ const styles = StyleSheet.create({
   },
   sendMessageContainer: {
     width: Layout.Width,
-    height: Layout.Height * 0.08,
-    paddingBottom: Layout.Height * 0.015,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -283,7 +295,7 @@ const styles = StyleSheet.create({
     paddingRight: Layout.Width * 0.016,
   },
   textInput: {
-    height: Layout.Width * 0.11,
+    height: Layout.Height * 0.055,
     width: Layout.Width * 0.78,
     borderBottomColor: Colors.textGray,
     borderBottomWidth: 1,

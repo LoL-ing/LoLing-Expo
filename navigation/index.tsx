@@ -7,8 +7,8 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
 import {
   RootStackParamList,
   RootTabParamList,
@@ -44,6 +44,7 @@ import ChattingIconSelected from '../assets/icons/svg/chatting-icon-selected.svg
 import ChattingIconUnselected from '../assets/icons/svg/chatting-icon-unselected.svg';
 import SettingIconSelected from '../assets/icons/svg/setting-icon-selected.svg';
 import SettingIconUnselected from '../assets/icons/svg/setting-icon-unselected.svg';
+
 export default function Navigation({
   colorScheme,
 }: {
@@ -149,7 +150,7 @@ function BottomTabNavigator() {
         tabBarStyle: {
           backgroundColor: Colors.backgroundBlack,
           borderTopWidth: 0,
-          height: Layout.AndroidBottomBarHeight,
+          height: 49 + useSafeAreaInsets().bottom,
         },
         tabBarHideOnKeyboard: true,
         headerShown: false,

@@ -7,6 +7,7 @@ import { RootStackScreenProps } from '../types';
 
 import Arrow from '../assets/icons/svg/arrow-left.svg';
 import OverflowMenu from '../assets/icons/svg/overflow-menu.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const data = {
   request: [
@@ -64,7 +65,16 @@ export default function FriendRequestScreen({
   navigation,
 }: RootStackScreenProps<'FriendRequest'>) {
   return (
-    <View style={styles.fullScreenView}>
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        backgroundColor: Colors.backgroundBlack,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+      }}
+    >
       <View style={styles.header}>
         <Pressable
           style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
