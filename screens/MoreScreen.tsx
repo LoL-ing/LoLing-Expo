@@ -227,14 +227,12 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
               destination="SignIn"
               onPressAnimation={onPressAnimation}
             ></Menu>
-
-            <Menu
-              title="FAQ"
-              destination="ToS"
-              onPressAnimation={onPressAnimation}
-            ></Menu>
-          </View>
-        </Animated.View>
+          <Menu
+            title="FAQ"
+            destination="ChatRoom"
+            onPressAnimation={onPressAnimation}
+          ></Menu>
+        </View>
       </ScrollView>
     </View>
   );

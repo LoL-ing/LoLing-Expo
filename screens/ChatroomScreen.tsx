@@ -26,6 +26,8 @@ import ChatAcceptText from '../assets/text_images/chat-accept-text.svg';
 import AcceptChatButton from '../assets/icons/svg/accept-chat.svg';
 import DenyChatButton from '../assets/icons/svg/deny-chat.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ImgIcon from '../assets/icons/svg/chatroom-img-icon.svg';
+import EmoticonIcon from '../assets/icons/svg/chatroom-emoticon-icon.svg';
 
 const { StatusBarManager } = NativeModules;
 const data = {
@@ -140,12 +142,15 @@ const contents = ({ navigation }: any) => {
                   ? Layout.Height * 0.015 + useSafeAreaInsets().bottom * 0.5
                   : Layout.Height * 0.015,
             },
-          ]}
-        >
+          ]}>
+        <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
+          <ImgIcon />
+        </Pressable>
+        <View style={styles.textInputContainer}>
           <TextInput
             style={styles.textInput}
             placeholder="메세지를 입력하세요."
-            placeholderTextColor={Colors.textGray}
+            placeholderTextColor={Colors.textUnfocusedPurple}
             value={textInput}
             maxLength={200}
             onChangeText={text => {
@@ -153,17 +158,19 @@ const contents = ({ navigation }: any) => {
               setTextInput(text);
             }}
             returnKeyType="send"
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
           />
-          <Pressable
-            style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
-            onPress={() => {
-              Keyboard.dismiss();
-              setTextInput('');
-              //전송 작업
-            }}
-          >
+          <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
+            <EmoticonIcon />
+          </Pressable>
+        </View>
+        <Pressable
+          style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+          onPress={() => {
+            Keyboard.dismiss();
+            setTextInput('');
+            //전송 작업
+          }}
+        >
             <SendMessage width={Layout.Width * 0.11} style={{}} />
           </Pressable>
         </View>
@@ -286,7 +293,7 @@ const styles = StyleSheet.create({
   sendMessageContainer: {
     width: Layout.Width,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -294,11 +301,18 @@ const styles = StyleSheet.create({
     paddingLeft: Layout.Width * 0.064,
     paddingRight: Layout.Width * 0.016,
   },
-  textInput: {
+  textInputContainer: {
+    width: Layout.Width * 0.68,
     height: Layout.Height * 0.055,
-    width: Layout.Width * 0.78,
-    borderBottomColor: Colors.textGray,
-    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#353565',
+    borderRadius: 30,
+  },
+  textInput: {
+    height: Layout.Width * 0.11,
+    width: Layout.Width * 0.6,
+    paddingLeft: Layout.Width * 0.05,
     color: Colors.textWhite,
     fontSize: Layout.FontScale * 12,
   },
