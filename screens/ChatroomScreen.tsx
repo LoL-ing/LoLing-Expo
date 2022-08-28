@@ -142,35 +142,44 @@ const contents = ({ navigation }: any) => {
                   ? Layout.Height * 0.015 + useSafeAreaInsets().bottom * 0.5
                   : Layout.Height * 0.015,
             },
-          ]}>
-        <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
-          <ImgIcon />
-        </Pressable>
-        <View style={styles.textInputContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="메세지를 입력하세요."
-            placeholderTextColor={Colors.textUnfocusedPurple}
-            value={textInput}
-            maxLength={200}
-            onChangeText={text => {
-              setMessage(text);
-              setTextInput(text);
-            }}
-            returnKeyType="send"
-          />
-          <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
-            <EmoticonIcon />
-          </Pressable>
-        </View>
-        <Pressable
-          style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
-          onPress={() => {
-            Keyboard.dismiss();
-            setTextInput('');
-            //전송 작업
-          }}
+          ]}
         >
+          <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}>
+            <ImgIcon />
+          </Pressable>
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="메세지를 입력하세요."
+              placeholderTextColor={Colors.textUnfocusedPurple}
+              value={textInput}
+              maxLength={200}
+              onChangeText={text => {
+                setMessage(text);
+                setTextInput(text);
+              }}
+              onFocus={() => {
+                setFocused(true);
+              }}
+              onBlur={() => {
+                setFocused(false);
+              }}
+              returnKeyType="send"
+            />
+            <Pressable
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            >
+              <EmoticonIcon />
+            </Pressable>
+          </View>
+          <Pressable
+            style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            onPress={() => {
+              Keyboard.dismiss();
+              setTextInput('');
+              //전송 작업
+            }}
+          >
             <SendMessage width={Layout.Width * 0.11} style={{}} />
           </Pressable>
         </View>

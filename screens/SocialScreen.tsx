@@ -118,14 +118,15 @@ export default function SocialScreen({
           setFriendRequestKeyword('');
           changeFriendRequestChecked();
           setMessage('');
+          setCount(0);
           setFriendRequestModalVisible(!friendRequestModalVisible);
         }}
       >
         <TouchableWithoutFeedback
           onPress={() => {
             setFriendRequestKeyword('');
-            changeFriendRequestChecked();
             setMessage('');
+            setCount(0);
             setFriendRequestModalVisible(false);
           }}
         >
@@ -167,8 +168,8 @@ export default function SocialScreen({
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
               onPress={() => {
                 setFriendRequestKeyword('');
-                changeFriendRequestChecked();
                 setMessage('');
+                setCount(0);
                 setFriendRequestModalVisible(false);
               }}
             >
@@ -315,8 +316,8 @@ export default function SocialScreen({
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
               onPress={() => {
                 setFriendRequestKeyword('');
-                changeFriendRequestChecked();
                 setMessage('');
+                setCount(0);
                 setFriendRequestModalVisible(false);
               }}
             >
@@ -327,6 +328,7 @@ export default function SocialScreen({
               onPress={() => {
                 Keyboard.dismiss();
                 setMessage('');
+                setCount(0);
                 changeFriendRequestChecked();
               }}
             >
@@ -454,7 +456,10 @@ export default function SocialScreen({
           </Pressable>
           <Pressable
             style={{ width: Layout.Width * 0.12 }}
-            onPress={() => setFriendRequestModalVisible(true)}
+            onPress={() => {
+              setFriendRequestModalVisible(true);
+              changeFriendRequestChecked();
+            }}
           >
             <AddFrined width={Layout.Width * 0.07} />
           </Pressable>

@@ -12,7 +12,6 @@ import {
   ScrollView,
   Animated,
   Easing,
-  StatusBar,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -35,15 +34,6 @@ const data = {
 const { StatusBarManager } = NativeModules;
 
 export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
-  const [statusBarHeight, setStatusBarHeight] = useState(0);
-  useEffect(() => {
-    Platform.OS == 'ios'
-      ? StatusBarManager.getHeight((statusBarFrameData: { height: any }) => {
-          setStatusBarHeight(statusBarFrameData.height);
-        })
-      : null;
-  }, []);
-
   const transAnim = useRef(new Animated.Value(0)).current;
   const transAnim2 = useRef(new Animated.Value(0)).current;
   const onPressAnimation = () => {
@@ -227,12 +217,13 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
               destination="SignIn"
               onPressAnimation={onPressAnimation}
             ></Menu>
-          <Menu
-            title="FAQ"
-            destination="ChatRoom"
-            onPressAnimation={onPressAnimation}
-          ></Menu>
-        </View>
+            <Menu
+              title="FAQ"
+              destination="ChatRoom"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+          </View>
+        </Animated.View>
       </ScrollView>
     </View>
   );
