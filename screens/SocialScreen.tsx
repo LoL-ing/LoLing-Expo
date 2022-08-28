@@ -11,6 +11,7 @@ import {
   TextInput,
   Modal,
   TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import Colors from '../constants/Colors';
@@ -70,9 +71,32 @@ export default function SocialScreen({
   const [friendKeyword, setFriendKeyword] = useState('');
   const [chattingRoomKeyword, setChattingRoomKeyword] = useState('');
   const [friendRequestKeyword, setFriendRequestKeyword] = useState('');
+  const [friendRequestChecked, setFriendRequestChecked] = useState(0);
+  const [message, setMessage] = useState('');
+  const [countvalue, setCount] = useState(0);
+  const [isFriendRequestFocused, setIsFriendRequestFocused] = useState(false);
+  const [isMessageFocused, setIsMessageFocused] = useState(false);
+  const messageField = useRef<TextInput>(null);
+
   const scrollViewRef = useRef<ScrollView>(null);
   const [friendRequestModalVisible, setFriendRequestModalVisible] =
     useState(false);
+
+  const countValue = (input: string) => {
+    setCount(input.length);
+  };
+
+  const changeFriendRequestChecked = () => {
+    if (friendRequestKeyword == '') {
+      setFriendRequestChecked(0);
+    } else {
+      if (friendRequestKeyword == '닉네임') {
+        setFriendRequestChecked(2);
+      } else {
+        setFriendRequestChecked(1);
+      }
+    }
+  };
 
   return (
     <View style={styles.topContainer}>
@@ -81,17 +105,25 @@ export default function SocialScreen({
         transparent={true}
         visible={friendRequestModalVisible}
         onRequestClose={() => {
+          setFriendRequestKeyword('');
+          changeFriendRequestChecked();
+          setMessage('');
           setFriendRequestModalVisible(!friendRequestModalVisible);
         }}
       >
         <TouchableWithoutFeedback
-          onPress={() => setFriendRequestModalVisible(false)}
+          onPress={() => {
+            setFriendRequestKeyword('');
+            changeFriendRequestChecked();
+            setMessage('');
+            setFriendRequestModalVisible(false);
+          }}
         >
           <View
             style={{
               width: Layout.Width,
               height: Layout.Height,
-              backgroundColor: ' black',
+              backgroundColor: 'black',
               opacity: 0.7,
             }}
           ></View>
@@ -99,48 +131,62 @@ export default function SocialScreen({
         <View
           style={{
             width: Layout.Width * 0.83,
-            height: Layout.Height * 0.23,
+            height:
+              friendRequestChecked == 0
+                ? Layout.Height * 0.23
+                : friendRequestChecked == 1
+                ? Layout.Height * 0.26
+                : Layout.Height * 0.36,
             alignItems: 'center',
             backgroundColor: '#23233F',
             borderRadius: 10,
             position: 'absolute',
-            top: Layout.Height * 0.38,
+            top:
+              friendRequestChecked == 0
+                ? Layout.Height * 0.38
+                : friendRequestChecked == 1
+                ? Layout.Height * 0.37
+                : Layout.Height * 0.32,
             left: Layout.Width * 0.08,
           }}
         >
-          <View
-            style={{
-              width: Layout.Width * 0.75,
-              height: Layout.Height * 0.06,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.friendRequestTitleBox}>
             <View style={{ width: Layout.Width * 0.066 }}></View>
             <FriendRequestText width={Layout.Width * 0.16} />
             <Pressable
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
-              onPress={() => setFriendRequestModalVisible(false)}
+              onPress={() => {
+                setFriendRequestKeyword('');
+                changeFriendRequestChecked();
+                setMessage('');
+                setFriendRequestModalVisible(false);
+              }}
             >
               <FriendRequestExit />
             </Pressable>
           </View>
-          <View
-            style={{
-              width: Layout.Width * 0.72,
-              height: Layout.Height * 0.055,
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: Layout.Height * 0.01,
-              backgroundColor: '#353565',
-              borderRadius: 30,
-            }}
-          >
+          <View style={styles.friendRequestTextInputBox}>
             <TextInput
-              style={styles.searchFriendRequestTextInput}
+              style={{
+                width: Layout.Width * 0.7,
+                height:
+                  friendRequestChecked == 2
+                    ? Layout.Height * 0
+                    : Layout.Height * 0.055,
+                paddingHorizontal: Layout.Width * 0.05,
+                marginVertical: Layout.Height * 0.03,
+                color: Colors.textWhite,
+                fontSize: 15,
+              }}
               placeholder={'롤링 닉네임을 입력하세요.'}
               placeholderTextColor={Colors.textUnfocusedPurple}
+              returnKeyType="next"
+              onFocus={() => {
+                setIsFriendRequestFocused(true);
+              }}
+              onBlur={() => {
+                setIsFriendRequestFocused(false);
+              }}
               value={friendRequestKeyword}
               onChangeText={(text: string) => setFriendRequestKeyword(text)}
             />
@@ -149,25 +195,130 @@ export default function SocialScreen({
                 marginLeft: -(Layout.Width * 0.08),
               }}
               width={Layout.Width * 0.066}
-              height={Layout.Height * 0.033}
+              height={
+                friendRequestChecked == 2
+                  ? Layout.Height * 0
+                  : Layout.Height * 0.033
+              }
             />
           </View>
           <View
             style={{
               width: Layout.Width * 0.75,
-              height: Layout.Height * 0.06,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
+              height:
+                friendRequestChecked == 1
+                  ? Layout.Height * 0.03
+                  : Layout.Height * 0,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
+            <Text style={{ fontSize: Layout.FontScale * 10, color: '#FF7575' }}>
+              해당 닉네임을 찾을 수 없습니다. 다시 확인해주세요.
+            </Text>
+          </View>
+          <View
+            style={{
+              width: Layout.Width * 0.75,
+              height:
+                friendRequestChecked == 2
+                  ? Layout.Height * 0.13
+                  : Layout.Height * 0,
+              justifyContent: 'space-around',
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{
+                fontSize: Layout.FontScale * 10,
+                color: Colors.textWhite,
+              }}
+            >
+              친구 요청 메세지
+            </Text>
+            <Text
+              style={[
+                styles.messageText,
+                {
+                  color:
+                    isMessageFocused && countvalue !== 0
+                      ? Colors.textFocusedPurple
+                      : Colors.textGray,
+                },
+              ]}
+            >
+              {countvalue == 0
+                ? '100자 이내로 작성해주세요.'
+                : countvalue + ' / 100'}
+            </Text>
+            <TextInput
+              style={[
+                {
+                  width: Layout.Width * 0.75,
+                  height:
+                    friendRequestChecked == 2
+                      ? Layout.Height * 0.035
+                      : Layout.Height * 0,
+                  color: Colors.textWhite,
+                  fontSize: Layout.FontScale * 10,
+                  fontWeight: 'normal',
+                },
+                isMessageFocused
+                  ? {
+                      borderBottomColor: Colors.textFocusedPurple,
+                      borderBottomWidth: 1,
+                      marginBottom: Layout.Height * 0.01,
+                      opacity: friendRequestChecked == 2 ? 1 : 0,
+                    }
+                  : {
+                      borderBottomColor: Colors.textUnfocusedPurple,
+                      borderBottomWidth: 1,
+                      marginBottom: Layout.Height * 0.01,
+                      opacity: friendRequestChecked == 2 ? 1 : 0,
+                    },
+              ]}
+              placeholder="친구가 알아볼 수 있도록 간단한 메세지를 남겨주세요."
+              placeholderTextColor={Colors.textUnfocusedPurple}
+              returnKeyType="next"
+              onFocus={() => {
+                setIsMessageFocused(true);
+              }}
+              onBlur={() => {
+                setIsMessageFocused(false);
+              }}
+              onChangeText={text => {
+                setMessage(text);
+                countValue(text);
+              }}
+              value={message}
+              onSubmitEditing={() => {
+                messageField.current?.focus();
+              }}
+              maxLength={100}
+              textAlign={'center'}
+              clearButtonMode="while-editing"
+              multiline={true}
+            />
+          </View>
+          <View style={styles.friendRequestDeleteBox}>
             <Pressable
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
-              onPress={() => setFriendRequestModalVisible(false)}
+              onPress={() => {
+                setFriendRequestKeyword('');
+                changeFriendRequestChecked();
+                setMessage('');
+                setFriendRequestModalVisible(false);
+              }}
             >
               <DeleteNo width={Layout.Width * 0.35} />
             </Pressable>
             <Pressable
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+              onPress={() => {
+                Keyboard.dismiss();
+                setMessage('');
+                changeFriendRequestChecked();
+              }}
             >
               <DeleteYes width={Layout.Width * 0.35} />
             </Pressable>
@@ -405,7 +556,7 @@ export default function SocialScreen({
                   champ_kda_1={item.champ_kda_1}
                   champ_kda_2={item.champ_kda_2}
                   champ_kda_3={item.champ_kda_3}
-                  description={item.description}
+                  message={item.message}
                 />
               )}
             />
@@ -464,8 +615,8 @@ const styles = StyleSheet.create({
   topContainer: {
     width: Layout.Width,
     height: Layout.Height,
-    // paddingTop: StatusBar.currentHeight,
-    paddingTop: Layout.Height * 0.045,
+    paddingTop: StatusBar.currentHeight,
+    // paddingTop: Layout.Height * 0.045,
     paddingBottom: Layout.AndroidBottomBarHeight * 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -496,6 +647,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  friendRequestTitleBox: {
+    width: Layout.Width * 0.75,
+    height: Layout.Height * 0.06,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  friendRequestTextInputBox: {
+    width: Layout.Width * 0.72,
+    height: Layout.Height * 0.055,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: Layout.Height * 0.015,
+    backgroundColor: '#353565',
+    borderRadius: 30,
+  },
+  friendRequestDeleteBox: {
+    width: Layout.Width * 0.75,
+    height: Layout.Height * 0.06,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   receivedFriendRequestContainer: {
     width: Layout.Width * 0.86,
     height: Layout.Height * 0.1,
@@ -515,12 +688,10 @@ const styles = StyleSheet.create({
     color: Colors.textWhite,
     fontSize: 15,
   },
-  searchFriendRequestTextInput: {
-    width: Layout.Width * 0.7,
-    height: Layout.Height * 0.05,
-    paddingHorizontal: Layout.Width * 0.05,
-    marginVertical: Layout.Height * 0.03,
-    color: Colors.textWhite,
-    fontSize: 15,
+  messageText: {
+    color: Colors.textGray,
+    fontSize: Layout.FontScale * 10,
+    fontWeight: 'normal',
+    marginVertical: Layout.Height * 0.01,
   },
 });
