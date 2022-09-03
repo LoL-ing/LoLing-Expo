@@ -11,8 +11,6 @@ import {
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
-import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
-import MatchingOPGG from '../assets/icons/svg/matching-opgg.svg';
 import MatchingPosition from '../assets/text_images/matching-position.svg';
 import MatchingChampion from '../assets/text_images/matching-champion.svg';
 import MatchingToUser from '../assets/text_images/matching-toUser.svg';
@@ -212,37 +210,6 @@ export default function ProfileCard(props: {
             <Text style={styles.quotText}>&rdquo;</Text>
           </View>
         </View>
-
-        <Pressable
-          style={({ pressed }) => [
-            {
-              opacity: pressed ? 0.5 : 1,
-            },
-            {
-              position: 'absolute',
-              top: Layout.Height * 0.7,
-              left: Layout.Width * 0.18,
-              zIndex: 100,
-            },
-          ]}
-        >
-          <MatchingOPGG />
-        </Pressable>
-        <Pressable
-          style={({ pressed }) => [
-            {
-              opacity: pressed ? 0.5 : 1,
-            },
-            {
-              position: 'absolute',
-              top: Layout.Height * 0.7,
-              zIndex: 100,
-              right: Layout.Width * 0.18,
-            },
-          ]}
-        >
-          <MatchingChatting />
-        </Pressable>
       </View>
     </View>
   );

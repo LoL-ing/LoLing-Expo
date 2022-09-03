@@ -48,6 +48,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       ChatRoom: 'chatroom',
       FriendRequest: 'friendrequest',
       Settings: 'setting',
+      ProfileEdit: 'profileedit',
     },
   },
 };

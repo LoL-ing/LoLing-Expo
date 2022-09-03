@@ -1,38 +1,63 @@
 import * as React from 'react';
 import { StyleSheet, Pressable, Image, Text, View } from 'react-native';
-import Colors from '../constants/Colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function ProfileScreen() {
+import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
+
+import ProfileCard from '../components/ProfileCard';
+import Arrow from '../assets/icons/svg/arrow-left.svg';
+import CircularButton from '../components/CircularButton';
+import ProfileEdit from '../assets/icons/svg/profile-edit.svg';
+import { RootStackScreenProps } from '../types';
+
+export default function ProfileScreen({
+  navigation,
+}: RootStackScreenProps<'Profile'>) {
   return (
-    <View style={styles.container}>
-      <Pressable style={styles.profileContainer}>
-        <View style={{ backgroundColor: Colors.backgroundPurple }}>
-          <Image
-            source={require('../assets/images/Irelia.png')}
-            style={styles.profileImg}
-          />
-        </View>
-        <View
-          style={{
-            height: '50%',
-            marginHorizontal: 10,
-            justifyContent: 'space-around',
-            backgroundColor: Colors.backgroundPurple,
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        backgroundColor: Colors.backgroundBlack,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+      }}
+    >
+      <View
+        style={{
+          width: Layout.Width,
+          //height: Layout.Height * 0.1,
+          height: Layout.Height * 0.1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: Colors.backgroundBlack,
+        }}
+      >
+        <Pressable
+          style={({ pressed }) => [
+            {
+              opacity: pressed ? 0.5 : 1,
+            },
+            { position: 'absolute', left: Layout.Width * 0.05 },
+          ]}
+          onPress={() => {
+            navigation.goBack();
           }}
         >
-          <Text style={styles.usernameText}>하아아푸움</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: Colors.backgroundPurple,
-            }}
-          >
-            <Text style={styles.tierText}>Gold 1</Text>
-            <Text style={styles.LPText}>25LP</Text>
-          </View>
-          <Text style={styles.levelText}>lv.100</Text>
-        </View>
-      </Pressable>
+          <Arrow width={Layout.Width * 0.075} />
+        </Pressable>
+        <Text>Picker</Text>
+      </View>
+      {/* <ProfileCard /> */}
+      <CircularButton
+        onPress={() => navigation.navigate('ProfileEdit')}
+        bottom={0.15}
+        left={0.39}
+        svgImage={<ProfileEdit />}
+      />
     </View>
   );
 }

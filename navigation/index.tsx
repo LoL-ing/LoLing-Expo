@@ -33,6 +33,7 @@ import DeleteFriendScreen from '../screens/DeleteFriendScreen';
 import ChatRoomScreen from '../screens/ChatroomScreen';
 import FriendRequestScreen from '../screens/FriendRequestScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ProfileEditScreen from '../screens/ProfileEditScreen';
 
 import HomeIconSelected from '../assets/icons/svg/home-icon-selected.svg';
 import HomeIconUnselected from '../assets/icons/svg/home-icon-unselected.svg';
@@ -132,6 +133,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
+        options={{ headerShown: false, animation: 'fade' }}
+      />
+      <Stack.Screen
+        name="ProfileEdit"
+        component={ProfileEditScreen}
         options={{ headerShown: false, animation: 'fade' }}
       />
     </Stack.Navigator>

@@ -14,6 +14,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import Friend from '../components/Friend';
@@ -23,7 +24,7 @@ import getFriends from '../data/Friends';
 import { RootStackScreenProps } from '../types';
 
 import DeleteFrinedIcon from '../assets/icons/svg/delete-frined-icon.svg';
-import AddFrined from '../assets/icons/svg/add-frined-icon.svg';
+import AddFriend from '../assets/icons/svg/add-friend-icon.svg';
 import ChevronRight from '../assets/icons/svg/fi_chevron-right.svg';
 import ProfileCollection from '../assets/icons/svg/profile-collection.svg';
 import FriendRequest from '../assets/icons/svg/friend-request.svg';
@@ -33,7 +34,6 @@ import FriendOff from '../assets/icons/svg/friend-off.svg';
 import ChatRoomOn from '../assets/icons/svg/chatroom-on.svg';
 import ChatRoomOff from '../assets/icons/svg/chatroom-off.svg';
 import SearchIcon from '../assets/icons/svg/search-icon.svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FriendRequestText from '../assets/text_images/friendRequestText.svg';
 import FriendRequestExit from '../assets/icons/svg/profilecard-exit.svg';
 import DeleteNo from '../assets/icons/svg/delete-no.svg';
@@ -162,9 +162,8 @@ export default function SocialScreen({
           }}
         >
           <View style={styles.friendRequestTitleBox}>
-            <View style={{ width: Layout.Width * 0.066 }}></View>
             <FriendRequestText width={Layout.Width * 0.16} />
-            <Pressable
+            {/* <Pressable
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
               onPress={() => {
                 setFriendRequestKeyword('');
@@ -174,15 +173,16 @@ export default function SocialScreen({
               }}
             >
               <FriendRequestExit />
-            </Pressable>
+            </Pressable> */}
           </View>
           <View style={styles.friendRequestTextInputBox}>
             <TextInput
+              // editable={ }
               style={{
                 width: Layout.Width * 0.7,
                 height:
                   friendRequestChecked == 2
-                    ? Layout.Height * 0
+                    ? Layout.Height * 0.055
                     : Layout.Height * 0.055,
                 paddingHorizontal: Layout.Width * 0.05,
                 marginVertical: Layout.Height * 0.03,
@@ -461,7 +461,7 @@ export default function SocialScreen({
               changeFriendRequestChecked();
             }}
           >
-            <AddFrined width={Layout.Width * 0.07} />
+            <AddFriend width={Layout.Width * 0.07} />
           </Pressable>
         </View>
       </View>
@@ -675,7 +675,7 @@ const styles = StyleSheet.create({
     width: Layout.Width * 0.75,
     height: Layout.Height * 0.06,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   friendRequestTextInputBox: {
@@ -684,7 +684,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: Layout.Height * 0.015,
-    backgroundColor: '#353565',
+    backgroundColor: '#353556',
     borderRadius: 30,
   },
   friendRequestDeleteBox: {

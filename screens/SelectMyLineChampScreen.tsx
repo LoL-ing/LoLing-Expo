@@ -555,7 +555,7 @@ export default function SelectMyLineChampScreen({
             {
               opacity: pressed ? 0.5 : 1,
               width: Layout.Width * 0.9,
-              height: Layout.Height * 0.08,
+              height: Layout.Height * 0.07,
               marginBottom: Layout.Height * 0.06,
             },
           ]}
@@ -613,7 +613,7 @@ export default function SelectMyLineChampScreen({
                 ],
               }}
             >
-              <MatchingChatting width={Layout.Width * 0.17} />
+              <MatchingChatting width={Layout.Width * 0.15} />
             </Animated.View>
           </Animated.View>
         </Pressable>

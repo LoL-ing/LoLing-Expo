@@ -14,6 +14,7 @@ import Styles from '../constants/Styles';
 import { RootStackScreenProps } from '../types';
 
 import Arrow from '../assets/icons/svg/arrow-left.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { StatusBarManager } = NativeModules;
 
@@ -31,7 +32,16 @@ export default function SettingsScreen(
   }, []);
 
   return (
-    <View style={[Styles.fullscreen, styles.fullscreen]}>
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        flexDirection: 'column',
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
+        backgroundColor: Colors.backgroundNavy,
+      }}
+    >
       <View style={[styles.header, dstyle(statusBarHeight).headerPadding]}>
         <Pressable
           style={({ pressed }) => [

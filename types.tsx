@@ -31,6 +31,7 @@ export type RootStackParamList = {
   ChatRoom: undefined;
   FriendRequest: undefined;
   Settings: undefined;
+  ProfileEdit: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

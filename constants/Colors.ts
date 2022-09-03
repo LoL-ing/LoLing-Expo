@@ -4,6 +4,7 @@ export default {
   light: {},
   dark: {},
   textGray: '#B9B9BE',
+  textPink: '#FF7575',
   textFocusedPurple: '#C5A3FF',
   textUnfocusedPurple: '#484868',
   textWhite: '#FFFFFF',
