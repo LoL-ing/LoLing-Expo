@@ -11,13 +11,14 @@ import {
   Keyboard,
 } from 'react-native';
 import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { accessTokenState } from '../atoms/atom';
 import { api_getAccessToken } from '../api/main';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import Layout from '../constants/Layout';
 import { RootStackScreenProps } from '../types';
-
+import { AsyncStorage } from 'react-native';
 import FindIdPassword from '../assets/text_images/findIdPassword.svg';
 import GoToSignUp from '../assets/text_images/goToSignUp.svg';
 import LoginButton from '../assets/text_images/loginButton.svg';
@@ -35,7 +36,7 @@ export default function SignInScreen({
   const [signIn, setSignIn] = useState(true);
   const passwordField = useRef<TextInput>(null);
 
-  const [token, setToken] = useRecoilState(accessTokenState);
+  // const [token, setToken] = useRecoilState(accessTokenState);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -146,7 +147,11 @@ export default function SignInScreen({
                 });
 
                 if (response.data) {
-                  setToken(response.data);
+                  // setToken(response.data);
+
+                  /* 로컬 스토리지에 토큰을 저장함 */
+                  await AsyncStorage.setItem('token', response.data);
+
                   navigation.navigate('Root');
                 }
               }}

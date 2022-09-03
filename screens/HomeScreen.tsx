@@ -17,12 +17,26 @@ import Layout from '../constants/Layout';
 import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import getMyProfile from '../data/MyProfile';
 import { RootTabScreenProps } from '../types';
+import { api_getProfile } from '../api/main';
+import { accessTokenState } from '../atoms/atom';
+import jwt_decode from 'jwt-decode';
 
 const MyProfile = getMyProfile();
-
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const friends = useRecoilValue(getFriendsSelector);
   const MatchableUsers = useRecoilValue(getLoLAccountSelector);
+  api_getProfile().then(response => {
+    alert(response);
+    console.log(response);
+  });
+
+  //  여기에서 토큰 -> lol_name 추출 해서 넣기
+  // const myJWT = useRecoilValue(accessTokenState);
+
+  // console.log(myJWT);
+
+  //const payload = jwt.decode(String(myJWT).split('.')[1]);
+  //console.log(jwt_decode(String(myJWT).split('.')[1]));
   return (
     <View
       style={{
