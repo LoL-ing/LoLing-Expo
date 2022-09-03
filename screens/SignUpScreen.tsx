@@ -74,7 +74,18 @@ export default function SignUpScreen({
   };
 
   return (
-    <SafeAreaView style={[Styles.fullscreen, styles.fullscreen]}>
+    // <SafeAreaView style={[Styles.fullscreen, styles.fullscreen]}>
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        backgroundColor: Colors.backgroundBlack,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+        alignItems: 'center',
+      }}
+    >
       <KeyboardAwareScrollView
         enableOnAndroid={false}
         showsVerticalScrollIndicator={false}
@@ -460,7 +471,7 @@ export default function SignUpScreen({
           </ScrollView>
         </View>
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

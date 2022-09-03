@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     height: Layout.Height * 0.055,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#353565',
+    backgroundColor: '#353556',
     borderRadius: 30,
   },
   textInput: {

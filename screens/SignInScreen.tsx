@@ -25,6 +25,7 @@ import LoginButton from '../assets/text_images/loginButton.svg';
 import KaKao from '../assets/text_images/kakaoLogin.svg';
 import Naver from '../assets/text_images/naverLogin.svg';
 import Google from '../assets/text_images/googleLogin.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SignInScreen({
   navigation,
@@ -40,7 +41,17 @@ export default function SignInScreen({
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={Styles.fullscreen}>
+      {/* <View style={Styles.fullscreen}> */}
+      <View
+        style={{
+          width: Layout.Width,
+          height: Layout.Height,
+          backgroundColor: Colors.backgroundBlack,
+          paddingTop: useSafeAreaInsets().top,
+          paddingBottom:
+            Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+        }}
+      >
         <View style={{ backgroundColor: Colors.backgroundBlack }}>
           <View style={styles.signinContainer}>
             <View style={styles.signinTextInputContainer}>
@@ -194,7 +205,7 @@ export default function SignInScreen({
 
 const styles = StyleSheet.create({
   signinContainer: {
-    marginTop: Layout.Height * 0.2,
+    marginTop: Layout.Height * 0.15,
     backgroundColor: Colors.backgroundBlack,
   },
   textInput: {

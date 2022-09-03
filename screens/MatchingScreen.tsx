@@ -19,7 +19,10 @@ import Arrow from '../assets/icons/svg/arrow-left.svg';
 import MatchingLeft from '../assets/icons/svg/matching-left.svg';
 import MatchingRight from '../assets/icons/svg/matching-right.svg';
 import MatchingHelp from '../assets/icons/svg/matching-help.svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import MatchingChatting from '../assets/icons/svg/matching-chatting.svg';
+import MatchingOPGG from '../assets/icons/svg/matching-opgg.svg';
+import CircularButton from '../components/CircularButton';
+import { useNavigation } from '@react-navigation/native';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -33,31 +36,49 @@ export default class App extends React.Component {
 
   _renderItem({ item, index }) {
     return (
-      <ProfileCard
-        lolingId={item.lolingId}
-        mannerTierImg={item.mannerTierImg}
-        championImg={item.championImg}
-        rank={item.rank}
-        nickname={item.nickname}
-        winRate={item.winRate}
-        winLose={item.winLose}
-        lineImg_1={item.lineImg_1}
-        lineImg_2={item.lineImg_2}
-        line_winRate_1={item.line_winRate_1}
-        line_winRate_2={item.line_winRate_2}
-        line_kda_1={item.line_kda_1}
-        line_kda_2={item.line_kda_2}
-        championImg_1={item.championImg_1}
-        championImg_2={item.championImg_2}
-        championImg_3={item.championImg_3}
-        champ_winRate_1={item.champ_winRate_1}
-        champ_winRate_2={item.champ_winRate_2}
-        champ_winRate_3={item.champ_winRate_3}
-        champ_kda_1={item.champ_kda_1}
-        champ_kda_2={item.champ_kda_2}
-        champ_kda_3={item.champ_kda_3}
-        description={item.description}
-      />
+      <>
+        <ProfileCard
+          lolingId={item.lolingId}
+          mannerTierImg={item.mannerTierImg}
+          championImg={item.championImg}
+          rank={item.rank}
+          nickname={item.nickname}
+          winRate={item.winRate}
+          winLose={item.winLose}
+          lineImg_1={item.lineImg_1}
+          lineImg_2={item.lineImg_2}
+          line_winRate_1={item.line_winRate_1}
+          line_winRate_2={item.line_winRate_2}
+          line_kda_1={item.line_kda_1}
+          line_kda_2={item.line_kda_2}
+          championImg_1={item.championImg_1}
+          championImg_2={item.championImg_2}
+          championImg_3={item.championImg_3}
+          champ_winRate_1={item.champ_winRate_1}
+          champ_winRate_2={item.champ_winRate_2}
+          champ_winRate_3={item.champ_winRate_3}
+          champ_kda_1={item.champ_kda_1}
+          champ_kda_2={item.champ_kda_2}
+          champ_kda_3={item.champ_kda_3}
+          description={item.description}
+        />
+        <CircularButton
+          onPress={() => {
+            return;
+          }}
+          bottom={0.15}
+          left={0.18}
+          svgImage={<MatchingOPGG />}
+        />
+        <CircularButton
+          onPress={() => {
+            return;
+          }}
+          bottom={0.15}
+          left={0.39}
+          svgImage={<MatchingChatting />}
+        />
+      </>
     );
   }
   componentDidMount() {

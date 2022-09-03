@@ -21,6 +21,7 @@ import Nickname from '../assets/text_images/nickname.svg';
 import Description from '../assets/text_images/description.svg';
 import SignUpComplete from '../assets/text_images/signUpComplete.svg';
 import LoLAccount from '../assets/text_images/lolaccount.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function WelcomeScreen({
   navigation,
@@ -100,7 +101,18 @@ export default function WelcomeScreen({
   };
 
   return (
-    <SafeAreaView style={[Styles.fullscreen]}>
+    <View
+      style={{
+        width: Layout.Width,
+        height: Layout.Height,
+        backgroundColor: Colors.backgroundBlack,
+        paddingTop: useSafeAreaInsets().top,
+        paddingBottom:
+          Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
@@ -296,7 +308,7 @@ export default function WelcomeScreen({
           </Pressable>
         </Animated.View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

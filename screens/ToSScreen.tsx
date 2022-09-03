@@ -80,7 +80,7 @@ export default function ToSScreen({ navigation }: RootStackScreenProps<'ToS'>) {
         backgroundColor: Colors.backgroundBlack,
         paddingTop: useSafeAreaInsets().top,
         paddingBottom:
-          Layout.AndroidBottomBarHeight + 49 + useSafeAreaInsets().bottom,
+          Layout.AndroidBottomBarHeight + useSafeAreaInsets().bottom,
 
         paddingHorizontal: Layout.Width * 0.05,
         flexDirection: 'column',
