@@ -3,9 +3,16 @@ import { API_URL } from '../config';
 import { useRecoilState } from 'recoil';
 import { profilesState } from '../atoms/atom';
 import baseAPI from './base.js';
+import { accessTokenState } from '../atoms/atom';
+import { useRecoilValue } from 'recoil';
+
 
 export function api_getFriends() {
   return baseAPI.get('/friends/friends');
+}
+
+export function api_getProfile() {
+  return baseAPI.get('/profiles');
 }
 
 export function api_getProfiles() {
