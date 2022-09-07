@@ -36,6 +36,9 @@ const { StatusBarManager } = NativeModules;
 export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
   const transAnim = useRef(new Animated.Value(0)).current;
   const transAnim2 = useRef(new Animated.Value(0)).current;
+  const offset = useRef(new Animated.Value(0)).current;
+
+  const [animValue, setAnimValue] = useState(0);
   const onPressAnimation = () => {
     Animated.sequence([
       Animated.timing(transAnim, {
@@ -104,68 +107,105 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
           }),
         }}
       />
-      <ScrollView
-        alwaysBounceHorizontal={false}
-        alwaysBounceVertical={false}
-        bounces={false}
-        showsVerticalScrollIndicator={false}
+
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [Layout.Height * 0.3, Layout.Height * 0.12], // 나중에 height 조절
+            }),
+            backgroundColor: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
+            }),
+            borderBottomLeftRadius: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [20, 0],
+            }),
+            borderBottomRightRadius: transAnim2.interpolate({
+              inputRange: [0, 1],
+              outputRange: [20, 0],
+            }),
+          },
+          {
+            height: offset.interpolate({
+              inputRange: [0, Layout.Height * 0.3],
+              outputRange: [Layout.Height * 0.3, Layout.Height * 0.158],
+              extrapolate: 'clamp',
+            }),
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 10,
+            transform: [
+              {
+                translateY: offset.interpolate({
+                  inputRange: [0, Layout.Height * 0.3],
+                  outputRange: [0, -Layout.Height * 0.142],
+                  extrapolate: 'clamp',
+                }),
+              },
+            ],
+          },
+        ]}
       >
         <Animated.View
           style={[
-            styles.header,
+            styles.headerContents,
             {
-              height: transAnim2.interpolate({
+              opacity: transAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [Layout.Height * 0.3, Layout.Height * 0.12], // 나중에 height 조절
-              }),
-              backgroundColor: transAnim2.interpolate({
-                inputRange: [0, 1],
-                outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
-              }),
-              borderBottomLeftRadius: transAnim2.interpolate({
-                inputRange: [0, 1],
-                outputRange: [20, 0],
-              }),
-              borderBottomRightRadius: transAnim2.interpolate({
-                inputRange: [0, 1],
-                outputRange: [20, 0],
+                outputRange: [1, 0],
               }),
             },
           ]}
         >
-          <Animated.View
-            style={[
-              styles.headerContents,
-              {
-                opacity: transAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [1, 0],
-                }),
-              },
-            ]}
-          >
-            <Image
-              source={data.request[0].profileImg}
-              style={styles.profileImg}
-            />
-            <View style={styles.textContainer}>
-              <Text style={styles.profileNickName}>
-                {data.request[0].nickname}
-              </Text>
-              <Text style={styles.profileEmail}>{data.request[0].email}</Text>
-            </View>
-            <View style={styles.buttonsContainer}>
-              <Pressable
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                })}
-                onPress={() => navigation.navigate('Profile')}
-              >
-                <ProfileEdit width={Layout.Width * 0.73} />
-              </Pressable>
-            </View>
-          </Animated.View>
+          <Image
+            source={data.request[0].profileImg}
+            style={styles.profileImg}
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.profileNickName}>
+              {data.request[0].nickname}
+            </Text>
+            <Text style={styles.profileEmail}>{data.request[0].email}</Text>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <Pressable
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              <ProfileEdit width={Layout.Width * 0.73} />
+            </Pressable>
+          </View>
         </Animated.View>
+      </Animated.View>
+
+      <Animated.ScrollView
+        alwaysBounceHorizontal={false}
+        alwaysBounceVertical={false}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: offset } } }],
+          { useNativeDriver: false },
+        )}
+        style={{
+          paddingTop: Layout.Height * 0.142,
+          position: 'absolute',
+          top: Layout.Height * 0.158,
+          left: 0,
+          right: 0,
+          zIndex: -10,
+          height: Layout.Height * 0.842,
+        }}
+      >
         <Animated.View
           style={{
             opacity: transAnim.interpolate({
@@ -223,8 +263,42 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
               onPressAnimation={onPressAnimation}
             ></Menu>
           </View>
+          <View style={styles.faqBox}>
+            <View style={styles.settingfaqText}>
+              <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
+                문의
+              </Text>
+            </View>
+            <Menu
+              title="고객센터"
+              destination="SignIn"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+            <Menu
+              title="FAQ"
+              destination="ChatRoom"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+          </View>
+          <View style={styles.faqBox}>
+            <View style={styles.settingfaqText}>
+              <Text style={{ color: 'gray', fontSize: Layout.FontScale * 12 }}>
+                문의
+              </Text>
+            </View>
+            <Menu
+              title="고객센터"
+              destination="SignIn"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+            <Menu
+              title="FAQ"
+              destination="ChatRoom"
+              onPressAnimation={onPressAnimation}
+            ></Menu>
+          </View>
         </Animated.View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }
