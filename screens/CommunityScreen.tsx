@@ -482,6 +482,7 @@ export default function CommnunityScreen() {
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: Layout.Width * 0.033,
+            marginBottom: Layout.Height * 0.03,
           }}
         >
           <TextInput

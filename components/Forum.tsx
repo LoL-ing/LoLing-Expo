@@ -15,31 +15,37 @@ export default function Forum(props: {
   const [bookmark, setBookmark] = useState(props.bookmark);
   return (
     <Pressable
-      onPress={() => setBookmark(!bookmark)}
       style={({ pressed }) => ({
         opacity: pressed ? 0.5 : 1,
         width: Layout.Width * 0.86,
         height: Layout.Height * 0.03,
-        marginTop: Layout.Height * 0.03,
+        marginBottom: Layout.Height * 0.03,
         flexDirection: 'row',
         alignItems: 'center',
       })}
     >
-      {bookmark ? (
-        <StarOn
-          width={Layout.Width * 0.056}
-          style={{
-            marginRight: Layout.Width * 0.044,
-          }}
-        />
-      ) : (
-        <StarOff
-          width={Layout.Width * 0.056}
-          style={{
-            marginRight: Layout.Width * 0.044,
-          }}
-        />
-      )}
+      <Pressable
+        onPress={() => setBookmark(!bookmark)}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.5 : 1,
+        })}
+      >
+        {bookmark ? (
+          <StarOn
+            width={Layout.Width * 0.056}
+            style={{
+              marginRight: Layout.Width * 0.044,
+            }}
+          />
+        ) : (
+          <StarOff
+            width={Layout.Width * 0.056}
+            style={{
+              marginRight: Layout.Width * 0.044,
+            }}
+          />
+        )}
+      </Pressable>
       <View
         style={{
           width: Layout.Width * 0.76,
