@@ -38,7 +38,9 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
   const transAnim2 = useRef(new Animated.Value(0)).current;
   const offset = useRef(new Animated.Value(0)).current;
 
-  const [animValue, setAnimValue] = useState(0);
+  const HEADER = Layout.Height * 0.375;
+  const AFTERHEADER = Layout.Height * 0.158;
+
   const onPressAnimation = () => {
     Animated.sequence([
       Animated.timing(transAnim, {
@@ -105,16 +107,17 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             inputRange: [0, 1],
             outputRange: [Colors.backgroundPurple, Colors.backgroundBlack],
           }),
+          position: 'absolute',
+          top: 0,
         }}
       />
 
       <Animated.View
         style={[
-          styles.header,
           {
             height: transAnim2.interpolate({
               inputRange: [0, 1],
-              outputRange: [Layout.Height * 0.3, Layout.Height * 0.12], // 나중에 height 조절
+              outputRange: [HEADER, Layout.Height * 0.12], // 나중에 height 조절
             }),
             backgroundColor: transAnim2.interpolate({
               inputRange: [0, 1],
@@ -130,9 +133,12 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             }),
           },
           {
+            width: Layout.Width,
+            height: HEADER,
+
             height: offset.interpolate({
-              inputRange: [0, Layout.Height * 0.3],
-              outputRange: [Layout.Height * 0.3, Layout.Height * 0.158],
+              inputRange: [0, HEADER - AFTERHEADER],
+              outputRange: [HEADER, AFTERHEADER],
               extrapolate: 'clamp',
             }),
             position: 'absolute',
@@ -140,15 +146,8 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             left: 0,
             right: 0,
             zIndex: 10,
-            transform: [
-              {
-                translateY: offset.interpolate({
-                  inputRange: [0, Layout.Height * 0.3],
-                  outputRange: [0, -Layout.Height * 0.142],
-                  extrapolate: 'clamp',
-                }),
-              },
-            ],
+            alignItems: 'center',
+            justifyContent: 'center',
           },
         ]}
       >
@@ -197,13 +196,10 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
           { useNativeDriver: false },
         )}
         style={{
-          paddingTop: Layout.Height * 0.142,
-          position: 'absolute',
-          top: Layout.Height * 0.158,
-          left: 0,
-          right: 0,
-          zIndex: -10,
-          height: Layout.Height * 0.842,
+          marginTop: AFTERHEADER,
+          paddingTop: HEADER - AFTERHEADER,
+          //height: Layout.Height * 0.842,
+          paddingBottom: 49,
         }}
       >
         <Animated.View
@@ -311,10 +307,6 @@ const dstyle = (ios: number) =>
   });
 
 const styles = StyleSheet.create({
-  header: {
-    width: Layout.Width,
-    height: Layout.Height * 0.3,
-  },
   headerContents: {
     width: Layout.Width,
     height: Layout.Height * 0.3,
