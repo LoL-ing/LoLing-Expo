@@ -25,10 +25,6 @@ const MyProfile = getMyProfile();
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const friends = useRecoilValue(getFriendsSelector);
   const MatchableUsers = useRecoilValue(getLoLAccountSelector);
-  api_getProfile().then(response => {
-    alert(response);
-    console.log(response);
-  });
 
   //  여기에서 토큰 -> lol_name 추출 해서 넣기
   // const myJWT = useRecoilValue(accessTokenState);
@@ -185,10 +181,10 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                     }}
                   >
                     <Text style={styles.profileWinRateText}>
-                      {MyProfile.champ1Winrate}
+                      {MyProfile.line1Winrate}
                     </Text>
                     <Text style={styles.profileKDAText}>
-                      / {MyProfile.champ1KDA}
+                      / {MyProfile.line1KDA}
                     </Text>
                   </View>
                 </View>
@@ -204,10 +200,10 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
                     }}
                   >
                     <Text style={styles.profileWinRateText}>
-                      {MyProfile.champ2Winrate}
+                      {MyProfile.line2Winrate}
                     </Text>
                     <Text style={styles.profileKDAText}>
-                      / {MyProfile.champ2KDA}
+                      / {MyProfile.line2KDA}
                     </Text>
                   </View>
                 </View>
