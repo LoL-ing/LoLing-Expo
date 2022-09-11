@@ -51,9 +51,13 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
     offset.addListener(({ value }) => {
       setValue(value);
     });
-    setTextAnim(value > HEADER - AFTERHEADER ? 'center' : 'flex-start');
+    setTextAnim(value < HEADER - AFTERHEADER ? 'center' : 'flex-start');
   };
 
+  useEffect(() => {
+    changeTextStyle();
+    console.log(textAnim);
+  }, [offset]);
   const HEADER = Layout.Height * 0.375;
   const AFTERHEADER = Layout.Height * 0.158;
 
@@ -202,7 +206,14 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
               },
             ]}
           />
-          <View style={styles.textContainer}>
+          <View
+            style={[
+              styles.textContainer,
+              textAnim === 'center'
+                ? { alignItems: 'center' }
+                : { alignItems: 'flex-start' },
+            ]}
+          >
             <Animated.Text
               style={[
                 styles.profileNickName,
@@ -337,11 +348,12 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
         bounces={false}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        onScroll={() => {
-          Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], {
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: offset } } }],
+          {
             useNativeDriver: false,
-          });
-        }}
+          },
+        )}
       >
         <Animated.View
           style={{
