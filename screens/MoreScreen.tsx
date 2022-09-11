@@ -102,7 +102,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
     });
     return;
   };
-
   return (
     <View
       style={[
@@ -342,7 +341,6 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
           Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], {
             useNativeDriver: false,
           });
-          changeTextStyle();
         }}
       >
         <Animated.View
