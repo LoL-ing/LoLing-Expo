@@ -12,6 +12,8 @@ import {
   ScrollView,
   Animated,
   Easing,
+  LayoutAnimation,
+  UIManager,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -20,13 +22,14 @@ import Menu from '../components/Menu';
 import { RootTabScreenProps } from '../types';
 
 import ProfileEdit from '../assets/text_images/profileEdit.svg';
+import ProfileDetail from '../assets/text_images/profileDetail.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const data = {
   request: [
     {
       profileImg: require('../assets/images/Irelia.png'),
-      nickname: '하아아아푸움',
+      nickname: '하아아아아품',
       email: 'fmadudid@gmail.com',
     },
   ],
@@ -37,6 +40,19 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
   const transAnim = useRef(new Animated.Value(0)).current;
   const transAnim2 = useRef(new Animated.Value(0)).current;
   const offset = useRef(new Animated.Value(0)).current;
+  const [textAnim, setTextAnim] = useState('center');
+  const [value, setValue] = useState(0);
+  if (Platform.OS === 'android') {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+
+  const changeTextStyle = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    offset.addListener(({ value }) => {
+      setValue(value);
+    });
+    setTextAnim(value > HEADER - AFTERHEADER ? 'center' : 'flex-start');
+  };
 
   const HEADER = Layout.Height * 0.375;
   const AFTERHEADER = Layout.Height * 0.158;
@@ -146,8 +162,9 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             left: 0,
             right: 0,
             zIndex: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
+            // alignItems: 'center',
+            // justifyContent: 'center',
+            paddingTop: Layout.Height * 0.05,
           },
         ]}
       >
@@ -162,26 +179,156 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             },
           ]}
         >
-          <Image
+          <Animated.Image
             source={data.request[0].profileImg}
-            style={styles.profileImg}
+            style={[
+              styles.profileImg,
+              {
+                transform: [
+                  {
+                    translateX: offset.interpolate({
+                      inputRange: [0, HEADER - AFTERHEADER],
+                      outputRange: [0, -Layout.Width * 0.34],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                  {
+                    translateY: offset.interpolate({
+                      inputRange: [0, HEADER - AFTERHEADER],
+                      outputRange: [0, -Layout.Height * 0.035],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              },
+            ]}
           />
           <View style={styles.textContainer}>
-            <Text style={styles.profileNickName}>
-              {data.request[0].nickname}
-            </Text>
-            <Text style={styles.profileEmail}>{data.request[0].email}</Text>
-          </View>
-          <View style={styles.buttonsContainer}>
-            <Pressable
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-              onPress={() => navigation.navigate('Profile')}
+            <Animated.Text
+              style={[
+                styles.profileNickName,
+                {
+                  transform: [
+                    {
+                      translateX: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, -Layout.Width * 0.04],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                    {
+                      translateY: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, -Layout.Height * 0.12],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                },
+              ]}
             >
-              <ProfileEdit width={Layout.Width * 0.73} />
-            </Pressable>
+              {data.request[0].nickname}
+            </Animated.Text>
+            <Animated.Text
+              style={[
+                styles.profileEmail,
+                {
+                  transform: [
+                    {
+                      translateY: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, -Layout.Height * 0.12],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              {data.request[0].email}
+            </Animated.Text>
           </View>
+
+          <Pressable
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
+            onPress={() => navigation.navigate('Profile')}
+          >
+            <Animated.View
+              style={[
+                styles.buttonsContainer,
+                {
+                  width: offset.interpolate({
+                    inputRange: [0, HEADER - AFTERHEADER],
+                    outputRange: [Layout.Width * 0.866, Layout.Width * 0.12],
+                    extrapolate: 'clamp',
+                  }),
+                  backgroundColor: offset.interpolate({
+                    inputRange: [0, HEADER - AFTERHEADER],
+                    outputRange: ['#7B43DB', '#8C55EA'],
+                    extrapolate: 'clamp',
+                  }),
+                  transform: [
+                    {
+                      translateX: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, Layout.Width * 0.37],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                    {
+                      translateY: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, -Layout.Height * 0.2],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Animated.View
+                style={{
+                  transform: [
+                    {
+                      translateX: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, Layout.Width * 0.11],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <ProfileEdit style={{ width: Layout.Width * 0.0388 }} />
+              </Animated.View>
+              <Animated.View
+                style={{
+                  transform: [
+                    {
+                      translateX: offset.interpolate({
+                        inputRange: [0, HEADER - AFTERHEADER],
+                        outputRange: [0, Layout.Width * 0.11],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                  opacity: offset.interpolate({
+                    inputRange: [0, HEADER - AFTERHEADER],
+                    outputRange: [1, 0],
+                  }),
+                }}
+              >
+                <ProfileDetail
+                  style={{
+                    width: Layout.Width * 0.22,
+                    marginLeft: Layout.Width * 0.033,
+                  }}
+                />
+              </Animated.View>
+            </Animated.View>
+          </Pressable>
         </Animated.View>
       </Animated.View>
 
@@ -191,15 +338,11 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
         bounces={false}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: offset } } }],
-          { useNativeDriver: false },
-        )}
-        style={{
-          marginTop: AFTERHEADER,
-          paddingTop: HEADER - AFTERHEADER,
-          //height: Layout.Height * 0.842,
-          paddingBottom: 49,
+        onScroll={() => {
+          Animated.event([{ nativeEvent: { contentOffset: { y: offset } } }], {
+            useNativeDriver: false,
+          });
+          changeTextStyle();
         }}
       >
         <Animated.View
@@ -209,6 +352,8 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
               outputRange: [1, 0],
             }),
             backgroundColor: Colors.backgroundNavy,
+            marginTop: AFTERHEADER,
+            paddingTop: HEADER - AFTERHEADER,
           }}
         >
           <View style={styles.settingBox}>
@@ -357,14 +502,16 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    width: Layout.Width,
+    width: Layout.Width * 0.87,
+    height: Layout.Height * 0.055,
     alignItems: 'center',
-    paddingHorizontal: Layout.Width * 0.06,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
+    backgroundColor: '#7B43DB',
+    borderRadius: 10,
   },
   textContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: Layout.Height * 0.05,
+    height: Layout.Height * 0.06,
   },
 });
