@@ -57,7 +57,7 @@ export default function Forum(props: {
         <Text
           style={{
             color: Colors.textWhite,
-            fontSize: Layout.FontScale * 15,
+            fontSize: Layout.FontScale * 14,
           }}
         >
           {props.title}
@@ -66,7 +66,7 @@ export default function Forum(props: {
           style={{
             opacity: 0.6,
             color: Colors.textWhite,
-            fontSize: Layout.FontScale * 12,
+            fontSize: Layout.FontScale * 11,
           }}
         >
           {props.recentPost}
