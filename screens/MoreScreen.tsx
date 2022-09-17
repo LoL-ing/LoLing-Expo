@@ -35,32 +35,74 @@ const data = {
   ],
 };
 const { StatusBarManager } = NativeModules;
-
+const { diffClamp } = Animated;
 export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
   const transAnim = useRef(new Animated.Value(0)).current;
   const transAnim2 = useRef(new Animated.Value(0)).current;
-  const offset = useRef(new Animated.Value(0)).current;
   const [textAnim, setTextAnim] = useState('center');
   const [value, setValue] = useState(0);
   if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
-  const changeTextStyle = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    offset.addListener(({ value }) => {
-      setValue(value);
-    });
-    setTextAnim(value < HEADER - AFTERHEADER ? 'center' : 'flex-start');
-  };
-
-  useEffect(() => {
-    changeTextStyle();
-    console.log(textAnim);
-  }, [offset]);
   const HEADER = Layout.Height * 0.375;
   const AFTERHEADER = Layout.Height * 0.158;
 
+  const ref = useRef<ScrollView>(null);
+  const offset = useRef(new Animated.Value(0)).current;
+  const translateYNumber = useRef(0);
+  const prevScrollValue = useRef(0);
+  const getDirection = currentValue => {
+    let retValue = false;
+    if (currentValue > prevScrollValue.current) {
+      retValue = true;
+    } else {
+      retValue = false;
+    }
+    // console.log(prevScrollValue.current, currentValue);
+    prevScrollValue.current = retValue === false ? 0 : HEADER - AFTERHEADER;
+    return retValue;
+  };
+
+  offset.addListener(({ value }) => {
+    if (value > HEADER - AFTERHEADER) {
+      translateYNumber.current = HEADER - AFTERHEADER;
+    } else {
+      translateYNumber.current = value;
+    }
+  });
+
+  // const changeTextStyle = () => {
+  //   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  //   setTextAnim(translateYNumber.current < HEADER - AFTERHEADER ? 'center' : 'flex-start');
+  // };
+
+  // useEffect(() => {
+  //   changeTextStyle();
+  //   console.log(textAnim);
+  // }, [translateYNumber.current]);
+
+  const handleSnap = ({ nativeEvent }) => {
+    const offsetY = nativeEvent.contentOffset.y;
+    if (
+      !(
+        translateYNumber.current === 0 ||
+        translateYNumber.current === HEADER - AFTERHEADER
+      )
+    ) {
+      if (ref.current) {
+        //console.log(getCloser(translateYNumber.current, scrollHalf, 0));
+        ref.current.scrollTo({
+          y:
+            //getCloser(translateYNumber.current, scrollHalf, 0) === scrollHalf
+            getDirection(translateYNumber.current) === true
+              ? HEADER - AFTERHEADER
+              : -(HEADER - AFTERHEADER),
+          animated: true,
+        });
+      }
+    }
+  };
   const onPressAnimation = () => {
     Animated.sequence([
       Animated.timing(transAnim, {
@@ -106,6 +148,7 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
     });
     return;
   };
+
   return (
     <View
       style={[
@@ -354,6 +397,9 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             useNativeDriver: false,
           },
         )}
+        //onMomentumScrollEnd={handleSnap}
+        onScrollEndDrag={handleSnap}
+        ref={ref}
       >
         <Animated.View
           style={{
