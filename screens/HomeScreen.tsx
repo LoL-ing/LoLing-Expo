@@ -17,7 +17,7 @@ import Layout from '../constants/Layout';
 import HomeScreenFriendList from '../components/HomeScreenFriendList';
 import getMyProfile from '../data/MyProfile';
 import { RootTabScreenProps } from '../types';
-import { api_getProfile } from '../api/main';
+import { apiGetProfile } from '../api/main';
 import { accessTokenState } from '../atoms/atom';
 import jwt_decode from 'jwt-decode';
 

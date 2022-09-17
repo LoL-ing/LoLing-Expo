@@ -1,4 +1,4 @@
-import { api_getProfile } from '../api/main';
+import { apiGetProfile } from '../api/main';
 
 // const MyProfile = {
 //   nickname: 'Soodoll',
@@ -20,7 +20,7 @@ import { api_getProfile } from '../api/main';
 
 export default function getMyProfile() {
   const MyProfile = {};
-  api_getProfile().then(response => {
+  apiGetProfile().then(response => {
     const champData = response.data.champ_info;
     champData.sort(function (a: any, b: any) {
       return b.CHAMP_COUNT - a.CHAMP_COUNT;
