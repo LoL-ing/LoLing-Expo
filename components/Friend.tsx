@@ -31,24 +31,23 @@ import Support from '../assets/icons/svg/support-icon-selected.svg';
 
 export default function Friend(props: {
   nickname: string;
-  profileImg: ImageSourcePropType;
+  profileImg: string;
   tier: string;
   line: string;
   lolingId: string;
-  mannerTierImg: ImageSourcePropType;
-  championImg: ImageSourcePropType;
+  mannerTierImg: string;
   rank: string;
   winRate: string;
   winLose: string;
-  lineImg_1: ImageSourcePropType;
-  lineImg_2: ImageSourcePropType;
+  lineImg_1: string;
+  lineImg_2: string;
   line_winRate_1: string;
   line_winRate_2: string;
   line_kda_1: string;
   line_kda_2: string;
-  championImg_1: ImageSourcePropType;
-  championImg_2: ImageSourcePropType;
-  championImg_3: ImageSourcePropType;
+  championImg_1: string;
+  championImg_2:string;
+  championImg_3:string;
   champ_winRate_1: string;
   champ_winRate_2: string;
   champ_winRate_3: string;
@@ -117,14 +116,14 @@ export default function Friend(props: {
             }}
           ></View>
           <ProfileCard
-            lolingId={props.lolingId}
             mannerTierImg={props.mannerTierImg}
-            championImg={props.championImg}
+            profileImg={props.profileImg}
+            lolingId={props.lolingId}
             rank={props.rank}
             nickname={props.nickname}
             winRate={props.winRate}
             winLose={props.winLose}
-            lineImg_1={props.lineImg_1}
+            lineImg_1={props.line}
             lineImg_2={props.lineImg_2}
             line_winRate_1={props.line_winRate_1}
             line_winRate_2={props.line_winRate_2}
@@ -157,7 +156,7 @@ export default function Friend(props: {
         <View style={styles.modalContents}>
           <View style={styles.modalProfileImgContainer}>
             <Image
-              source={props.profileImg}
+              source={{ uri: props.profileImg }}
               style={styles.modalProfileImg}
             ></Image>
             <View style={styles.modalNicknameContainer}>
@@ -238,7 +237,7 @@ export default function Friend(props: {
         ]}
         onPress={() => setFriendModalVisible(true)}
       >
-        <Image source={props.profileImg} style={styles.profileImg}></Image>
+        <Image source={{ uri: props.profileImg }} style={styles.profileImg}></Image>
 
         <View style={styles.nicknameContainer}>
           <Text style={styles.nickname}>{props.nickname}</Text>
@@ -246,13 +245,13 @@ export default function Friend(props: {
           <View style={styles.tierAndLineContainer}>
             <Text style={styles.tier}>{props.tier}</Text>
 
-            {props.line == 'top' ? (
+            {props.line == 'TOP' ? (
               <Top width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
-            ) : props.line == 'bottom' ? (
+            ) : props.line == 'BOTTOM' ? (
               <Bottom width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
-            ) : props.line == 'mid' ? (
+            ) : props.line == 'MIDDLE' ? (
               <Mid width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
-            ) : props.line == 'jungle' ? (
+            ) : props.line == 'JUNGLE' ? (
               <Jungle width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />
             ) : (
               <Support width={Layout.Width * 0.05} style={{ marginLeft: 10 }} />

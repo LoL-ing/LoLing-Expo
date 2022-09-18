@@ -38,21 +38,18 @@ import FriendRequestText from '../assets/text_images/friendRequestText.svg';
 import FriendRequestExit from '../assets/icons/svg/profilecard-exit.svg';
 import DeleteNo from '../assets/icons/svg/delete-no.svg';
 import DeleteYes from '../assets/icons/svg/delete-yes.svg';
+import { getFriendsSelector } from '../atoms/selector';
+import { useRecoilValue } from 'recoil';
 
-const originFriends = getFriends();
+
+// const originFriends = getFriends();
 const chattingRooms = getChatRooms();
 
 const totalNumberOfMessages = chattingRooms
   .map(chattingRoom => chattingRoom.numberOfMessage)
   .reduce((prev, curr) => prev + curr, 0);
 
-function searchedFriend(friendList: typeof originFriends, nickname: string) {
-  if (nickname === '') {
-    return friendList;
-  } else {
-    return originFriends.filter(friend => friend.nickname.includes(nickname));
-  }
-}
+
 
 function searchedChattingRoom(
   ChattingRoomList: typeof chattingRooms,
@@ -79,6 +76,14 @@ export default function SocialScreen({
   const [isMessageFocused, setIsMessageFocused] = useState(false);
   const messageField = useRef<TextInput>(null);
 
+  const originFriends = useRecoilValue(getFriendsSelector);
+  function searchedFriend(friendList: typeof originFriends, nickname: string) {
+    if (nickname === '') {
+      return friendList;
+    } else {
+      return originFriends.filter(friend => friend.nickname.includes(nickname));
+    }
+  }
   const scrollViewRef = useRef<ScrollView>(null);
   const [friendRequestModalVisible, setFriendRequestModalVisible] =
     useState(false);
@@ -548,7 +553,6 @@ export default function SocialScreen({
                 <Friend
                   lolingId={item.lolingId}
                   mannerTierImg={item.mannerTierImg}
-                  championImg={item.championImg}
                   rank={item.rank}
                   nickname={item.nickname}
                   profileImg={item.profileImg}
@@ -571,7 +575,7 @@ export default function SocialScreen({
                   champ_kda_1={item.champ_kda_1}
                   champ_kda_2={item.champ_kda_2}
                   champ_kda_3={item.champ_kda_3}
-                  message={item.message}
+                  description={'안녕하세요'}
                 />
               )}
             />

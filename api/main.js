@@ -40,3 +40,7 @@ export function apiGetAccessToken(params) {
     password: params.password,
   });
 }
+
+export function api_getFriendProfiles(){
+  return baseAPI.get('/users/friend_profiles');
+}

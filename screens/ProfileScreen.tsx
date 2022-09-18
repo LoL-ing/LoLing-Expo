@@ -65,7 +65,7 @@ export default function ProfileScreen({
         <ProfileCard
           lolingId={item.lolingId}
           mannerTierImg={item.mannerTierImg}
-          championImg={item.championImg}
+          profileImg={item.championImg}
           rank={item.rank}
           nickname={item.nickname}
           winRate={item.winRate}

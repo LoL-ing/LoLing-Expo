@@ -176,7 +176,7 @@ const modal = (
         <ProfileCard
           lolingId={props.lolingId}
           mannerTierImg={props.mannerTierImg}
-          championImg={props.championImg}
+          profileImg={props.championImg}
           rank={props.rank}
           nickname={props.nickname}
           winRate={props.winRate}
