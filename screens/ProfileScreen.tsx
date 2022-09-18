@@ -89,7 +89,12 @@ export default function ProfileScreen({
         />
       </View>
       <CircularButton
-        onPress={() => navigation.navigate('ProfileEdit')}
+        onPress={() =>
+          navigation.navigate('ProfileEdit', {
+            nickname: item.nickname,
+            description: item.description,
+          })
+        }
         bottom={0.06}
         left={0.41}
         svgImage={<ProfileEdit />}
