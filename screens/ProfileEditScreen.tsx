@@ -19,18 +19,20 @@ import Arrow from '../assets/icons/svg/arrow-left.svg';
 import Nickname from '../assets/text_images/nickname.svg';
 import Description from '../assets/text_images/description.svg';
 import ProfileSave from '../assets/text_images/profileSave.svg';
-import { RootStackScreenProps } from '../types';
+import { RootStackParamList, RootStackScreenProps } from '../types';
 import Styles from '../constants/Styles';
+import { RouteProp } from '@react-navigation/native';
 
-/*
-1. 원래 textinput에 자기가 입력했었던 정보들 적혀있게 하기
+interface Props {
+  navigation: RootStackScreenProps<'ProfileEdit'>;
+  route: RouteProp<RootStackParamList, 'ProfileEdit'>;
+}
 
-*/
-export default function ProfileSelectScreen({
-  navigation,
-}: RootStackScreenProps<'ProfileEdit'>) {
-  const [nickname, setNickname] = useState('');
-  const [description, setDescription] = useState('');
+export default function ProfileEditScreen(props: Props) {
+  const [nickname, setNickname] = useState(props.route.params.nickname);
+  const [description, setDescription] = useState(
+    props.route.params.description,
+  );
   const [countvalue, setCount] = useState(0);
 
   const [isNicknameFocused, setIsNicknameFocused] = useState(false);
@@ -58,6 +60,7 @@ export default function ProfileSelectScreen({
   const countValue = (input: string) => {
     setCount(input.length);
   };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View
@@ -89,7 +92,7 @@ export default function ProfileSelectScreen({
               { position: 'absolute', left: Layout.Width * 0.05 },
             ]}
             onPress={() => {
-              navigation.goBack();
+              props.navigation.goBack();
             }}
           >
             <Arrow width={Layout.Width * 0.075} />
@@ -230,7 +233,7 @@ export default function ProfileSelectScreen({
                 : Colors.textUnfocusedPurple,
             },
           ]}
-          onPress={() => navigation.goBack()}
+          onPress={() => props.navigation.goBack()}
         >
           <ProfileSave />
         </Pressable>
