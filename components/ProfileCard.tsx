@@ -17,21 +17,21 @@ import MatchingToUser from '../assets/text_images/matching-toUser.svg';
 
 export default function ProfileCard(props: {
   lolingId: string;
-  mannerTierImg: ImageSourcePropType;
-  championImg: ImageSourcePropType;
+  mannerTierImg: string;
+  profileImg: string;
   rank: string;
   nickname: string;
   winRate: string;
   winLose: string;
-  lineImg_1: ImageSourcePropType;
-  lineImg_2: ImageSourcePropType;
+  lineImg_1: string;
+  lineImg_2: string;
   line_winRate_1: string;
   line_winRate_2: string;
   line_kda_1: string;
   line_kda_2: string;
-  championImg_1: ImageSourcePropType;
-  championImg_2: ImageSourcePropType;
-  championImg_3: ImageSourcePropType;
+  championImg_1: string;
+  championImg_2: string;
+  championImg_3: string;
   champ_winRate_1: string;
   champ_winRate_2: string;
   champ_winRate_3: string;
@@ -51,7 +51,7 @@ export default function ProfileCard(props: {
             매너티어
           </Text>
           <Image
-            source={props.mannerTierImg}
+            source={{uri: props.mannerTierImg}}
             style={{
               width: Layout.Width * 0.07,
               height: Layout.Width * 0.07,
@@ -61,7 +61,7 @@ export default function ProfileCard(props: {
       </View>
       <View style={styles.card}>
         <View style={styles.profileContainer}>
-          <Image source={props.championImg} style={styles.profileImg} />
+          <Image source={{ uri: props.profileImg }} style={styles.profileImg} />
           <Text style={styles.profileRankText}>{props.rank}</Text>
           <Text style={styles.profileNickname}>{props.nickname}</Text>
           <Text style={styles.profileWinRate}>
@@ -85,7 +85,18 @@ export default function ProfileCard(props: {
                   alignItems: 'center',
                 }}
               >
-                <Image source={props.lineImg_1} style={styles.smallImage} />
+                
+                <Image source={{ uri: props.lineImg_1 == 'TOP' ? 
+             "https://static.wikia.nocookie.net/leagueoflegends/images/e/ef/Top_icon.png/revision/latest"
+            : props.lineImg_1 == 'BOTTOM' ? 
+              "https://w.namu.la/s/7f916b343072a3f9ea7eb9ddefc3f6e3017afe24da3d0c1d039c87ce3906deb627973515e12626a9dd618d7fabee42ee9afbf3427fff1fd51a430aeb80a0a1b59f9d6a91629ba7c55b51b252c8db19c902ad9f3e137455ad9d16672c304ca407"
+             : props.lineImg_1 == 'MIDDLE' ? 
+              "https://static.wikia.nocookie.net/leagueoflegends/images/9/98/Middle_icon.png/revision/latest?cb=20181117143644"
+             : props.lineImg_1 == 'JUNGLE' ? 
+              "https://static.wikia.nocookie.net/leagueoflegends/images/1/1b/Jungle_icon.png/revision/latest/"
+             : 
+              "https://static.wikia.nocookie.net/leagueoflegends/images/e/e0/Support_icon.png/revision/latest"
+            }} style={styles.smallImage} />
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={styles.textWinRate}>{props.line_winRate_1}</Text>
                   <Text style={styles.textWinLose}> / {props.line_kda_1}</Text>
@@ -97,7 +108,17 @@ export default function ProfileCard(props: {
                   alignItems: 'center',
                 }}
               >
-                <Image source={props.lineImg_2} style={styles.smallImage} />
+                <Image source={{ uri: props.lineImg_2 == 'TOP' ? 
+             "https://static.wikia.nocookie.net/leagueoflegends/images/e/ef/Top_icon.png/revision/latest"
+            : props.lineImg_2 == 'BOTTOM' ? 
+              "https://w.namu.la/s/7f916b343072a3f9ea7eb9ddefc3f6e3017afe24da3d0c1d039c87ce3906deb627973515e12626a9dd618d7fabee42ee9afbf3427fff1fd51a430aeb80a0a1b59f9d6a91629ba7c55b51b252c8db19c902ad9f3e137455ad9d16672c304ca407"
+             : props.lineImg_2 == 'MIDDLE' ? 
+              "https://static.wikia.nocookie.net/leagueoflegends/images/9/98/Middle_icon.png/revision/latest?cb=20181117143644"
+             : props.lineImg_2 == 'JUNGLE' ? 
+              "https://static.wikia.nocookie.net/leagueoflegends/images/1/1b/Jungle_icon.png/revision/latest/"
+             : 
+              "https://static.wikia.nocookie.net/leagueoflegends/images/e/e0/Support_icon.png/revision/latest"
+            }} style={styles.smallImage} />
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={styles.textWinRate}>{props.line_winRate_2}</Text>
                   <Text style={styles.textWinLose}> / {props.line_kda_2}</Text>
@@ -130,7 +151,7 @@ export default function ProfileCard(props: {
                   }}
                 >
                   <Image
-                    source={props.championImg_1}
+                    source={{uri: props.championImg_1}}
                     style={styles.smallImage}
                   />
                   <View style={{ flexDirection: 'row' }}>
@@ -150,7 +171,7 @@ export default function ProfileCard(props: {
                   }}
                 >
                   <Image
-                    source={props.championImg_2}
+                    source={{uri: props.championImg_2}}
                     style={styles.smallImage}
                   />
                   <View style={{ flexDirection: 'row' }}>
@@ -170,7 +191,7 @@ export default function ProfileCard(props: {
                   }}
                 >
                   <Image
-                    source={props.championImg_3}
+                    source={{ uri: props.championImg_3 }}
                     style={styles.smallImage}
                   />
                   <View style={{ flexDirection: 'row' }}>
