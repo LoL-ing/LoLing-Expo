@@ -16,7 +16,7 @@ import { accessTokenState } from './atom';
 export const getFriendsSelector = selector({
   key: `friends/get`,
   get: async ({ get }) => {
-    const { data } = await api_getProfiles();
+    const { data } = await api_getFriendProfiels();
     return data;
   },
   set: ({ set }, newValue) => {
