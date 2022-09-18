@@ -13,7 +13,7 @@ import {
 import { useRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 import { accessTokenState } from '../atoms/atom';
-import { api_getAccessToken } from '../api/main';
+import { apiGetAccessToken } from '../api/main';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import Layout from '../constants/Layout';
@@ -152,7 +152,7 @@ export default function SignInScreen({
                 alignItems: 'center',
               })}
               onPress={async function () {
-                const response = await api_getAccessToken({
+                const response = await apiGetAccessToken({
                   email: email,
                   password: password,
                 });

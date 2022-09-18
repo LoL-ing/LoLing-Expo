@@ -6,36 +6,35 @@ import baseAPI from './base.js';
 import { accessTokenState } from '../atoms/atom';
 import { useRecoilValue } from 'recoil';
 
-
-export function api_getFriends() {
+export function apiGetFriends() {
   return baseAPI.get('/friends/friends');
 }
 
-export function api_getProfile() {
+export function apiGetProfile() {
   return baseAPI.get('/profiles');
 }
 
-export function api_getProfiles() {
-  return baseAPI.get('/profiles/profiles', { lol_name: '꼽 죽' });
+export function apiGetProfiles() {
+  return baseAPI.get('users/friends/profiles');
 }
 
-export function api_getLoLAccount() {
+export function apiGetLoLAccount() {
   return baseAPI.get('/profiles/lol_account', {
-    user_id: 'alsrb001218@naver.com',
+    user_id: '1234',
   });
 }
 
 export function test_profiles() {
-  const response = api_getProfiles().then(response => response);
+  const response = apiGetProfiles().then(response => response);
   const [_, setFriends] = useRecoilState(profilesState);
   setFriends(response);
 }
 
-export function api_getChampions() {
+export function apiGetChampions() {
   return baseAPI.get('/champions/champions');
 }
 
-export function api_getAccessToken(params) {
+export function apiGetAccessToken(params) {
   return baseAPI.get('/users/sign_in', {
     email: params.email,
     password: params.password,

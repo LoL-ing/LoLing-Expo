@@ -18,7 +18,7 @@ export default function HomeScreenFriendList(props: {
       <View style={{ backgroundColor: Colors.backgroundBlack }}>
         <Image
           style={styles.profileImgStyle}
-          source={require('../assets/images/Nunu.png')}
+          source={{ uri: props.profileImg }}
         ></Image>
       </View>
       <View

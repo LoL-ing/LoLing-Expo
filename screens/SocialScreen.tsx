@@ -474,6 +474,7 @@ export default function SocialScreen({
           );
           setIndex(newIndex);
         }}
+        showsHorizontalScrollIndicator={false}
       >
         <ScrollView>
           <View style={{ alignItems: 'center' }}>

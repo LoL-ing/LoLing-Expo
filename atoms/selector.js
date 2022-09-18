@@ -4,10 +4,10 @@
 import axios from 'axios';
 import { selector, selectorFamily } from 'recoil';
 import {
-  api_getChampions,
-  api_getProfiles,
-  api_getLoLAccount,
-  api_getAccessToken,
+  apiGetChampions,
+  apiGetProfiles,
+  apiGetLoLAccount,
+  apiGetAccessToken,
 } from '../api/main';
 import { friendsState } from './atom';
 import { lol_accountState } from './atom';
@@ -16,7 +16,11 @@ import { accessTokenState } from './atom';
 export const getFriendsSelector = selector({
   key: `friends/get`,
   get: async ({ get }) => {
+<<<<<<< HEAD
     const { data } = await api_getFriendProfiels();
+=======
+    const { data } = await apiGetProfiles();
+>>>>>>> 5fd080bc69ae6ab7055bdcf9b323a981374e58e6
     return data;
   },
   set: ({ set }, newValue) => {
@@ -27,7 +31,7 @@ export const getFriendsSelector = selector({
 export const getChampionsSelector = selector({
   key: `champions/get`,
   get: async ({ get }) => {
-    const { data } = await api_getChampions();
+    const { data } = await apiGetChampions();
     return data;
   },
   set: ({ set }, newValue) => {
@@ -38,7 +42,7 @@ export const getChampionsSelector = selector({
 export const getLoLAccountSelector = selector({
   key: `lol_account/get`,
   get: async ({ get }) => {
-    const { data } = await api_getLoLAccount();
+    const { data } = await apiGetLoLAccount();
     return data;
   },
 });
@@ -48,7 +52,7 @@ export const getAccessTokenSelector = selectorFamily({
   get:
     (email, password) =>
     async ({ get }) => {
-      const { data } = await api_getAccessToken({ email, password });
+      const { data } = await apiGetAccessToken({ email, password });
       return data;
     },
   set: ({ set }, newValue) => {
