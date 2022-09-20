@@ -39,15 +39,10 @@ export default function Friend(props: {
   rank: string;
   winRate: string;
   winLose: string;
-  lineImg_1: string;
-  lineImg_2: string;
-  line_winRate_1: string;
-  line_winRate_2: string;
-  line_kda_1: string;
-  line_kda_2: string;
+  line_info: any;
   championImg_1: string;
-  championImg_2:string;
-  championImg_3:string;
+  championImg_2: string;
+  championImg_3: string;
   champ_winRate_1: string;
   champ_winRate_2: string;
   champ_winRate_3: string;
@@ -123,12 +118,7 @@ export default function Friend(props: {
             nickname={props.nickname}
             winRate={props.winRate}
             winLose={props.winLose}
-            lineImg_1={props.line}
-            lineImg_2={props.lineImg_2}
-            line_winRate_1={props.line_winRate_1}
-            line_winRate_2={props.line_winRate_2}
-            line_kda_1={props.line_kda_1}
-            line_kda_2={props.line_kda_2}
+            line_info={props.line_info}
             championImg_1={props.championImg_1}
             championImg_2={props.championImg_2}
             championImg_3={props.championImg_3}
@@ -237,7 +227,10 @@ export default function Friend(props: {
         ]}
         onPress={() => setFriendModalVisible(true)}
       >
-        <Image source={{ uri: props.profileImg }} style={styles.profileImg}></Image>
+        <Image
+          source={{ uri: props.profileImg }}
+          style={styles.profileImg}
+        ></Image>
 
         <View style={styles.nicknameContainer}>
           <Text style={styles.nickname}>{props.nickname}</Text>

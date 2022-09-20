@@ -149,6 +149,11 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
     return;
   };
 
+  const a = 0.33;
+  const aa = 0.66;
+  const b = 0.3;
+  const bb = 0.7;
+
   return (
     <View
       style={[
@@ -199,8 +204,18 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
             height: HEADER,
 
             height: offset.interpolate({
-              inputRange: [0, HEADER - AFTERHEADER],
-              outputRange: [HEADER, AFTERHEADER],
+              inputRange: [
+                0,
+                // (HEADER - AFTERHEADER) * a,
+                // (HEADER - AFTERHEADER) * aa,
+                HEADER - AFTERHEADER,
+              ],
+              outputRange: [
+                HEADER,
+                // HEADER - AFTERHEADER * b,
+                // HEADER - AFTERHEADER * bb,
+                AFTERHEADER,
+              ],
               extrapolate: 'clamp',
             }),
             position: 'absolute',
@@ -233,15 +248,35 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
                 transform: [
                   {
                     translateX: offset.interpolate({
-                      inputRange: [0, HEADER - AFTERHEADER],
-                      outputRange: [0, -Layout.Width * 0.34],
+                      inputRange: [
+                        0,
+                        (HEADER - AFTERHEADER) * a,
+                        (HEADER - AFTERHEADER) * aa,
+                        HEADER - AFTERHEADER,
+                      ],
+                      outputRange: [
+                        0,
+                        -Layout.Width * 0.34 * b,
+                        -Layout.Width * 0.34 * bb,
+                        -Layout.Width * 0.34,
+                      ],
                       extrapolate: 'clamp',
                     }),
                   },
                   {
                     translateY: offset.interpolate({
-                      inputRange: [0, HEADER - AFTERHEADER],
-                      outputRange: [0, -Layout.Height * 0.035],
+                      inputRange: [
+                        0,
+                        (HEADER - AFTERHEADER) * a,
+                        (HEADER - AFTERHEADER) * aa,
+                        HEADER - AFTERHEADER,
+                      ],
+                      outputRange: [
+                        0,
+                        -Layout.Height * 0.035 * b,
+                        -Layout.Height * 0.035 * bb,
+                        -Layout.Height * 0.035,
+                      ],
                       extrapolate: 'clamp',
                     }),
                   },
@@ -264,15 +299,35 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
                   transform: [
                     {
                       translateX: offset.interpolate({
-                        inputRange: [0, HEADER - AFTERHEADER],
-                        outputRange: [0, -Layout.Width * 0.04],
+                        inputRange: [
+                          0,
+                          (HEADER - AFTERHEADER) * a,
+                          (HEADER - AFTERHEADER) * aa,
+                          HEADER - AFTERHEADER,
+                        ],
+                        outputRange: [
+                          0,
+                          -Layout.Width * 0.04 * b,
+                          -Layout.Width * 0.04 * bb,
+                          -Layout.Width * 0.04,
+                        ],
                         extrapolate: 'clamp',
                       }),
                     },
                     {
                       translateY: offset.interpolate({
-                        inputRange: [0, HEADER - AFTERHEADER],
-                        outputRange: [0, -Layout.Height * 0.12],
+                        inputRange: [
+                          0,
+                          (HEADER - AFTERHEADER) * a,
+                          (HEADER - AFTERHEADER) * aa,
+                          HEADER - AFTERHEADER,
+                        ],
+                        outputRange: [
+                          0,
+                          -Layout.Height * 0.12 * b,
+                          -Layout.Height * 0.12 * bb,
+                          -Layout.Height * 0.12,
+                        ],
                         extrapolate: 'clamp',
                       }),
                     },
@@ -289,8 +344,18 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
                   transform: [
                     {
                       translateY: offset.interpolate({
-                        inputRange: [0, HEADER - AFTERHEADER],
-                        outputRange: [0, -Layout.Height * 0.12],
+                        inputRange: [
+                          0,
+                          (HEADER - AFTERHEADER) * a,
+                          (HEADER - AFTERHEADER) * aa,
+                          HEADER - AFTERHEADER,
+                        ],
+                        outputRange: [
+                          0,
+                          -Layout.Height * 0.12 * b,
+                          -Layout.Height * 0.12 * bb,
+                          -Layout.Height * 0.12,
+                        ],
                         extrapolate: 'clamp',
                       }),
                     },
@@ -325,15 +390,35 @@ export default function MoreScreen({ navigation }: RootTabScreenProps<'More'>) {
                   transform: [
                     {
                       translateX: offset.interpolate({
-                        inputRange: [0, HEADER - AFTERHEADER],
-                        outputRange: [0, Layout.Width * 0.37],
+                        inputRange: [
+                          0,
+                          (HEADER - AFTERHEADER) * a,
+                          (HEADER - AFTERHEADER) * aa,
+                          HEADER - AFTERHEADER,
+                        ],
+                        outputRange: [
+                          0,
+                          Layout.Width * 0.37 * b,
+                          Layout.Width * 0.37 * bb,
+                          Layout.Width * 0.37,
+                        ],
                         extrapolate: 'clamp',
                       }),
                     },
                     {
                       translateY: offset.interpolate({
-                        inputRange: [0, HEADER - AFTERHEADER],
-                        outputRange: [0, -Layout.Height * 0.2],
+                        inputRange: [
+                          0,
+                          (HEADER - AFTERHEADER) * a,
+                          (HEADER - AFTERHEADER) * aa,
+                          HEADER - AFTERHEADER,
+                        ],
+                        outputRange: [
+                          0,
+                          -Layout.Height * 0.2 * b,
+                          -Layout.Height * 0.2 * bb,
+                          -Layout.Height * 0.2,
+                        ],
                         extrapolate: 'clamp',
                       }),
                     },
