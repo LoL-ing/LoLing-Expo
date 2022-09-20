@@ -9,6 +9,8 @@ const ProfileCard = [
         nickname: '겨드랑이에낀손',
         winRate: '승률 59%',
         winLose: '74승 52패',
+        
+      // data/MyProfiles에서 1,2,3순위 다 정렬 & 정리해준 것처럼 얘도 그렇다 가정한 상태
         line_info : [{"LINE_KDA": 2.75, "LINE_NAME": "JUNGLE", "LINE_COUNT": 34, "QUEUE_TYPE": "420", "LINE_WIN_RATE": "58.8%"},
         {"LINE_KDA": 2.27, "LINE_NAME": "BOTTOM", "LINE_COUNT": 19, "QUEUE_TYPE": "420", "LINE_WIN_RATE": "42.1%"},
         {"LINE_KDA": 2.27, "LINE_NAME": "BOTTOM", "LINE_COUNT": 19, "QUEUE_TYPE": "420", "LINE_WIN_RATE": "42.1%"}],
@@ -39,9 +41,9 @@ const ProfileCard = [
         // champ_kda_2: '2.44',
         // champ_kda_3: '2.44',
         champion_info : [
-          {"CHAMP_KDA": 2.58, "CHAMP_NAME": "Malphite", "QUEUE_TYPE": "420", "CHAMP_COUNT": 23, "CHAMP_WIN_RATE": 0.48},
-           {"CHAMP_KDA": 2.1, "CHAMP_NAME": "Kassadin", "QUEUE_TYPE": "420", "CHAMP_COUNT": 22, "CHAMP_WIN_RATE": 0.41},
-           {"CHAMP_KDA": 2.0, "CHAMP_NAME": "Yasuo", "QUEUE_TYPE": "420", "CHAMP_COUNT": 12, "CHAMP_WIN_RATE": 0.5}, 
+          {"CHAMP_KDA": 2.58, "CHAMP_NAME": "Malphite", "QUEUE_TYPE": "420", "CHAMP_COUNT": 23, "CHAMP_WIN_RATE": "48%"},
+           {"CHAMP_KDA": 2.1, "CHAMP_NAME": "Kassadin", "QUEUE_TYPE": "420", "CHAMP_COUNT": 22, "CHAMP_WIN_RATE": "41%"},
+           {"CHAMP_KDA": 2.0, "CHAMP_NAME": "Yasuo", "QUEUE_TYPE": "420", "CHAMP_COUNT": 12, "CHAMP_WIN_RATE": "50%"}, 
         ],
         description: '여러분 한판 뜹시다. 저 진짜 장난아닙니다.',
       },
@@ -55,9 +57,9 @@ const ProfileCard = [
         winLose: '74승 52패',
         line_info : [{"LINE_KDA": 2.75, "LINE_NAME": "JUNGLE", "LINE_COUNT": 34, "QUEUE_TYPE": "420", "LINE_WIN_RATE": "58.8%"},
         {"LINE_KDA": 2.27, "LINE_NAME": "BOTTOM", "LINE_COUNT": 19, "QUEUE_TYPE": "420", "LINE_WIN_RATE": "42.1%"}],
-          champion_info : [{"CHAMP_KDA": 2.14, "CHAMP_NAME": "Viktor", "QUEUE_TYPE": "420", "CHAMP_COUNT": 11, "CHAMP_WIN_RATE": 0.55},
-           {"CHAMP_KDA": 3.14, "CHAMP_NAME": "Hecarim", "QUEUE_TYPE": "420", "CHAMP_COUNT": 10, "CHAMP_WIN_RATE": 0.6},
-           {"CHAMP_KDA": 2.79, "CHAMP_NAME": "Belveth", "QUEUE_TYPE": "420", "CHAMP_COUNT": 4, "CHAMP_WIN_RATE": 0.5}, ],
+          champion_info : [{"CHAMP_KDA": 2.14, "CHAMP_NAME": "Viktor", "QUEUE_TYPE": "420", "CHAMP_COUNT": 11, "CHAMP_WIN_RATE": "55%"},
+           {"CHAMP_KDA": 3.14, "CHAMP_NAME": "Hecarim", "QUEUE_TYPE": "420", "CHAMP_COUNT": 10, "CHAMP_WIN_RATE": "60%"},
+           {"CHAMP_KDA": 2.79, "CHAMP_NAME": "Belveth", "QUEUE_TYPE": "420", "CHAMP_COUNT": 4, "CHAMP_WIN_RATE": "50%"}, ],
         description: '여러분 한판 뜹시다. 저 진짜 장난아닙니다.',
       },
 ];

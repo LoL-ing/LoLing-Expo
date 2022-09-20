@@ -119,15 +119,16 @@ export default function Friend(props: {
             winRate={props.winRate}
             winLose={props.winLose}
             line_info={props.line_info}
-            championImg_1={props.championImg_1}
-            championImg_2={props.championImg_2}
-            championImg_3={props.championImg_3}
-            champ_winRate_1={props.champ_winRate_1}
-            champ_winRate_2={props.champ_winRate_2}
-            champ_winRate_3={props.champ_winRate_3}
-            champ_kda_1={props.champ_kda_1}
-            champ_kda_2={props.champ_kda_2}
-            champ_kda_3={props.champ_kda_3}
+            // championImg_1={props.championImg_1}
+            // championImg_2={props.championImg_2}
+            // championImg_3={props.championImg_3}
+            // champ_winRate_1={props.champ_winRate_1}
+            // champ_winRate_2={props.champ_winRate_2}
+            // champ_winRate_3={props.champ_winRate_3}
+            // champ_kda_1={props.champ_kda_1}
+            // champ_kda_2={props.champ_kda_2}
+            // champ_kda_3={props.champ_kda_3}
+            champion_info={props.champion_info}
             description={props.description}
           />
         </View>
