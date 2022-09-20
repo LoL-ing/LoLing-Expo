@@ -14,96 +14,62 @@ import Layout from '../constants/Layout';
 import MatchingPosition from '../assets/text_images/matching-position.svg';
 import MatchingChampion from '../assets/text_images/matching-champion.svg';
 import MatchingToUser from '../assets/text_images/matching-toUser.svg';
-import LineProfileData from './LineProfileData';
-import ChampionProfileData from './ChampionProfileData';
 
-export default function ProfileCard(props: {
-  lolingId: string;
-  mannerTierImg: string;
-  profileImg: string;
-  rank: string;
-  nickname: string;
-  winRate: string;
-  winLose: string;
-  line_info: Array<object>;
-  // championImg_1: string;
-  // championImg_2: string;
-  // championImg_3: string;
-  // champ_winRate_1: string;
-  // champ_winRate_2: string;
-  // champ_winRate_3: string;
-  // champ_kda_1: string;
-  // champ_kda_2: string;
-  // champ_kda_3: string;
-  champion_info: Array<object>;
-  description: string;
-}) {
+const getLineImage = (prop: string) => {
+  let result = '';
+  if (prop == 'TOP') {
+    result =
+      'https://static.wikia.nocookie.net/leagueoflegends/images/e/ef/Top_icon.png/revision/latest';
+  } else if (prop == 'BOTTOM') {
+    result =
+      'https://w.namu.la/s/7f916b343072a3f9ea7eb9ddefc3f6e3017afe24da3d0c1d039c87ce3906deb627973515e12626a9dd618d7fabee42ee9afbf3427fff1fd51a430aeb80a0a1b59f9d6a91629ba7c55b51b252c8db19c902ad9f3e137455ad9d16672c304ca407';
+  } else if (prop == 'MIDDLE') {
+    result =
+      'https://static.wikia.nocookie.net/leagueoflegends/images/9/98/Middle_icon.png/revision/latest?cb=20181117143644';
+  } else if (prop == 'JUNGLE') {
+    result =
+      'https://static.wikia.nocookie.net/leagueoflegends/images/1/1b/Jungle_icon.png/revision/latest/';
+  } else if (prop == 'SUPPORT') {
+    result =
+      'https://static.wikia.nocookie.net/leagueoflegends/images/e/e0/Support_icon.png/revision/latest';
+  } else {
+    result = 'ERROR';
+  }
+  return result;
+};
+
+//sr자랭은 나중에
+export default function LineProfile(props: { lineInfo: any }) {
   return (
-    <View>
-      <View style={styles.cardHeader}>
-        <Text style={styles.cardHeaderlolingId}>{props.lolingId}</Text>
-        <View style={styles.cardHeaderManner}>
-          <Text
-            style={{ fontSize: Layout.FontScale * 10, color: Colors.textWhite }}
-          >
-            매너티어
-          </Text>
-          <Image
-            source={{ uri: props.mannerTierImg }}
-            style={{
-              width: Layout.Width * 0.07,
-              height: Layout.Width * 0.07,
-            }}
-          />
-        </View>
-      </View>
-      <View style={styles.card}>
-        <View style={styles.profileContainer}>
-          <Image source={{ uri: props.profileImg }} style={styles.profileImg} />
-          <Text style={styles.profileRankText}>{props.rank}</Text>
-          <Text style={styles.profileNickname}>{props.nickname}</Text>
-          <Text style={styles.profileWinRate}>
-            {props.winRate + '    ' + props.winLose}
-          </Text>
-        </View>
-
-        <View style={{ alignItems: 'center' }}>
-          <View style={styles.positionChampionContainer}>
-            <MatchingPosition width={Layout.Width * 0.15} />
-            <LineProfileData lineInfo={props.line_info} />
-          </View>
-        </View>
-
-        <View style={{ alignItems: 'center' }}>
-          <View style={styles.positionChampionContainer}>
-            <MatchingChampion width={Layout.Width * 0.18} />
-            <ChampionProfileData championInfo={props.champion_info} />
-          </View>
-        </View>
-
-        <View
-          style={{
-            height: Layout.Height * 0.08,
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            marginTop: Layout.Height * 0.03,
-          }}
-        >
-          <MatchingToUser width={Layout.Width * 0.25} />
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      }}
+    >
+      {props.lineInfo.slice(0, 2).map((item: any, index: number) => {
+        return (
           <View
             style={{
-              height: Layout.Height * 0.05,
-              width: Layout.Width * 0.6,
-              flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              marginHorizontal: Layout.Width * 0.03,
             }}
+            key={index}
           >
-            <Text style={styles.quotText}>&ldquo;</Text>
-            <Text style={styles.descText}>{' ' + props.description + ' '}</Text>
-            <Text style={styles.quotText}>&rdquo;</Text>
+            <Image
+              source={{
+                uri: getLineImage(item.LINE_NAME),
+              }}
+              style={styles.smallImage}
+            />
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.textWinRate}>{item.LINE_WIN_RATE}</Text>
+              <Text style={styles.textWinLose}> / {item.LINE_KDA}</Text>
+            </View>
           </View>
-        </View>
-      </View>
+        );
+      })}
     </View>
   );
 }

@@ -12,6 +12,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
   Keyboard,
+  Animated,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,15 +42,12 @@ import DeleteYes from '../assets/icons/svg/delete-yes.svg';
 import { getFriendsSelector } from '../atoms/selector';
 import { useRecoilValue } from 'recoil';
 
-
 // const originFriends = getFriends();
 const chattingRooms = getChatRooms();
 
 const totalNumberOfMessages = chattingRooms
   .map(chattingRoom => chattingRoom.numberOfMessage)
   .reduce((prev, curr) => prev + curr, 0);
-
-
 
 function searchedChattingRoom(
   ChattingRoomList: typeof chattingRooms,
@@ -100,6 +98,80 @@ export default function SocialScreen({
         setFriendRequestChecked(2);
       } else {
         setFriendRequestChecked(1);
+      }
+    }
+  };
+  const offset = useRef<number>(0);
+  const prevIndex = useRef<number>(0);
+
+  const handleSnap = ({ nativeEvent }) => {
+    if (index < 1) {
+      if (offset.current < Layout.Width * 0.1) {
+        scrollViewRef.current?.scrollTo({
+          x: 0,
+          animated: true,
+        });
+        prevIndex.current = 0;
+      } else if (
+        offset.current >= Layout.Width * 0.1 &&
+        offset.current <= Layout.Width * 1.0 &&
+        prevIndex.current === 0
+      ) {
+        scrollViewRef.current?.scrollTo({
+          x: Layout.Width,
+          animated: true,
+        });
+        prevIndex.current = 1;
+      } else if (
+        offset.current >= Layout.Width * 0.1 &&
+        offset.current <= Layout.Width * 1.0 &&
+        prevIndex.current === 1
+      ) {
+        scrollViewRef.current?.scrollTo({
+          x: 0,
+          animated: true,
+        });
+        prevIndex.current = 0;
+      } else if (offset.current > Layout.Width * 1.0) {
+        scrollViewRef.current?.scrollTo({
+          x: Layout.Width,
+          animated: true,
+        });
+        prevIndex.current = 1;
+      }
+    } else if (index >= 1) {
+      if (offset.current > Layout.Width * 0.9) {
+        scrollViewRef.current?.scrollTo({
+          x: Layout.Width,
+          animated: true,
+        });
+        prevIndex.current = 1;
+      } else if (
+        offset.current >= 0 &&
+        offset.current <= Layout.Width * 0.9 &&
+        prevIndex.current === 0
+      ) {
+        scrollViewRef.current?.scrollTo({
+          x: Layout.Width,
+          animated: true,
+        });
+        prevIndex.current = 1;
+      } else if (
+        offset.current >= 0 &&
+        offset.current <= Layout.Width * 0.9 &&
+        prevIndex.current === 1
+      ) {
+        scrollViewRef.current?.scrollTo({
+          x: 0,
+          animated: true,
+        });
+        prevIndex.current = 0;
+      } else {
+        scrollViewRef.current?.scrollTo({
+          x: 0,
+          animated: true,
+        });
+        prevIndex.current = 0;
       }
     }
   };
@@ -470,15 +542,18 @@ export default function SocialScreen({
           </Pressable>
         </View>
       </View>
-      <ScrollView
+      <Animated.ScrollView
         horizontal={true}
         ref={scrollViewRef}
         onScroll={e => {
           const newIndex = Math.round(
-            e.nativeEvent.contentOffset.x / (Layout.Width * 0.86),
+            e.nativeEvent.contentOffset.x / Layout.Width,
           );
           setIndex(newIndex);
+          offset.current = e.nativeEvent.contentOffset.x;
+          //index.current = newIndex;
         }}
+        onScrollEndDrag={handleSnap}
         showsHorizontalScrollIndicator={false}
       >
         <ScrollView>
@@ -560,12 +635,7 @@ export default function SocialScreen({
                   line={item.line}
                   winRate={item.winRate}
                   winLose={item.winLose}
-                  lineImg_1={item.lineImg_1}
-                  lineImg_2={item.lineImg_2}
-                  line_winRate_1={item.line_winRate_1}
-                  line_winRate_2={item.line_winRate_2}
-                  line_kda_1={item.line_kda_1}
-                  line_kda_2={item.line_kda_2}
+                  line_info={item.line_info}
                   championImg_1={item.championImg_1}
                   championImg_2={item.championImg_2}
                   championImg_3={item.championImg_3}
@@ -618,7 +688,7 @@ export default function SocialScreen({
             />
           </View>
         </ScrollView>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }
