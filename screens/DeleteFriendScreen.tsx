@@ -14,7 +14,7 @@ import DeleteNo from '../assets/icons/svg/delete-no.svg';
 import DeleteYes from '../assets/icons/svg/delete-yes.svg';
 import FriendDeleteM1 from '../assets/icons/svg/friend-delete-m1.svg';
 import FriendDeleteM2 from '../assets/icons/svg/friend-delete-m2.svg';
-
+//-치훈 왔다 감..
 const originFriends = getFriends();
 
 export default function DeleteFriendScreen({
