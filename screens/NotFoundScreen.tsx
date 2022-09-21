@@ -2,9 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { RootStackScreenProps } from '../types';
-/*나의 흔적,,-치훈
-휴휴
-*/
+
 export default function NotFoundScreen({
   navigation,
 }: RootStackScreenProps<'NotFound'>) {
